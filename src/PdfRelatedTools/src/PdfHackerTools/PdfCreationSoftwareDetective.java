@@ -1,4 +1,4 @@
-package iText_Repair_Tool_Ottk_Standalone;
+package PdfHackerTools;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -17,7 +17,7 @@ import javax.swing.JFileChooser;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import com.itextpdf.text.pdf.PdfReader;
 
-public class CreationSoftwareDetective {
+public class PdfCreationSoftwareDetective {
 	
 	static String t;
 	static int  ProducerID;

@@ -1,4 +1,4 @@
-package iText_Repair_Tool_Ottk_Standalone;
+package PdfHackerTools;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
 
-public class Test4Bytes {
+public class PdfHeaderChecker {
 	
 	static String t;
 	static BufferedReader PdfHeaderTest;

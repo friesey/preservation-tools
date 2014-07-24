@@ -1,4 +1,4 @@
-package iText_Repair_Tool_Ottk_Standalone;
+package PdfHackerTools;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -15,7 +15,7 @@ import com.itextpdf.text.pdf.PdfCopy;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfWriter;
 
-public class Main_Standalone {
+public class iTextRepairPdf {
 	
 	static String t;
 	
@@ -63,7 +63,8 @@ public class Main_Standalone {
 				}         			
 					}		
 	
-			 static void RepairWithItext(PdfReader reader, String filename) throws DocumentException, IOException {
+			 @SuppressWarnings("rawtypes")
+			static void RepairWithItext(PdfReader reader, String filename) throws DocumentException, IOException {
 				 
 				 Map info = reader.getInfo();
 				 Document document = new Document();
