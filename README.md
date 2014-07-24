@@ -1,5 +1,5 @@
 PdfEventPrep
-============
+--------------
 
 Preparation for the OPF PDF Hackathon which takes place at the 1st and 2nd September in Hamburg. 
 
@@ -7,8 +7,7 @@ Preparation for the OPF PDF Hackathon which takes place at the 1st and 2nd Septe
 These snippets and tools deals with several PDF issues which might come in handy during the Hackathon.
 
 
-iTextRepairPdf 
---------------
+#### iTextRepairPdf 
 
 (formerly known as "Main_Standalone")
 
@@ -20,15 +19,16 @@ The library iText is used, the AGPL-version, which has to be considered when re-
 
 This tools works through a selected folder and possible sub-folders.
 
-Test4Bytes
------------
+#### PdfHeaderChecker
+
+(formerly known as "Test4Bytes")
 
 This is a tool which tests if the file starts with "%PDF". No external libraries are used.
 
 This tools works through a selected folder and possible sub-folders.
 
-CreationSoftwareDetective
--------------------------
+#### CreationSoftwareDetective
+
 
 This tool is able to detect which Software was used to create the PDF and puts out all Creation software in an "outpufile.txt" in the folder which was examined.
 It does not yet count how often each software was used, but this is planned to be implemented.
