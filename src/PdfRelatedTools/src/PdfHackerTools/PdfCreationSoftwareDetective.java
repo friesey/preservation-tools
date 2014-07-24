@@ -2,7 +2,6 @@ package PdfHackerTools;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -36,7 +35,7 @@ public static void main (String args[]) throws IOException {
 			ProducerID = 0;
 			ProducerType = new ArrayList<String>();
 			
-			ArrayList<File> files = getPaths(new File(t),
+			ArrayList<File> files = PdfUtilities.getPaths(new File(t),
 		                new ArrayList<File>()); 
 			if (files == null) return;
 			
@@ -55,14 +54,14 @@ public static void main (String args[]) throws IOException {
 						
 					extension = Files.probeContentType(files.get(i).toPath());			
 					if (extension.equals("application/pdf")) {
-						if (FileHeaderTest(files.get(i)) == true){								
+						if (PdfUtilities.FileHeaderTest(files.get(i)) == true){								
 						
 				try {
 						PDDocument testfile = PDDocument.load(files.get(i));						
 						if (EncryptionTest(testfile) == false) {				
 						{
 							reader = new PdfReader(files.get(i).toString());								
-						    GetProducer(reader, files.get(i).getName());	
+						    GetProducer(reader);	
 						    reader.close();
 						    
 						}				
@@ -115,46 +114,22 @@ public static void main (String args[]) throws IOException {
 				return true;
 			}
 			else {						
-				return false;			
-				
-			}
+				return false;		
+				}
 		}
-
-		// tests the FileHeader
-		private static boolean FileHeaderTest(File file) throws IOException {
-	
-			PdfHeaderTest = new BufferedReader (new FileReader(file));	  
-						
-			String FileHeader = PdfHeaderTest.readLine();	 			 
-			if (FileHeader.contains("%PDF")) {			
-				return true;
-			}	 			
-			else {
-				return false;
-				}		 	 
-			}
-	
+		
+		/**  
+		 * Reads the Producer (Software which has created the PDF-file) from the XMP Metadata
+		 * @param Takes in the PdfReader
+		 * @return: Producer Type in an ArrayList<String>
+		 * etc
+		 */	
 		@SuppressWarnings("rawtypes")
-		private static ArrayList<String> GetProducer(PdfReader reader, String name) {
+		private static ArrayList<String> GetProducer(PdfReader reader) {
 			 Map info = reader.getInfo();
-			 if (info.get("Producer")!=null) {
-				// System.out.println(info.get("Producer"));			 
+			 if (info.get("Producer")!=null) {							 
 				 ProducerType.add(info.get("Producer").toString());	
 					}						 		 		
 			 return ProducerType;
 			}
-
-		//lists all files and directories in given directory
-		private static ArrayList<File> getPaths(File file, ArrayList<File> list) {
-				if (file == null || list == null || !file.isDirectory())
-					return null;
-				File[] fileArr = file.listFiles();
-					for (File f : fileArr) {
-						if (f.isDirectory()) {
-							getPaths(f, list);
-						}
-						list.add(f);
-					}
-					return list; 					
-}			
 }

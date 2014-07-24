@@ -27,7 +27,7 @@ public class iTextRepairPdf {
 				j.showOpenDialog(j);
 				t = j.getSelectedFile().getPath();
 				
-				ArrayList<File> files = getPaths(new File(t),
+				ArrayList<File> files = PdfUtilities.getPaths(new File(t),
 			                new ArrayList<File>()); 
 				if (files == null) return;
 				String extension;
@@ -63,7 +63,14 @@ public class iTextRepairPdf {
 				}         			
 					}		
 	
-			 @SuppressWarnings("rawtypes")
+	/**  
+	 * Makes a copy from each PDF-file in the folder and puts it in the same folder with the prefix"Mig_iText"
+	 * @param takes in PdfReader and the filename as a string
+	 * @return: void
+	 * 
+	 */	
+	
+		 @SuppressWarnings("rawtypes")
 			static void RepairWithItext(PdfReader reader, String filename) throws DocumentException, IOException {
 				 
 				 Map info = reader.getInfo();
@@ -82,21 +89,7 @@ public class iTextRepairPdf {
 		            }		            
 		            copy.freeReader(reader);
 		            document.close();
-		         }		
-
-			//lists all files and directories in given directory
-		    private static ArrayList<File> getPaths(File file, ArrayList<File> list) {
-		        if (file == null || list == null || !file.isDirectory())
-		            return null;
-		        File[] fileArr = file.listFiles();
-		        for (File f : fileArr) {
-		            if (f.isDirectory()) {
-		                getPaths(f, list);
-		            }
-		            list.add(f);
-		        }
-		        return list; 					
-			}						
+		         }								
 	}
 
 
