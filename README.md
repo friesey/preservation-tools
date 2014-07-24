@@ -6,6 +6,8 @@ Preparation for the OPF PDF Hackathon which takes place at the 1st and 2nd Septe
 
 These snippets and tools deals with several PDF issues which might come in handy during the Hackathon.
 
+I would like to rename of the Parent folder within "src" to "PdfHackerTools". //todo
+
 
 #### iTextRepairPdf 
 
