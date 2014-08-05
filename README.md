@@ -47,3 +47,12 @@ This tools works through a selected folder and possible sub-folders.
 #### PdfUtilities.java
 
 Class contains commonly used methods and one commonly used BufferedReader. Will be extended to be more efficient.
+
+
+#### Reusing external libraries
+
+Third-party libraries and tools used:
+
+    Apache PDFBox
+    iText - note that this library is AGPL3 licensed
+
