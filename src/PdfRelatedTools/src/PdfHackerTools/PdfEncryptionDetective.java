@@ -8,7 +8,9 @@ public class PdfEncryptionDetective {
 	
 	t= PdfUtilities.ChooseFolder();	
 	
-	//todo: check for encryption via PDFBox and/or iText and outputs in XML
+	//todo: check for encryption via PDFBox and/or iText and outputs in XML	
+	
+	// mind the XSLT
 	
 	}
 
