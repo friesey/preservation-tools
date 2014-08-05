@@ -6,7 +6,7 @@ Preparation for the OPF PDF Hackathon which takes place at the 1st and 2nd Septe
 
 These snippets and tools deals with several PDF issues which might come in handy during the Hackathon.
 
-I would like to rename of the Parent folder within "src" to "PdfHackerTools". //todo
+The Parent folder within "src" has been renamed to "PdfHackerTools". 
 
 
 #### iTextRepairPdf 
@@ -42,3 +42,17 @@ It would be handy to have some of the functions in this program reused during th
 The library iText is used, the AGPL-version, which has to be considered when re-using this tool or snippets from it.
 The library PDFBox is used, too.
 This tools works through a selected folder and possible sub-folders.
+
+
+#### PdfUtilities.java
+
+Class contains commonly used methods and one commonly used BufferedReader. Will be extended to be more efficient.
+
+
+#### Reusing external libraries
+
+Third-party libraries and tools used:
+
+    Apache PDFBox
+    iText - note that this library is AGPL3 licensed
+
