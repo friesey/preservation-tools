@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.JFileChooser;
+
 public class PdfUtilities {
 	
 	/**
@@ -54,5 +56,18 @@ public class PdfUtilities {
     		else {
     			return false;
     			}		 	 
-    		}    
+    		}
+    	/**  
+    	 * Chooses the folder which is examined via a simple folder browser Dialog
+    	 * @param Does not need any to begin with.
+    	 * @return: string for folder path
+    	*/	
+
+	public static String ChooseFolder() {
+		JFileChooser j = new JFileChooser();
+		j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		j.showOpenDialog(j);
+		String folder = j.getSelectedFile().getPath();
+		return folder;
+	}    
 }

@@ -11,9 +11,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.JFileChooser;
-
 import org.apache.pdfbox.pdmodel.PDDocument;
+
 import com.itextpdf.text.pdf.PdfReader;
 
 public class PdfCreationSoftwareDetective {
@@ -27,11 +26,8 @@ public class PdfCreationSoftwareDetective {
 
 public static void main (String args[]) throws IOException {
 	
-	// GUI Folder Browser Dialog
-			JFileChooser j = new JFileChooser();
-			j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-			j.showOpenDialog(j);
-			t = j.getSelectedFile().getPath();
+	t= PdfUtilities.ChooseFolder();	
+	
 			ProducerID = 0;
 			ProducerType = new ArrayList<String>();
 			

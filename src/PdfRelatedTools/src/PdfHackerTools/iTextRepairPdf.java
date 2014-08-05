@@ -7,8 +7,6 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Map;
 
-import javax.swing.JFileChooser;
-
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.PdfCopy;
@@ -21,14 +19,9 @@ public class iTextRepairPdf {
 	
 	public static void main (String args[]) {
 		
-		// GUI Folder Browser Dialog
-				JFileChooser j = new JFileChooser();
-				j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-				j.showOpenDialog(j);
-				t = j.getSelectedFile().getPath();
+		t= PdfUtilities.ChooseFolder();	
 				
-				ArrayList<File> files = PdfUtilities.getPaths(new File(t),
-			                new ArrayList<File>()); 
+		ArrayList<File> files = PdfUtilities.getPaths(new File(t),new ArrayList<File>()); 
 				if (files == null) return;
 				String extension;
 				PdfReader reader;
@@ -39,7 +32,7 @@ public class iTextRepairPdf {
 						
 						System.out.println(files.get(i).getCanonicalPath());
 						extension = Files.probeContentType(files.get(i).toPath());
-						// System.out.printf (extension + "\n");
+						
 						if (extension.equals("application/pdf")) {
 							System.out.println(files.get(i));							
 							try						

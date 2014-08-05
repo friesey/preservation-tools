@@ -3,7 +3,6 @@ package PdfHackerTools;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import javax.swing.JFileChooser;
 
 public class PdfHeaderChecker {
 	
@@ -11,15 +10,9 @@ public class PdfHeaderChecker {
 	
 	public static void main (String args[]) throws IOException {		
 		
-		// GUI Folder Browser Dialog
-		JFileChooser j = new JFileChooser();
-		j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		j.showOpenDialog(j);
-		t = j.getSelectedFile().getPath();	
-		
-		
-		ArrayList<File> files = PdfUtilities.getPaths(new File(t),
-	                new ArrayList<File>()); 
+		t= PdfUtilities.ChooseFolder();	
+				
+		ArrayList<File> files = PdfUtilities.getPaths(new File(t), new ArrayList<File>()); 
 		if (files == null) return;
 		
 		try {
