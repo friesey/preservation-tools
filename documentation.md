@@ -1,5 +1,36 @@
 
-## Documentation
+# Documentation
+
+## PdfUtilies
+
+Commonly used functions/methods. Will be documented later.
+
+* PdfUtilities.getPaths
+This is a folder browser dialog which asks the user to choose a folder. It gives all files from the folder including all subfolders back to the Main program, data type an Array List of files.
+* PdfUtilities.PdfAChecker
+* PdfUtilities.FileHeaderTest
+
+## PdfHeaderChecker
+
+Some files break the program as the functions used within are not meant for them, e. g. Non-PDF-files, too large PDF-files, encrypted PDF files, PDF files with missing "%PDF"-Headers, too broken PDF-files etc.
+
+Therefore, the **PdfHeaderChecker** has been implemented.
+
+##### Step by Step
+* Choose the folder via *PdfUtilities.getPaths*. 
+* Extension test "pdf" or not.
+* Tests filesize. If the file bigger than 90 MB, end of examination, finding: PdfTooBig 
+* Tests encryption (via pdfbox, PDDocument is encrypted or not). If yes, end of examination, finding: PDF Encrypted files.
+* Tests if the "%PDF" Header is there via *PdfUtilities.FileHeaderTest*. If not, end of examination. Findings: No PDF Header.
+* Tests if PDF is bigger than 16 MB. If yes, end of examination. Findings: PDF too big.
+* Checks if PDF is PDF/A via *PdfUtilities.PdfAChecker*. Findings: PDF or PDF/A.
+* close *PdfUtilities.PdfHeaderTest* Buffered Reader (in case it has been used at all), as it is not used any more.
+* Print out all findings.
+
+
+
+
+
 
 ### PDF files and other files
 
