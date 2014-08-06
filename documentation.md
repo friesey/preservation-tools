@@ -3,12 +3,20 @@
 
 ## PdfUtilies
 
-Commonly used functions/methods. Will be documented later.
+Commonly used functions/methods or instances
 
+*PdfHeaderTest: buffered reader to check the (PDF-)file as in an editor, e. g. to look for the "%PDF"-Header.
+
+*functions*
 * PdfUtilities.getPaths
 This is a folder browser dialog which asks the user to choose a folder. It gives all files from the folder including all subfolders back to the Main program, data type an Array List of files.
-* PdfUtilities.PdfAChecker
+
 * PdfUtilities.FileHeaderTest
+
+* PdfUtilities.ChooseFolder
+
+* PdfUtilities.PdfAChecker
+
 
 ## PdfHeaderChecker
 
