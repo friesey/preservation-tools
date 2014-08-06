@@ -44,7 +44,7 @@ Therefore, the **PdfHeaderChecker** has been implemented.
 * Tests filesize. If the file bigger than 90 MB, end of examination, finding: PdfTooBig  &&edit> As files with more than 16 MB reallz slowed down the whole computer, I changed this to 16 MB and deleted the other test.
 * Tests encryption (via pdfbox, PDDocument is encrypted or not). If yes, end of examination, finding: PDF Encrypted files.
 * Tests if the "%PDF" Header is there via *PdfUtilities.FileHeaderTest*. If not, end of examination. Findings: No PDF Header.
-* ~~ Tests if PDF is bigger than 16 MB. If yes, end of examination. Findings: PDF too big.~~
+* ~~Tests if PDF is bigger than 16 MB. If yes, end of examination. Findings: PDF too big.~~
 * Checks if PDF is PDF/A via *PdfUtilities.PdfAChecker*. Findings: PDF or PDF/A.
 * close *PdfUtilities.PdfHeaderTest* Buffered Reader (in case it has been used at all), as it is not used any more.
 * Print out all findings.
