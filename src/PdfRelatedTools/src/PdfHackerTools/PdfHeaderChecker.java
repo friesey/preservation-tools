@@ -127,7 +127,7 @@ public class PdfHeaderChecker {
 			System.out.println();
 			System.out.println();
 
-			System.out.println("Files examined: 	" + i); // as i starts at 0
+			System.out.println("Files examined: 	" + i); // does not always work
 			System.out.println("PDF Header missing: 	" + NoPdfHeader);
 			System.out.println("PDF Header: 		" + PdfHeader);
 			System.out.println("PDF/A-files:		" + PdfA);

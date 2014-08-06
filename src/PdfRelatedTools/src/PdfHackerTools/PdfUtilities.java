@@ -106,24 +106,31 @@ public class PdfUtilities {
 		String XmpMetadata;
 
 		PdfReader reader;
-		reader = new PdfReader(file.toString());
 
-		// There is no PDF/A compliance before PDF 1.4
-		if (reader.getPdfVersion() > 3) {
-			if (reader.getMetadata() != null) {
-				XmpMetadata = new String(reader.getMetadata()); // nullpointerException
-				reader.close();
-				if (XmpMetadata.contains("pdfaid:conformance")) {
-					pdfType = "PDF/A";
-				} else {
-					pdfType = "PDF 1.4 or higher";
+		try {
+			reader = new PdfReader(file.toString());
+
+			// There is no PDF/A compliance before PDF 1.4
+			if (reader.getPdfVersion() > 3) {
+				if (reader.getMetadata() != null) {
+					XmpMetadata = new String(reader.getMetadata()); // nullpointerException
+					reader.close();
+					if (XmpMetadata.contains("pdfaid:conformance")) {
+						pdfType = "PDF/A";
+					} else {
+						pdfType = "PDF 1.4 or higher";
+					}
 				}
-			}			
+			} else {
+				pdfType = "PDF 1.0 - 1.3";
+			}
+			return pdfType;
+
+		} catch (java.lang.NullPointerException e) {			
+			System.out.println(e);
+			pdfType = "PDF cannot be read by PdfReader";
+			return pdfType;
 		}
-		else {
-			pdfType = "PDF 1.0 - 1.3";
-		}
-		return pdfType;
 	}
 
 	/**
