@@ -89,3 +89,7 @@ An if/else condition has been implemented to avoid that the program tries to cre
 
 The function "PdfUtilities.PdfAChecker" does not work for PDF files that are bigger than 16 MB (up to 10 MB this has been tested to still work). This is due to the PdfReader class (iText) which is not able to handle PDF files this size.
 Therefore an if/else condition has been implemented to avoid that this function is performed on PDF files bigger than 16 MB. It gives the message: ("File is bigger than 16 MB and therefore cannot be measured") and the PDF files will be listed as "PDF files too big" in the findings at the end.
+
+There seems to be another part of the program which cannot really deal with large files. This does not crash the program, but it trhows:
+"org.apache.pdfbox.exceptions.WrappedIOException: Could not push back 123575 bytes in order to reparse stream. Try increasing push back buffer using system property org.apache.pdfbox.baseParser.pushBackSize54
++ file path"
