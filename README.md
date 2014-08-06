@@ -25,12 +25,10 @@ This tools works through a selected folder and possible sub-folders.
 
 (formerly known as "Test4Bytes")
 
-This is a tool which tests if the file starts with "%PDF". No external libraries are used.
-
-This tools works through a selected folder and possible sub-folders.
+This is a tool which tests if the file starts with "%PDF". This tools works through a selected folder and possible sub-folders.
+To avoid crashes, there are some other tests like e. g. for the extension, if there is an encryption, if the file is a PDF/A etc. For more information see documentation.md.
 
 #### CreationSoftwareDetective
-
 
 This tool is able to detect which Software was used to create the PDF and puts out all Creation software in an "outpufile.txt" in the folder which was examined.
 It does not yet count how often each software was used, but this is planned to be implemented.
