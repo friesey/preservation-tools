@@ -12,6 +12,10 @@ This is a folder browser dialog which asks the user to choose a folder. It gives
 
 ## PdfHeaderChecker
 
+*Group*: PDF examination
+
+*Short summary*: Handy for Exception handling, omitting files and PDF files which might break the program. Determines encryption (very general) and if PDF is PDF/A (also very general).
+
 Some files break the program as the functions used within are not meant for them, e. g. Non-PDF-files, too large PDF-files, encrypted PDF files, PDF files with missing "%PDF"-Headers, too broken PDF-files etc.
 
 Therefore, the **PdfHeaderChecker** has been implemented.
@@ -27,10 +31,36 @@ Therefore, the **PdfHeaderChecker** has been implemented.
 * close *PdfUtilities.PdfHeaderTest* Buffered Reader (in case it has been used at all), as it is not used any more.
 * Print out all findings.
 
+## PdfCreationSoftwareDetection
 
+*Group*: PDF examination
 
+*Short summary*: 
 
+## PdfEncryptionDetective
 
+*Group*: PDF examination
+
+*Short summary*: Not yet implemented. Will determine all kinds of PDF Encryption more closely (via iText, I'd guess).
+
+## PdfAValidator
+
+*Group*: PDF/A examination
+*Short summary*: If a PDF is PDF/A (examination possible via *PdfUtilities.PdfAChecker*) checks Validation level. Not yet implemented.
+
+##  iTextRepairPdf
+
+*Group*: Migration Software for PDF Files.
+
+*Short summary*: Turns malformed PDF files in wellformed. Would be great it an examination (valid or not) could be done before. This is not part of the program yet.
+
+## PdfTwinTest
+
+*Group*: QA after migration (PDf to PDF or PDF to PDF/A)
+
+*Short summary*: Compares the original PDF with the migrated one, in terms of characters. Has been implemented in C# before, will be translated into java, has not been done yet.
+
+## Some more information about difficult file cases
 
 ### PDF files and other files
 
