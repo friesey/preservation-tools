@@ -12,11 +12,21 @@ Commonly used functions/methods or instances
 This is a folder browser dialog which asks the user to choose a folder. It gives all files from the folder including all subfolders back to the Main program, data type an Array List of files.
 
 * PdfUtilities.FileHeaderTest
+Checks if the file contains the "%PDF"-Header using the BufferedReader.
 
 * PdfUtilities.ChooseFolder
+A simple folder browse dialog which lets the user choose the folder whose files have to be examined.
+If no folder is chosen, the program gives the message "No folder was chosen".
 
 * PdfUtilities.PdfAChecker
+Please not that before the extension, PDF Header, encryption and file size has to be checked, otherwise certain files will break this function.
+First tests PdfVersion, as everything below 1.4 cannot be PDF/A anyway.
+Afterwards the PdfReader extracts the XMP Metadata and tests wether or not th "Pdfaid:conformance"-entry is there.
 
+* PdfUtilities.EncryptionTest
+Simple Encryption Test (boolean true/false) without reader, because encryption causes lots of exceptions.
+Will put more detailed examination in *PdfEncryptionDetective*.
+	  
 
 ## PdfHeaderChecker
 
