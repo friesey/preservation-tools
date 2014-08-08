@@ -25,87 +25,114 @@ public class PdfCreationSoftwareDetective {
 	static PdfReader reader;
 	static PrintWriter outputfile;
 
+	static long filesize;
+
 	public static void main(String args[]) throws IOException {
 
 		try {
 
 			t = PdfUtilities.ChooseFolder();
-			
-			if (t!= null){
 
-			ProducerID = 0;
-			ProducerType = new ArrayList<String>();
+			if (t != null) {
 
-			ArrayList<File> files = PdfUtilities.getPaths(new File(t),
-					new ArrayList<File>());
-			if (files == null)
-				return;
+				ProducerID = 0;
+				ProducerType = new ArrayList<String>();
 
-			String extension;
+				ArrayList<File> files = PdfUtilities.getPaths(new File(t),
+						new ArrayList<File>());
+				if (files == null)
+					return;
 
-			outputfile = new PrintWriter(new FileWriter(t + "//"
-					+ "CreationSoftwareDetective.txt"));
+				String extension;
 
-			for (int i = 0; i < files.size(); i++)
+				outputfile = new PrintWriter(new FileWriter(t + "//"
+						+ "CreationSoftwareDetective.txt"));
 
-				if (files.get(i) != null) { // maybe not necessary
-					// prints out only files and not the subdirectories as well
-					if (!files.get(i).isDirectory()) {
+				for (int i = 0; i < files.size(); i++)
 
-						// null pointer exception
+					if (files.get(i) != null) { // maybe not necessary
+						// prints out only files and not the subdirectories as
+						// well
+						if (!files.get(i).isDirectory()) {
 
-						extension = Files.probeContentType(files.get(i)
-								.toPath());
-						if (extension.equals("application/pdf")) {
-							if (PdfUtilities.FileHeaderTest(files.get(i)) == true) {
+							// null pointer exception
 
-								try {
-									PDDocument testfile = PDDocument.load(files
-											.get(i));
-									if (PdfUtilities.EncryptionTest(testfile) == false) {
-										{
-											reader = new PdfReader(files.get(i)
-													.toString());
-											GetProducer(reader);
-											reader.close();
+							extension = Files.probeContentType(files.get(i)
+									.toPath());
 
+							if (extension.equals("application/pdf")) {
+
+								filesize = files.get(i).length();
+
+								System.out.println("Size:" + filesize);
+
+								if (filesize > 16000000) {
+									System.out
+											.println("File is bigger than 90 MB and therefore cannot be measured");
+									
+								}
+
+								else {
+									if (PdfUtilities.FileHeaderTest(files
+											.get(i)) == true) {
+										System.out.println(files.get(i));
+										try {
+											PDDocument testfile = PDDocument
+													.load(files.get(i));
+											if (PdfUtilities
+													.EncryptionTest(testfile) == false) {
+												{
+													reader = new PdfReader(
+															files.get(i)
+																	.toString());
+													GetProducer(reader);
+													reader.close();
+
+												}
+
+											}
+
+											testfile.close();
 										}
 
-									}
-									testfile.close();
+										catch (IOException e) {
+
+											outputfile
+													.println(files.get(i)
+															+ " is so damaged it cannot be parsed: "
+															+ e);
+										}
+
+									}							
+								
+								else {
+									System.out.println(files.get(i).getName()
+											+ " PDF Header is missing.");
 								}
-
-								catch (IOException e) {
-
-									outputfile
-											.println(files.get(i)
-													+ " is so damaged it cannot be parsed: "
-													+ e);
-								}
-
 							}
 						}
 					}
+
+				// redundante Einträge entfernen
+				HashMap<String, String> hmTemp = new HashMap<String, String>();
+				for (String item : ProducerType) {
+					hmTemp.put(item, item);
+				}
+				ProducerType.clear();
+				ProducerType.addAll(hmTemp.keySet());
+				Collections.sort(ProducerType);
+
+				for (String item : ProducerType) {
+					outputfile.println(item);
 				}
 
-			// redundante Einträge entfernen
-			HashMap<String, String> hmTemp = new HashMap<String, String>();
-			for (String item : ProducerType) {
-				hmTemp.put(item, item);
+				// in case no PDF-files are found, the outputfile comes out
+				// empty.
+				// Is
+				// this intended?
+				outputfile.close();
 			}
-			ProducerType.clear();
-			ProducerType.addAll(hmTemp.keySet());
-			Collections.sort(ProducerType);
-
-			for (String item : ProducerType) {
-				outputfile.println(item);
 			}
-
-			// in case no PDF-files are found, the outputfile comes out empty.
-			// Is
-			// this intended?
-			outputfile.close();
-		}
 		}
 
 		catch (FileNotFoundException e) {
