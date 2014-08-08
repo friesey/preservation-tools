@@ -1,6 +1,7 @@
 package PdfHackerTools;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -9,6 +10,8 @@ public class PdfAValidator {
 	static String t;
 
 	public static void main(String args[]) throws IOException {
+		
+		try {
 
 		t = PdfUtilities.ChooseFolder();
 
@@ -20,6 +23,8 @@ public class PdfAValidator {
 
 		// todo: checks against PDF/A compliance via PDFBox
 		// see here: https://pdfbox.apache.org/cookbook/pdfavalidation.html
+		
+		if (t!=null){
 
 		ArrayList<File> files = PdfUtilities.getPaths(new File(t),
 				new ArrayList<File>());
@@ -31,6 +36,12 @@ public class PdfAValidator {
 		 * corrupted etc. If it succeeds you can also check if the PDF is
 		 * encrypted using .isEncrypted()
 		 */
+
+	}
+		}
+		
+		catch (FileNotFoundException e) {
+		}
 
 	}
 

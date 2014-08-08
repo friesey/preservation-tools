@@ -1,13 +1,12 @@
 package PdfHackerTools;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-import javax.xml.bind.annotation.XmlNs;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
@@ -34,7 +33,9 @@ public class PdfHeaderChecker {
 	public static void main(String args[]) throws IOException,
 			XMLStreamException {
 
-		t = PdfUtilities.ChooseFolder();
+		 try {
+		 
+		 t = PdfUtilities.ChooseFolder();
 		
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();		
 		XMLStreamWriter xmlfile = factory.createXMLStreamWriter(
@@ -48,7 +49,7 @@ public class PdfHeaderChecker {
 		xmlfile.writeStartElement("PdfTypeChecker");
 		xmlfile.writeAttribute("folder", t );	
 
-		if (t != null) {			
+		// if (t != null) {			
 		
 			ArrayList<File> files = PdfUtilities.getPaths(new File(t),
 					new ArrayList<File>());
@@ -159,7 +160,10 @@ public class PdfHeaderChecker {
 			xmlfile.writeEndDocument();
 			xmlfile.flush();
 			xmlfile.close();
-
+		 }
+		
+		catch (FileNotFoundException e ) {
+			
 		}
 	}
 }

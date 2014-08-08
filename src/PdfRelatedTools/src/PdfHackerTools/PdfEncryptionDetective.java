@@ -1,16 +1,29 @@
 package PdfHackerTools;
 
+import java.io.FileNotFoundException;
+
 public class PdfEncryptionDetective {
 
 	static String t;
 
-	public static void main(String args[]) {
+	public static void main(String args[]) throws FileNotFoundException {
 
-		t = PdfUtilities.ChooseFolder();
+		try {
 
-		// todo: check for encryption via PDFBox and/or iText and outputs in XML
+			t = PdfUtilities.ChooseFolder();
 
-		// mind the XSLT
+			if (t != null) {
+
+				// todo: check for encryption via PDFBox and/or iText and
+				// outputs in XML
+
+				// mind the XSLT
+
+			}
+		}
+
+		catch (FileNotFoundException e) {
+		}
 
 	}
 

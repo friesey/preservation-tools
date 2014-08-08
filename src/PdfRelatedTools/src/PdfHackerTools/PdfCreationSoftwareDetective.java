@@ -2,6 +2,7 @@ package PdfHackerTools;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -26,22 +27,25 @@ public class PdfCreationSoftwareDetective {
 
 	public static void main(String args[]) throws IOException {
 
-		t = PdfUtilities.ChooseFolder();
-
-		ProducerID = 0;
-		ProducerType = new ArrayList<String>();
-
-		ArrayList<File> files = PdfUtilities.getPaths(new File(t),
-				new ArrayList<File>());
-		if (files == null)
-			return;
-
-		String extension;
-
-		outputfile = new PrintWriter(new FileWriter(t + "//"
-				+ "CreationSoftwareDetective.txt"));
-
 		try {
+
+			t = PdfUtilities.ChooseFolder();
+			
+			if (t!= null){
+
+			ProducerID = 0;
+			ProducerType = new ArrayList<String>();
+
+			ArrayList<File> files = PdfUtilities.getPaths(new File(t),
+					new ArrayList<File>());
+			if (files == null)
+				return;
+
+			String extension;
+
+			outputfile = new PrintWriter(new FileWriter(t + "//"
+					+ "CreationSoftwareDetective.txt"));
+
 			for (int i = 0; i < files.size(); i++)
 
 				if (files.get(i) != null) { // maybe not necessary
@@ -83,29 +87,33 @@ public class PdfCreationSoftwareDetective {
 						}
 					}
 				}
+
+			// redundante Einträge entfernen
+			HashMap<String, String> hmTemp = new HashMap<String, String>();
+			for (String item : ProducerType) {
+				hmTemp.put(item, item);
+			}
+			ProducerType.clear();
+			ProducerType.addAll(hmTemp.keySet());
+			Collections.sort(ProducerType);
+
+			for (String item : ProducerType) {
+				outputfile.println(item);
+			}
+
+			// in case no PDF-files are found, the outputfile comes out empty.
+			// Is
+			// this intended?
+			outputfile.close();
+		}
 		}
 
-		catch (IOException e) {
-			e.printStackTrace();
+		catch (FileNotFoundException e) {
 		}
-		// redundante Einträge entfernen
-		HashMap<String, String> hmTemp = new HashMap<String, String>();
-		for (String item : ProducerType) {
-			hmTemp.put(item, item);
-		}
-		ProducerType.clear();
-		ProducerType.addAll(hmTemp.keySet());
-		Collections.sort(ProducerType);
-
-		for (String item : ProducerType) {
-			outputfile.println(item);
-		}
-
-		// in case no PDF-files are found, the outputfile comes out empty. Is
-		// this intended?
-		outputfile.close();
 
 	}
+
+	// ************Functions
 
 	/**
 	 * Reads the Producer (Software which has created the PDF-file) from the XMP

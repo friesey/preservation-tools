@@ -2,6 +2,7 @@ package PdfHackerTools;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class PdfUtilities {
 		if (file == null || list == null || !file.isDirectory())
 			return null;
 		File[] fileArr = file.listFiles();
-		for (File f : fileArr) {
+		for (File f : fileArr) {  // still issues if no rights to scroll folder
 			if (f.isDirectory()) {
 				getPaths(f, list);
 			}
@@ -77,17 +78,18 @@ public class PdfUtilities {
 	 * @return: string for folder path
 	 */
 
-	public static String ChooseFolder() {
+	public static String ChooseFolder() throws FileNotFoundException {
 		JFileChooser j = new JFileChooser();
 		j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		j.showOpenDialog(j);
+		j.showOpenDialog(j);					
 		if (j.getSelectedFile() == null) {
-			System.out.println("No folder was chosen");
+			System.out.println("No folder was chosen");			
 		} else {
 			String folder = j.getSelectedFile().getPath();
 			return folder;
 		}
 		return null;
+		
 	}
 
 	/**
