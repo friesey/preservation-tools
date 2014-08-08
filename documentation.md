@@ -41,10 +41,10 @@ Therefore, the **PdfHeaderChecker** has been implemented.
 ##### Step by Step
 * Choose the folder via *PdfUtilities.getPaths*. 
 * Extension test "pdf" or not.
-* Tests filesize. If the file bigger than 90 MB, end of examination, finding: PdfTooBig 
+* Tests filesize. If the file bigger than 90 MB, end of examination, finding: PdfTooBig  &&edit> As files with more than 16 MB reallz slowed down the whole computer, I changed this to 16 MB and deleted the other test.
 * Tests encryption (via pdfbox, PDDocument is encrypted or not). If yes, end of examination, finding: PDF Encrypted files.
 * Tests if the "%PDF" Header is there via *PdfUtilities.FileHeaderTest*. If not, end of examination. Findings: No PDF Header.
-* Tests if PDF is bigger than 16 MB. If yes, end of examination. Findings: PDF too big.
+* ~~Tests if PDF is bigger than 16 MB. If yes, end of examination. Findings: PDF too big.~~
 * Checks if PDF is PDF/A via *PdfUtilities.PdfAChecker*. Findings: PDF or PDF/A.
 * close *PdfUtilities.PdfHeaderTest* Buffered Reader (in case it has been used at all), as it is not used any more.
 * Print out all findings.
@@ -91,5 +91,4 @@ The function "PdfUtilities.PdfAChecker" does not work for PDF files that are big
 Therefore an if/else condition has been implemented to avoid that this function is performed on PDF files bigger than 16 MB. It gives the message: ("File is bigger than 16 MB and therefore cannot be measured") and the PDF files will be listed as "PDF files too big" in the findings at the end.
 
 There seems to be another part of the program which cannot really deal with large files. This does not crash the program, but it trhows:
-"org.apache.pdfbox.exceptions.WrappedIOException: Could not push back 123575 bytes in order to reparse stream. Try increasing push back buffer using system property org.apache.pdfbox.baseParser.pushBackSize54
-+ file path"
+"org.apache.pdfbox.exceptions.WrappedIOException: Could not push back 123575 bytes in order to reparse stream. Try increasing push back buffer using system property org.apache.pdfbox.baseParser.pushBackSize54" + gives file path
