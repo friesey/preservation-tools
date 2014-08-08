@@ -1,8 +1,16 @@
 package PdfHackerTools;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+
+import javax.xml.bind.annotation.XmlNs;
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -21,12 +29,27 @@ public class PdfHeaderChecker {
 
 	static long filesize;
 
-	public static void main(String args[]) throws IOException {
+	static PrintWriter outputfile;
+
+	public static void main(String args[]) throws IOException,
+			XMLStreamException {
 
 		t = PdfUtilities.ChooseFolder();
+		
+		XMLOutputFactory factory = XMLOutputFactory.newInstance();		
+		XMLStreamWriter xmlfile = factory.createXMLStreamWriter(
+				new FileOutputStream(t + "//" + "PdfTypeChecker.xml"),
+				"ISO-8859-1");	
+		
+		// TODO: it writes everything in just one line, which is unnerving although it does not hurt at the end of the day
 
-		if (t != null) {
+		xmlfile.writeStartDocument("ISO-8859-1", "1.0");
 
+		xmlfile.writeStartElement("PdfTypeChecker");
+		xmlfile.writeAttribute("folder", t );	
+
+		if (t != null) {			
+		
 			ArrayList<File> files = PdfUtilities.getPaths(new File(t),
 					new ArrayList<File>());
 			if (files == null)
@@ -55,7 +78,7 @@ public class PdfHeaderChecker {
 
 							System.out.println("Size:" + filesize);
 
-							if (filesize > 90000000) {
+							if (filesize > 16000000) {
 								System.out
 										.println("File is bigger than 90 MB and therefore cannot be measured");
 								PdfTooBig++;
@@ -80,12 +103,6 @@ public class PdfHeaderChecker {
 										PdfEncrypted++;
 									}
 
-									else if (filesize > 16000000) {
-										System.out
-												.println("File is bigger than 16 MB and therefore cannot be measured");
-										PdfTooBig++;
-									}
-
 									else {
 
 										String PdfType = PdfUtilities
@@ -97,7 +114,9 @@ public class PdfHeaderChecker {
 										if (PdfType.contains("PDF/A")) {
 											PdfA++;
 										} else {
-											PdfStandard++; //this included files with "%PDF-header that have no XMP Metadata"
+											PdfStandard++; // this included
+															// files with
+															// "%PDF-header that have no XMP Metadata"
 										}
 
 										PdfUtilities.PdfHeaderTest.close();
@@ -127,13 +146,19 @@ public class PdfHeaderChecker {
 			System.out.println();
 			System.out.println();
 
-			System.out.println("Files examined: 	" + i); // does not always work
+			// System.out.println("Files examined: 	" + i); // does not always
+			// work
 			System.out.println("PDF Header missing: 	" + NoPdfHeader);
 			System.out.println("PDF Header: 		" + PdfHeader);
 			System.out.println("PDF/A-files:		" + PdfA);
 			System.out.println("PDF Standard files: 	" + PdfStandard);
 			System.out.println("PDF Encrypted files: 	" + PdfEncrypted);
-			System.out.println("PDF files too big:	" + PdfTooBig);
+			System.out.println("PDF files too big:	" + PdfTooBig);			
+		
+			xmlfile.writeEndElement();
+			xmlfile.writeEndDocument();
+			xmlfile.flush();
+			xmlfile.close();
 
 		}
 	}
