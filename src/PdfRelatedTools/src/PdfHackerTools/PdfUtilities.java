@@ -12,6 +12,9 @@ import javax.swing.JFileChooser;
 import org.apache.pdfbox.pdmodel.PDDocument;
 
 import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.parser.PdfReaderContentParser;
+import com.itextpdf.text.pdf.parser.SimpleTextExtractionStrategy;
+import com.itextpdf.text.pdf.parser.TextExtractionStrategy;
 
 public class PdfUtilities {
 
@@ -36,7 +39,7 @@ public class PdfUtilities {
 		if (file == null || list == null || !file.isDirectory())
 			return null;
 		File[] fileArr = file.listFiles();
-		for (File f : fileArr) {  // still issues if no rights to scroll folder
+		for (File f : fileArr) { // still issues if no rights to scroll folder
 			if (f.isDirectory()) {
 				getPaths(f, list);
 			}
@@ -71,6 +74,32 @@ public class PdfUtilities {
 	}
 
 	/**
+	 * Tests if the first line of the file contains the proper PDF-Header "%PDF"
+	 * 
+	 * @param Creates
+	 *            a PdfHeaderTest-Pdf-Reader and reads the first line of the
+	 *            PDF-file like an editor would do. Overloaded with the data
+	 *            type "String"
+	 * @return: boolean false = no PDF-Header; true = first line contains
+	 *          PDF-Header
+	 */
+	static boolean FileHeaderTest(String file) throws IOException {
+		PdfHeaderTest = new BufferedReader(new FileReader(file));
+		String FileHeader = PdfHeaderTest.readLine();
+		System.out.println(FileHeader);
+		if (FileHeader != null) {
+
+			if (FileHeader.contains("%PDF")) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+
+	/**
 	 * Chooses the folder which is examined via a simple folder browser Dialog
 	 * 
 	 * @param Does
@@ -81,15 +110,37 @@ public class PdfUtilities {
 	public static String ChooseFolder() throws FileNotFoundException {
 		JFileChooser j = new JFileChooser();
 		j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		j.showOpenDialog(j);					
+		j.showOpenDialog(j);
 		if (j.getSelectedFile() == null) {
-			System.out.println("No folder was chosen");			
+			System.out.println("No folder was chosen");
 		} else {
 			String folder = j.getSelectedFile().getPath();
 			return folder;
 		}
 		return null;
-		
+
+	}
+
+	/**
+	 * Chooses the file which is examined via a simple folder browser Dialog
+	 * 
+	 * @param Does
+	 *            not need any to begin with.
+	 * @return: string for file path
+	 */
+
+	public static String ChooseFile() throws FileNotFoundException {
+		JFileChooser j = new JFileChooser();
+		j.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		j.showOpenDialog(j);
+		if (j.getSelectedFile() == null) {
+			System.out.println("No file was chosen");
+		} else {
+			String file = j.getSelectedFile().getPath();
+			return file;
+		}
+		return null;
+
 	}
 
 	/**
@@ -128,10 +179,35 @@ public class PdfUtilities {
 			}
 			return pdfType;
 
-		} catch (java.lang.NullPointerException e) {			
+		} catch (java.lang.NullPointerException e) {
 			System.out.println(e);
 			pdfType = "PDF cannot be read by PdfReader";
 			return pdfType;
+		}
+	}
+
+	/**
+	 * Checks if a Pdf is too broken to be examined.
+	 * 
+	 * @param File
+	 *            (should be PDF)
+	 * @return: boolean
+	 * @throws IOException
+	 */
+
+	public static boolean brokenPdfChecker(String file) throws IOException {
+
+		boolean brokenPdf;
+		try {
+			PdfReader reader = new PdfReader(file);
+			reader.getMetadata();
+			// TODO: One day this function could test more and be more clever.
+			brokenPdf = false;
+			return brokenPdf;
+		} catch (java.lang.NullPointerException e) {
+			System.out.println("Broken: " + file);
+			brokenPdf = true;
+			return brokenPdf;
 		}
 	}
 
@@ -156,5 +232,29 @@ public class PdfUtilities {
 		} else {
 			return false;
 		}
+	}
+
+	public static String[] PdfLinesToStringArray(String PdfFile)
+			throws IOException {
+
+		StringBuffer buff = new StringBuffer();
+		String ExtractedText = null;
+
+		PdfReader reader = new PdfReader(PdfFile);
+		PdfReaderContentParser parser = new PdfReaderContentParser(reader);
+		TextExtractionStrategy strategy;
+
+		for (int i = 1; i <= reader.getNumberOfPages(); i++) {
+			strategy = parser.processContent(i,
+					new SimpleTextExtractionStrategy());
+			ExtractedText = strategy.getResultantText().toString();
+			buff.append(ExtractedText + "\n");
+		}
+
+		String[] LinesArray;
+
+		LinesArray = buff.toString().split("\n");
+		reader.close();
+		return LinesArray;
 	}
 }

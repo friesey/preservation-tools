@@ -44,9 +44,9 @@ public class PdfHeaderChecker {
 		
 		// TODO: it writes everything in just one line, which is unnerving although it does not hurt at the end of the day
 
-		xmlfile.writeStartDocument("ISO-8859-1", "1.0");
+		xmlfile.writeStartDocument("ISO-8859-1", "1.0" );
 
-		xmlfile.writeStartElement("PdfTypeChecker");
+		xmlfile.writeStartElement("\nPdfTypeChecker");
 		xmlfile.writeAttribute("folder", t );	
 
 		// if (t != null) {			
@@ -67,9 +67,11 @@ public class PdfHeaderChecker {
 			for (i = 0; i < files.size(); i++) {
 				if (!files.get(i).isDirectory() && files.get(i) != null) {
 					System.out.println(i + 1);
+					
 					try {
 						System.out.println(files.get(i).getCanonicalPath());
 
+						//is this necessary as the %PDF Test follows anyway?
 						String extension = FilenameUtils.getExtension(files
 								.get(i).getCanonicalPath());
 
@@ -81,7 +83,7 @@ public class PdfHeaderChecker {
 
 							if (filesize > 16000000) {
 								System.out
-										.println("File is bigger than 90 MB and therefore cannot be measured");
+										.println("File is bigger than 16 MB and therefore cannot be measured");
 								PdfTooBig++;
 							}
 

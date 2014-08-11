@@ -69,7 +69,7 @@ public class PdfCreationSoftwareDetective {
 								if (filesize > 16000000) {
 									System.out
 											.println("File is bigger than 90 MB and therefore cannot be measured");
-									
+
 								}
 
 								else {
@@ -103,35 +103,37 @@ public class PdfCreationSoftwareDetective {
 															+ e);
 										}
 
-									}							
-								
-								else {
-									System.out.println(files.get(i).getName()
-											+ " PDF Header is missing.");
+									}
+
+									else {
+										System.out.println(files.get(i)
+												.getName()
+												+ " PDF Header is missing.");
+									}
 								}
 							}
 						}
+
+						// redundante Einträge entfernen
+						HashMap<String, String> hmTemp = new HashMap<String, String>();
+						for (String item : ProducerType) {
+							hmTemp.put(item, item);
+						}
+						ProducerType.clear();
+						ProducerType.addAll(hmTemp.keySet());
+						Collections.sort(ProducerType);
+
+						for (String item : ProducerType) {
+							outputfile.println(item);
+						}
+
+						// in case no PDF-files are found, the outputfile comes
+						// out
+						// empty.
+						// Is
+						// this intended?
+						outputfile.close();
 					}
-
-				// redundante Einträge entfernen
-				HashMap<String, String> hmTemp = new HashMap<String, String>();
-				for (String item : ProducerType) {
-					hmTemp.put(item, item);
-				}
-				ProducerType.clear();
-				ProducerType.addAll(hmTemp.keySet());
-				Collections.sort(ProducerType);
-
-				for (String item : ProducerType) {
-					outputfile.println(item);
-				}
-
-				// in case no PDF-files are found, the outputfile comes out
-				// empty.
-				// Is
-				// this intended?
-				outputfile.close();
-			}
 			}
 		}
 
