@@ -4,7 +4,7 @@ PdfEventPrep
 Preparation for the OPF PDF Hackathon which takes place at the 1st and 2nd September in Hamburg. 
 These snippets and tools deals with several PDF issues which might come in handy during the Hackathon.
 
-## Their jobs
+## jobs
 
 * simple analysis (ss there a PDF Header, which kind of PDF - PDF or PDF/A, which version)
 * more detailed analyis (Encryption)
