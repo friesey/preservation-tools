@@ -41,6 +41,12 @@ The library iText is used, the AGPL-version, which has to be considered when re-
 The library PDFBox is used, too.
 This tools works through a selected folder and possible sub-folders.
 
+#### PdfTwinTest
+
+First, two files are chosen. The program takes care that two Pdf-files are chosen that can be examined (the too-broken or too-big-issue is avoided). 
+The tool compares the two PDF line-by-line and puts out differences. 
+This is handy for after-Migration Quality-Checking.
+Usually, the PDF-files created with the "iTextRepairPdf"-tool do not show any differences.
 
 #### PdfUtilities.java
 
