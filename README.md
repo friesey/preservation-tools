@@ -2,16 +2,49 @@ PdfEventPrep
 --------------
 
 Preparation for the OPF PDF Hackathon which takes place at the 1st and 2nd September in Hamburg. 
-
-
 These snippets and tools deals with several PDF issues which might come in handy during the Hackathon.
 
-The Parent folder within "src" has been renamed to "PdfHackerTools". 
+## Their jobs
 
+* simple analysis (ss there a PDF Header, which kind of PDF - PDF or PDF/A, which version)
+* more detailed analyis (Encryption)
+* validation test (for PDF/A, if it is actually a PDF/A)
+* repair function (quite simple)
+* quality analysis after Migration
+
+### PDF Analysis
+
+#### PdfHeaderChecker
+
+Tests if the file starts with "%PDF". This tools works through a selected folder and possible sub-folders.
+To avoid crashes, there are some other tests like e. g. for the extension, if there is an encryption, if the file is a PDF/A etc. For more information see "documentation.md".
+
+#### CreationSoftwareDetective
+
+This tool is able to detect which Software was used to create the PDF and puts out all Creation software in an "outpufile.txt" in the folder which was examined.
+It does not yet count how often each software was used, but this is planned to be implemented.
+
+Furthermore, it detects encrypted PDF-files and is able to deal with some really broken PDF-files. However, some PDF-files still do crash the program, which is planned to be fixed soon (already fixed in "PdfHeaderChecker", which should not crash any more at all).
+
+It would be handy to have some of the functions in this program reused during the Hackathon, as some files (not only PDF-files) can stop the program and during the Hackathon, no time should be wasted to deal with all the exception to be able to get some work done.
+
+The library iText is used, the AGPL-version, which has to be considered when re-using this tool or snippets from it.
+The library PDFBox is used, too.
+This tools works through a selected folder and possible sub-folders.
+
+#### PdfEncryptionDetective
+
+Has to be developed further, there is some C#-original that must be translated.
+
+### PDf Validator Tool(s)
+
+#### PdfAValidator
+
+Has to be developed. There is some example code for PdfBox around which has to be implemented here.
+
+### Migration Tool(s)
 
 #### iTextRepairPdf 
-
-(formerly known as "Main_Standalone")
 
 Is able to take a PDF-file and copies the content page-per-page to a new, PDFA1-conform PDF-file. The XMP-Metadata is also copied.
 
@@ -21,25 +54,7 @@ The library iText is used, the AGPL-version, which has to be considered when re-
 
 This tools works through a selected folder and possible sub-folders.
 
-#### PdfHeaderChecker
-
-(formerly known as "Test4Bytes")
-
-This is a tool which tests if the file starts with "%PDF". This tools works through a selected folder and possible sub-folders.
-To avoid crashes, there are some other tests like e. g. for the extension, if there is an encryption, if the file is a PDF/A etc. For more information see documentation.md.
-
-#### CreationSoftwareDetective
-
-This tool is able to detect which Software was used to create the PDF and puts out all Creation software in an "outpufile.txt" in the folder which was examined.
-It does not yet count how often each software was used, but this is planned to be implemented.
-
-Furthermore, it detects encrypted PDF-files and is able to deal with some really rotten PDF-files. However, some PDF-files still do crash the program, which is planned to be fixed soon.
-
-It would be handy to have some of the functions in this program reused during the Hackathon, as some files (not only PDF-files) can stop the program and during the Hackathon, no time should be wasted to deal with all the exception to be able to get some work done.
-
-The library iText is used, the AGPL-version, which has to be considered when re-using this tool or snippets from it.
-The library PDFBox is used, too.
-This tools works through a selected folder and possible sub-folders.
+### Quality Checking after Migrations
 
 #### PdfTwinTest
 
@@ -47,6 +62,9 @@ First, two files are chosen. The program takes care that two Pdf-files are chose
 The tool compares the two PDF line-by-line and puts out differences. 
 This is handy for after-Migration Quality-Checking.
 Usually, the PDF-files created with the "iTextRepairPdf"-tool do not show any differences.
+
+
+#### Helping tools within the programs
 
 #### PdfUtilities.java
 
