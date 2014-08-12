@@ -3,4 +3,5 @@
   <groupId>org.opf-labs</groupId>
   <artifactId>pdf-event-prep</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
 </project>
