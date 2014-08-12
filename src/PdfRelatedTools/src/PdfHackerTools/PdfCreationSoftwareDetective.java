@@ -25,8 +25,6 @@ public class PdfCreationSoftwareDetective {
 	static PdfReader reader;
 	static PrintWriter outputfile;
 
-	static long filesize;
-
 	public static void main(String args[]) throws IOException {
 
 		try {
@@ -62,17 +60,7 @@ public class PdfCreationSoftwareDetective {
 
 							if (extension.equals("application/pdf")) {
 
-								filesize = files.get(i).length();
-
-								System.out.println("Size:" + filesize);
-
-								if (filesize > 16000000) {
-									System.out
-											.println("File is bigger than 90 MB and therefore cannot be measured");
-
-								}
-
-								else {
+								if (!PdfUtilities.PdfSizeChecker(files.get(i))) {
 									if (PdfUtilities.FileHeaderTest(files
 											.get(i)) == true) {
 										System.out.println(files.get(i));
@@ -87,11 +75,8 @@ public class PdfCreationSoftwareDetective {
 																	.toString());
 													GetProducer(reader);
 													reader.close();
-
 												}
-
 											}
-
 											testfile.close();
 										}
 

@@ -77,18 +77,8 @@ public class PdfHeaderChecker {
 
 						if (extension.equals("pdf")) {
 
-							filesize = files.get(i).length();
-
-							System.out.println("Size:" + filesize);
-
-							if (filesize > 16000000) {
-								System.out
-										.println("File is bigger than 16 MB and therefore cannot be measured");
-								PdfTooBig++;
-							}
-
-							else {
-
+							if(!PdfUtilities.PdfSizeChecker (files.get(i))) {							
+								
 								if (PdfUtilities.FileHeaderTest(files.get(i)) == true) {
 
 									System.out
@@ -131,6 +121,10 @@ public class PdfHeaderChecker {
 											+ " PDF Header is missing.");
 									NoPdfHeader++;
 								}
+							}
+							
+							else {
+								PdfTooBig++;
 							}
 						}
 

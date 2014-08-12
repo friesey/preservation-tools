@@ -257,4 +257,31 @@ public class PdfUtilities {
 		reader.close();
 		return LinesArray;
 	}
+	
+	/**
+	 * Checks the size of the Pdf-file, because some big Pdf Files might cause exceptions.	 * 
+	 * @param file (should be Pdf)	          
+	 * @return: boolean
+	 * @throws 
+	 */
+
+	public static boolean PdfSizeChecker(File file) {
+		
+		long filesize = file.length();
+		boolean toobig = false;
+
+		System.out.println("Size:" + filesize);
+
+		if (filesize > 16000000) {
+			System.out
+					.println("File is bigger than 16 MB and therefore cannot be measured");		
+			toobig = true;
+			return toobig;
+		}
+		
+		else {
+			return toobig;
+		}
+		
+	}
 }
