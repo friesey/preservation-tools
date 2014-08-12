@@ -10,7 +10,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.pdfbox</groupId>
-			<artifactId>pdfbox</artifactId>
+			<artifactId>preflight</artifactId>
 			<version>1.8.6</version>
 		</dependency>
 	</dependencies>
