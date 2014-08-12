@@ -60,9 +60,8 @@ public class PdfUtilities {
 	static boolean FileHeaderTest(File file) throws IOException {
 		PdfHeaderTest = new BufferedReader(new FileReader(file));
 		String FileHeader = PdfHeaderTest.readLine();
-		System.out.println(FileHeader);
+		// System.out.println(FileHeader);
 		if (FileHeader != null) {
-
 			if (FileHeader.contains("%PDF")) {
 				return true;
 			} else {
@@ -86,7 +85,7 @@ public class PdfUtilities {
 	static boolean FileHeaderTest(String file) throws IOException {
 		PdfHeaderTest = new BufferedReader(new FileReader(file));
 		String FileHeader = PdfHeaderTest.readLine();
-		System.out.println(FileHeader);
+		// System.out.println(FileHeader);
 		if (FileHeader != null) {
 
 			if (FileHeader.contains("%PDF")) {
@@ -118,7 +117,6 @@ public class PdfUtilities {
 			return folder;
 		}
 		return null;
-
 	}
 
 	/**
@@ -154,15 +152,11 @@ public class PdfUtilities {
 	 */
 
 	public static String PdfAChecker(File file) throws IOException {
-
 		String pdfType = "No XMP Metadata";
 		String XmpMetadata;
-
 		PdfReader reader;
-
 		try {
 			reader = new PdfReader(file.toString());
-
 			// There is no PDF/A compliance before PDF 1.4
 			if (reader.getPdfVersion() > 3) {
 				if (reader.getMetadata() != null) {
@@ -178,7 +172,6 @@ public class PdfUtilities {
 				pdfType = "PDF 1.0 - 1.3";
 			}
 			return pdfType;
-
 		} catch (java.lang.NullPointerException e) {
 			System.out.println(e);
 			pdfType = "PDF cannot be read by PdfReader";
@@ -222,10 +215,8 @@ public class PdfUtilities {
 	 */
 
 	public static boolean EncryptionTest(PDDocument file) throws IOException {
-
 		// PDDocumentInformation info =
 		// PDDocument.load(file).getDocumentInformation();
-
 		if (file.isEncrypted() == true) {
 			System.out.println(file + " is encrypted");
 			return true;
@@ -236,14 +227,11 @@ public class PdfUtilities {
 
 	public static String[] PdfLinesToStringArray(String PdfFile)
 			throws IOException {
-
 		StringBuffer buff = new StringBuffer();
 		String ExtractedText = null;
-
 		PdfReader reader = new PdfReader(PdfFile);
 		PdfReaderContentParser parser = new PdfReaderContentParser(reader);
 		TextExtractionStrategy strategy;
-
 		for (int i = 1; i <= reader.getNumberOfPages(); i++) {
 			strategy = parser.processContent(i,
 					new SimpleTextExtractionStrategy());
@@ -257,31 +245,34 @@ public class PdfUtilities {
 		reader.close();
 		return LinesArray;
 	}
-	
+
 	/**
-	 * Checks the size of the Pdf-file, because some big Pdf Files might cause exceptions.	 * 
-	 * @param file (should be Pdf)	          
+	 * Checks the size of the Pdf-file, because some big Pdf Files might cause
+	 * exceptions. *
+	 * 
+	 * @param file
+	 *            (should be Pdf)
 	 * @return: boolean
-	 * @throws 
+	 * @throws
 	 */
 
 	public static boolean PdfSizeChecker(File file) {
-		
+
 		long filesize = file.length();
 		boolean toobig = false;
 
-		System.out.println("Size:" + filesize);
+		// System.out.println("Size:" + filesize);
 
 		if (filesize > 16000000) {
 			System.out
-					.println("File is bigger than 16 MB and therefore cannot be measured");		
+					.println("File is bigger than 16 MB and therefore cannot be measured");
 			toobig = true;
 			return toobig;
 		}
-		
+
 		else {
 			return toobig;
 		}
-		
+
 	}
 }
