@@ -197,7 +197,7 @@ public class PdfUtilities {
 			// TODO: One day this function could test more and be more clever.
 			brokenPdf = false;
 			return brokenPdf;
-		} catch (java.lang.NullPointerException e) {
+		} catch (Exception e) {
 			System.out.println("Broken: " + file);
 			brokenPdf = true;
 			return brokenPdf;
