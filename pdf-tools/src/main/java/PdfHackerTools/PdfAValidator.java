@@ -56,10 +56,7 @@ public class PdfAValidator {
 							// can the PdfAValidator handle bigger files?
 							if (!PdfUtilities.PdfSizeChecker(files.get(i))) {
 
-								if (PdfUtilities.FileHeaderTest(files.get(i)) == true) {
-
-									if (PdfUtilities.brokenPdfChecker(files
-											.get(i).toString()) == false) {
+								if (PdfUtilities.FileHeaderTest(files.get(i)) == true) {		
 
 										PDDocument testfile = PDDocument
 												.load(files.get(i));
@@ -144,13 +141,16 @@ public class PdfAValidator {
 									}
 								}
 							}
-						} catch (IOException e) {
+						//		} 
+					catch (IOException e) {
 							outputfile.print(e);
 						}
 					}
 				}
 			}
-		} catch (FileNotFoundException e) {
+		} 
+		
+		catch (FileNotFoundException e) {
 		}
 	}
 }

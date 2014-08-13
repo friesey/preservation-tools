@@ -188,6 +188,7 @@ public class PdfUtilities {
 	 * @throws IOException
 	 */
 
+	// TODO: This function does not work, e. g. for encrypted files and should not be used until it is fixed.
 	public static boolean brokenPdfChecker(String file) throws IOException {
 
 		boolean brokenPdf;

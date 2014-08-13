@@ -36,6 +36,8 @@ public class PdfHeaderChecker {
 		 try {
 		 
 		 t = PdfUtilities.ChooseFolder();
+		 
+		 // TODO: Change this XML Writer
 		
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();		
 		XMLStreamWriter xmlfile = factory.createXMLStreamWriter(
