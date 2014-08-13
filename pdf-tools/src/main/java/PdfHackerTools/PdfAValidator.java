@@ -137,6 +137,8 @@ public class PdfAValidator {
 												// outputfile.println(PdfType);
 												ShortSummary.println("No PDF/A file");
 												outputfile.println("No PDF/A file");
+												ShortSummary.close();
+												outputfile.close();
 											}
 										}
 									}
