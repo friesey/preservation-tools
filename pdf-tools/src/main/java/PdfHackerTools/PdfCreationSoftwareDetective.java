@@ -28,7 +28,6 @@ public class PdfCreationSoftwareDetective {
 	public static void main(String args[]) throws IOException {
 
 		try {
-
 			t = PdfUtilities.ChooseFolder();
 
 			if (t != null) {
@@ -121,10 +120,8 @@ public class PdfCreationSoftwareDetective {
 					}
 			}
 		}
-
 		catch (FileNotFoundException e) {
 		}
-
 	}
 
 	// ************Functions

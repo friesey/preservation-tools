@@ -14,7 +14,7 @@ public class PdfEncryptionDetective {
 
 			if (t != null) {
 
-				// todo: check for encryption via PDFBox and/or iText and
+				// TODO: check for encryption via PDFBox and/or iText and
 				// outputs in XML
 
 				// mind the XSLT
