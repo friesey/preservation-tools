@@ -29,10 +29,10 @@ public class JhoveStatistics {
 				int malformed = 0;
 				int invalid = 0;
 
-				ArrayList <String> errorlist = new ArrayList<String>();
+				ArrayList<String> errorlist = new ArrayList<String>();
 
 				ArrayList<String> lines = new ArrayList<String>();
-
+				
 				StringBuilder responseData = new StringBuilder();
 				while ((line = reader.readLine()) != null) {
 					responseData.append(line);
@@ -60,15 +60,35 @@ public class JhoveStatistics {
 				System.out.println("PDF files malformed: " + malformed);
 				System.out.println("PDF files invalid: " + invalid);
 				reader.close();
-				
+
 				Collections.sort(errorlist);
+
+			//	ArrayList<Integer> errorcount = new ArrayList<Integer>();
+
+				int i;
 				
-				for (int i = 0; i < errorlist.size(); i++) {
-					System.out.println (errorlist.get(i));
+				for (i = 0; i < errorlist.size(); i++) {
+					
+					System.out.println( i + errorlist.get(i));
 				}
 				
+				System.out.println ("Size before removing:" + errorlist.size());		
+
+				for (i = 0; i < errorlist.size()-1;) {				
+					if (errorlist.get(i).equals(errorlist.get(i+1))) {
+						errorlist.remove(i);	
+					 }
+					else {
+						i++;
+					}
+				}
 				
+				System.out.println ("Size after removing:" + errorlist.size());
 				
+				for (i = 0; i < errorlist.size(); i++) {
+					System.out.println(errorlist.get(i));
+				}
+
 			}
 
 			else {
