@@ -28,6 +28,8 @@ public class JhoveStatistics {
 				int malformed = 0;
 				int invalid = 0;
 
+				ArrayList <String> errorlist = new ArrayList<String>();
+
 				ArrayList<String> lines = new ArrayList<String>();
 
 				StringBuilder responseData = new StringBuilder();
@@ -47,13 +49,18 @@ public class JhoveStatistics {
 						invalid++;
 					} else if (lines.get(i).contains("malformed")) {
 						malformed++;
+					} else if (lines.get(i).contains("ErrorMessage")) {
+						errorlist.add(lines.get(i));
 					}
+
 				}
 				System.out.println("PDF files Well-Formed and valid: "
 						+ wellformed);
 				System.out.println("PDF files malformed: " + malformed);
 				System.out.println("PDF files invalid: " + invalid);
 				reader.close();
+				
+				
 			}
 
 			else {

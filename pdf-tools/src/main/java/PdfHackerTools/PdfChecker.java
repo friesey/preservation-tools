@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 
-public class PdfHeaderChecker {
+public class PdfChecker {
 
 	static String t;
 
@@ -78,6 +78,12 @@ public class PdfHeaderChecker {
 										System.out.println("Pdf is encrypted: "
 												+ files.get(i));
 										PdfEncrypted++;
+										
+										// TODO: Add Encryption Checker
+										
+									//	if (!PdfEncryptor.isCopyAllowed(testfile.toString()))
+										
+										
 									}
 
 									else {
