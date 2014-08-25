@@ -7,10 +7,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-import javax.xml.stream.XMLOutputFactory;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamWriter;
-
 import org.apache.commons.io.FilenameUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 
@@ -31,28 +27,14 @@ public class PdfHeaderChecker {
 	static PrintWriter outputfile;
 
 	public static void main(String args[]) throws IOException,
-			XMLStreamException {
+			{
 
 		 try {
 		 
 		 t = PdfUtilities.ChooseFolder();
 		 
-		 // TODO: Change this XML Writer
-		
-		XMLOutputFactory factory = XMLOutputFactory.newInstance();		
-		XMLStreamWriter xmlfile = factory.createXMLStreamWriter(
-				new FileOutputStream(t + "//" + "PdfTypeChecker.xml"),
-				"ISO-8859-1");	
-		
-		// TODO: it writes everything in just one line, which is unnerving although it does not hurt at the end of the day
-
-		xmlfile.writeStartDocument("ISO-8859-1", "1.0" );
-
-		xmlfile.writeStartElement("\nPdfTypeChecker");
-		xmlfile.writeAttribute("folder", t );	
-
-		// if (t != null) {			
-		
+		 // TODO: Create an XML Writer		
+			
 			ArrayList<File> files = PdfUtilities.getPaths(new File(t),
 					new ArrayList<File>());
 			if (files == null)
@@ -153,11 +135,6 @@ public class PdfHeaderChecker {
 			System.out.println("PDF Standard files: 	" + PdfStandard);
 			System.out.println("PDF Encrypted files: 	" + PdfEncrypted);
 			System.out.println("PDF files too big:	" + PdfTooBig);			
-		
-			xmlfile.writeEndElement();
-			xmlfile.writeEndDocument();
-			xmlfile.flush();
-			xmlfile.close();
 		 }
 		
 		catch (FileNotFoundException e ) {
