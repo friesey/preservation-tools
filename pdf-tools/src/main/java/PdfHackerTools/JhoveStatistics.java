@@ -65,15 +65,9 @@ public class JhoveStatistics {
 
 			//	ArrayList<Integer> errorcount = new ArrayList<Integer>();
 
-				int i;
+				int i;				
 				
-				for (i = 0; i < errorlist.size(); i++) {
-					
-					System.out.println( i + errorlist.get(i));
-				}
-				
-				System.out.println ("Size before removing:" + errorlist.size());		
-
+				//get rid of redundant entries
 				for (i = 0; i < errorlist.size()-1;) {				
 					if (errorlist.get(i).equals(errorlist.get(i+1))) {
 						errorlist.remove(i);	
@@ -83,12 +77,10 @@ public class JhoveStatistics {
 					}
 				}
 				
-				System.out.println ("Size after removing:" + errorlist.size());
-				
+				System.out.println ("Size after removing:" + errorlist.size());				
 				for (i = 0; i < errorlist.size(); i++) {
 					System.out.println(errorlist.get(i));
 				}
-
 			}
 
 			else {
