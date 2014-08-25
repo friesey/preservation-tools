@@ -32,7 +32,7 @@ public class JhoveStatistics {
 				ArrayList<String> errorlist = new ArrayList<String>();
 
 				ArrayList<String> lines = new ArrayList<String>();
-				
+
 				StringBuilder responseData = new StringBuilder();
 				while ((line = reader.readLine()) != null) {
 					responseData.append(line);
@@ -63,29 +63,50 @@ public class JhoveStatistics {
 
 				Collections.sort(errorlist);
 
-			//	ArrayList<Integer> errorcount = new ArrayList<Integer>();
+				int i;
 
-				int i;				
-				
-				//get rid of redundant entries
-				for (i = 0; i < errorlist.size()-1;) {				
-					if (errorlist.get(i).equals(errorlist.get(i+1))) {
-						errorlist.remove(i);	
-					 }
-					else {
+				// copy ErrorList because later the no. of entries of each
+				// element will be counted
+
+				ArrayList<String> originerrors = new ArrayList<String>();
+				for (i = 0; i < errorlist.size(); i++) { // There might be a
+															// pre-defined
+															// function for this
+					originerrors.add(errorlist.get(i));
+				}
+
+				// get rid of redundant entries
+				for (i = 0; i < errorlist.size() - 1;) {
+					if (errorlist.get(i).equals(errorlist.get(i + 1))) {
+						errorlist.remove(i);
+					} else {
 						i++;
 					}
 				}
-				
-				System.out.println ("Size after removing:" + errorlist.size());				
+				System.out.println("Sample consists of " + errorlist.size()
+						+ " different JHOVE error messages");
+
+				// how often does each JHOVE error occur?
+				int j = 0;
+				int temp;
+
+				// ArrayList<Integer> errorcount = new ArrayList<Integer>();
+
 				for (i = 0; i < errorlist.size(); i++) {
-					System.out.println(errorlist.get(i));
+					temp = 0;
+					for (j = 0; j < originerrors.size(); j++) {
+						if (errorlist.get(i).equals(originerrors.get(j))) {
+							temp++;
+						}
+					}
+					System.out.println((i+1) + ": " + temp + " x "
+							+ errorlist.get(i));
 				}
 			}
+		}
 
-			else {
-				System.out.println("Chosen File is not a JHOVE output file.");
-			}
+		else {
+			System.out.println("Chosen File is not a JHOVE output file.");
 		}
 	}
 

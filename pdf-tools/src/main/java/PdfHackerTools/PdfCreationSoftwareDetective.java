@@ -78,7 +78,6 @@ public class PdfCreationSoftwareDetective {
 														}
 													}
 												}
-
 												testfile.close();
 											} catch (IOException e) {
 												outputfile
@@ -96,7 +95,6 @@ public class PdfCreationSoftwareDetective {
 								}
 							}
 						}
-
 					}
 				}
 				// get rid of redundant entries
