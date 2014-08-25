@@ -99,16 +99,14 @@ public class PdfCreationSoftwareDetective {
 
 					}
 				}
-				
 				// get rid of redundant entries
 				Collections.sort(ProducerType);
 				int i;
-				
-				for (i = 0; i < ProducerType.size()-1;) {				
-					if (ProducerType.get(i).equals(ProducerType.get(i+1))) {
-						ProducerType.remove(i);	
-					 }
-					else {
+
+				for (i = 0; i < ProducerType.size() - 1;) {
+					if (ProducerType.get(i).equals(ProducerType.get(i + 1))) {
+						ProducerType.remove(i);
+					} else {
 						i++;
 					}
 				}
@@ -118,7 +116,7 @@ public class PdfCreationSoftwareDetective {
 				// in case no PDF-files are found, the outputfile comes
 				// out empty.
 				// Is this intended?
-				outputfile.close();				
+				outputfile.close();
 			}
 		} catch (FileNotFoundException e) {
 		}
