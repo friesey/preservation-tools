@@ -90,8 +90,6 @@ public class JhoveStatistics {
 				int j = 0;
 				int temp;
 
-				// ArrayList<Integer> errorcount = new ArrayList<Integer>();
-
 				for (i = 0; i < errorlist.size(); i++) {
 					temp = 0;
 					for (j = 0; j < originerrors.size(); j++) {

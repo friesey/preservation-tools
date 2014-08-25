@@ -97,10 +97,18 @@ public class PdfCreationSoftwareDetective {
 						}
 					}
 				}
-				// get rid of redundant entries
+
 				Collections.sort(ProducerType);
 				int i;
 
+				ArrayList<String> AllProducerTypes = new ArrayList<String>();
+
+				for (i = 0; i < ProducerType.size(); i++) { // There might be a
+					// pre-defined
+					// function for this
+					AllProducerTypes.add(ProducerType.get(i));
+				}
+				// get rid of redundant entries
 				for (i = 0; i < ProducerType.size() - 1;) {
 					if (ProducerType.get(i).equals(ProducerType.get(i + 1))) {
 						ProducerType.remove(i);
@@ -108,9 +116,25 @@ public class PdfCreationSoftwareDetective {
 						i++;
 					}
 				}
-				for (String item : ProducerType) {
-					outputfile.println(item);
+
+				// how often does each Producer occur?
+				int j = 0;
+				int temp;
+
+				for (i = 0; i < ProducerType.size(); i++) {
+					temp = 0;
+					for (j = 0; j < AllProducerTypes.size(); j++) {
+						if (ProducerType.get(i).equals(AllProducerTypes.get(j))) {
+							temp++;
+						}
+					}
+					System.out.println((i + 1) + ": " + temp + " x "
+							+ ProducerType.get(i));
+
+					outputfile.println((i + 1) + ": " + temp + " x "
+							+ ProducerType.get(i));
 				}
+
 				// in case no PDF-files are found, the outputfile comes
 				// out empty.
 				// Is this intended?
