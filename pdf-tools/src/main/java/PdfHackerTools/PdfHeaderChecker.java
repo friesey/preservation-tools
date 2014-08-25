@@ -2,7 +2,6 @@ package PdfHackerTools;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -26,14 +25,15 @@ public class PdfHeaderChecker {
 
 	static PrintWriter outputfile;
 
-	public static void main(String args[]) throws IOException,
-			{
+	public static void main(String args[]) throws IOException{
 
 		 try {
 		 
 		 t = PdfUtilities.ChooseFolder();
 		 
 		 // TODO: Create an XML Writer		
+		 
+		 if (t != null) {
 			
 			ArrayList<File> files = PdfUtilities.getPaths(new File(t),
 					new ArrayList<File>());
@@ -136,7 +136,7 @@ public class PdfHeaderChecker {
 			System.out.println("PDF Encrypted files: 	" + PdfEncrypted);
 			System.out.println("PDF files too big:	" + PdfTooBig);			
 		 }
-		
+		 }
 		catch (FileNotFoundException e ) {
 			
 		}

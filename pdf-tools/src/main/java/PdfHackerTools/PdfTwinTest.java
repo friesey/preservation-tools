@@ -12,13 +12,18 @@ public class PdfTwinTest {
 	static String MigPdf;
 	static long filesizeOrg;
 	static long filesizeMig;
+	
+	static String t;
 
 	static PrintWriter outputfile;
 
 	public static void main(String args[]) throws IOException {
 
-		outputfile = new PrintWriter(new FileWriter(
-				"C://Ausgabe//PdfTwinTester.txt"));
+		System.out.println ("Please select the folder for outputfile 'PdfTwinTest.txt'");
+		
+		 t = PdfUtilities.ChooseFolder();
+				
+		outputfile = new PrintWriter(new FileWriter( t + "\\PdfTwinTester.txt"));
 		outputfile.println("Pdf Twin Test");
 
 		OrgPdf = PdfUtilities.ChooseFile();
