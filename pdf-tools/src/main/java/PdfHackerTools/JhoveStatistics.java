@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class JhoveStatistics {
 
@@ -59,6 +60,13 @@ public class JhoveStatistics {
 				System.out.println("PDF files malformed: " + malformed);
 				System.out.println("PDF files invalid: " + invalid);
 				reader.close();
+				
+				Collections.sort(errorlist);
+				
+				for (int i = 0; i < errorlist.size(); i++) {
+					System.out.println (errorlist.get(i));
+				}
+				
 				
 				
 			}

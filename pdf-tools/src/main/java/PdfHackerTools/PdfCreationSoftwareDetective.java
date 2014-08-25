@@ -98,7 +98,7 @@ public class PdfCreationSoftwareDetective {
 							}
 						}
 
-						// redundante Einträge entfernen
+						// get rid of redundant entries
 						HashMap<String, String> hmTemp = new HashMap<String, String>();
 						for (String item : ProducerType) {
 							hmTemp.put(item, item);
