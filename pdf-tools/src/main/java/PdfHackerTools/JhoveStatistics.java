@@ -17,6 +17,8 @@ public class JhoveStatistics {
 		if (JhoveFindings != null) {
 
 			boolean jhove = isJhoveOutput(JhoveFindings);
+			
+			// TODO: Add Outputtextfile
 
 			if (jhove == true) {
 
@@ -76,13 +78,15 @@ public class JhoveStatistics {
 				}
 
 				// get rid of redundant entries
-				for (i = 0; i < errorlist.size() - 1;) {
+				i=0;
+				while (i < errorlist.size() - 1) {	
 					if (errorlist.get(i).equals(errorlist.get(i + 1))) {
 						errorlist.remove(i);
 					} else {
 						i++;
 					}
 				}
+												
 				System.out.println("Sample consists of " + errorlist.size()
 						+ " different JHOVE error messages");
 
