@@ -22,7 +22,7 @@ public class PdfTwinTest {
 		System.out
 				.println("Please select the folder for outputfile 'PdfTwinTest.txt'");
 
-		t = PdfUtilities.ChooseFolder();
+		t = PdfUtilities.chooseFolder();
 
 		if (t != null) {
 
@@ -30,10 +30,10 @@ public class PdfTwinTest {
 					+ "\\PdfTwinTester.txt"));
 			outputfile.println("Pdf Twin Test");
 
-			OrgPdf = PdfUtilities.ChooseFile();
+			OrgPdf = PdfUtilities.chooseFile();
 			System.out.println(OrgPdf);
 
-			MigPdf = PdfUtilities.ChooseFile();
+			MigPdf = PdfUtilities.chooseFile();
 			System.out.println(MigPdf);
 
 			outputfile.println("Original File: " + OrgPdf);
@@ -49,8 +49,8 @@ public class PdfTwinTest {
 
 				if (filesizeOrg < 16000000 && filesizeMig < 16000000) {
 
-					if (PdfUtilities.FileHeaderTest(OrgPdf) == true
-							&& PdfUtilities.FileHeaderTest(MigPdf) == true) {
+					if (PdfUtilities.testFileHeader(OrgPdf) == true
+							&& PdfUtilities.testFileHeader(MigPdf) == true) {
 
 						PDDocument testfileOrg = PDDocument.load(OrgPdf);
 						PDDocument testfileMig = PDDocument.load(MigPdf);

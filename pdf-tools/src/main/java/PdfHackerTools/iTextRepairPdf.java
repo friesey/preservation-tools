@@ -23,7 +23,7 @@ public class iTextRepairPdf {
 
 		try {
 
-			t = PdfUtilities.ChooseFolder();
+			t = PdfUtilities.chooseFolder();
 
 			if (t != null) {
 

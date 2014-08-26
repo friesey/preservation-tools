@@ -29,7 +29,7 @@ public class PdfChecker {
 
 		 try {
 		 
-		 t = PdfUtilities.ChooseFolder();
+		 t = PdfUtilities.chooseFolder();
 		 
 		 // TODO: Create an XML Writer		
 		 
@@ -63,7 +63,7 @@ public class PdfChecker {
 
 							if(!PdfUtilities.PdfSizeChecker (files.get(i))) {							
 								
-								if (PdfUtilities.FileHeaderTest(files.get(i)) == true) {
+								if (PdfUtilities.testFileHeader(files.get(i)) == true) {
 
 									System.out
 											.println(files.get(i).getName()

@@ -23,7 +23,7 @@ public class PdfCreationSoftwareDetective {
 
 	public static void main(String args[]) throws IOException {
 		try {
-			t = PdfUtilities.ChooseFolder();
+			t = PdfUtilities.chooseFolder();
 			if (t != null) {
 				ProducerID = 0;
 				ProducerType = new ArrayList<String>();
@@ -46,7 +46,7 @@ public class PdfCreationSoftwareDetective {
 								if (extension.equals("application/pdf")) {
 									if (!PdfUtilities.PdfSizeChecker(files
 											.get(i))) {
-										if (PdfUtilities.FileHeaderTest(files
+										if (PdfUtilities.testFileHeader(files
 												.get(i)) == true) {
 											System.out.println(files.get(i));
 											try {

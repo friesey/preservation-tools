@@ -18,15 +18,15 @@ import com.itextpdf.text.pdf.parser.TextExtractionStrategy;
 
 public class PdfUtilities {
 
-	/**
+	/*******************************************************
 	 * Variables and objects used within the whole package
-	 */
+	 ********************************************************/
 
 	static BufferedReader PdfHeaderTest;
 
-	/**
+	/*********************************************************
 	 * Methods used within the whole package
-	 */
+	 ********************************************************/
 
 	/**
 	 * lists all files and directories in given directory
@@ -39,7 +39,9 @@ public class PdfUtilities {
 		if (file == null || list == null || !file.isDirectory())
 			return null;
 		File[] fileArr = file.listFiles();
-		for (File f : fileArr) { // still issues if no rights to scroll folder
+		for (File f : fileArr) {
+			// TODO If a folder is chosen that cannot be searched/read, e. g.
+			// C:/, the tool runs into issues
 			if (f.isDirectory()) {
 				getPaths(f, list);
 			}
@@ -50,14 +52,14 @@ public class PdfUtilities {
 
 	/**
 	 * Tests if the first line of the file contains the proper PDF-Header "%PDF"
-	 * 
+	 * for Datatype file
 	 * @param Creates
 	 *            a PdfHeaderTest-Pdf-Reader and reads the first line of the
 	 *            PDF-file like an editor would do.
 	 * @return: boolean false = no PDF-Header; true = first line contains
 	 *          PDF-Header
 	 */
-	static boolean FileHeaderTest(File file) throws IOException {
+	static boolean testFileHeader(File file) throws IOException {
 		PdfHeaderTest = new BufferedReader(new FileReader(file));
 		String FileHeader = PdfHeaderTest.readLine();
 		// System.out.println(FileHeader);
@@ -71,10 +73,12 @@ public class PdfUtilities {
 			return false;
 		}
 	}
+	
+	//TODO: Is there a better way to overload a method?
 
 	/**
 	 * Tests if the first line of the file contains the proper PDF-Header "%PDF"
-	 * 
+	 * For Strings
 	 * @param Creates
 	 *            a PdfHeaderTest-Pdf-Reader and reads the first line of the
 	 *            PDF-file like an editor would do. Overloaded with the data
@@ -82,7 +86,7 @@ public class PdfUtilities {
 	 * @return: boolean false = no PDF-Header; true = first line contains
 	 *          PDF-Header
 	 */
-	static boolean FileHeaderTest(String file) throws IOException {
+	static boolean testFileHeader(String file) throws IOException {
 		PdfHeaderTest = new BufferedReader(new FileReader(file));
 		String FileHeader = PdfHeaderTest.readLine();
 		// System.out.println(FileHeader);
@@ -106,7 +110,7 @@ public class PdfUtilities {
 	 * @return: string for folder path
 	 */
 
-	public static String ChooseFolder() throws FileNotFoundException {
+	public static String chooseFolder() throws FileNotFoundException {
 		JFileChooser j = new JFileChooser();
 		j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		j.showOpenDialog(j);
@@ -127,7 +131,7 @@ public class PdfUtilities {
 	 * @return: string for file path
 	 */
 
-	public static String ChooseFile() throws FileNotFoundException {
+	public static String chooseFile() throws FileNotFoundException {
 		JFileChooser j = new JFileChooser();
 		j.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		j.showOpenDialog(j);
@@ -188,7 +192,8 @@ public class PdfUtilities {
 	 * @throws IOException
 	 */
 
-	// TODO: This function does not work, e. g. for encrypted files and should not be used until it is fixed.
+	// TODO: This function does not work, e. g. for encrypted files and should
+	// not be used until it is fixed.
 	public static boolean brokenPdfChecker(String file) throws IOException {
 
 		boolean brokenPdf;

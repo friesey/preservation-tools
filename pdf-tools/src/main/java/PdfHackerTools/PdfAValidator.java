@@ -26,7 +26,7 @@ public class PdfAValidator {
 
 		try {
 
-			t = PdfUtilities.ChooseFolder();
+			t = PdfUtilities.chooseFolder();
 			
 			outputfile = new PrintWriter(new FileWriter(t + "//"
 					+ "PdfAValidation.txt"));
@@ -56,7 +56,7 @@ public class PdfAValidator {
 							// can the PdfAValidator handle bigger files?
 							if (!PdfUtilities.PdfSizeChecker(files.get(i))) {
 
-								if (PdfUtilities.FileHeaderTest(files.get(i)) == true) {		
+								if (PdfUtilities.testFileHeader(files.get(i)) == true) {		
 
 										PDDocument testfile = PDDocument
 												.load(files.get(i));
