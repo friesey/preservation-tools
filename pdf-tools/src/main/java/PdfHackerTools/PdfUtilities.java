@@ -46,13 +46,7 @@ public class PdfUtilities {
 			if (!testfile.isEncrypted()) {
 				if (!checkBrokenPdf(file)) {
 					if (!checkPdfSize(file)) {
-
-						if (!testsEncryption(testfile)) {
-							return true;
-						} else {
-							System.out.println("Encrypted Pdf");
-							return false;
-						}
+					return true;
 					} else {
 						System.out.println("Pdf too big to be examined");
 						return false;
@@ -77,12 +71,7 @@ public class PdfUtilities {
 			if (!testfile.isEncrypted()) {
 				if (!checkBrokenPdf(file.toString())) {
 					if (!checkPdfSize(file)) {
-						if (!testsEncryption(testfile)) {
-							return true;
-						} else {
-							System.out.println("Encrypted Pdf");
-							return false;
-						}
+						return true;						
 					} else {
 						System.out.println("Pdf too big to be examined");
 						return false;
