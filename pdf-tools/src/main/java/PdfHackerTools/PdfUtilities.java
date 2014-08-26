@@ -28,11 +28,71 @@ public class PdfUtilities {
 
 	/*********************************************************
 	 * Methods used within the whole package
+	 *
 	 ********************************************************/
-	
-	
+
+	/**
+	 * Checks if a PDF is ok to work with %PDF Header, Broken PDF & Encryption
+	 * 
+	 * @param file
+	 *            or String
+	 * @return: boolean true or false
+	 * @throws IOException
+	 */
+
 	// TODO: create a method which tests if the file is an
 	// ok-to-the-end-PDF to work with
+
+	static boolean testPdfOk(String file) throws IOException {
+		if (testFileHeader(file)) {
+			if (!checkBrokenPdf(file)) {
+				if (!checkPdfSize(file)) {
+					PDDocument testfile = PDDocument.load(file);
+					if (!testsEncryption(testfile)) {
+						return true;
+					} else {
+						System.out.println("Encrypted Pdf");
+						return false;
+					}
+				}
+				else {
+					System.out.println("Pdf too big to be examined");
+					return false;
+				}
+			} else {
+				System.out.println("Broken Pdf");
+				return false;
+			}
+		} else {
+			System.out.println("No PDF Header");
+			return false;
+		}
+	}
+
+	static boolean testPdfOk(File file) throws IOException {
+		if (testFileHeader(file)) {
+			if (!checkBrokenPdf(file.toString())) {
+				if (!checkPdfSize(file)) {
+					PDDocument testfile = PDDocument.load(file);
+					if (!testsEncryption(testfile)) {
+						return true;
+					} else {
+						System.out.println("Encrypted Pdf");
+						return false;					}
+				}
+				else {
+					System.out.println("Pdf too big to be examined");
+					return false;
+				}
+			} else {
+				System.out.println("Broken Pdf");
+				return false;
+			}
+		} else {
+			System.out.println("No PDF Header");
+			return false;
+		}
+	}
 
 	/**
 	 * lists all files and directories in given directory
@@ -285,6 +345,19 @@ public class PdfUtilities {
 
 		else {
 			return toobig;
+		}
+
+	}
+	
+	public static boolean checkPdfSize(String file) {		
+		long filesize = file.length();		
+		if (filesize > 16000000) {
+			System.out
+					.println("File is bigger than 16 MB and therefore cannot be measured");		
+			return true;
+		}
+		else {
+			return false;
 		}
 
 	}

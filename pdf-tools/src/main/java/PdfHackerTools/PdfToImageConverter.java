@@ -27,12 +27,10 @@ public class PdfToImageConverter {
 							try {
 								System.out.println(files.get(i)
 										.getCanonicalPath());
-								if (!PdfUtilities.checkPdfSize(files.get(i))) {
-									if (PdfUtilities.testFileHeader(files
-											.get(i)) == true) {
+						if (PdfUtilities.testPdfOk(files.get(i))) {								
 										PDDocument testfile = PDDocument
 												.load(files.get(i));
-										if (!testfile.isEncrypted()) {
+									
 											// to create new file eliminate the
 											// ".pdf"-extension
 											int lenOld = files.get(i)
@@ -40,13 +38,11 @@ public class PdfToImageConverter {
 											int lenNew = lenOld - 4;
 											 newFileName = (files.get(i)
 													.toString().substring(0,
-													lenNew));
-											convertToJpegPages(testfile);									
-
-										}
-									}
+													lenNew));											 
+											convertToJpegPages(testfile);								
+										}								
 								}
-							} catch (IOException e) {
+							 catch (IOException e) {
 								System.out.println(e);
 							}
 						}
