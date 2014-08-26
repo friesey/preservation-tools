@@ -39,10 +39,16 @@ public class PdfToImageConverter {
 												.load(files.get(i));
 										if (!testfile.isEncrypted()) {
 											
+											//to create new file eliminate the ".pdf"-extension
+											int lenOld = files.get(i).toString().length();
+											int lenNew = lenOld - 4;
+											
+											String newFileName = (files.get(i).toString().substring(0, lenNew));																					
+											
 											List<PDPage> pages = testfile.getDocumentCatalog().getAllPages();
 											for (PDPage page : pages) {
 											    BufferedImage img = page.convertToImage(BufferedImage.TYPE_INT_RGB, 72);
-											    ImageIO.write(img, "jpg", new File(files.get(i) + ".jpg"));
+											    ImageIO.write(img, "jpg", new File(newFileName + ".jpg"));
 											    i++;
 											}											
 										}
