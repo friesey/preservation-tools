@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 import javax.activation.FileDataSource;
 
-import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.preflight.PreflightDocument;
 import org.apache.pdfbox.preflight.ValidationResult;
 import org.apache.pdfbox.preflight.ValidationResult.ValidationError;
@@ -51,17 +50,9 @@ public class PdfAValidator {
 
 							System.out.println(files.get(i).getCanonicalPath());
 							outputfile.println(files.get(i).getCanonicalPath());
-							ShortSummary.println(files.get(i).getCanonicalPath());
+							ShortSummary.println(files.get(i).getCanonicalPath());	
 
-							// can the PdfAValidator handle bigger files?
-							if (!PdfUtilities.checkPdfSize(files.get(i))) {
-
-								if (PdfUtilities.testFileHeader(files.get(i)) == true) {		
-
-										PDDocument testfile = PDDocument
-												.load(files.get(i));
-
-										if (!testfile.isEncrypted()) {
+										if (PdfUtilities.testPdfOk(files.get(i))) {
 
 											String PdfType = PdfUtilities
 													.checkIfPdfA(files.get(i));
@@ -135,11 +126,9 @@ public class PdfAValidator {
 												ShortSummary.println("No PDF/A file");
 												outputfile.println("No PDF/A file");
 											}
-										}
-									}
+										}								
 								}
-							}
-						//		} 
+							
 					catch (IOException e) {
 							outputfile.print(e);
 						}

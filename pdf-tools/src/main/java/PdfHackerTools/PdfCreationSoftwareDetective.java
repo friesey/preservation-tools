@@ -47,52 +47,29 @@ public class PdfCreationSoftwareDetective {
 									.toPath());
 							if (extension != null) {
 								if (extension.equals("application/pdf")) {
-									if (!PdfUtilities.checkPdfSize(files
-											.get(i))) {
-										if (PdfUtilities.testFileHeader(files
-												.get(i)) == true) {
-											System.out.println(files.get(i));
-											try {
-												PDDocument testfile = PDDocument
-														.load(files.get(i));
-												if (PdfUtilities
-														.testsEncryption(testfile) == false) {
-													{
-														if (PdfUtilities
-																.checkBrokenPdf(files
-																		.get(i)
-																		.toString()) == false) {
-															reader = new PdfReader(
-																	files.get(i)
-																			.toString());
-															Map info = reader
-																	.getInfo();
-															if (info.get("Producer") != null) {
-																System.out
-																		.println(info
-																				.get("Producer")
-																				.toString());
-																ProducerType
-																		.add(info
-																				.get("Producer")
-																				.toString());
-															}
-															reader.close();
-														}
-													}
-												}
-												testfile.close();
-											} catch (IOException e) {
-												outputfile
-														.println(files.get(i)
-																+ " is so damaged it cannot be parsed: "
-																+ e);
+									if (PdfUtilities.testPdfOk(files.get(i))) {
+										System.out.println(files.get(i));
+										try {
+											PDDocument testfile = PDDocument
+													.load(files.get(i));
+
+											reader = new PdfReader(files.get(i)
+													.toString());
+											Map info = reader.getInfo();
+											if (info.get("Producer") != null) {
+												System.out.println(info.get(
+														"Producer").toString());
+												ProducerType.add(info.get(
+														"Producer").toString());
 											}
-										} else {
-											System.out
+											reader.close();
+											testfile.close();
+										} catch (IOException e) {
+											outputfile
 													.println(files.get(i)
-															.getName()
-															+ " PDF Header is missing.");
+															+ " is so damaged it cannot be parsed: "
+															+ e);
+
 										}
 									}
 								}

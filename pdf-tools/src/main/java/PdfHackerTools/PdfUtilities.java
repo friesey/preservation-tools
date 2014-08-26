@@ -31,7 +31,7 @@ public class PdfUtilities {
 	 *
 	 ********************************************************/
 
-	/**
+	/****************************************************************************
 	 * Checks if a PDF is ok to work with %PDF Header, Broken PDF & Encryption
 	 * 
 	 * @param file
@@ -40,27 +40,29 @@ public class PdfUtilities {
 	 * @throws IOException
 	 */
 
-	// TODO: create a method which tests if the file is an
-	// ok-to-the-end-PDF to work with
-
 	static boolean testPdfOk(String file) throws IOException {
 		if (testFileHeader(file)) {
-			if (!checkBrokenPdf(file)) {
-				if (!checkPdfSize(file)) {
-					PDDocument testfile = PDDocument.load(file);
-					if (!testsEncryption(testfile)) {
-						return true;
+			PDDocument testfile = PDDocument.load(file);
+			if (!testfile.isEncrypted()) {
+				if (!checkBrokenPdf(file)) {
+					if (!checkPdfSize(file)) {
+
+						if (!testsEncryption(testfile)) {
+							return true;
+						} else {
+							System.out.println("Encrypted Pdf");
+							return false;
+						}
 					} else {
-						System.out.println("Encrypted Pdf");
+						System.out.println("Pdf too big to be examined");
 						return false;
 					}
-				}
-				else {
-					System.out.println("Pdf too big to be examined");
+				} else {
+					System.out.println("Broken Pdf");
 					return false;
 				}
 			} else {
-				System.out.println("Broken Pdf");
+				System.out.println("Is encrypted");
 				return false;
 			}
 		} else {
@@ -71,21 +73,26 @@ public class PdfUtilities {
 
 	static boolean testPdfOk(File file) throws IOException {
 		if (testFileHeader(file)) {
-			if (!checkBrokenPdf(file.toString())) {
-				if (!checkPdfSize(file)) {
-					PDDocument testfile = PDDocument.load(file);
-					if (!testsEncryption(testfile)) {
-						return true;
+			PDDocument testfile = PDDocument.load(file);
+			if (!testfile.isEncrypted()) {
+				if (!checkBrokenPdf(file.toString())) {
+					if (!checkPdfSize(file)) {
+						if (!testsEncryption(testfile)) {
+							return true;
+						} else {
+							System.out.println("Encrypted Pdf");
+							return false;
+						}
 					} else {
-						System.out.println("Encrypted Pdf");
-						return false;					}
-				}
-				else {
-					System.out.println("Pdf too big to be examined");
+						System.out.println("Pdf too big to be examined");
+						return false;
+					}
+				} else {
+					System.out.println("Broken Pdf");
 					return false;
 				}
 			} else {
-				System.out.println("Broken Pdf");
+				System.out.println("Is encrypted");
 				return false;
 			}
 		} else {
@@ -348,15 +355,14 @@ public class PdfUtilities {
 		}
 
 	}
-	
-	public static boolean checkPdfSize(String file) {		
-		long filesize = file.length();		
+
+	public static boolean checkPdfSize(String file) {
+		long filesize = file.length();
 		if (filesize > 16000000) {
 			System.out
-					.println("File is bigger than 16 MB and therefore cannot be measured");		
+					.println("File is bigger than 16 MB and therefore cannot be measured");
 			return true;
-		}
-		else {
+		} else {
 			return false;
 		}
 
