@@ -1,5 +1,6 @@
 package PdfHackerTools;
 
+import java.awt.RenderingHints.Key;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,7 +11,9 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
+
 import org.apache.pdfbox.pdmodel.PDDocument;
+
 import com.itextpdf.text.pdf.PdfReader;
 
 public class PdfCreationSoftwareDetective {

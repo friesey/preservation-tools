@@ -1,5 +1,7 @@
 package PdfHackerTools;
 
+// TODO: next time, the package name should start with a small character, this is the convention
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -53,6 +55,7 @@ public class PdfUtilities {
 	/**
 	 * Tests if the first line of the file contains the proper PDF-Header "%PDF"
 	 * for Datatype file
+	 * 
 	 * @param Creates
 	 *            a PdfHeaderTest-Pdf-Reader and reads the first line of the
 	 *            PDF-file like an editor would do.
@@ -73,12 +76,13 @@ public class PdfUtilities {
 			return false;
 		}
 	}
-	
-	//TODO: Is there a better way to overload a method?
+
+	// TODO: Is there a better way to overload a method?
 
 	/**
 	 * Tests if the first line of the file contains the proper PDF-Header "%PDF"
 	 * For Strings
+	 * 
 	 * @param Creates
 	 *            a PdfHeaderTest-Pdf-Reader and reads the first line of the
 	 *            PDF-file like an editor would do. Overloaded with the data
@@ -231,8 +235,7 @@ public class PdfUtilities {
 		}
 	}
 
-	public static String[] extractsPdfLines(String PdfFile)
-			throws IOException {
+	public static String[] extractsPdfLines(String PdfFile) throws IOException {
 		StringBuffer buff = new StringBuffer();
 		String ExtractedText = null;
 		PdfReader reader = new PdfReader(PdfFile);
