@@ -29,6 +29,10 @@ public class PdfUtilities {
 	/*********************************************************
 	 * Methods used within the whole package
 	 ********************************************************/
+	
+	
+	// TODO: create a method which tests if the file is an
+	// ok-to-the-end-PDF to work with
 
 	/**
 	 * lists all files and directories in given directory
