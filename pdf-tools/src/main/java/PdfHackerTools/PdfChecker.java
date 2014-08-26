@@ -61,7 +61,7 @@ public class PdfChecker {
 
 						if (extension.equals("pdf")) {
 
-							if(!PdfUtilities.PdfSizeChecker (files.get(i))) {							
+							if(!PdfUtilities.checkPdfSize (files.get(i))) {							
 								
 								if (PdfUtilities.testFileHeader(files.get(i)) == true) {
 
@@ -89,7 +89,7 @@ public class PdfChecker {
 									else {
 
 										String PdfType = PdfUtilities
-												.PdfAChecker(files.get(i));
+												.checkIfPdfA(files.get(i));
 
 										System.out.println("Pdf Type: "
 												+ PdfType);

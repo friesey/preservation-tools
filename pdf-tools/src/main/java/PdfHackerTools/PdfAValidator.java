@@ -54,7 +54,7 @@ public class PdfAValidator {
 							ShortSummary.println(files.get(i).getCanonicalPath());
 
 							// can the PdfAValidator handle bigger files?
-							if (!PdfUtilities.PdfSizeChecker(files.get(i))) {
+							if (!PdfUtilities.checkPdfSize(files.get(i))) {
 
 								if (PdfUtilities.testFileHeader(files.get(i)) == true) {		
 
@@ -64,7 +64,7 @@ public class PdfAValidator {
 										if (!testfile.isEncrypted()) {
 
 											String PdfType = PdfUtilities
-													.PdfAChecker(files.get(i));
+													.checkIfPdfA(files.get(i));
 											if (PdfType.contains("PDF/A")) {
 												// the actual PdfAValidation
 												// starts here

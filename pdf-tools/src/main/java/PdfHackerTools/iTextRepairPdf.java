@@ -49,7 +49,7 @@ public class iTextRepairPdf {
 									reader = new PdfReader(files.get(i)
 											.toString());
 									if (!reader.isEncrypted()) {
-										RepairWithItext(reader, files.get(i)
+										repairWithItext(reader, files.get(i)
 												.getName());
 									}
 								}
@@ -81,7 +81,7 @@ public class iTextRepairPdf {
 	 */
 
 	@SuppressWarnings("rawtypes")
-	static void RepairWithItext(PdfReader reader, String filename)
+	static void repairWithItext(PdfReader reader, String filename)
 			throws DocumentException, IOException {
 
 		Map info = reader.getInfo();

@@ -62,12 +62,12 @@ public class PdfTwinTest {
 									.println("One or both of the Pdf-files are encrypted.");
 						} else {
 
-							if (PdfUtilities.brokenPdfChecker(OrgPdf) == false
-									&& PdfUtilities.brokenPdfChecker(MigPdf) == false) {
+							if (PdfUtilities.checkBrokenPdf(OrgPdf) == false
+									&& PdfUtilities.checkBrokenPdf(MigPdf) == false) {
 								String[] LinesOrg = PdfUtilities
-										.PdfLinesToStringArray(OrgPdf);
+										.extractsPdfLines(OrgPdf);
 								String[] LinesMig = PdfUtilities
-										.PdfLinesToStringArray(MigPdf);
+										.extractsPdfLines(MigPdf);
 
 								int differences = 0;
 

@@ -155,7 +155,7 @@ public class PdfUtilities {
 	 * @throws IOException
 	 */
 
-	public static String PdfAChecker(File file) throws IOException {
+	public static String checkIfPdfA(File file) throws IOException {
 		String pdfType = "No XMP Metadata";
 		String XmpMetadata;
 		PdfReader reader;
@@ -194,7 +194,7 @@ public class PdfUtilities {
 
 	// TODO: This function does not work, e. g. for encrypted files and should
 	// not be used until it is fixed.
-	public static boolean brokenPdfChecker(String file) throws IOException {
+	public static boolean checkBrokenPdf(String file) throws IOException {
 
 		boolean brokenPdf;
 		try {
@@ -220,7 +220,7 @@ public class PdfUtilities {
 	 * @throws IOException
 	 */
 
-	public static boolean EncryptionTest(PDDocument file) throws IOException {
+	public static boolean testsEncryption(PDDocument file) throws IOException {
 		// PDDocumentInformation info =
 		// PDDocument.load(file).getDocumentInformation();
 		if (file.isEncrypted() == true) {
@@ -231,7 +231,7 @@ public class PdfUtilities {
 		}
 	}
 
-	public static String[] PdfLinesToStringArray(String PdfFile)
+	public static String[] extractsPdfLines(String PdfFile)
 			throws IOException {
 		StringBuffer buff = new StringBuffer();
 		String ExtractedText = null;
@@ -262,7 +262,7 @@ public class PdfUtilities {
 	 * @throws
 	 */
 
-	public static boolean PdfSizeChecker(File file) {
+	public static boolean checkPdfSize(File file) {
 
 		long filesize = file.length();
 		boolean toobig = false;

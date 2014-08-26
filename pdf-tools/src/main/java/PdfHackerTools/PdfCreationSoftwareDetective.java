@@ -44,7 +44,7 @@ public class PdfCreationSoftwareDetective {
 									.toPath());
 							if (extension != null) {
 								if (extension.equals("application/pdf")) {
-									if (!PdfUtilities.PdfSizeChecker(files
+									if (!PdfUtilities.checkPdfSize(files
 											.get(i))) {
 										if (PdfUtilities.testFileHeader(files
 												.get(i)) == true) {
@@ -53,10 +53,10 @@ public class PdfCreationSoftwareDetective {
 												PDDocument testfile = PDDocument
 														.load(files.get(i));
 												if (PdfUtilities
-														.EncryptionTest(testfile) == false) {
+														.testsEncryption(testfile) == false) {
 													{
 														if (PdfUtilities
-																.brokenPdfChecker(files
+																.checkBrokenPdf(files
 																		.get(i)
 																		.toString()) == false) {
 															reader = new PdfReader(
