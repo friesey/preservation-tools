@@ -1,7 +1,9 @@
 package PdfHackerTools;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,6 +18,7 @@ import com.itextpdf.text.pdf.PdfReader;
 
 public class PdfCreationSoftwareDetective {
 
+	@SuppressWarnings("rawtypes")
 	public static void main(String args[]) throws IOException {
 
 		String ExaminedFolder;
@@ -37,60 +40,67 @@ public class PdfCreationSoftwareDetective {
 				outputfile = new PrintWriter(new FileWriter(ExaminedFolder
 						+ "//" + "CreationSoftwareDetective.txt"));
 				for (int i = 0; i < files.size(); i++) {
-					if (files.get(i) != null) { // maybe not necessary
-						// prints out only files and not the subdirectories
-						// as
-						// well
-						if (!files.get(i).isDirectory()) {
-							// null pointer exception
-							extension = Files.probeContentType(files.get(i)
-									.toPath());
-							if (extension != null) {
-								if (extension.equals("application/pdf")) {
-									if (PdfUtilities.testPdfOk(files.get(i))) {
-										System.out.println(files.get(i));
-										try {
-											PDDocument testfile = PDDocument
-													.load(files.get(i));
+					if (files.get(i) != null) /* is this necessary? */{
+						if (!files.get(i).isDirectory())
+						/*
+						 * only files, not subdirectories
+						 */
+						{
+							try {
+								extension = Files.probeContentType(files.get(i)
+										.toPath());
+								if (extension != null) {
+									if (extension.equals("application/pdf")) {
+										if (PdfUtilities
+												.testPdfOk(files.get(i))) {
+											System.out.println(files.get(i));
+											try {
+												PDDocument testfile = PDDocument
+														.load(files.get(i));
 
-											reader = new PdfReader(files.get(i)
-													.toString());
-											Map info = reader.getInfo();
-											if (info.get("Producer") != null) {
-												System.out.println(info.get(
-														"Producer").toString());
-												ProducerType.add(info.get(
-														"Producer").toString());
+												reader = new PdfReader(files
+														.get(i).toString());
+												Map info = reader.getInfo();
+												if (info.get("Producer") != null) {
+													System.out.println(info
+															.get("Producer")
+															.toString());
+													ProducerType.add(info.get(
+															"Producer")
+															.toString());
+												}
+												reader.close();
+												testfile.close();
+											} catch (IOException e) {
+												outputfile
+														.println(files.get(i)
+																+ " is so damaged it cannot be parsed: "
+																+ e);
+
 											}
-											reader.close();
-											testfile.close();
-										} catch (IOException e) {
-											outputfile
-													.println(files.get(i)
-															+ " is so damaged it cannot be parsed: "
-															+ e);
-
 										}
 									}
 								}
 							}
+
+							catch (NullPointerException e) {
+								System.out.println(e);
+							}
 						}
 					}
 				}
-
 				Collections.sort(ProducerType);
 				int i;
 
 				ArrayList<String> AllProducerTypes = new ArrayList<String>();
-
-				for (i = 0; i < ProducerType.size(); i++) { // There might
-															// be a
-					// pre-defined
-					// function for this
+				
+				/* there surely is a predefined method to copy an ArrayList properly? */
+				for (i = 0; i < ProducerType.size(); i++) {
 					AllProducerTypes.add(ProducerType.get(i));
 				}
-				// get rid of redundant entries
-				for (i = 0; i < ProducerType.size() - 1;) {
+				// delete redundant entries
+				i = 0;
+				while (i < ProducerType.size() - 1) {
 					if (ProducerType.get(i).equals(ProducerType.get(i + 1))) {
 						ProducerType.remove(i);
 					} else {
@@ -116,10 +126,20 @@ public class PdfCreationSoftwareDetective {
 							+ ProducerType.get(i));
 				}
 
-				// in case no PDF-files are found, the outputfile comes
-				// out empty.
-				// Is this intended?
-				outputfile.close();
+				outputfile.close();	
+				
+				// TODO: Create something that actually works. The following does not.
+				
+				/*
+				
+				PdfUtilities.PdfHeaderTest = new BufferedReader(new FileReader(outputfile.toString()));
+				
+				if (PdfUtilities.PdfHeaderTest.readLine() == null) {
+					System.out.println ("The Outputfile will be empty because there are no (PDF)-Files in the Folder");
+				}		
+				*/					
+				
+				
 			}
 		} catch (FileNotFoundException e) {
 		}
