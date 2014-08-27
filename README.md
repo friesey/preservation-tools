@@ -6,7 +6,7 @@ These snippets and tools deals with several PDF issues which might come in handy
 
 ## jobs
 
-* simple analysis (ss there a PDF Header, which kind of PDF - PDF or PDF/A, which version)
+* simple analysis (ss there a PDF Header, which kind of PDF - PDF or PDF/A, which version, which PDF size)
 * more detailed analyis (Encryption)
 * validation test (for PDF/A, if it is actually a PDF/A)
 * repair function (quite simple)
