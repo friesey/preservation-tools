@@ -18,11 +18,6 @@ public class PdfUtilitiesTest {
 	}
 
 	@Test
-	public final void testGetPaths() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	@Test
 	public final void testCheckPdfSizeFile() {
 		fail("Not yet implemented"); // TODO
 	}
