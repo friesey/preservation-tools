@@ -37,8 +37,6 @@ public class PdfAValidator {
 
 				ArrayList<File> files = PdfUtilities.getPaths(new File(t),
 						new ArrayList<File>());
-				if (files == null)
-					return;
 
 				for (int i = 0; i < files.size(); i++) {
 					if (!files.get(i).isDirectory() && files.get(i) != null) {
