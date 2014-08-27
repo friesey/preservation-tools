@@ -33,13 +33,13 @@ The library PDFBox is used, too.
 This tools works through a selected folder and possible sub-folders.
 
 #### Jhove Statistics
-
+Simple analysis of wordy JHOVE finding files. 
 
 ### PDf Validator Tool(s)
 
 #### PdfAValidator
 
-Has to be developed. There is some example code for PdfBox around which has to be implemented here.
+Checks via PDFBox if a PDF/A is valid. Runs through a folder and picks out only PDF/A-files.
 
 ### Migration Tool(s)
 
