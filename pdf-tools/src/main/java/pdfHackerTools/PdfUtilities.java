@@ -1,4 +1,4 @@
-package PdfHackerTools;
+package pdfHackerTools;
 
 // TODO: next time, the package name should start with a small character, this is the convention
 

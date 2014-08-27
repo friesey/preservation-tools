@@ -1,4 +1,4 @@
-package PdfHackerTools;
+package pdfHackerTools;
 
 import java.awt.image.BufferedImage;
 import java.io.File;

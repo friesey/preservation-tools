@@ -1,9 +1,7 @@
-package PdfHackerTools;
+package pdfHackerTools;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -137,9 +135,7 @@ public class PdfCreationSoftwareDetective {
 				if (PdfUtilities.PdfHeaderTest.readLine() == null) {
 					System.out.println ("The Outputfile will be empty because there are no (PDF)-Files in the Folder");
 				}		
-				*/					
-				
-				
+				*/			
 			}
 		} catch (FileNotFoundException e) {
 		}

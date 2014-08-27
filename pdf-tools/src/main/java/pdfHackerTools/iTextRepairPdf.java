@@ -1,4 +1,4 @@
-package PdfHackerTools;
+package pdfHackerTools;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;

@@ -1,4 +1,4 @@
-package PdfHackerTools;
+package pdfHackerTools;
 
 import java.io.FileWriter;
 import java.io.IOException;
