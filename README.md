@@ -32,9 +32,8 @@ The library iText is used, the AGPL-version, which has to be considered when re-
 The library PDFBox is used, too.
 This tools works through a selected folder and possible sub-folders.
 
-#### PdfEncryptionDetective
+#### Jhove Statistics
 
-Has to be developed further, there is some C#-original that must be translated.
 
 ### PDf Validator Tool(s)
 
@@ -53,6 +52,9 @@ This repairs possible issues with the structure of the PDF. JHOVE will consider 
 The library iText is used, the AGPL-version, which has to be considered when re-using this tool or snippets from it.
 
 This tools works through a selected folder and possible sub-folders.
+
+#### PdfToImageConverter
+Converts PDF Files in a certain folder to JPEGs page-per-page. Is a prerequesite for later Quality Checking /visual comparison via e. g. matchbox or ImageMagick.
 
 ### Quality Checking after Migrations
 
