@@ -18,26 +18,28 @@ public class PdfCreationSoftwareDetective {
 
 	public static void main(String args[]) throws IOException {
 
-		String t;
+		String ExaminedFolder;
+		String extension;
+
 		ArrayList<String> ProducerType;
+
 		PdfReader reader;
-		PrintWriter outputfile;	
+		PrintWriter outputfile;
 
 		try {
-			t = PdfUtilities.chooseFolder();
-			if (t != null) {
-				
+			ExaminedFolder = PdfUtilities.chooseFolder();
+
+			if (ExaminedFolder != null) {
 				ProducerType = new ArrayList<String>();
-				ArrayList<File> files = PdfUtilities.getPaths(new File(t),
-						new ArrayList<File>());
-				if (files == null)
-					return;
-				String extension;
-				outputfile = new PrintWriter(new FileWriter(t + "//"
-						+ "CreationSoftwareDetective.txt"));
+				ArrayList<File> files = PdfUtilities.getPaths(new File(
+						ExaminedFolder), new ArrayList<File>());
+
+				outputfile = new PrintWriter(new FileWriter(ExaminedFolder
+						+ "//" + "CreationSoftwareDetective.txt"));
 				for (int i = 0; i < files.size(); i++) {
 					if (files.get(i) != null) { // maybe not necessary
-						// prints out only files and not the subdirectories as
+						// prints out only files and not the subdirectories
+						// as
 						// well
 						if (!files.get(i).isDirectory()) {
 							// null pointer exception
@@ -81,7 +83,8 @@ public class PdfCreationSoftwareDetective {
 
 				ArrayList<String> AllProducerTypes = new ArrayList<String>();
 
-				for (i = 0; i < ProducerType.size(); i++) { // There might be a
+				for (i = 0; i < ProducerType.size(); i++) { // There might
+															// be a
 					// pre-defined
 					// function for this
 					AllProducerTypes.add(ProducerType.get(i));
