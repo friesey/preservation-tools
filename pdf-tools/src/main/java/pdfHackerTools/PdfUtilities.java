@@ -23,7 +23,6 @@ public class PdfUtilities {
 	/*******************************************************
 	 * Variables and objects used within the whole package
 	 ********************************************************/
-
 	static BufferedReader PdfHeaderTest;
 
 	/*********************************************************
@@ -346,15 +345,9 @@ public class PdfUtilities {
 
 	}
 
-	public static boolean checkPdfSize(String file) {
-		long filesize = file.length();
-		if (filesize > 16000000) {
-			System.out
-					.println("File is bigger than 16 MB and therefore cannot be measured");
-			return true;
-		} else {
-			return false;
-		}
-
+	public static boolean checkPdfSize(String filePath) {
+		File toCheck = new File (filePath);
+		return checkPdfSize(toCheck);
 	}
+	
 }
