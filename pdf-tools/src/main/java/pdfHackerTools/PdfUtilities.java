@@ -23,7 +23,8 @@ public class PdfUtilities {
 	/*******************************************************
 	 * Variables and objects used within the whole package
 	 ********************************************************/
-
+	// set 16MB as maximum file length
+	private static final long DEFAULT_MAX_FILE_LENGTH = 1024 * 1024 * 16;
 	static BufferedReader PdfHeaderTest;
 
 	/*********************************************************
@@ -327,34 +328,20 @@ public class PdfUtilities {
 	 */
 
 	public static boolean checkPdfSize(File file) {
-
-		long filesize = file.length();
-		boolean toobig = false;
-
-		// System.out.println("Size:" + filesize);
-
-		if (filesize > 16000000) {
+		boolean toobig = isFileTooLong(file, DEFAULT_MAX_FILE_LENGTH);
+		if (toobig) {
 			System.out
 					.println("File is bigger than 16 MB and therefore cannot be measured");
-			toobig = true;
-			return toobig;
 		}
-
-		else {
-			return toobig;
-		}
-
+		return toobig;
 	}
 
-	public static boolean checkPdfSize(String file) {
-		long filesize = file.length();
-		if (filesize > 16000000) {
-			System.out
-					.println("File is bigger than 16 MB and therefore cannot be measured");
-			return true;
-		} else {
-			return false;
-		}
-
+	public static boolean checkPdfSize(String filePath) {
+		File toCheck = new File (filePath);
+		return checkPdfSize(toCheck);
+	}
+	
+	public static boolean isFileTooLong(File toCheck, long maxLength) {
+		return (toCheck.length() > maxLength);
 	}
 }
