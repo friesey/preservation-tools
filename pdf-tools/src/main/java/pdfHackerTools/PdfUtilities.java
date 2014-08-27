@@ -1,4 +1,6 @@
-package PdfHackerTools;
+package pdfHackerTools;
+
+// TODO: next time, the package name should start with a small character, this is the convention
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -18,15 +20,76 @@ import com.itextpdf.text.pdf.parser.TextExtractionStrategy;
 
 public class PdfUtilities {
 
-	/**
+	/*******************************************************
 	 * Variables and objects used within the whole package
-	 */
+	 ********************************************************/
 
 	static BufferedReader PdfHeaderTest;
 
-	/**
+	/*********************************************************
 	 * Methods used within the whole package
+	 *
+	 ********************************************************/
+
+	/****************************************************************************
+	 * Checks if a PDF is ok to work with %PDF Header, Broken PDF & Encryption
+	 * 
+	 * @param file
+	 *            or String
+	 * @return: boolean true or false
+	 * @throws IOException
 	 */
+
+	static boolean testPdfOk(String file) throws IOException {
+		if (testFileHeader(file)) {
+			if (!checkPdfSize(file)) {
+				PDDocument testfile = PDDocument.load(file);
+				if (!testfile.isEncrypted()) {
+					if (!checkBrokenPdf(file)) {
+						return true;
+					} else {
+						System.out.println("Broken Pdf");
+						return false;
+					}
+				} else {
+					System.out.println("Is encrypted");
+					return false;
+				}
+			} else {
+				System.out.println("Pdf too big to be examined");
+				return false;
+			}
+		} else {
+			System.out.println("No PDF Header");
+			return false;
+		}
+	}
+
+	static boolean testPdfOk(File file) throws IOException {
+
+		if (testFileHeader(file)) {
+			if (!checkPdfSize(file)) {
+				PDDocument testfile = PDDocument.load(file);
+				if (!testfile.isEncrypted()) {
+					if (!checkBrokenPdf(file.toString())) {
+						return true;
+					} else {
+						System.out.println("Broken Pdf");
+						return false;
+					}
+				} else {
+					System.out.println("Is encrypted");
+					return false;
+				}
+			} else {
+				System.out.println("Pdf too big to be examined");
+				return false;
+			}
+		} else {
+			System.out.println("No PDF Header");
+			return false;
+		}
+	}
 
 	/**
 	 * lists all files and directories in given directory
@@ -39,7 +102,9 @@ public class PdfUtilities {
 		if (file == null || list == null || !file.isDirectory())
 			return null;
 		File[] fileArr = file.listFiles();
-		for (File f : fileArr) { // still issues if no rights to scroll folder
+		for (File f : fileArr) {
+			// TODO If a folder is chosen that cannot be searched/read, e. g.
+			// C:/, the tool runs into issues
 			if (f.isDirectory()) {
 				getPaths(f, list);
 			}
@@ -50,6 +115,7 @@ public class PdfUtilities {
 
 	/**
 	 * Tests if the first line of the file contains the proper PDF-Header "%PDF"
+	 * for Datatype file
 	 * 
 	 * @param Creates
 	 *            a PdfHeaderTest-Pdf-Reader and reads the first line of the
@@ -57,7 +123,7 @@ public class PdfUtilities {
 	 * @return: boolean false = no PDF-Header; true = first line contains
 	 *          PDF-Header
 	 */
-	static boolean FileHeaderTest(File file) throws IOException {
+	static boolean testFileHeader(File file) throws IOException {
 		PdfHeaderTest = new BufferedReader(new FileReader(file));
 		String FileHeader = PdfHeaderTest.readLine();
 		// System.out.println(FileHeader);
@@ -72,8 +138,11 @@ public class PdfUtilities {
 		}
 	}
 
+	// TODO: Is there a better way to overload a method?
+
 	/**
 	 * Tests if the first line of the file contains the proper PDF-Header "%PDF"
+	 * For Strings
 	 * 
 	 * @param Creates
 	 *            a PdfHeaderTest-Pdf-Reader and reads the first line of the
@@ -82,7 +151,7 @@ public class PdfUtilities {
 	 * @return: boolean false = no PDF-Header; true = first line contains
 	 *          PDF-Header
 	 */
-	static boolean FileHeaderTest(String file) throws IOException {
+	static boolean testFileHeader(String file) throws IOException {
 		PdfHeaderTest = new BufferedReader(new FileReader(file));
 		String FileHeader = PdfHeaderTest.readLine();
 		// System.out.println(FileHeader);
@@ -106,7 +175,7 @@ public class PdfUtilities {
 	 * @return: string for folder path
 	 */
 
-	public static String ChooseFolder() throws FileNotFoundException {
+	public static String chooseFolder() throws FileNotFoundException {
 		JFileChooser j = new JFileChooser();
 		j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		j.showOpenDialog(j);
@@ -127,7 +196,7 @@ public class PdfUtilities {
 	 * @return: string for file path
 	 */
 
-	public static String ChooseFile() throws FileNotFoundException {
+	public static String chooseFile() throws FileNotFoundException {
 		JFileChooser j = new JFileChooser();
 		j.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		j.showOpenDialog(j);
@@ -151,7 +220,7 @@ public class PdfUtilities {
 	 * @throws IOException
 	 */
 
-	public static String PdfAChecker(File file) throws IOException {
+	public static String checkIfPdfA(File file) throws IOException {
 		String pdfType = "No XMP Metadata";
 		String XmpMetadata;
 		PdfReader reader;
@@ -188,7 +257,9 @@ public class PdfUtilities {
 	 * @throws IOException
 	 */
 
-	public static boolean brokenPdfChecker(String file) throws IOException {
+	// TODO: This function does not work, e. g. for encrypted files and should
+	// not be used until it is fixed.
+	public static boolean checkBrokenPdf(String file) throws IOException {
 
 		boolean brokenPdf;
 		try {
@@ -197,7 +268,7 @@ public class PdfUtilities {
 			// TODO: One day this function could test more and be more clever.
 			brokenPdf = false;
 			return brokenPdf;
-		} catch (java.lang.NullPointerException e) {
+		} catch (Exception e) {
 			System.out.println("Broken: " + file);
 			brokenPdf = true;
 			return brokenPdf;
@@ -214,7 +285,7 @@ public class PdfUtilities {
 	 * @throws IOException
 	 */
 
-	public static boolean EncryptionTest(PDDocument file) throws IOException {
+	public static boolean testsEncryption(PDDocument file) throws IOException {
 		// PDDocumentInformation info =
 		// PDDocument.load(file).getDocumentInformation();
 		if (file.isEncrypted() == true) {
@@ -225,8 +296,7 @@ public class PdfUtilities {
 		}
 	}
 
-	public static String[] PdfLinesToStringArray(String PdfFile)
-			throws IOException {
+	public static String[] extractsPdfLines(String PdfFile) throws IOException {
 		StringBuffer buff = new StringBuffer();
 		String ExtractedText = null;
 		PdfReader reader = new PdfReader(PdfFile);
@@ -256,7 +326,7 @@ public class PdfUtilities {
 	 * @throws
 	 */
 
-	public static boolean PdfSizeChecker(File file) {
+	public static boolean checkPdfSize(File file) {
 
 		long filesize = file.length();
 		boolean toobig = false;
@@ -272,6 +342,18 @@ public class PdfUtilities {
 
 		else {
 			return toobig;
+		}
+
+	}
+
+	public static boolean checkPdfSize(String file) {
+		long filesize = file.length();
+		if (filesize > 16000000) {
+			System.out
+					.println("File is bigger than 16 MB and therefore cannot be measured");
+			return true;
+		} else {
+			return false;
 		}
 
 	}

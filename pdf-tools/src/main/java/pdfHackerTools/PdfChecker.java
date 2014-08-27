@@ -1,20 +1,15 @@
-package PdfHackerTools;
+package pdfHackerTools;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-import javax.xml.stream.XMLOutputFactory;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamWriter;
-
 import org.apache.commons.io.FilenameUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 
-public class PdfHeaderChecker {
+public class PdfChecker {
 
 	static String t;
 
@@ -30,27 +25,16 @@ public class PdfHeaderChecker {
 
 	static PrintWriter outputfile;
 
-	public static void main(String args[]) throws IOException,
-			XMLStreamException {
+	public static void main(String args[]) throws IOException{
 
 		 try {
 		 
-		 t = PdfUtilities.ChooseFolder();
-		
-		XMLOutputFactory factory = XMLOutputFactory.newInstance();		
-		XMLStreamWriter xmlfile = factory.createXMLStreamWriter(
-				new FileOutputStream(t + "//" + "PdfTypeChecker.xml"),
-				"ISO-8859-1");	
-		
-		// TODO: it writes everything in just one line, which is unnerving although it does not hurt at the end of the day
-
-		xmlfile.writeStartDocument("ISO-8859-1", "1.0" );
-
-		xmlfile.writeStartElement("\nPdfTypeChecker");
-		xmlfile.writeAttribute("folder", t );	
-
-		// if (t != null) {			
-		
+		 t = PdfUtilities.chooseFolder();
+		 
+		 // TODO: Create an XML Writer		
+		 
+		 if (t != null) {
+			
 			ArrayList<File> files = PdfUtilities.getPaths(new File(t),
 					new ArrayList<File>());
 			if (files == null)
@@ -77,9 +61,9 @@ public class PdfHeaderChecker {
 
 						if (extension.equals("pdf")) {
 
-							if(!PdfUtilities.PdfSizeChecker (files.get(i))) {							
+							if(!PdfUtilities.checkPdfSize (files.get(i))) {							
 								
-								if (PdfUtilities.FileHeaderTest(files.get(i)) == true) {
+								if (PdfUtilities.testFileHeader(files.get(i)) == true) {
 
 									System.out
 											.println(files.get(i).getName()
@@ -94,12 +78,18 @@ public class PdfHeaderChecker {
 										System.out.println("Pdf is encrypted: "
 												+ files.get(i));
 										PdfEncrypted++;
+										
+										// TODO: Add Encryption Checker
+										
+									//	if (!PdfEncryptor.isCopyAllowed(testfile.toString()))
+										
+										
 									}
 
 									else {
 
 										String PdfType = PdfUtilities
-												.PdfAChecker(files.get(i));
+												.checkIfPdfA(files.get(i));
 
 										System.out.println("Pdf Type: "
 												+ PdfType);
@@ -151,13 +141,8 @@ public class PdfHeaderChecker {
 			System.out.println("PDF Standard files: 	" + PdfStandard);
 			System.out.println("PDF Encrypted files: 	" + PdfEncrypted);
 			System.out.println("PDF files too big:	" + PdfTooBig);			
-		
-			xmlfile.writeEndElement();
-			xmlfile.writeEndDocument();
-			xmlfile.flush();
-			xmlfile.close();
 		 }
-		
+		 }
 		catch (FileNotFoundException e ) {
 			
 		}

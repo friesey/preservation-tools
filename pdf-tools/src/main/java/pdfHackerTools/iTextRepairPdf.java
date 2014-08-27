@@ -1,4 +1,4 @@
-package PdfHackerTools;
+package pdfHackerTools;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -14,6 +14,7 @@ import com.itextpdf.text.pdf.PdfCopy;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfWriter;
 
+
 public class iTextRepairPdf {
 
 	static String t;
@@ -22,7 +23,7 @@ public class iTextRepairPdf {
 
 		try {
 
-			t = PdfUtilities.ChooseFolder();
+			t = PdfUtilities.chooseFolder();
 
 			if (t != null) {
 
@@ -48,7 +49,7 @@ public class iTextRepairPdf {
 									reader = new PdfReader(files.get(i)
 											.toString());
 									if (!reader.isEncrypted()) {
-										RepairWithItext(reader, files.get(i)
+										repairWithItext(reader, files.get(i)
 												.getName());
 									}
 								}
@@ -80,7 +81,7 @@ public class iTextRepairPdf {
 	 */
 
 	@SuppressWarnings("rawtypes")
-	static void RepairWithItext(PdfReader reader, String filename)
+	static void repairWithItext(PdfReader reader, String filename)
 			throws DocumentException, IOException {
 
 		Map info = reader.getInfo();
@@ -88,8 +89,7 @@ public class iTextRepairPdf {
 
 		PdfCopy copy = new PdfCopy(document, new FileOutputStream(t + "//"
 				+ "Mig_iText" + filename));
-		copy.setPDFXConformance(PdfWriter.PDFA1B);
-		if (info.get("Title") != null)
+		copy.setPDFXConformance(PdfWriter.PDFA1B); 
 			document.addTitle((String) info.get("Title"));
 		if (info.get("Author") != null)
 			document.addAuthor((String) info.get("Author"));

@@ -6,7 +6,7 @@ These snippets and tools deals with several PDF issues which might come in handy
 
 ## jobs
 
-* simple analysis (ss there a PDF Header, which kind of PDF - PDF or PDF/A, which version)
+* simple analysis (ss there a PDF Header, which kind of PDF - PDF or PDF/A, which version, which PDF size)
 * more detailed analyis (Encryption)
 * validation test (for PDF/A, if it is actually a PDF/A)
 * repair function (quite simple)
@@ -32,15 +32,14 @@ The library iText is used, the AGPL-version, which has to be considered when re-
 The library PDFBox is used, too.
 This tools works through a selected folder and possible sub-folders.
 
-#### PdfEncryptionDetective
-
-Has to be developed further, there is some C#-original that must be translated.
+#### Jhove Statistics
+Simple analysis of wordy JHOVE finding files. 
 
 ### PDf Validator Tool(s)
 
 #### PdfAValidator
 
-Has to be developed. There is some example code for PdfBox around which has to be implemented here.
+Checks via PDFBox if a PDF/A is valid. Runs through a folder and picks out only PDF/A-files.
 
 ### Migration Tool(s)
 
@@ -53,6 +52,9 @@ This repairs possible issues with the structure of the PDF. JHOVE will consider 
 The library iText is used, the AGPL-version, which has to be considered when re-using this tool or snippets from it.
 
 This tools works through a selected folder and possible sub-folders.
+
+#### PdfToImageConverter
+Converts PDF Files in a certain folder to JPEGs page-per-page. Is a prerequesite for later Quality Checking /visual comparison via e. g. matchbox or ImageMagick.
 
 ### Quality Checking after Migrations
 
