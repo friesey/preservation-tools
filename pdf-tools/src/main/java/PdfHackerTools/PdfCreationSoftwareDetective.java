@@ -1,7 +1,5 @@
 package PdfHackerTools;
 
-import java.awt.RenderingHints.Key;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -17,18 +15,18 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import com.itextpdf.text.pdf.PdfReader;
 
 public class PdfCreationSoftwareDetective {
-	static String t;
-	static int ProducerID;
-	static ArrayList<String> ProducerType;
-	static BufferedReader PdfHeaderTest;
-	static PdfReader reader;
-	static PrintWriter outputfile;
 
 	public static void main(String args[]) throws IOException {
+
+		String t;
+		ArrayList<String> ProducerType;
+		PdfReader reader;
+		PrintWriter outputfile;	
+
 		try {
 			t = PdfUtilities.chooseFolder();
 			if (t != null) {
-				ProducerID = 0;
+				
 				ProducerType = new ArrayList<String>();
 				ArrayList<File> files = PdfUtilities.getPaths(new File(t),
 						new ArrayList<File>());
