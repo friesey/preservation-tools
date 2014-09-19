@@ -1,13 +1,17 @@
-package pdfHackerTools;
+package preservetools.files.pdf;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.imageio.ImageIO;
+
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
+
+import preservetools.FileUtilities;
 
 public class PdfToImageConverter {
 	static String t;
@@ -15,11 +19,11 @@ public class PdfToImageConverter {
 
 	public static void main(String args[]) {
 		try {
-			t = PdfUtilities.chooseFolder();
+			t = FileUtilities.chooseFolder();
 			// TODO: create a method which tests if the file is an
 			// ok-to-the-end-PDF to work with
 			if (t != null) {
-				ArrayList<File> files = PdfUtilities.getPaths(new File(t),
+				ArrayList<File> files = FileUtilities.getPaths(new File(t),
 						new ArrayList<File>());
 				if (files != null) {
 					for (int i = 0; i < files.size(); i++) {
@@ -27,7 +31,7 @@ public class PdfToImageConverter {
 							try {
 								System.out.println(files.get(i)
 										.getCanonicalPath());
-						if (PdfUtilities.testPdfOk(files.get(i))) {								
+						if (FileUtilities.testPdfOk(files.get(i))) {								
 										PDDocument testfile = PDDocument
 												.load(files.get(i));
 									

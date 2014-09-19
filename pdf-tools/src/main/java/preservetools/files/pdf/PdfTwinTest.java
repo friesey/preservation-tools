@@ -1,10 +1,12 @@
-package pdfHackerTools;
+package preservetools.files.pdf;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
+
+import preservetools.FileUtilities;
 
 public class PdfTwinTest {
 
@@ -22,7 +24,7 @@ public class PdfTwinTest {
 		System.out
 				.println("Please select the folder for outputfile 'PdfTwinTest.txt'");
 
-		t = PdfUtilities.chooseFolder();
+		t = FileUtilities.chooseFolder();
 
 		if (t != null) {
 
@@ -30,10 +32,10 @@ public class PdfTwinTest {
 					+ "\\PdfTwinTester.txt"));
 			outputfile.println("Pdf Twin Test");
 
-			OrgPdf = PdfUtilities.chooseFile();
+			OrgPdf = FileUtilities.chooseFile();
 			System.out.println(OrgPdf);
 
-			MigPdf = PdfUtilities.chooseFile();
+			MigPdf = FileUtilities.chooseFile();
 			System.out.println(MigPdf);
 
 			outputfile.println("Original File: " + OrgPdf);
@@ -49,8 +51,8 @@ public class PdfTwinTest {
 
 				if (filesizeOrg < 16000000 && filesizeMig < 16000000) {
 
-					if (PdfUtilities.testFileHeader(OrgPdf) == true
-							&& PdfUtilities.testFileHeader(MigPdf) == true) {
+					if (FileUtilities.testFileHeader(OrgPdf) == true
+							&& FileUtilities.testFileHeader(MigPdf) == true) {
 
 						PDDocument testfileOrg = PDDocument.load(OrgPdf);
 						PDDocument testfileMig = PDDocument.load(MigPdf);
@@ -62,11 +64,11 @@ public class PdfTwinTest {
 									.println("One or both of the Pdf-files are encrypted.");
 						} else {
 
-							if (PdfUtilities.checkBrokenPdf(OrgPdf) == false
-									&& PdfUtilities.checkBrokenPdf(MigPdf) == false) {
-								String[] LinesOrg = PdfUtilities
+							if (FileUtilities.checkBrokenPdf(OrgPdf) == false
+									&& FileUtilities.checkBrokenPdf(MigPdf) == false) {
+								String[] LinesOrg = FileUtilities
 										.extractsPdfLines(OrgPdf);
-								String[] LinesMig = PdfUtilities
+								String[] LinesMig = FileUtilities
 										.extractsPdfLines(MigPdf);
 
 								int differences = 0;

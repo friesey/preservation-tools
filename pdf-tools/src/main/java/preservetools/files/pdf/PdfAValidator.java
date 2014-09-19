@@ -1,8 +1,10 @@
-package pdfHackerTools;
+package preservetools.files.pdf;
 
 import java.io.File;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -17,6 +19,8 @@ import org.apache.pdfbox.preflight.ValidationResult.ValidationError;
 import org.apache.pdfbox.preflight.exception.SyntaxValidationException;
 import org.apache.pdfbox.preflight.parser.PreflightParser;
 
+import preservetools.FileUtilities;
+
 public class PdfAValidator {
 
 	static String t;
@@ -29,7 +33,7 @@ public class PdfAValidator {
 
 		try {
 
-			t = PdfUtilities.chooseFolder();
+			t = FileUtilities.chooseFolder();
 
 			// Generating two Outputfiles in the folder that is examined
 
@@ -41,7 +45,7 @@ public class PdfAValidator {
 
 			if (t != null) {
 
-				ArrayList<File> files = PdfUtilities.getPaths(new File(t),
+				ArrayList<File> files = FileUtilities.getPaths(new File(t),
 						new ArrayList<File>());
 
 				for (int i = 0; i < files.size(); i++) {
@@ -57,13 +61,13 @@ public class PdfAValidator {
 							ShortSummary.println(files.get(i)
 									.getCanonicalPath());
 
-							if (PdfUtilities.testPdfOk(files.get(i)))
+							if (FileUtilities.testPdfOk(files.get(i)))
 							/*
 							 * Test if the Pdf File is ok to be examined.
 							 * Otherwise gives error in Console
 							 */
 							{
-								String PdfType = PdfUtilities.checkIfPdfA(files
+								String PdfType = FileUtilities.checkIfPdfA(files
 										.get(i));
 								if (PdfType.contains("PDF/A")) {
 									/*

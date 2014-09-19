@@ -1,4 +1,4 @@
-package pdfHackerTools;
+package preservetools;
 
 // TODO: next time, the package name should start with a small character, this is the convention
 
@@ -21,16 +21,16 @@ import com.itextpdf.text.pdf.parser.PdfReaderContentParser;
 import com.itextpdf.text.pdf.parser.SimpleTextExtractionStrategy;
 import com.itextpdf.text.pdf.parser.TextExtractionStrategy;
 
-public class PdfUtilities {
+public class FileUtilities {
 
 	/*******************************************************
 	 * Variables and objects used within the whole package
 	 ********************************************************/
 	// set 16MB as maximum file length
 	private static final long DEFAULT_MAX_FILE_LENGTH = 1024 * 1024 * 16;
-	static BufferedReader PdfHeaderTest;
+	public static BufferedReader PdfHeaderTest;
 	
-	static Logger logger = LoggerFactory.getLogger(PdfUtilities.class);
+	static Logger logger = LoggerFactory.getLogger(FileUtilities.class);
 
 	/*********************************************************
 	 * Methods used within the whole package
@@ -46,7 +46,7 @@ public class PdfUtilities {
 	 * @throws IOException
 	 */
 
-	static boolean testPdfOk(String file) throws IOException {
+	public static boolean testPdfOk(String file) throws IOException {
 		if (testFileHeader(file)) {
 			if (!checkPdfSize(file)) {
 				PDDocument testfile = PDDocument.load(file);
@@ -71,7 +71,7 @@ public class PdfUtilities {
 		}
 	}
 
-	static boolean testPdfOk(File file) throws IOException {
+	public static boolean testPdfOk(File file) throws IOException {
 
 		if (testFileHeader(file)) {
 			if (!checkPdfSize(file)) {
@@ -104,7 +104,7 @@ public class PdfUtilities {
 	 * @return: ArrayList<File> of all found files and subfolders
 	 * 
 	 */
-	static ArrayList<File> getPaths(File file, ArrayList<File> list) {
+	public static ArrayList<File> getPaths(File file, ArrayList<File> list) {
 		if (file == null || list == null || !file.isDirectory())
 			return null;
 		File[] fileArr = file.listFiles();
@@ -129,7 +129,7 @@ public class PdfUtilities {
 	 * @return: boolean false = no PDF-Header; true = first line contains
 	 *          PDF-Header
 	 */
-	static boolean testFileHeader(File file) throws IOException {
+	public static boolean testFileHeader(File file) throws IOException {
 		PdfHeaderTest = new BufferedReader(new FileReader(file));
 		String FileHeader = PdfHeaderTest.readLine();
 		// System.out.println(FileHeader);
@@ -157,7 +157,7 @@ public class PdfUtilities {
 	 * @return: boolean false = no PDF-Header; true = first line contains
 	 *          PDF-Header
 	 */
-	static boolean testFileHeader(String file) throws IOException {
+	public static boolean testFileHeader(String file) throws IOException {
 		PdfHeaderTest = new BufferedReader(new FileReader(file));
 		String FileHeader = PdfHeaderTest.readLine();
 		// System.out.println(FileHeader);

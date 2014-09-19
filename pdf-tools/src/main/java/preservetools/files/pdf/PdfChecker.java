@@ -1,4 +1,4 @@
-package pdfHackerTools;
+package preservetools.files.pdf;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
+
+import preservetools.FileUtilities;
 
 public class PdfChecker {
 
@@ -29,13 +31,13 @@ public class PdfChecker {
 
 		 try {
 		 
-		 t = PdfUtilities.chooseFolder();
+		 t = FileUtilities.chooseFolder();
 		 
 		 // TODO: Create an XML Writer		
 		 
 		 if (t != null) {
 			
-			ArrayList<File> files = PdfUtilities.getPaths(new File(t),
+			ArrayList<File> files = FileUtilities.getPaths(new File(t),
 					new ArrayList<File>());
 			if (files == null)
 				return;
@@ -61,9 +63,9 @@ public class PdfChecker {
 
 						if (extension.equals("pdf")) {
 
-							if(!PdfUtilities.checkPdfSize (files.get(i))) {							
+							if(!FileUtilities.checkPdfSize (files.get(i))) {							
 								
-								if (PdfUtilities.testFileHeader(files.get(i)) == true) {
+								if (FileUtilities.testFileHeader(files.get(i)) == true) {
 
 									System.out
 											.println(files.get(i).getName()
@@ -88,7 +90,7 @@ public class PdfChecker {
 
 									else {
 
-										String PdfType = PdfUtilities
+										String PdfType = FileUtilities
 												.checkIfPdfA(files.get(i));
 
 										System.out.println("Pdf Type: "
@@ -102,7 +104,7 @@ public class PdfChecker {
 															// "%PDF-header that have no XMP Metadata"
 										}
 
-										PdfUtilities.PdfHeaderTest.close();
+										FileUtilities.PdfHeaderTest.close();
 									}
 								}
 

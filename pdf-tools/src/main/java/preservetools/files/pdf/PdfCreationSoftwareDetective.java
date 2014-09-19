@@ -1,4 +1,4 @@
-package pdfHackerTools;
+package preservetools.files.pdf;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,6 +11,8 @@ import java.util.Collections;
 import java.util.Map;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
+
+import preservetools.FileUtilities;
 
 import com.itextpdf.text.pdf.PdfReader;
 
@@ -28,11 +30,11 @@ public class PdfCreationSoftwareDetective {
 		PrintWriter outputfile;
 
 		try {
-			ExaminedFolder = PdfUtilities.chooseFolder();
+			ExaminedFolder = FileUtilities.chooseFolder();
 
 			if (ExaminedFolder != null) {
 				ProducerType = new ArrayList<String>();
-				ArrayList<File> files = PdfUtilities.getPaths(new File(
+				ArrayList<File> files = FileUtilities.getPaths(new File(
 						ExaminedFolder), new ArrayList<File>());
 
 				outputfile = new PrintWriter(new FileWriter(ExaminedFolder
@@ -49,7 +51,7 @@ public class PdfCreationSoftwareDetective {
 										.toPath());
 								if (extension != null) {
 									if (extension.equals("application/pdf")) {
-										if (PdfUtilities
+										if (FileUtilities
 												.testPdfOk(files.get(i))) {
 											System.out.println(files.get(i));
 											try {

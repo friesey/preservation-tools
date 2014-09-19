@@ -1,4 +1,4 @@
-package pdfHackerTools;
+package preservetools.externalToolAnalysis;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -8,11 +8,13 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import preservetools.FileUtilities;
+
 public class JhoveStatistics {
 
 	public static void main(String args[]) throws IOException {
 
-		String JhoveFindings = PdfUtilities.chooseFile();
+		String JhoveFindings = FileUtilities.chooseFile();
 		
 		
 		

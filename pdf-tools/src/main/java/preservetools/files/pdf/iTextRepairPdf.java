@@ -1,4 +1,4 @@
-package pdfHackerTools;
+package preservetools.files.pdf;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -7,6 +7,8 @@ import java.io.File;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Map;
+
+import preservetools.FileUtilities;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -23,11 +25,11 @@ public class iTextRepairPdf {
 
 		try {
 
-			t = PdfUtilities.chooseFolder();
+			t = FileUtilities.chooseFolder();
 
 			if (t != null) {
 
-				ArrayList<File> files = PdfUtilities.getPaths(new File(t),
+				ArrayList<File> files = FileUtilities.getPaths(new File(t),
 						new ArrayList<File>());
 				if (files == null)
 					return;
