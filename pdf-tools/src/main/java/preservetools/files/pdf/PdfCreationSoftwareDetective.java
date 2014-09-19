@@ -12,8 +12,6 @@ import java.util.Map;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 
-import preservetools.FileUtilities;
-
 import com.itextpdf.text.pdf.PdfReader;
 
 public class PdfCreationSoftwareDetective {
@@ -51,7 +49,7 @@ public class PdfCreationSoftwareDetective {
 										.toPath());
 								if (extension != null) {
 									if (extension.equals("application/pdf")) {
-										if (FileUtilities
+										if (PdfAnalysis
 												.testPdfOk(files.get(i))) {
 											System.out.println(files.get(i));
 											try {

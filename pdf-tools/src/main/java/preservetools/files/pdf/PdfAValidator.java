@@ -19,8 +19,6 @@ import org.apache.pdfbox.preflight.ValidationResult.ValidationError;
 import org.apache.pdfbox.preflight.exception.SyntaxValidationException;
 import org.apache.pdfbox.preflight.parser.PreflightParser;
 
-import preservetools.FileUtilities;
-
 public class PdfAValidator {
 
 	static String t;
@@ -61,13 +59,13 @@ public class PdfAValidator {
 							ShortSummary.println(files.get(i)
 									.getCanonicalPath());
 
-							if (FileUtilities.testPdfOk(files.get(i)))
+							if (PdfAnalysis.testPdfOk(files.get(i)))
 							/*
 							 * Test if the Pdf File is ok to be examined.
 							 * Otherwise gives error in Console
 							 */
 							{
-								String PdfType = FileUtilities.checkIfPdfA(files
+								String PdfType = PdfAnalysis.checkIfPdfA(files
 										.get(i));
 								if (PdfType.contains("PDF/A")) {
 									/*

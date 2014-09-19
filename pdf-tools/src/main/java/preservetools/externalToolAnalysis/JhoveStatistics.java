@@ -8,7 +8,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import preservetools.FileUtilities;
+import preservetools.files.pdf.PdfAnalysis;
 
 public class JhoveStatistics {
 

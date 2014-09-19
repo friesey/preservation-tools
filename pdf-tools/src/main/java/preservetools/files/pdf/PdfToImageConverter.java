@@ -11,8 +11,6 @@ import javax.imageio.ImageIO;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 
-import preservetools.FileUtilities;
-
 public class PdfToImageConverter {
 	static String t;
 	static String newFileName;
@@ -31,7 +29,7 @@ public class PdfToImageConverter {
 							try {
 								System.out.println(files.get(i)
 										.getCanonicalPath());
-						if (FileUtilities.testPdfOk(files.get(i))) {								
+						if (PdfAnalysis.testPdfOk(files.get(i))) {								
 										PDDocument testfile = PDDocument
 												.load(files.get(i));
 									

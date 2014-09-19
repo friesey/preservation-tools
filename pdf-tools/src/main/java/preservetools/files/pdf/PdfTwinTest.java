@@ -6,8 +6,6 @@ import java.io.PrintWriter;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 
-import preservetools.FileUtilities;
-
 public class PdfTwinTest {
 
 	static String OrgPdf;
@@ -51,8 +49,8 @@ public class PdfTwinTest {
 
 				if (filesizeOrg < 16000000 && filesizeMig < 16000000) {
 
-					if (FileUtilities.testFileHeader(OrgPdf) == true
-							&& FileUtilities.testFileHeader(MigPdf) == true) {
+					if (PdfAnalysis.testFileHeader(OrgPdf) == true
+							&& PdfAnalysis.testFileHeader(MigPdf) == true) {
 
 						PDDocument testfileOrg = PDDocument.load(OrgPdf);
 						PDDocument testfileMig = PDDocument.load(MigPdf);
@@ -64,11 +62,11 @@ public class PdfTwinTest {
 									.println("One or both of the Pdf-files are encrypted.");
 						} else {
 
-							if (FileUtilities.checkBrokenPdf(OrgPdf) == false
-									&& FileUtilities.checkBrokenPdf(MigPdf) == false) {
-								String[] LinesOrg = FileUtilities
+							if (PdfAnalysis.checkBrokenPdf(OrgPdf) == false
+									&& PdfAnalysis.checkBrokenPdf(MigPdf) == false) {
+								String[] LinesOrg = PdfAnalysis
 										.extractsPdfLines(OrgPdf);
-								String[] LinesMig = FileUtilities
+								String[] LinesMig = PdfAnalysis
 										.extractsPdfLines(MigPdf);
 
 								int differences = 0;

@@ -1,4 +1,4 @@
-package preservetools;
+package preservetools.files.pdf;
 
 // TODO: next time, the package name should start with a small character, this is the convention
 
@@ -16,7 +16,7 @@ import com.itextpdf.text.pdf.parser.PdfReaderContentParser;
 import com.itextpdf.text.pdf.parser.SimpleTextExtractionStrategy;
 import com.itextpdf.text.pdf.parser.TextExtractionStrategy;
 
-public class FileUtilities {
+public class PdfAnalysis {
 
 	/*******************************************************
 	 * Variables and objects used within the whole package
@@ -25,7 +25,7 @@ public class FileUtilities {
 	private static final long DEFAULT_MAX_FILE_LENGTH = 1024 * 1024 * 16;
 	public static BufferedReader PdfHeaderTest;
 	
-	static Logger logger = LoggerFactory.getLogger(FileUtilities.class);
+	static Logger logger = LoggerFactory.getLogger(PdfAnalysis.class);
 
 	/*********************************************************
 	 * Methods used within the whole package

@@ -13,7 +13,7 @@ import java.util.Random;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
-import preservetools.FileUtilities;
+import preservetools.files.pdf.PdfAnalysis;
 
 public class PdfUtilitiesTest {
 	public static final int MEGABYTE_SIZE = 1024 * 1024;
@@ -35,10 +35,10 @@ public class PdfUtilitiesTest {
 		// make an 18MB test file, should be too large
 		File largeTest = getTestTempFile(18);
 		// Check that it's flagged too large
-		assertTrue(FileUtilities.checkPdfSize(largeTest));
+		assertTrue(PdfAnalysis.checkPdfSize(largeTest));
 		
 		// Isator manual is smaller than 16MB so should be false
-		assertFalse(FileUtilities.checkPdfSize(ISATOR_MANUAL));
+		assertFalse(PdfAnalysis.checkPdfSize(ISATOR_MANUAL));
 		largeTest.delete();
 	}
 
@@ -47,10 +47,10 @@ public class PdfUtilitiesTest {
 		// make an 18MB test file, should be too large
 		File largeTest = getTestTempFile(18);
 		// Check that it's flagged too large
-		assertTrue(FileUtilities.checkPdfSize(largeTest.getAbsolutePath()));
+		assertTrue(PdfAnalysis.checkPdfSize(largeTest.getAbsolutePath()));
 		
 		// Isator manual is smaller than 16MB so should be false
-		assertFalse(FileUtilities.checkPdfSize(ISATOR_MANUAL.getAbsolutePath()));
+		assertFalse(PdfAnalysis.checkPdfSize(ISATOR_MANUAL.getAbsolutePath()));
 		largeTest.delete();
 	}
 

@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 
-import preservetools.FileUtilities;
-
 public class PdfChecker {
 
 	static String t;
@@ -63,9 +61,9 @@ public class PdfChecker {
 
 						if (extension.equals("pdf")) {
 
-							if(!FileUtilities.checkPdfSize (files.get(i))) {							
+							if(!PdfAnalysis.checkPdfSize (files.get(i))) {							
 								
-								if (FileUtilities.testFileHeader(files.get(i)) == true) {
+								if (PdfAnalysis.testFileHeader(files.get(i)) == true) {
 
 									System.out
 											.println(files.get(i).getName()
@@ -90,7 +88,7 @@ public class PdfChecker {
 
 									else {
 
-										String PdfType = FileUtilities
+										String PdfType = PdfAnalysis
 												.checkIfPdfA(files.get(i));
 
 										System.out.println("Pdf Type: "
@@ -104,7 +102,7 @@ public class PdfChecker {
 															// "%PDF-header that have no XMP Metadata"
 										}
 
-										FileUtilities.PdfHeaderTest.close();
+										PdfAnalysis.PdfHeaderTest.close();
 									}
 								}
 
