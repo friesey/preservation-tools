@@ -8,8 +8,6 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Map;
 
-import preservetools.FileUtilities;
-
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.PdfCopy;
@@ -25,11 +23,11 @@ public class iTextRepairPdf {
 
 		try {
 
-			t = FileUtilities.chooseFolder();
+			t = preservetools.utilities.FolderBrowserDialog.chooseFolder();
 
 			if (t != null) {
 
-				ArrayList<File> files = FileUtilities.getPaths(new File(t),
+				ArrayList<File> files = preservetools.utilities.ListsFiles.getPaths(new File(t),
 						new ArrayList<File>());
 				if (files == null)
 					return;

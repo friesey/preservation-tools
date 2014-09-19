@@ -30,11 +30,11 @@ public class PdfCreationSoftwareDetective {
 		PrintWriter outputfile;
 
 		try {
-			ExaminedFolder = FileUtilities.chooseFolder();
+			ExaminedFolder = preservetools.utilities.FolderBrowserDialog.chooseFolder();
 
 			if (ExaminedFolder != null) {
 				ProducerType = new ArrayList<String>();
-				ArrayList<File> files = FileUtilities.getPaths(new File(
+				ArrayList<File> files = preservetools.utilities.ListsFiles.getPaths(new File(
 						ExaminedFolder), new ArrayList<File>());
 
 				outputfile = new PrintWriter(new FileWriter(ExaminedFolder

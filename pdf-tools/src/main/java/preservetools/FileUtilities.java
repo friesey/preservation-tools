@@ -4,15 +4,10 @@ package preservetools;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.swing.JFileChooser;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 
@@ -97,28 +92,7 @@ public class FileUtilities {
 		}
 	}
 
-	/**
-	 * lists all files and directories in given directory
-	 * 
-	 * @param
-	 * @return: ArrayList<File> of all found files and subfolders
-	 * 
-	 */
-	public static ArrayList<File> getPaths(File file, ArrayList<File> list) {
-		if (file == null || list == null || !file.isDirectory())
-			return null;
-		File[] fileArr = file.listFiles();
-		for (File f : fileArr) {
-			// TODO If a folder is chosen that cannot be searched/read, e. g.
-			// C:/, the tool runs into issues
-			if (f.isDirectory()) {
-				getPaths(f, list);
-			}
-			list.add(f);
-		}
-		return list;
-	}
-
+	
 	/**
 	 * Tests if the first line of the file contains the proper PDF-Header "%PDF"
 	 * for Datatype file
@@ -172,50 +146,7 @@ public class FileUtilities {
 			return false;
 		}
 	}
-
-	/**
-	 * Chooses the folder which is examined via a simple folder browser Dialog
-	 * 
-	 * @param Does
-	 *            not need any to begin with.
-	 * @return: string for folder path
-	 */
-
-	public static String chooseFolder() throws FileNotFoundException {
-		JFileChooser j = new JFileChooser();
-		j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		j.showOpenDialog(j);
-		if (j.getSelectedFile() == null) {
-			System.out.println("No folder was chosen");
-		} else {
-			String folder = j.getSelectedFile().getPath();
-			return folder;
-		}
-		return null;
-	}
-
-	/**
-	 * Chooses the file which is examined via a simple folder browser Dialog
-	 * 
-	 * @param Does
-	 *            not need any to begin with.
-	 * @return: string for file path
-	 */
-
-	public static String chooseFile() throws FileNotFoundException {
-		JFileChooser j = new JFileChooser();
-		j.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		j.showOpenDialog(j);
-		if (j.getSelectedFile() == null) {
-			System.out.println("No file was chosen");
-		} else {
-			String file = j.getSelectedFile().getPath();
-			return file;
-		}
-		return null;
-
-	}
-
+	
 	/**
 	 * Determines which PDF version it is. Can also detect PDF/A.
 	 * 

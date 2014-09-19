@@ -31,13 +31,13 @@ public class PdfChecker {
 
 		 try {
 		 
-		 t = FileUtilities.chooseFolder();
+		 t = preservetools.utilities.FolderBrowserDialog.chooseFolder();
 		 
 		 // TODO: Create an XML Writer		
 		 
 		 if (t != null) {
 			
-			ArrayList<File> files = FileUtilities.getPaths(new File(t),
+			ArrayList<File> files = preservetools.utilities.ListsFiles.getPaths(new File(t),
 					new ArrayList<File>());
 			if (files == null)
 				return;

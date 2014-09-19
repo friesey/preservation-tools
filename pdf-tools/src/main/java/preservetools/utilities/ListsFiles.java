@@ -11,7 +11,7 @@ public class ListsFiles {
 	 * @return: ArrayList<File> of all found files and subfolders
 	 * 
 	 */
-	static ArrayList<File> getPaths(File file, ArrayList<File> list) {
+	public static ArrayList<File> getPaths(File file, ArrayList<File> list) {
 		if (file == null || list == null || !file.isDirectory())
 			return null;
 		File[] fileArr = file.listFiles();

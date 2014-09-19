@@ -33,7 +33,7 @@ public class PdfAValidator {
 
 		try {
 
-			t = FileUtilities.chooseFolder();
+			t = preservetools.utilities.FolderBrowserDialog.chooseFolder();
 
 			// Generating two Outputfiles in the folder that is examined
 
@@ -45,7 +45,7 @@ public class PdfAValidator {
 
 			if (t != null) {
 
-				ArrayList<File> files = FileUtilities.getPaths(new File(t),
+				ArrayList<File> files = preservetools.utilities.ListsFiles.getPaths(new File(t),
 						new ArrayList<File>());
 
 				for (int i = 0; i < files.size(); i++) {

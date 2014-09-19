@@ -14,11 +14,8 @@ public class JhoveStatistics {
 
 	public static void main(String args[]) throws IOException {
 
-		String JhoveFindings = FileUtilities.chooseFile();
+		String JhoveFindings = preservetools.utilities.FileBrowserDialog.chooseFile();			
 		
-		
-		
-
 		if (JhoveFindings != null) {
 
 			boolean jhove = isJhoveOutput(JhoveFindings);

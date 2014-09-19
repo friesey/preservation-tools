@@ -24,7 +24,7 @@ public class PdfTwinTest {
 		System.out
 				.println("Please select the folder for outputfile 'PdfTwinTest.txt'");
 
-		t = FileUtilities.chooseFolder();
+		t = preservetools.utilities.FolderBrowserDialog.chooseFolder();
 
 		if (t != null) {
 
@@ -32,10 +32,10 @@ public class PdfTwinTest {
 					+ "\\PdfTwinTester.txt"));
 			outputfile.println("Pdf Twin Test");
 
-			OrgPdf = FileUtilities.chooseFile();
+			OrgPdf = preservetools.utilities.FileBrowserDialog.chooseFile();
 			System.out.println(OrgPdf);
 
-			MigPdf = FileUtilities.chooseFile();
+			MigPdf = preservetools.utilities.FileBrowserDialog.chooseFile();
 			System.out.println(MigPdf);
 
 			outputfile.println("Original File: " + OrgPdf);
