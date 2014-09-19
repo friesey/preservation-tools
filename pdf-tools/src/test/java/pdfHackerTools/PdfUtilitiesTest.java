@@ -2,8 +2,6 @@ package pdfHackerTools;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -14,6 +12,8 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
 import preservetools.files.pdf.PdfAnalysis;
+
+//TODO: These tests are not up to date
 
 public class PdfUtilitiesTest {
 	public static final int MEGABYTE_SIZE = 1024 * 1024;
