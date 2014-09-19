@@ -1,6 +1,8 @@
 package pdfHackerTools;
 
 import java.io.File;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -21,6 +23,8 @@ public class PdfAValidator {
 	static PrintWriter outputfile;
 	static PrintWriter ShortSummary;
 
+	static Logger logger = LoggerFactory.getLogger(PdfAValidator.class);
+	
 	public static void main(String args[]) throws IOException {
 
 		try {
@@ -87,6 +91,8 @@ public class PdfAValidator {
 											 */
 											outputfile.println(e);
 											ShortSummary.println(e);
+											 logger.error("Error analyzing " + files
+														.get(i).getAbsolutePath(), e);
 										}
 									} catch (SyntaxValidationException e) {
 										/*
@@ -95,6 +101,8 @@ public class PdfAValidator {
 										 * file can't be parsed.
 										 */
 										result = e.getResult();
+										logger.error("Error analyzing " + files
+												.get(i).getAbsolutePath(), e);
 									}
 									if (result != null) {
 										if (result.isValid()) {
@@ -133,6 +141,8 @@ public class PdfAValidator {
 							}
 						} catch (IOException e) {
 							outputfile.print(e);
+							 logger.error("Error analyzing " + files
+										.get(i).getAbsolutePath(), e);
 						}
 					}
 				}
@@ -140,6 +150,7 @@ public class PdfAValidator {
 			ShortSummary.close();
 			outputfile.close();
 		} catch (FileNotFoundException e) {
+			 logger.error("Error analyzing " + e);
 		}
 	}
 }

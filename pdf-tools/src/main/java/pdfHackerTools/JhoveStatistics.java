@@ -13,6 +13,9 @@ public class JhoveStatistics {
 	public static void main(String args[]) throws IOException {
 
 		String JhoveFindings = PdfUtilities.chooseFile();
+		
+		
+		
 
 		if (JhoveFindings != null) {
 

@@ -9,6 +9,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.swing.JFileChooser;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -26,6 +29,8 @@ public class PdfUtilities {
 	// set 16MB as maximum file length
 	private static final long DEFAULT_MAX_FILE_LENGTH = 1024 * 1024 * 16;
 	static BufferedReader PdfHeaderTest;
+	
+	static Logger logger = LoggerFactory.getLogger(PdfUtilities.class);
 
 	/*********************************************************
 	 * Methods used within the whole package
@@ -245,6 +250,7 @@ public class PdfUtilities {
 		} catch (java.lang.NullPointerException e) {
 			System.out.println(e);
 			pdfType = "PDF cannot be read by PdfReader";
+			 logger.error("Error analyzing " + e);
 			return pdfType;
 		}
 	}
@@ -272,6 +278,7 @@ public class PdfUtilities {
 		} catch (Exception e) {
 			System.out.println("Broken: " + file);
 			brokenPdf = true;
+			 logger.error("Error analyzing " + e);
 			return brokenPdf;
 		}
 	}
