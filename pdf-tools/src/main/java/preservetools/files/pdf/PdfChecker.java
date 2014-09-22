@@ -49,7 +49,7 @@ public class PdfChecker {
 			filesize = 0;
 
 			for (i = 0; i < files.size(); i++) {
-				if (!files.get(i).isDirectory() && files.get(i) != null) {
+				if (files.get(i) != null) {
 					System.out.println(i + 1);
 					
 					try {

@@ -25,7 +25,7 @@ public class PdfToImageConverter {
 						new ArrayList<File>());
 				if (files != null) {
 					for (int i = 0; i < files.size(); i++) {
-						if (!files.get(i).isDirectory() && files.get(i) != null) {
+						if (files.get(i) != null) {
 							try {
 								System.out.println(files.get(i)
 										.getCanonicalPath());

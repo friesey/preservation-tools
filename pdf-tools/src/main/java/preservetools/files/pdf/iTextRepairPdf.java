@@ -14,7 +14,6 @@ import com.itextpdf.text.pdf.PdfCopy;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfWriter;
 
-
 public class iTextRepairPdf {
 
 	static String examinedFolder;
@@ -34,32 +33,25 @@ public class iTextRepairPdf {
 				String extension;
 				PdfReader reader;
 				try {
-					for (int i = 0; i < files.size(); i++)
-						// prints out only files and not the subdirectories as
-						// well
-						if (!files.get(i).isDirectory()) {
+					for (int i = 0; i < files.size(); i++) {
+						System.out.println(files.get(i).getCanonicalPath());
+						extension = Files.probeContentType(files.get(i).toPath());
 
-							System.out.println(files.get(i).getCanonicalPath());
-							extension = Files.probeContentType(files.get(i)
-									.toPath());
-
-							if (extension.equals("application/pdf")) {
-								System.out.println(files.get(i));
-								try {
-									reader = new PdfReader(files.get(i)
-											.toString());
-									if (!reader.isEncrypted()) {
-										repairWithItext(reader, files.get(i)
-												.getName());
-									}
+						if (extension.equals("application/pdf")) {
+							System.out.println(files.get(i));
+							try {
+								reader = new PdfReader(files.get(i).toString());
+								if (!reader.isEncrypted()) {
+									repairWithItext(reader, files.get(i).getName());
 								}
+							}
 
-								catch (Exception e) {
-									System.out.println(e);
-								}
+							catch (Exception e) {
+								System.out.println(e);
 							}
 						}
 
+					}
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -81,16 +73,14 @@ public class iTextRepairPdf {
 	 */
 
 	@SuppressWarnings("rawtypes")
-	static void repairWithItext(PdfReader reader, String filename)
-			throws DocumentException, IOException {
+	static void repairWithItext(PdfReader reader, String filename) throws DocumentException, IOException {
 
 		Map info = reader.getInfo();
 		Document document = new Document();
 
-		PdfCopy copy = new PdfCopy(document, new FileOutputStream(examinedFolder + "//"
-				+ "Mig_iText" + filename));
-		copy.setPDFXConformance(PdfWriter.PDFA1B); 
-			document.addTitle((String) info.get("Title"));
+		PdfCopy copy = new PdfCopy(document, new FileOutputStream(examinedFolder + "//" + "Mig_iText" + filename));
+		copy.setPDFXConformance(PdfWriter.PDFA1B);
+		document.addTitle((String) info.get("Title"));
 		if (info.get("Author") != null)
 			document.addAuthor((String) info.get("Author"));
 		if (info.get("Keywords") != null)

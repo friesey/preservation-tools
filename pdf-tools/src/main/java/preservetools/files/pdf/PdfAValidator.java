@@ -47,7 +47,7 @@ public class PdfAValidator {
 						new ArrayList<File>());
 
 				for (int i = 0; i < files.size(); i++) {
-					if (!files.get(i).isDirectory() && files.get(i) != null) {
+					if (files.get(i) != null) {
 
 						System.out.println(i + 1);
 						outputfile.println(i + 1);

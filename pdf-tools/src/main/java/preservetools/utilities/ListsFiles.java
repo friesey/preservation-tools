@@ -21,7 +21,8 @@ public class ListsFiles {
 			if (f.isDirectory()) {
 				getPaths(f, list);
 			}
-			list.add(f);
+			if (!f.isDirectory()){ //adds only non-directories (=files) to the ArrayList of Files
+			list.add(f);}
 		}
 		return list;
 	}
