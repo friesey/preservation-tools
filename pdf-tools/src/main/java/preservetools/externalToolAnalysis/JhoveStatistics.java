@@ -8,8 +8,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import preservetools.files.pdf.PdfAnalysis;
-
 public class JhoveStatistics {
 
 	public static void main(String args[]) throws IOException {
@@ -59,10 +57,10 @@ public class JhoveStatistics {
 					}
 
 				}
-				System.out.println("PDF files Well-Formed and valid: "
+				System.out.println("Files Well-Formed and valid: "
 						+ wellformed);
-				System.out.println("PDF files malformed: " + malformed);
-				System.out.println("PDF files invalid: " + invalid);
+				System.out.println("Files malformed: " + malformed);
+				System.out.println("Files invalid: " + invalid);
 				reader.close();
 
 				Collections.sort(errorlist);
