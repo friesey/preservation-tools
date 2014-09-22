@@ -1,12 +1,11 @@
-PdfEventPrep
+Preservation-Tools
 --------------
 
-Preparation for the OPF PDF Hackathon which takes place at the 1st and 2nd September in Hamburg. 
-These snippets and tools deals with several PDF issues which might come in handy during the Hackathon.
+this readme will soon to be changed as the repository not only cares for PDF files any more
 
 ## jobs
 
-* simple analysis (ss there a PDF Header, which kind of PDF - PDF or PDF/A, which version, which PDF size)
+* simple analysis (file Header, which kind of PDF - PDF or PDF/A, which version, which PDF size)
 * more detailed analyis (Encryption)
 * validation test (for PDF/A, if it is actually a PDF/A)
 * repair function (quite simple)
