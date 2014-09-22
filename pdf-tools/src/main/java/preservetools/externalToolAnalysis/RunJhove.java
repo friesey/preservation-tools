@@ -6,16 +6,16 @@ import java.lang.ProcessBuilder.Redirect;
 
 public class RunJhove {
 
-	static String JhovePath;
+	static String jhovePath;
 
 	public static void main(String args[]) throws IOException, InterruptedException {
 
-		JhovePath = "C://Users//Friese Yvonne//jhove-1_11//jhove//bin//JhoveView.jar";
+		jhovePath = "C://Users//Friese Yvonne//jhove-1_11//jhove//bin//JhoveView.jar";
 
 		try {
 
 			ProcessBuilder runsJhove = new ProcessBuilder("java", "-Xmx1024m", "-Xms1024m",
-					"-DTOOLS_DIR=/home/IM/work/dist", "-Daoi=whole", "-jar", JhovePath);
+					"-DTOOLS_DIR=/home/IM/work/dist", "-Daoi=whole", "-jar", jhovePath);
 
 			Process p = runsJhove.start();
 			
