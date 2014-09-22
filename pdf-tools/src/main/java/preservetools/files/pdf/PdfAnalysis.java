@@ -78,8 +78,7 @@ public class PdfAnalysis {
 		String XmpMetadata;
 		PdfReader reader;
 		try {
-			reader = new PdfReader(file.toString());
-			// There is no PDF/A compliance before PDF 1.4
+			reader = new PdfReader(file.toString());		
 			if (reader.getPdfVersion() > 3) {
 				if (reader.getMetadata() != null) {
 					XmpMetadata = new String(reader.getMetadata()); // nullpointerException

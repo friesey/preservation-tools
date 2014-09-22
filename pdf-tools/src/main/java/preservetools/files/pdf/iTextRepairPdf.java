@@ -32,6 +32,7 @@ public class iTextRepairPdf {
 					return;
 				String extension;
 				PdfReader reader;
+				
 				try {
 					for (int i = 0; i < files.size(); i++) {
 						System.out.println(files.get(i).getCanonicalPath());
@@ -45,18 +46,15 @@ public class iTextRepairPdf {
 									repairWithItext(reader, files.get(i).getName());
 								}
 							}
-
 							catch (Exception e) {
 								System.out.println(e);
 							}
 						}
-
 					}
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
-
 		} catch (FileNotFoundException e) {
 		}
 
