@@ -20,10 +20,8 @@ public class PdfAnalysis {
 	/*******************************************************
 	 * Variables and objects used within the whole package
 	 ********************************************************/
-	// set 16MB as maximum file length
-	private static final long DEFAULT_MAX_FILE_LENGTH = 1024 * 1024 * 16;
 	public static BufferedReader PdfHeaderTest;
-	
+
 	static Logger logger = LoggerFactory.getLogger(PdfAnalysis.class);
 
 	/*********************************************************
@@ -34,41 +32,15 @@ public class PdfAnalysis {
 	/****************************************************************************
 	 * Checks if a PDF is ok to work with %PDF Header, Broken PDF & Encryption
 	 * 
-	 * @param file
-	 *            or String
+	 * @param file            
 	 * @return: boolean true or false
 	 * @throws IOException
 	 */
 
-	public static boolean testPdfOk(String file) throws IOException {
-		if (preservetools.files.GenericFileAnalysis.testFileHeaderPdf(file)) {
-			if (!checkPdfSize(file)) {
-				PDDocument testfile = PDDocument.load(file);
-				if (!testfile.isEncrypted()) {
-					if (!checkBrokenPdf(file)) {
-						return true;
-					} else {
-						System.out.println("Broken Pdf");
-						return false;
-					}
-				} else {
-					System.out.println("Is encrypted");
-					return false;
-				}
-			} else {
-				System.out.println("Pdf too big to be examined");
-				return false;
-			}
-		} else {
-			System.out.println("No PDF Header");
-			return false;
-		}
-	}
-
 	public static boolean testPdfOk(File file) throws IOException {
 
 		if (preservetools.files.GenericFileAnalysis.testFileHeaderPdf(file)) {
-			if (!checkPdfSize(file)) {
+			if (!preservetools.files.GenericFileAnalysis.checkFileSize(file)) {
 				PDDocument testfile = PDDocument.load(file);
 				if (!testfile.isEncrypted()) {
 					if (!checkBrokenPdf(file.toString())) {
@@ -89,7 +61,7 @@ public class PdfAnalysis {
 			System.out.println("No PDF Header");
 			return false;
 		}
-	}	
+	}
 
 	/**
 	 * Determines which PDF version it is. Can also detect PDF/A.
@@ -125,7 +97,7 @@ public class PdfAnalysis {
 		} catch (java.lang.NullPointerException e) {
 			System.out.println(e);
 			pdfType = "PDF cannot be read by PdfReader";
-			 logger.error("Error analyzing " + e);
+			logger.error("Error analyzing " + e);
 			return pdfType;
 		}
 	}
@@ -153,7 +125,7 @@ public class PdfAnalysis {
 		} catch (Exception e) {
 			System.out.println("Broken: " + file);
 			brokenPdf = true;
-			 logger.error("Error analyzing " + e);
+			logger.error("Error analyzing " + e);
 			return brokenPdf;
 		}
 	}
@@ -186,8 +158,7 @@ public class PdfAnalysis {
 		PdfReaderContentParser parser = new PdfReaderContentParser(reader);
 		TextExtractionStrategy strategy;
 		for (int i = 1; i <= reader.getNumberOfPages(); i++) {
-			strategy = parser.processContent(i,
-					new SimpleTextExtractionStrategy());
+			strategy = parser.processContent(i, new SimpleTextExtractionStrategy());
 			ExtractedText = strategy.getResultantText().toString();
 			buff.append(ExtractedText + "\n");
 		}
@@ -209,21 +180,20 @@ public class PdfAnalysis {
 	 * @throws
 	 */
 
-	public static boolean checkPdfSize(File file) {
-		boolean toobig = isFileTooLong(file, DEFAULT_MAX_FILE_LENGTH);
-		if (toobig) {
-			System.out
-					.println("File is bigger than 16 MB and therefore cannot be measured");
-		}
-		return toobig;
-	}
-
-	public static boolean checkPdfSize(String filePath) {
-		File toCheck = new File (filePath);
-		return checkPdfSize(toCheck);
-	}
-	
-	public static boolean isFileTooLong(File toCheck, long maxLength) {
-		return (toCheck.length() > maxLength);
-	}
+	/*
+	 * I think this method is so complicated because of the test that was build.
+	 * Maybe change method in GenericFileAnalysis eventually to embedd those
+	 * kinds of tests, too.
+	 * 
+	 * public static boolean checkPdfSize(File file) { boolean toobig =
+	 * isFileTooLong(file, DEFAULT_MAX_FILE_LENGTH); if (toobig) { System.out
+	 * .println("File is bigger than 16 MB and therefore cannot be measured"); }
+	 * return toobig; }
+	 * 
+	 * public static boolean checkPdfSize(String filePath) { File toCheck = new
+	 * File (filePath); return checkPdfSize(toCheck); }
+	 * 
+	 * public static boolean isFileTooLong(File toCheck, long maxLength) {
+	 * return (toCheck.length() > maxLength); }
+	 */
 }

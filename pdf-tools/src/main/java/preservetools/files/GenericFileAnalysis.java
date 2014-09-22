@@ -14,6 +14,8 @@ public class GenericFileAnalysis {
 	static String magicNumberTiffIntel = "II";
 	static String magicNumberTiffMotorola = "MM";
 
+	private static final long DEFAULT_MAX_FILE_LENGTH = 1024 * 1024 * 16;
+
 	/**
 	 * Tests if the first line of the file contains the proper PDF-Header "%PDF"
 	 * For Strings
@@ -39,8 +41,7 @@ public class GenericFileAnalysis {
 			return false;
 		}
 	}
-	
-	
+
 	public static boolean testFileHeaderPdf(File file) throws IOException {
 		fileReader = new BufferedReader(new FileReader(file));
 		String FileHeader = fileReader.readLine();
@@ -70,7 +71,7 @@ public class GenericFileAnalysis {
 			return false;
 		}
 	}
-	
+
 	public static boolean testFileHeaderTiff(File file) throws IOException {
 		fileReader = new BufferedReader(new FileReader(file));
 		String FileHeader = fileReader.readLine();
@@ -81,6 +82,24 @@ public class GenericFileAnalysis {
 			} else {
 				return false;
 			}
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Checks the size of the Pdf-file, because some big Pdf Files might cause
+	 * exceptions. *
+	 * 
+	 * @param file
+	 *            (should be Pdf)
+	 * @return: boolean
+	 * @throws
+	 */
+
+	public static boolean checkFileSize(File file) {
+		if (file.length() > DEFAULT_MAX_FILE_LENGTH) {
+			return true;
 		} else {
 			return false;
 		}

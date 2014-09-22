@@ -11,8 +11,6 @@ import java.util.Random;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
-import preservetools.files.pdf.PdfAnalysis;
-
 //TODO: These tests are not up to date
 
 public class PdfUtilitiesTest {
@@ -35,22 +33,10 @@ public class PdfUtilitiesTest {
 		// make an 18MB test file, should be too large
 		File largeTest = getTestTempFile(18);
 		// Check that it's flagged too large
-		assertTrue(PdfAnalysis.checkPdfSize(largeTest));
+		assertTrue(preservetools.files.GenericFileAnalysis.checkFileSize(largeTest));
 		
 		// Isator manual is smaller than 16MB so should be false
-		assertFalse(PdfAnalysis.checkPdfSize(ISATOR_MANUAL));
-		largeTest.delete();
-	}
-
-	@Test
-	public final void testCheckPdfSizeString() throws IOException {
-		// make an 18MB test file, should be too large
-		File largeTest = getTestTempFile(18);
-		// Check that it's flagged too large
-		assertTrue(PdfAnalysis.checkPdfSize(largeTest.getAbsolutePath()));
-		
-		// Isator manual is smaller than 16MB so should be false
-		assertFalse(PdfAnalysis.checkPdfSize(ISATOR_MANUAL.getAbsolutePath()));
+		assertFalse(preservetools.files.GenericFileAnalysis.checkFileSize(ISATOR_MANUAL));
 		largeTest.delete();
 	}
 

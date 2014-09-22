@@ -61,7 +61,7 @@ public class PdfChecker {
 
 						if (extension.equals("pdf")) {
 
-							if(!PdfAnalysis.checkPdfSize (files.get(i))) {							
+							if(!preservetools.files.GenericFileAnalysis.checkFileSize(files.get(i))) {							
 								
 								if (preservetools.files.GenericFileAnalysis.testFileHeaderPdf(files.get(i)) == true) {
 
