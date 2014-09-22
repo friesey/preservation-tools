@@ -49,8 +49,8 @@ public class PdfTwinTest {
 
 				if (filesizeOrg < 16000000 && filesizeMig < 16000000) {
 
-					if (PdfAnalysis.testFileHeader(OrgPdf) == true
-							&& PdfAnalysis.testFileHeader(MigPdf) == true) {
+					if (preservetools.files.GenericFileAnalysis.testFileHeaderPdf(OrgPdf) == true
+							&& preservetools.files.GenericFileAnalysis.testFileHeaderPdf(MigPdf) == true) {
 
 						PDDocument testfileOrg = PDDocument.load(OrgPdf);
 						PDDocument testfileMig = PDDocument.load(MigPdf);

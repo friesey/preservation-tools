@@ -4,7 +4,6 @@ package preservetools.files.pdf;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +41,7 @@ public class PdfAnalysis {
 	 */
 
 	public static boolean testPdfOk(String file) throws IOException {
-		if (testFileHeader(file)) {
+		if (preservetools.files.GenericFileAnalysis.testFileHeaderPdf(file)) {
 			if (!checkPdfSize(file)) {
 				PDDocument testfile = PDDocument.load(file);
 				if (!testfile.isEncrypted()) {
@@ -68,7 +67,7 @@ public class PdfAnalysis {
 
 	public static boolean testPdfOk(File file) throws IOException {
 
-		if (testFileHeader(file)) {
+		if (preservetools.files.GenericFileAnalysis.testFileHeaderPdf(file)) {
 			if (!checkPdfSize(file)) {
 				PDDocument testfile = PDDocument.load(file);
 				if (!testfile.isEncrypted()) {
@@ -90,63 +89,8 @@ public class PdfAnalysis {
 			System.out.println("No PDF Header");
 			return false;
 		}
-	}
+	}	
 
-	
-	/**
-	 * Tests if the first line of the file contains the proper PDF-Header "%PDF"
-	 * for Datatype file
-	 * 
-	 * @param Creates
-	 *            a PdfHeaderTest-Pdf-Reader and reads the first line of the
-	 *            PDF-file like an editor would do.
-	 * @return: boolean false = no PDF-Header; true = first line contains
-	 *          PDF-Header
-	 */
-	public static boolean testFileHeader(File file) throws IOException {
-		PdfHeaderTest = new BufferedReader(new FileReader(file));
-		String FileHeader = PdfHeaderTest.readLine();
-		// System.out.println(FileHeader);
-		if (FileHeader != null) {
-			if (FileHeader.contains("%PDF")) {
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-			return false;
-		}
-	}
-
-	// TODO: Is there a better way to overload a method?
-
-	/**
-	 * Tests if the first line of the file contains the proper PDF-Header "%PDF"
-	 * For Strings
-	 * 
-	 * @param Creates
-	 *            a PdfHeaderTest-Pdf-Reader and reads the first line of the
-	 *            PDF-file like an editor would do. Overloaded with the data
-	 *            type "String"
-	 * @return: boolean false = no PDF-Header; true = first line contains
-	 *          PDF-Header
-	 */
-	public static boolean testFileHeader(String file) throws IOException {
-		PdfHeaderTest = new BufferedReader(new FileReader(file));
-		String FileHeader = PdfHeaderTest.readLine();
-		// System.out.println(FileHeader);
-		if (FileHeader != null) {
-
-			if (FileHeader.contains("%PDF")) {
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-			return false;
-		}
-	}
-	
 	/**
 	 * Determines which PDF version it is. Can also detect PDF/A.
 	 * 
