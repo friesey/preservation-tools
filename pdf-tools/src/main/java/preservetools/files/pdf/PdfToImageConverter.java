@@ -12,16 +12,16 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 
 public class PdfToImageConverter {
-	static String t;
+	static String folder;
 	static String newFileName;
 
 	public static void main(String args[]) {
 		try {
-			t = preservetools.utilities.FolderBrowserDialog.chooseFolder();
+			folder = preservetools.utilities.FolderBrowserDialog.chooseFolder();
 			// TODO: create a method which tests if the file is an
 			// ok-to-the-end-PDF to work with
-			if (t != null) {
-				ArrayList<File> files = preservetools.utilities.ListsFiles.getPaths(new File(t),
+			if (folder != null) {
+				ArrayList<File> files = preservetools.utilities.ListsFiles.getPaths(new File(folder),
 						new ArrayList<File>());
 				if (files != null) {
 					for (int i = 0; i < files.size(); i++) {

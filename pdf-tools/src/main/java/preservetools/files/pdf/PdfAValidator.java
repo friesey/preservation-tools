@@ -21,7 +21,7 @@ import org.apache.pdfbox.preflight.parser.PreflightParser;
 
 public class PdfAValidator {
 
-	static String t;
+	static String examinedFolder;
 	static PrintWriter outputfile;
 	static PrintWriter ShortSummary;
 
@@ -31,19 +31,19 @@ public class PdfAValidator {
 
 		try {
 
-			t = preservetools.utilities.FolderBrowserDialog.chooseFolder();
+			examinedFolder = preservetools.utilities.FolderBrowserDialog.chooseFolder();
 
 			// Generating two Outputfiles in the folder that is examined
 
-			outputfile = new PrintWriter(new FileWriter(t + "//"
+			outputfile = new PrintWriter(new FileWriter(examinedFolder + "//"
 					+ "PdfAValidation.txt"));
 
-			ShortSummary = new PrintWriter(new FileWriter(t + "//"
+			ShortSummary = new PrintWriter(new FileWriter(examinedFolder + "//"
 					+ "PdfAValidationShortSummary.txt"));
 
-			if (t != null) {
+			if (examinedFolder != null) {
 
-				ArrayList<File> files = preservetools.utilities.ListsFiles.getPaths(new File(t),
+				ArrayList<File> files = preservetools.utilities.ListsFiles.getPaths(new File(examinedFolder),
 						new ArrayList<File>());
 
 				for (int i = 0; i < files.size(); i++) {

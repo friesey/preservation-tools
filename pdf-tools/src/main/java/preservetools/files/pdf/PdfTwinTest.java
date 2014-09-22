@@ -13,7 +13,7 @@ public class PdfTwinTest {
 	static long filesizeOrg;
 	static long filesizeMig;
 
-	static String t;
+	static String folder;
 
 	static PrintWriter outputfile;
 
@@ -22,11 +22,11 @@ public class PdfTwinTest {
 		System.out
 				.println("Please select the folder for outputfile 'PdfTwinTest.txt'");
 
-		t = preservetools.utilities.FolderBrowserDialog.chooseFolder();
+		folder = preservetools.utilities.FolderBrowserDialog.chooseFolder();
 
-		if (t != null) {
+		if (folder != null) {
 
-			outputfile = new PrintWriter(new FileWriter(t
+			outputfile = new PrintWriter(new FileWriter(folder
 					+ "\\PdfTwinTester.txt"));
 			outputfile.println("Pdf Twin Test");
 

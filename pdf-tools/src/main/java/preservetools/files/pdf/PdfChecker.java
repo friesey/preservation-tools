@@ -11,7 +11,7 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 
 public class PdfChecker {
 
-	static String t;
+	static String examinedFolder;
 
 	static int PdfHeader;
 	static int NoPdfHeader;
@@ -29,13 +29,13 @@ public class PdfChecker {
 
 		 try {
 		 
-		 t = preservetools.utilities.FolderBrowserDialog.chooseFolder();
+		 examinedFolder = preservetools.utilities.FolderBrowserDialog.chooseFolder();
 		 
 		 // TODO: Create an XML Writer		
 		 
-		 if (t != null) {
+		 if (examinedFolder != null) {
 			
-			ArrayList<File> files = preservetools.utilities.ListsFiles.getPaths(new File(t),
+			ArrayList<File> files = preservetools.utilities.ListsFiles.getPaths(new File(examinedFolder),
 					new ArrayList<File>());
 			if (files == null)
 				return;
