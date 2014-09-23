@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
 
 public class GenericFileAnalysis {
 
@@ -103,6 +104,11 @@ public class GenericFileAnalysis {
 		} else {
 			return false;
 		}
+	}
+	
+	public static String getFileExtension (File file) throws IOException{		
+		String extension = Files.probeContentType(file.toPath());
+		return extension;			
 	}
 
 }

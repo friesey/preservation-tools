@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.File;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -36,7 +35,7 @@ public class iTextRepairPdf {
 				try {
 					for (int i = 0; i < files.size(); i++) {
 						System.out.println(files.get(i).getCanonicalPath());
-						extension = Files.probeContentType(files.get(i).toPath());
+						extension =  preservetools.files.GenericFileAnalysis.getFileExtension(files.get(i));
 
 						if (extension.equals("application/pdf")) {
 							System.out.println(files.get(i));
