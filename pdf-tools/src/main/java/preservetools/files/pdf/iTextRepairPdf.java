@@ -29,15 +29,15 @@ public class iTextRepairPdf {
 						new ArrayList<File>());
 				if (files == null)
 					return;
-				String extension;
+				String mimetype;
 				PdfReader reader;
 				
 				try {
 					for (int i = 0; i < files.size(); i++) {
 						System.out.println(files.get(i).getCanonicalPath());
-						extension =  preservetools.files.GenericFileAnalysis.getFileExtension(files.get(i));
+						mimetype =  preservetools.files.GenericFileAnalysis.getFileExtension(files.get(i));
 
-						if (extension.equals("application/pdf")) {
+						if (mimetype.equals("application/pdf")) {
 							System.out.println(files.get(i));
 							try {
 								reader = new PdfReader(files.get(i).toString());
