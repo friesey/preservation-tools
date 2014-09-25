@@ -66,7 +66,7 @@ public class CdRom_IsoImageChecker {
 				outputfile.println("File-Extension: " + extension);
 				outputfile.println();
 
-				if (!mimetype.contains("text") || !mimetype.contains("image")) {
+				if (mimetype != null && (!mimetype.contains("text") || !mimetype.contains("image"))) {
 					// not mimetype text or image would be an executable, would
 					// it?
 
