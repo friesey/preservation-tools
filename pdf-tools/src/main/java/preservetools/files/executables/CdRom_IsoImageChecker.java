@@ -41,6 +41,14 @@ public class CdRom_IsoImageChecker {
 
 			ArrayList<File> files = preservetools.utilities.ListsFiles
 					.getPaths(new File(examinedCdRom), new ArrayList<File>());
+			
+			//TODO: Über einen Ordner mit mehreren CD ROMs laufen lassen und pro CD ROM entscheiden?
+			
+			//TODO: Falls ein Imaging notwendig wird, gleich von hier aus veranlassen? Ansonsten nur kopieren?
+			
+			// TODO: Dateiendungen recherchieren, die auf Executables hindeuten wie .jar , .exe, .bat usw.
+			
+			// TODO: Den Adobe-Reader nicht mit archivieren und auch bei der Imaging-Entscheidung stets aussparen
 
 			for (int i = 0; i < files.size(); i++) {
 				
