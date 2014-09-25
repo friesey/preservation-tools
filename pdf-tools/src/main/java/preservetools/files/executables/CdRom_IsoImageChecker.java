@@ -13,13 +13,12 @@ import org.apache.commons.io.FilenameUtils;
 public class CdRom_IsoImageChecker {
 
 	static String examinedCdRom;
-	
-	static String outputFolder;
-	
-	static String mimetype;
-	
-	static String extension;
 
+	static String outputFolder;
+
+	static String mimetype;
+
+	static String extension;
 
 	public static void main(String args[]) throws IOException {
 		
@@ -53,12 +52,23 @@ public class CdRom_IsoImageChecker {
 			for (int i = 0; i < files.size(); i++) {
 				
 				mimetype =  preservetools.files.GenericFileAnalysis.getFileExtension(files.get(i));
-				
+												
 				extension = FilenameUtils.getExtension(files.get(i).toString());	
 				
 				outputfile.println("Mimetype: " + mimetype);
 				outputfile.println("File-Extension: " + extension);		
 				outputfile.println();
+				
+				if ((extension.contains(".bat") || extension.contains(".jar")) || extension.contains(".exe")) {
+					
+					// TODO: Which other extensions are possible?
+					outputfile.println ("This CD ROM has to be imaged");
+					return;
+					/* it is not necessary to examine other files. 
+					One executable is justification enough to have to create and Image. */
+										
+				}
+				
 
 			}
 		}
