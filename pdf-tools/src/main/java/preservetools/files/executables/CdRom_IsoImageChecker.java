@@ -98,6 +98,10 @@ public class CdRom_IsoImageChecker {
 							filesExecutable
 									.println("IsoImage recommended because of file:  "
 											+ files.get(i).toString());
+							filesExecutable.println("Mimetype: " + mimetype);
+							filesExecutable.println();
+							
+							//TODO: Count files which are potentially executable
 
 							isonecessary = true;
 						}
@@ -112,6 +116,7 @@ public class CdRom_IsoImageChecker {
 			}
 			filesExecutable.close();
 			outputfile.close();
+			
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "Error Message", e.toString(),
 					JOptionPane.ERROR_MESSAGE);

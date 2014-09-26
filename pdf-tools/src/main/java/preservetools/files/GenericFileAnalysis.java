@@ -131,9 +131,14 @@ public class GenericFileAnalysis {
 		extensionlist.add("docx");
 		extensionlist.add("docx");
 		extensionlist.add("xls");
+		extensionlist.add("xlsx");
+		extensionlist.add("ppt");
+		extensionlist.add("pptx");
 		extensionlist.add("cda");
 		extensionlist.add("epub");
 		extensionlist.add("opf");
+		extensionlist.add("db");
+		extensionlist.add("rtf");
 		if (extensionlist.contains(extension)) {
 			return false;
 		} else {
