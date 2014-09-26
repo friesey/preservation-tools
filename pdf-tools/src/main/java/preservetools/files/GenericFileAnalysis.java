@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
 
 public class GenericFileAnalysis {
 
@@ -63,7 +64,8 @@ public class GenericFileAnalysis {
 		String FileHeader = fileReader.readLine();
 		// System.out.println(FileHeader);
 		if (FileHeader != null) {
-			if ((FileHeader.contains(magicNumberTiffIntel)) || (FileHeader.contains(magicNumberTiffMotorola))) {
+			if ((FileHeader.contains(magicNumberTiffIntel))
+					|| (FileHeader.contains(magicNumberTiffMotorola))) {
 				return true;
 			} else {
 				return false;
@@ -78,7 +80,8 @@ public class GenericFileAnalysis {
 		String FileHeader = fileReader.readLine();
 		// System.out.println(FileHeader);
 		if (FileHeader != null) {
-			if ((FileHeader.contains(magicNumberTiffIntel)) || (FileHeader.contains(magicNumberTiffMotorola))) {
+			if ((FileHeader.contains(magicNumberTiffIntel))
+					|| (FileHeader.contains(magicNumberTiffMotorola))) {
 				return true;
 			} else {
 				return false;
@@ -105,10 +108,65 @@ public class GenericFileAnalysis {
 			return false;
 		}
 	}
-	
-	public static String getFileExtension (File file) throws IOException{		
+
+	public static String getFileExtension(File file) throws IOException {
 		String extension = Files.probeContentType(file.toPath());
-		return extension;			
+		return extension;
+	}
+	
+	/**
+	 * Checks Extension for known Non-executable extensions like "pdf"
+	 * PDF/A-3 and some higher PDF-Version might contain executables as Attachements.
+	 * But that should not make an ISO image necessary. Beware of what for this method is used, however.
+	 * @param String mimetype	           
+	 * @return: boolean
+	 * @throws
+	 */
+
+	public static boolean testIfExtensionCanbeExecutable(String extension) {
+		ArrayList<String> extensionlist = new ArrayList<String>();
+		extensionlist.add("pdf");
+		extensionlist.add("doc");
+		extensionlist.add("docx");
+		extensionlist.add("docx");
+		extensionlist.add("xls");
+		extensionlist.add("cda");
+		extensionlist.add("epub");
+		extensionlist.add("opf");
+		if (extensionlist.contains(extension)) {
+			return false;
+		} else {
+
+			return true;
+		}
+	}
+
+	
+	/**
+	 * Checks Mimetype. If not known (==null) it might be executable.
+	 * If test, image, audio, video, it should not be executbable.
+	 * Otherwise go ahead for testIfExtensionCanbeExecutable
+	 * 
+	 * @param String mimetype	           
+	 * @return: boolean
+	 * @throws
+	 */
+	
+	public static boolean testIfMimeMightBeExecutable(String mimetype) {
+
+		if (mimetype == null) {
+			return true;
+		} else if (!mimetype.contains("text")) {
+			return false;
+		} else if (!mimetype.contains("image")) {
+			return false;
+		} else if (!mimetype.contains("audio")) {
+			return false;
+		} else if (!mimetype.contains("video")) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 }
