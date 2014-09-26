@@ -20,6 +20,16 @@ public class CdRom_IsoImageChecker {
 
 	static String extension;
 
+	static int FOLDERMAX = 15; /*
+								 * if there are more than FOLDERMAX folders, an
+								 * ISO Image has to be created
+								 */
+
+	static int FILEMAX = 1000; /*
+								 * if there are more than FILEMAX files, an ISO
+								 * Image has to be created
+								 */
+
 	public static void main(String args[]) throws IOException {
 
 		JOptionPane.showMessageDialog(null, "CD ROM Dialog",
@@ -35,63 +45,81 @@ public class CdRom_IsoImageChecker {
 		outputFolder = preservetools.utilities.FolderBrowserDialog
 				.chooseFolder();
 
+		@SuppressWarnings("resource")
 		PrintWriter outputfile = new PrintWriter(new FileWriter(outputFolder
 				+ "//" + "CdRomExecutableAnalysis.txt"));
+		try {
+			
+			if (examinedCdRom != null) {
 
-		if (examinedCdRom != null) {
+				ArrayList<File> files = preservetools.utilities.ListsFiles
+						.getPaths(new File(examinedCdRom),
+								new ArrayList<File>());
 
-			ArrayList<File> files = preservetools.utilities.ListsFiles
-					.getPaths(new File(examinedCdRom), new ArrayList<File>());
+				// TODO: ueber einen Ordner mit mehreren CD ROMs laufen lassen
+				// und
+				// pro CD ROM entscheiden
 
-			// TODO: ueber einen Ordner mit mehreren CD ROMs laufen lassen und
-			// pro CD ROM entscheiden
+				// TODO: Falls ein Imaging notwendig wird, gleich von hier aus
+				// veranlassen. Ansonsten nur kopieren
 
-			// TODO: Falls ein Imaging notwendig wird, gleich von hier aus
-			// veranlassen. Ansonsten nur kopieren
+				// TODO: Dateiendungen recherchieren, die auf Executables
+				// hindeuten
+				// wie .jar , .exe, .bat usw.
 
-			// TODO: Dateiendungen recherchieren, die auf Executables hindeuten
-			// wie .jar , .exe, .bat usw.
+				// TODO: Den Adobe-Reader nicht mit archivieren und auch bei der
+				// Imaging-Entscheidung stets aussparen
 
-			// TODO: Den Adobe-Reader nicht mit archivieren und auch bei der
-			// Imaging-Entscheidung stets aussparen
+				for (int i = 0; i < files.size(); i++) {
 
-			for (int i = 0; i < files.size(); i++) {
+					mimetype = preservetools.files.GenericFileAnalysis
+							.getFileExtension(files.get(i));
 
-				mimetype = preservetools.files.GenericFileAnalysis
-						.getFileExtension(files.get(i));
+					extension = FilenameUtils.getExtension(files.get(i)
+							.toString());
 
-				extension = FilenameUtils.getExtension(files.get(i).toString());
+					outputfile.println("Mimetype: " + mimetype);
+					outputfile.println("File-Extension: " + extension);
+					outputfile.println();
 
-				outputfile.println("Mimetype: " + mimetype);
-				outputfile.println("File-Extension: " + extension);
-				outputfile.println();
+					if (mimetype != null
+							&& (!mimetype.contains("text") || !mimetype
+									.contains("image"))) {
+						// not mimetype text or image would be an executable,
+						// would
+						// it?
 
-				if (mimetype != null && (!mimetype.contains("text") || !mimetype.contains("image"))) {
-					// not mimetype text or image would be an executable, would
-					// it?
+						// TODO: it is also possible to go the other way to
+						// image
+						// when Formats are unknown.
 
-					// TODO: it is also possible to go the other way to image
-					// when Formats are unknown.
+						if ((extension.contains(".bat") || extension
+								.contains(".jar"))
+								|| extension.contains(".exe")) {
 
-					if ((extension.contains(".bat") || extension
-							.contains(".jar")) || extension.contains(".exe")) {
+							// TODO: Which other extensions are possible?
+							outputfile.println("This CD ROM has to be imaged");
+							return;
+							/*
+							 * it is not necessary to examine other files. One
+							 * executable is justification enough to have to
+							 * create and Image.
+							 */
 
-						// TODO: Which other extensions are possible?
-						outputfile.println("This CD ROM has to be imaged");
-						return;
-						/*
-						 * it is not necessary to examine other files. One
-						 * executable is justification enough to have to create
-						 * and Image.
-						 */
+						}
 
 					}
 
 				}
-
 			}
+
+			outputfile.close();
 		}
 
-		outputfile.close();
+		catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "Error Message",
+					e.toString(), JOptionPane.PLAIN_MESSAGE);
+
+		}
 	}
 }

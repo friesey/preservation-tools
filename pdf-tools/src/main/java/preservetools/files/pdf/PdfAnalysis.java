@@ -39,8 +39,8 @@ public class PdfAnalysis {
 
 	public static boolean testPdfOk(File file) throws IOException {
 
-		if (preservetools.files.GenericFileAnalysis.testFileHeaderPdf(file)) {
-			if (!preservetools.files.GenericFileAnalysis.checkFileSize(file)) {
+		if (!preservetools.files.GenericFileAnalysis.testFileHeaderPdf(file)) {
+			/*if (preservetools.files.GenericFileAnalysis.checkFileSize(file)) {*/
 				PDDocument testfile = PDDocument.load(file);
 				if (!testfile.isEncrypted()) {
 					if (!checkBrokenPdf(file.toString())) {
@@ -53,11 +53,11 @@ public class PdfAnalysis {
 					System.out.println("Is encrypted");
 					return false;
 				}
-			} else {
+			} /* else {
 				System.out.println("Pdf too big to be examined");
-				return false;
-			}
-		} else {
+				return false; 
+			} 
+		} */ else {
 			System.out.println("No PDF Header");
 			return false;
 		}
