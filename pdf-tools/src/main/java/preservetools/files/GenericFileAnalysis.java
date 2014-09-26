@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 public class GenericFileAnalysis {
 
@@ -167,6 +168,14 @@ public class GenericFileAnalysis {
 		} else {
 			return true;
 		}
+	}
+
+	public static String getCdRomFolderName(String examinedCdRom) {
+		
+		String [] segs = examinedCdRom.split (Pattern.quote ("\\"));
+		
+		return segs[segs.length-1];
+		
 	}
 
 }

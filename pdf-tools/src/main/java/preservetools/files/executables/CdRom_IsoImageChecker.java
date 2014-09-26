@@ -37,22 +37,30 @@ public class CdRom_IsoImageChecker {
 
 	public static void main(String args[]) throws IOException {
 
+		boolean isonecessary = false;
+
 		JOptionPane.showMessageDialog(null, "CD ROM Dialog",
-				"Please choose CD ROM Folder", JOptionPane.PLAIN_MESSAGE);
+				"Please choose CD ROM Folder", JOptionPane.QUESTION_MESSAGE);
 
 		examinedCdRom = preservetools.utilities.FolderBrowserDialog
 				.chooseFolder();
 
 		JOptionPane.showMessageDialog(null, "Output Folder",
 				"Please choose Folder where Outputfile will be created",
-				JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.QUESTION_MESSAGE);
 
 		outputFolder = preservetools.utilities.FolderBrowserDialog
 				.chooseFolder();
 
+		String CdRomName = preservetools.files.GenericFileAnalysis
+				.getCdRomFolderName(examinedCdRom);
+
 		@SuppressWarnings("resource")
 		PrintWriter outputfile = new PrintWriter(new FileWriter(outputFolder
-				+ "//" + "CdRomExecutableAnalysis.txt"));
+				+ "//" +  "CdRomExecutableAnalysis_" + CdRomName + ".txt"));
+
+		PrintWriter filesExecutable = new PrintWriter(new FileWriter(
+				outputFolder + "//" + "potentiallyExecutableFiles_" + CdRomName + ".txt"));
 		try {
 
 			if (examinedCdRom != null) {
@@ -74,8 +82,9 @@ public class CdRom_IsoImageChecker {
 							.getFileExtension(files.get(i));
 
 					extension = FilenameUtils.getExtension(files.get(i)
-							.toString());
+							.toString()).toLowerCase();
 
+					outputfile.println(files.get(i).toString());
 					outputfile.println("Mimetype: " + mimetype);
 					outputfile.println("File-Extension: " + extension);
 					outputfile.println();
@@ -86,20 +95,27 @@ public class CdRom_IsoImageChecker {
 						if (preservetools.files.GenericFileAnalysis
 								.testIfExtensionCanbeExecutable(extension)) {
 
-							JOptionPane.showMessageDialog(null,									
-									files.get(i).toString(),"IsoImage recommended because of file:", 
-									JOptionPane.PLAIN_MESSAGE);
+							filesExecutable
+									.println("IsoImage recommended because of file:  "
+											+ files.get(i).toString());
+
+							isonecessary = true;
 						}
 					}
 				}
+
+				if (isonecessary = true) {
+					JOptionPane.showMessageDialog(null,
+							"One or more files are potentially executable",
+							"Create Iso Image", JOptionPane.PLAIN_MESSAGE);
+				}
 			}
+			filesExecutable.close();
 			outputfile.close();
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "Error Message", e.toString(),
-					JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.ERROR_MESSAGE);
 
 		}
 	}
-
 }
