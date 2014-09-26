@@ -137,7 +137,6 @@ public class GenericFileAnalysis {
 		if (extensionlist.contains(extension)) {
 			return false;
 		} else {
-
 			return true;
 		}
 	}
@@ -157,13 +156,13 @@ public class GenericFileAnalysis {
 
 		if (mimetype == null) {
 			return true;
-		} else if (!mimetype.contains("text")) {
+		} else if (mimetype.contains("text")) {
 			return false;
-		} else if (!mimetype.contains("image")) {
+		} else if (mimetype.contains("image")) {
 			return false;
-		} else if (!mimetype.contains("audio")) {
+		} else if (mimetype.contains("audio")) {
 			return false;
-		} else if (!mimetype.contains("video")) {
+		} else if (mimetype.contains("video")) {
 			return false;
 		} else {
 			return true;
