@@ -139,6 +139,7 @@ public class GenericFileAnalysis {
 		extensionlist.add("opf");
 		extensionlist.add("db");
 		extensionlist.add("rtf");
+		extensionlist.add("xml");
 		if (extensionlist.contains(extension)) {
 			return false;
 		} else {

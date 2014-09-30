@@ -35,7 +35,9 @@ public class CdRom_IsoImageChecker {
 	 * video MIME Type: application MIME Type: multipart MIME Type: message
 	 */
 
-	public static void main(String args[]) throws IOException {
+	public static void main(String args[])  {
+		
+		try {
 
 		boolean isonecessary = false;
 
@@ -54,14 +56,24 @@ public class CdRom_IsoImageChecker {
 
 		String CdRomName = preservetools.files.GenericFileAnalysis
 				.getCdRomFolderName(examinedCdRom);
-
+	
+		//if the CD ROM drive is chosen, there are problems with the name of the folder
+		if (CdRomName.contains(":")) {
+			
+			System.out.println ("Test");
+			CdRomName = JOptionPane.showInputDialog(null,"Please type name of CD ROM",
+                    "CD ROM name unknown",
+                    JOptionPane.PLAIN_MESSAGE);
+		}
+		
 		@SuppressWarnings("resource")
 		PrintWriter outputfile = new PrintWriter(new FileWriter(outputFolder
-				+ "//" +  "CdRomExecutableAnalysis_" + CdRomName + ".txt"));
+				+ "//" +  "CdRomExecutableAnalysis_"  + CdRomName + ".txt"));
 
 		PrintWriter filesExecutable = new PrintWriter(new FileWriter(
 				outputFolder + "//" + "potentiallyExecutableFiles_" + CdRomName + ".txt"));
-		try {
+		
+		
 
 			if (examinedCdRom != null) {
 
@@ -113,12 +125,14 @@ public class CdRom_IsoImageChecker {
 							"One or more files are potentially executable",
 							"Create Iso Image", JOptionPane.PLAIN_MESSAGE);
 				}
+				
+				//else
 			}
 			filesExecutable.close();
 			outputfile.close();
 			
-		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "Error Message", e.toString(),
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.toString(),"Error Message", 
 					JOptionPane.ERROR_MESSAGE);
 
 		}
