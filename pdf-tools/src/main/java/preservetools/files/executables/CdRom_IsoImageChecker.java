@@ -81,12 +81,8 @@ public class CdRom_IsoImageChecker {
 						.getPaths(new File(examinedCdRom),
 								new ArrayList<File>());
 
-				// TODO: ueber einen Ordner mit mehreren CD ROMs laufen lassen
-				// und
-				// pro CD ROM entscheiden
 
-				// TODO: Falls ein Imaging notwendig wird, gleich von hier aus
-				// veranlassen. Ansonsten nur kopieren
+
 
 				for (int i = 0; i < files.size(); i++) {
 
@@ -117,7 +113,9 @@ public class CdRom_IsoImageChecker {
 
 							isonecessary = true;
 							
-							// TODO Adobe Reader
+							// TODO: If ISO Image recommended, create one and copy files. Else only copy files.
+													
+							// TODO Adobe Reader Software does not count.
 						}
 					}
 				}
