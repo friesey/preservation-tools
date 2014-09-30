@@ -50,7 +50,7 @@ public class JhoveStatistics {
 						wellformed++;
 					} else if (lines.get(i).contains("not valid")) {
 						invalid++;
-					} else if (lines.get(i).contains("malformed")) {
+					} else if (lines.get(i).contains("Not well-formed")) {
 						malformed++;
 					} else if (lines.get(i).contains("ErrorMessage")) {
 						errorlist.add(lines.get(i));

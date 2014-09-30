@@ -116,6 +116,8 @@ public class CdRom_IsoImageChecker {
 							//TODO: Count files which are potentially executable
 
 							isonecessary = true;
+							
+							// TODO Adobe Reader
 						}
 					}
 				}
