@@ -10,6 +10,8 @@ import javax.swing.JOptionPane;
 import org.apache.commons.io.FilenameUtils;
 
 public class CdRom_IsoImageChecker {
+	
+	public static PrintWriter filesExecutable;
 
 	static String examinedCdRom;
 
@@ -73,7 +75,7 @@ public class CdRom_IsoImageChecker {
 					outputFolder + "//" + "CdRomExecutableAnalysis_"
 							+ CdRomName + ".txt"));
 
-			PrintWriter filesExecutable = new PrintWriter(new FileWriter(
+			filesExecutable = new PrintWriter(new FileWriter(
 					outputFolder + "//" + "potentiallyExecutableFiles_"
 							+ CdRomName + ".txt"));
 

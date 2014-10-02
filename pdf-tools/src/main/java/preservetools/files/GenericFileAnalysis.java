@@ -8,8 +8,6 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
-import javax.swing.JOptionPane;
-
 public class GenericFileAnalysis {
 
 	// TODO: If I do not know yet which file it is, just a generic analyse

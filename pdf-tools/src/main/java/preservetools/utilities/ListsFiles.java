@@ -7,6 +7,8 @@ import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import preservetools.files.executables.CdRom_IsoImageChecker;
+
 public class ListsFiles {
 	/**
 	 * lists all files and directories in given directory
@@ -37,15 +39,28 @@ public class ListsFiles {
 					if (extension.equals("zip")) {
 
 						System.out.println("At least one zip files exists");
+						
+						try {
 						ZipFile zf = new ZipFile(f.toString());
 						Enumeration<? extends ZipEntry> e = zf.entries();
 						ZipEntry ze;
 						while (e.hasMoreElements()) {
 							ze = e.nextElement();
-							// list.add(ze.getName());
-							System.out.println(ze.getName());
+							
+							// System.out.println(ze.getName());
+							
+							if (!ze.isDirectory()) {							
+							File CompFile = new File (ze.toString());
+							list.add(CompFile);
+							}
+						
 						}
 						zf.close();
+						}
+						
+						catch (Exception e) {
+							CdRom_IsoImageChecker.filesExecutable.println (f + " causes an Exception" + e);
+						}
 					}
 
 					else {
