@@ -140,6 +140,11 @@ public class GenericFileAnalysis {
 		extensionlist.add("db");
 		extensionlist.add("rtf");
 		extensionlist.add("xml");
+		extensionlist.add("htm");
+		extensionlist.add("xhtm");
+		extensionlist.add("css");
+		extensionlist.add("xsd");
+		
 		if (extensionlist.contains(extension)) {
 			return false;
 		} else {

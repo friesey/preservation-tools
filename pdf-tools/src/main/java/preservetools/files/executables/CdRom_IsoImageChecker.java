@@ -2,7 +2,6 @@ package preservetools.files.executables;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
@@ -40,6 +39,8 @@ public class CdRom_IsoImageChecker {
 		try {
 
 		boolean isonecessary = false;
+		
+	
 
 		JOptionPane.showMessageDialog(null, "CD ROM Dialog",
 				"Please choose CD ROM Folder", JOptionPane.QUESTION_MESSAGE);
@@ -80,9 +81,6 @@ public class CdRom_IsoImageChecker {
 				ArrayList<File> files = preservetools.utilities.ListsFiles
 						.getPaths(new File(examinedCdRom),
 								new ArrayList<File>());
-
-
-
 
 				for (int i = 0; i < files.size(); i++) {
 
@@ -126,7 +124,11 @@ public class CdRom_IsoImageChecker {
 							"Create Iso Image", JOptionPane.PLAIN_MESSAGE);
 				}
 				
-				//else
+				else {
+					JOptionPane.showMessageDialog(null,
+							"None of the files is potentially executable",
+							"No Iso Image necessary", JOptionPane.PLAIN_MESSAGE);
+				}
 			}
 			filesExecutable.close();
 			outputfile.close();
@@ -134,6 +136,8 @@ public class CdRom_IsoImageChecker {
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.toString(),"Error Message", 
 					JOptionPane.ERROR_MESSAGE);
+			
+			// TODO: There can be a null pointer exception, fix with the help of the "CD_ROM_Archivierung" folder
 
 		}
 	}

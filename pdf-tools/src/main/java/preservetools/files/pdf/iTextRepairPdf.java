@@ -17,7 +17,7 @@ public class iTextRepairPdf {
 
 	static String examinedFolder;
 
-	public static void main(String args[]) throws FileNotFoundException {
+	public static void main(String args[]) throws IOException {
 
 		try {
 

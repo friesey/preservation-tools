@@ -1,16 +1,14 @@
 package preservetools.files.epub;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 
 public class EbubChecker {
 
 	// TODO: Check if epub file
 
-	public static void main(String args[]) throws FileNotFoundException {
+	public static void main(String args[]) throws IOException {
 
 		String examinedFolder = preservetools.utilities.FolderBrowserDialog
 				.chooseFolder();
