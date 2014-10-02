@@ -27,7 +27,14 @@ public class ListsFiles {
 			// TODO If a folder is chosen that cannot be searched/read, e. g.
 			// C:/, the tool runs into issues
 			if (f.isDirectory()) {
+		
+				if (!f.getName().toLowerCase().contains ("adobereader")) {
 				getPaths(f, list);
+				}
+				
+				else {
+					System.out.println ("Adobe Reader Software Folder:" + f.toString().toLowerCase());
+				}
 			}
 			if (!f.isDirectory()) { // adds only non-directories (=files) to the
 									// ArrayList of Files
@@ -38,18 +45,13 @@ public class ListsFiles {
 				if (extension != null) {
 
 					// TODO: What about .tar-files etc?
-					if (extension.equals("zip")) {
-
-						System.out.println("At least one zip files exists");
-
+					if (extension.equals("zip")) {				
 						try {
 							ZipFile zf = new ZipFile(f.toString());
 							Enumeration<? extends ZipEntry> e = zf.entries();
 							ZipEntry ze;
 							while (e.hasMoreElements()) {
-								ze = e.nextElement();
-
-								// System.out.println(ze.getName());
+								ze = e.nextElement();						
 
 								if (!ze.isDirectory()) {
 									File CompFile = new File(ze.toString());
@@ -68,8 +70,7 @@ public class ListsFiles {
 						}
 					}
 
-					else {
-						System.out.println("Adding files" + f);
+					else {		
 
 						list.add(f);
 					}
@@ -81,6 +82,18 @@ public class ListsFiles {
 									+ f);
 					list.add(f);
 				}
+				
+				//remove all Adobe Reader setup files from list
+				
+				String acrobatreadertest = f.toString().toLowerCase();
+				
+				//TODO: ingore complete folder named "AdobeReader"
+				
+				if ((acrobatreadertest.contains("adberdr")) || (acrobatreadertest.contains("acroread")) || (acrobatreadertest.contains("adobe_acrobat_reader"))) {
+					System.out.println ("Adobe Reader Software:" + f.toString().toLowerCase());
+					 list.remove(f);
+				}
+				
 			}
 		}
 

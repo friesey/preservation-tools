@@ -137,7 +137,6 @@ public class GenericFileAnalysis {
 		extensionlist.add("xlsx");
 		extensionlist.add("ppt");
 		extensionlist.add("pptx");
-		extensionlist.add("cda");
 		extensionlist.add("epub");
 		extensionlist.add("opf");
 		extensionlist.add("db");

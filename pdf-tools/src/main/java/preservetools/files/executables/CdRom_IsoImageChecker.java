@@ -83,9 +83,8 @@ public class CdRom_IsoImageChecker {
 
 				ArrayList<File> files = preservetools.utilities.ListsFiles
 						.getPaths(new File(examinedCdRom),
-								new ArrayList<File>());
-				
-				System.out.println ("Array List succesfully created");
+								new ArrayList<File>());				
+		
 
 				for (int i = 0; i < files.size(); i++) {
 
