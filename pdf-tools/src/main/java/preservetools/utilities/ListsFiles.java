@@ -36,30 +36,35 @@ public class ListsFiles {
 						.getFileExtension(f);
 
 				if (extension != null) {
+
+					// TODO: What about .tar-files etc?
 					if (extension.equals("zip")) {
 
 						System.out.println("At least one zip files exists");
-						
+
 						try {
-						ZipFile zf = new ZipFile(f.toString());
-						Enumeration<? extends ZipEntry> e = zf.entries();
-						ZipEntry ze;
-						while (e.hasMoreElements()) {
-							ze = e.nextElement();
-							
-							// System.out.println(ze.getName());
-							
-							if (!ze.isDirectory()) {							
-							File CompFile = new File (ze.toString());
-							list.add(CompFile);
+							ZipFile zf = new ZipFile(f.toString());
+							Enumeration<? extends ZipEntry> e = zf.entries();
+							ZipEntry ze;
+							while (e.hasMoreElements()) {
+								ze = e.nextElement();
+
+								// System.out.println(ze.getName());
+
+								if (!ze.isDirectory()) {
+									File CompFile = new File(ze.toString());
+									list.add(CompFile);
+								}
+
 							}
-						
+							zf.close();
 						}
-						zf.close();
-						}
-						
+
 						catch (Exception e) {
-							CdRom_IsoImageChecker.filesExecutable.println (f + " causes an Exception" + e);
+							// TODO: After this exception is caused, the adding
+							// of the rest of the files in the zip folder stops
+							CdRom_IsoImageChecker.filesExecutable.println(f
+									+ " causes an Exception" + e);
 						}
 					}
 
