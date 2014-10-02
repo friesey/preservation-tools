@@ -13,10 +13,11 @@ public class ListsFiles {
 	 * 
 	 * @param
 	 * @return: ArrayList<File> of all found files and subfolders
-	 * @throws IOException 
+	 * @throws IOException
 	 * 
 	 */
-	public static ArrayList<File> getPaths(File file, ArrayList<File> list) throws IOException {
+	public static ArrayList<File> getPaths(File file, ArrayList<File> list)
+			throws IOException {
 		if (file == null || list == null || !file.isDirectory())
 			return null;
 		File[] fileArr = file.listFiles();
@@ -26,25 +27,43 @@ public class ListsFiles {
 			if (f.isDirectory()) {
 				getPaths(f, list);
 			}
-			if (!f.isDirectory()){ //adds only non-directories (=files) to the ArrayList of Files
-				String extension = preservetools.files.GenericFileAnalysis.getFileExtension(f);
-				
-				if (extension.equals("zip")){
-					 ZipFile zf = new ZipFile (f.toString());
-					 Enumeration<? extends ZipEntry> e = zf.entries(); 
-					 ZipEntry ze; 
-					 while(e.hasMoreElements()){
-			                ze = e.nextElement();
-			               // list.add(ze.getName());
-			                System.out.println(ze.getName()); 				
-					 }
-					 zf.close();
+			if (!f.isDirectory()) { // adds only non-directories (=files) to the
+									// ArrayList of Files
+
+				String extension = preservetools.files.GenericFileAnalysis
+						.getFileExtension(f);
+
+				if (extension != null) {
+					if (extension.equals("zip")) {
+
+						System.out.println("At least one zip files exists");
+						ZipFile zf = new ZipFile(f.toString());
+						Enumeration<? extends ZipEntry> e = zf.entries();
+						ZipEntry ze;
+						while (e.hasMoreElements()) {
+							ze = e.nextElement();
+							// list.add(ze.getName());
+							System.out.println(ze.getName());
+						}
+						zf.close();
+					}
+
+					else {
+						System.out.println("Adding files" + f);
+
+						list.add(f);
+					}
 				}
+
 				else {
-			list.add(f);}					
-		}		
-	}
+					System.out
+							.println("Extension of file could not be extracted "
+									+ f);
+					list.add(f);
+				}
+			}
+		}
+
 		return list;
 	}
 }
-

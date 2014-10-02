@@ -34,61 +34,64 @@ public class CdRom_IsoImageChecker {
 	 * video MIME Type: application MIME Type: multipart MIME Type: message
 	 */
 
-	public static void main(String args[])  {
-		
+	public static void main(String args[]) {
+
 		try {
 
-		boolean isonecessary = false;
-		
-	
+			boolean isonecessary = false;
 
-		JOptionPane.showMessageDialog(null, "CD ROM Dialog",
-				"Please choose CD ROM Folder", JOptionPane.QUESTION_MESSAGE);
+			JOptionPane
+					.showMessageDialog(null, "CD ROM Dialog",
+							"Please choose CD ROM Folder",
+							JOptionPane.QUESTION_MESSAGE);
 
-		examinedCdRom = preservetools.utilities.FolderBrowserDialog
-				.chooseFolder();
+			examinedCdRom = preservetools.utilities.FolderBrowserDialog
+					.chooseFolder();
 
-		JOptionPane.showMessageDialog(null, "Output Folder",
-				"Please choose Folder where Outputfile will be created",
-				JOptionPane.QUESTION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Output Folder",
+					"Please choose Folder where Outputfile will be created",
+					JOptionPane.QUESTION_MESSAGE);
 
-		outputFolder = preservetools.utilities.FolderBrowserDialog
-				.chooseFolder();
+			outputFolder = preservetools.utilities.FolderBrowserDialog
+					.chooseFolder();
 
-		String CdRomName = preservetools.files.GenericFileAnalysis
-				.getCdRomFolderName(examinedCdRom);
-	
-		//if the CD ROM drive is chosen, there are problems with the name of the folder
-		if (CdRomName.contains(":")) {
-			
-			System.out.println ("Test");
-			CdRomName = JOptionPane.showInputDialog(null,"Please type name of CD ROM",
-                    "CD ROM name unknown",
-                    JOptionPane.PLAIN_MESSAGE);
-		}
-		
-		@SuppressWarnings("resource")
-		PrintWriter outputfile = new PrintWriter(new FileWriter(outputFolder
-				+ "//" +  "CdRomExecutableAnalysis_"  + CdRomName + ".txt"));
+			String CdRomName = preservetools.files.GenericFileAnalysis
+					.getCdRomFolderName(examinedCdRom);
 
-		PrintWriter filesExecutable = new PrintWriter(new FileWriter(
-				outputFolder + "//" + "potentiallyExecutableFiles_" + CdRomName + ".txt"));
-		
-		
+			// if the CD ROM drive is chosen, there are problems with the name
+			// of the folder
+			if (CdRomName.contains(":")) {
+
+				System.out.println("Test");
+				CdRomName = JOptionPane.showInputDialog(null,
+						"Please type name of CD ROM", "CD ROM name unknown",
+						JOptionPane.PLAIN_MESSAGE);
+			}
+
+			@SuppressWarnings("resource")
+			PrintWriter outputfile = new PrintWriter(new FileWriter(
+					outputFolder + "//" + "CdRomExecutableAnalysis_"
+							+ CdRomName + ".txt"));
+
+			PrintWriter filesExecutable = new PrintWriter(new FileWriter(
+					outputFolder + "//" + "potentiallyExecutableFiles_"
+							+ CdRomName + ".txt"));
 
 			if (examinedCdRom != null) {
 
 				ArrayList<File> files = preservetools.utilities.ListsFiles
 						.getPaths(new File(examinedCdRom),
 								new ArrayList<File>());
+				
+				System.out.println ("Array List succesfully created");
 
 				for (int i = 0; i < files.size(); i++) {
 
 					mimetype = preservetools.files.GenericFileAnalysis
-							.getFileExtension(files.get(i));
+							.getFileMimeType(files.get(i));
 
-					extension = FilenameUtils.getExtension(files.get(i)
-							.toString()).toLowerCase();
+					extension = FilenameUtils.getExtension(
+							files.get(i).toString()).toLowerCase();
 
 					outputfile.println(files.get(i).toString());
 					outputfile.println("Mimetype: " + mimetype);
@@ -106,13 +109,15 @@ public class CdRom_IsoImageChecker {
 											+ files.get(i).toString());
 							filesExecutable.println("Mimetype: " + mimetype);
 							filesExecutable.println();
-							
-							//TODO: Count files which are potentially executable
+
+							// TODO: Count files which are potentially
+							// executable
 
 							isonecessary = true;
-							
-							// TODO: If ISO Image recommended, create one and copy files. Else only copy files.
-													
+
+							// TODO: If ISO Image recommended, create one and
+							// copy files. Else only copy files.
+
 							// TODO Adobe Reader Software does not count.
 						}
 					}
@@ -123,22 +128,26 @@ public class CdRom_IsoImageChecker {
 							"One or more files are potentially executable",
 							"Create Iso Image", JOptionPane.PLAIN_MESSAGE);
 				}
-				
+
 				else {
-					JOptionPane.showMessageDialog(null,
-							"None of the files is potentially executable",
-							"No Iso Image necessary", JOptionPane.PLAIN_MESSAGE);
+					JOptionPane
+							.showMessageDialog(
+									null,
+									"None of the files is potentially executable",
+									"No Iso Image necessary",
+									JOptionPane.PLAIN_MESSAGE);
 				}
 			}
 			filesExecutable.close();
 			outputfile.close();
-			
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e.toString(),"Error Message", 
-					JOptionPane.ERROR_MESSAGE);
-			
-			// TODO: There can be a null pointer exception, fix with the help of the "CD_ROM_Archivierung" folder
 
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.toString(), "Error Message",
+					JOptionPane.ERROR_MESSAGE);
+
+			// TODO: There can be a null pointer exception, fix with the help of
+			// the "CD_ROM_Archivierung" folder
+			// D:\CD_ROM_Archivierung\PPN_37065143x
 		}
 	}
 }

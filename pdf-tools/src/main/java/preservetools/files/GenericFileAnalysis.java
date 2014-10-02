@@ -8,6 +8,8 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
+import javax.swing.JOptionPane;
+
 public class GenericFileAnalysis {
 
 	// TODO: If I do not know yet which file it is, just a generic analyse
@@ -110,16 +112,19 @@ public class GenericFileAnalysis {
 		}
 	}
 
-	public static String getFileExtension(File file) throws IOException {
+	public static String getFileMimeType(File file) throws IOException {
 		String extension = Files.probeContentType(file.toPath());
 		return extension;
 	}
-	
+
 	/**
-	 * Checks Extension for known Non-executable extensions like "pdf"
-	 * PDF/A-3 and some higher PDF-Version might contain executables as Attachements.
-	 * But that should not make an ISO image necessary. Beware of what for this method is used, however.
-	 * @param String mimetype	           
+	 * Checks Extension for known Non-executable extensions like "pdf" PDF/A-3
+	 * and some higher PDF-Version might contain executables as Attachements.
+	 * But that should not make an ISO image necessary. Beware of what for this
+	 * method is used, however.
+	 * 
+	 * @param String
+	 *            mimetype
 	 * @return: boolean
 	 * @throws
 	 */
@@ -144,7 +149,7 @@ public class GenericFileAnalysis {
 		extensionlist.add("xhtm");
 		extensionlist.add("css");
 		extensionlist.add("xsd");
-		
+
 		if (extensionlist.contains(extension)) {
 			return false;
 		} else {
@@ -152,17 +157,17 @@ public class GenericFileAnalysis {
 		}
 	}
 
-	
 	/**
-	 * Checks Mimetype. If not known (==null) it might be executable.
-	 * If test, image, audio, video, it should not be executbable.
-	 * Otherwise go ahead for testIfExtensionCanbeExecutable
+	 * Checks Mimetype. If not known (==null) it might be executable. If test,
+	 * image, audio, video, it should not be executbable. Otherwise go ahead for
+	 * testIfExtensionCanbeExecutable
 	 * 
-	 * @param String mimetype	           
+	 * @param String
+	 *            mimetype
 	 * @return: boolean
 	 * @throws
 	 */
-	
+
 	public static boolean testIfMimeMightBeExecutable(String mimetype) {
 
 		if (mimetype == null) {
@@ -181,11 +186,18 @@ public class GenericFileAnalysis {
 	}
 
 	public static String getCdRomFolderName(String examinedCdRom) {
-		
-		String [] segs = examinedCdRom.split (Pattern.quote ("\\"));
-		
-		return segs[segs.length-1];
-		
+
+		String[] segs = examinedCdRom.split(Pattern.quote("\\"));
+
+		return segs[segs.length - 1];
+
+	}
+
+	public static String getFileExtension(File file) {
+
+		String[] segs = file.toString().split(Pattern.quote("."));
+
+		return segs[segs.length - 1];
 	}
 
 }

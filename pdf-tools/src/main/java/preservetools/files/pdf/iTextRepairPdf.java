@@ -35,7 +35,7 @@ public class iTextRepairPdf {
 				try {
 					for (int i = 0; i < files.size(); i++) {
 						System.out.println(files.get(i).getCanonicalPath());
-						mimetype =  preservetools.files.GenericFileAnalysis.getFileExtension(files.get(i));
+						mimetype =  preservetools.files.GenericFileAnalysis.getFileMimeType(files.get(i));
 
 						if (mimetype.equals("application/pdf")) {
 							System.out.println(files.get(i));

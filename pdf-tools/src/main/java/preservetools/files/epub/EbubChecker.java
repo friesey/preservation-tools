@@ -24,7 +24,7 @@ public class EbubChecker {
 					
 					System.out.println(files.get(i).getCanonicalPath());
 					
-					extension =  preservetools.files.GenericFileAnalysis.getFileExtension(files.get(i));	
+					extension =  preservetools.files.GenericFileAnalysis.getFileMimeType(files.get(i));	
 
 					if (extension.equals("application/epub")) {
 
