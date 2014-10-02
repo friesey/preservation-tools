@@ -31,6 +31,7 @@ public class CdRom_IsoImageChecker {
 								 * Image has to be created
 								 */
 
+	static boolean isonecessary;
 	/*
 	 * description: MIME Type: text MIME Type: image MIME Type: audio MIME Type:
 	 * video MIME Type: application MIME Type: multipart MIME Type: message
@@ -40,7 +41,7 @@ public class CdRom_IsoImageChecker {
 
 		try {
 
-			boolean isonecessary = false;
+			isonecessary = false;
 
 			JOptionPane
 					.showMessageDialog(null, "CD ROM Dialog",
@@ -104,6 +105,8 @@ public class CdRom_IsoImageChecker {
 
 						if (preservetools.files.GenericFileAnalysis
 								.testIfExtensionCanbeExecutable(extension)) {
+							
+							System.out.println ("Landet hier");
 
 							filesExecutable
 									.println("IsoImage recommended because of file:  "
@@ -124,7 +127,7 @@ public class CdRom_IsoImageChecker {
 					}
 				}
 
-				if (isonecessary = true) {
+				if (isonecessary == true) {
 					JOptionPane.showMessageDialog(null,
 							"One or more files are potentially executable",
 							"Create Iso Image", JOptionPane.PLAIN_MESSAGE);
