@@ -140,6 +140,8 @@ public class CdRom_IsoImageChecker {
 									"None of the files is potentially executable",
 									"No Iso Image necessary",
 									JOptionPane.PLAIN_MESSAGE);
+					
+					filesExecutable.println ("None of the files is potentially executable");
 				}
 			}
 			filesExecutable.close();
@@ -148,10 +150,6 @@ public class CdRom_IsoImageChecker {
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.toString(), "Error Message",
 					JOptionPane.ERROR_MESSAGE);
-
-			// TODO: There can be a null pointer exception, fix with the help of
-			// the "CD_ROM_Archivierung" folder
-			// D:\CD_ROM_Archivierung\PPN_37065143x
 		}
 	}
 }
