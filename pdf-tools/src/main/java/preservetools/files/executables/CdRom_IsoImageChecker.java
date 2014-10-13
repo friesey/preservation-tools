@@ -106,8 +106,15 @@ public class CdRom_IsoImageChecker {
 						if (preservetools.files.GenericFileAnalysis
 								.testIfExtensionCanbeExecutable(extension)) {
 							
-							System.out.println ("Landet hier");
-
+							if (preservetools.files.ChecksumChecker.testIfChecksumisPdfReaderSoftware(files.get(i))) {
+								// TODO Adobe Reader Software does not count.
+								
+								filesExecutable
+								.println ((files.get(i).toString()) + " contains AdobeAcrobatReader MD5 checksum");
+							}
+							
+							else {
+							
 							filesExecutable
 									.println("IsoImage recommended because of file:  "
 											+ files.get(i).toString());
@@ -122,7 +129,8 @@ public class CdRom_IsoImageChecker {
 							// TODO: If ISO Image recommended, create one and
 							// copy files. Else only copy files.
 
-							// TODO Adobe Reader Software does not count.
+							
+							}
 						}
 					}
 				}
