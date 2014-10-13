@@ -20,32 +20,34 @@ public class iTextRepairPdf {
 	public static void main(String args[]) throws IOException {
 
 		try {
-
-			examinedFolder = preservetools.utilities.FolderBrowserDialog.chooseFolder();
+			examinedFolder = preservetools.utilities.FolderBrowserDialog
+					.chooseFolder();
 
 			if (examinedFolder != null) {
 
-				ArrayList<File> files = preservetools.utilities.ListsFiles.getPaths(new File(examinedFolder),
-						new ArrayList<File>());
-				if (files == null)
-					return;
-				String mimetype;
-				PdfReader reader;
-				
 				try {
+					ArrayList<File> files = preservetools.utilities.ListsFiles
+							.getPaths(new File(examinedFolder),
+									new ArrayList<File>());
+					if (files == null)
+						return;
+					String mimetype;
+					PdfReader reader;
+
 					for (int i = 0; i < files.size(); i++) {
 						System.out.println(files.get(i).getCanonicalPath());
-						mimetype =  preservetools.files.GenericFileAnalysis.getFileMimeType(files.get(i));
+						mimetype = preservetools.files.GenericFileAnalysis
+								.getFileMimeType(files.get(i));
 
 						if (mimetype.equals("application/pdf")) {
 							System.out.println(files.get(i));
 							try {
 								reader = new PdfReader(files.get(i).toString());
 								if (!reader.isEncrypted()) {
-									repairWithItext(reader, files.get(i).getName());
+									repairWithItext(reader, files.get(i)
+											.getName());
 								}
-							}
-							catch (Exception e) {
+							} catch (Exception e) {
 								System.out.println(e);
 							}
 						}
@@ -70,12 +72,14 @@ public class iTextRepairPdf {
 	 */
 
 	@SuppressWarnings("rawtypes")
-	static void repairWithItext(PdfReader reader, String filename) throws DocumentException, IOException {
+	static void repairWithItext(PdfReader reader, String filename)
+			throws DocumentException, IOException {
 
 		Map info = reader.getInfo();
 		Document document = new Document();
 
-		PdfCopy copy = new PdfCopy(document, new FileOutputStream(examinedFolder + "//" + "Mig_iText" + filename));
+		PdfCopy copy = new PdfCopy(document, new FileOutputStream(
+				examinedFolder + "//" + "Mig_iText" + filename));
 		copy.setPDFXConformance(PdfWriter.PDFA1B);
 		document.addTitle((String) info.get("Title"));
 		if (info.get("Author") != null)
