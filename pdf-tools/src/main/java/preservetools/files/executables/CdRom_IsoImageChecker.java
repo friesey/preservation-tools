@@ -1,8 +1,11 @@
 package preservetools.files.executables;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
@@ -10,7 +13,7 @@ import javax.swing.JOptionPane;
 import org.apache.commons.io.FilenameUtils;
 
 public class CdRom_IsoImageChecker {
-	
+
 	public static PrintWriter filesExecutable;
 
 	static String examinedCdRom;
@@ -32,12 +35,14 @@ public class CdRom_IsoImageChecker {
 								 */
 
 	static boolean isonecessary;
+
 	/*
 	 * description: MIME Type: text MIME Type: image MIME Type: audio MIME Type:
 	 * video MIME Type: application MIME Type: multipart MIME Type: message
 	 */
 
-	public static void main(String args[]) {
+	public static void main(String args[]) throws IOException,
+			NoSuchAlgorithmException {
 
 		try {
 
@@ -76,16 +81,16 @@ public class CdRom_IsoImageChecker {
 					outputFolder + "//" + "CdRomExecutableAnalysis_"
 							+ CdRomName + ".txt"));
 
-			filesExecutable = new PrintWriter(new FileWriter(
-					outputFolder + "//" + "potentiallyExecutableFiles_"
-							+ CdRomName + ".txt"));
+			filesExecutable = new PrintWriter(
+					new FileWriter(outputFolder + "//"
+							+ "potentiallyExecutableFiles_" + CdRomName
+							+ ".txt"));
 
 			if (examinedCdRom != null) {
 
 				ArrayList<File> files = preservetools.utilities.ListsFiles
 						.getPaths(new File(examinedCdRom),
-								new ArrayList<File>());				
-		
+								new ArrayList<File>());
 
 				for (int i = 0; i < files.size(); i++) {
 
@@ -105,31 +110,35 @@ public class CdRom_IsoImageChecker {
 
 						if (preservetools.files.GenericFileAnalysis
 								.testIfExtensionCanbeExecutable(extension)) {
-							
-							if (preservetools.files.ChecksumChecker.testIfChecksumisPdfReaderSoftware(files.get(i))) {
+
+							if (preservetools.files.ChecksumChecker
+									.testIfChecksumisPdfReaderSoftware(files
+											.get(i))) {
 								// TODO Adobe Reader Software does not count.
-								
+
 								filesExecutable
-								.println ((files.get(i).toString()) + " contains AdobeAcrobatReader MD5 checksum");
+										.println((files.get(i).toString())
+												+ " contains AdobeAcrobatReader MD5 checksum");
 							}
-							
+
 							else {
-							
-							filesExecutable
-									.println("IsoImage recommended because of file:  "
-											+ files.get(i).toString());
-							filesExecutable.println("Mimetype: " + mimetype);
-							filesExecutable.println();
 
-							// TODO: Count files which are potentially
-							// executable
+								filesExecutable
+										.println("IsoImage recommended because of file:  "
+												+ files.get(i).toString());
+								filesExecutable
+										.println("Mimetype: " + mimetype);
+								filesExecutable.println();
 
-							isonecessary = true;
+								// TODO: Count files which are potentially
+								// executable
 
-							// TODO: If ISO Image recommended, create one and
-							// copy files. Else only copy files.
+								isonecessary = true;
 
-							
+								// TODO: If ISO Image recommended, create one
+								// and
+								// copy files. Else only copy files.
+
 							}
 						}
 					}
@@ -148,16 +157,20 @@ public class CdRom_IsoImageChecker {
 									"None of the files is potentially executable",
 									"No Iso Image necessary",
 									JOptionPane.PLAIN_MESSAGE);
-					
-					filesExecutable.println ("None of the files is potentially executable");
+
+					filesExecutable
+							.println("None of the files is potentially executable");
 				}
 			}
 			filesExecutable.close();
 			outputfile.close();
 
-		} catch (Exception e) {
+		}
+
+		catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.toString(), "Error Message",
 					JOptionPane.ERROR_MESSAGE);
 		}
+
 	}
 }

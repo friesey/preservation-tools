@@ -28,9 +28,13 @@ public class ChecksumChecker {
 
 		//TODO: create MD5 checksum 
 		String checksum = null;		
-		
+		try{
 		checksum = DigestUtils.md5Hex(new FileInputStream(file));
 		System.out.println (checksum);
+		}
+		catch (Exception e){
+			System.out.println (e + file.toString());
+		}
 
 		
 		if (checksumlist.contains(checksum)) {

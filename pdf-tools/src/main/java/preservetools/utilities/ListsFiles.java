@@ -18,10 +18,13 @@ public class ListsFiles {
 		for (File f : fileArr) {
 			// TODO If a folder is chosen that cannot be searched/read, e. g.
 			// C:/, the tool runs into issues
-			if (f.isDirectory()) {
+			if (!f.isDirectory()) {
+				//should not add directories to the ArrayList of files
+				list.add(f);
+			} else {
+				
 				getPaths(f, list);
 			}
-			list.add(f);
 		}
 		return list;
 	}
