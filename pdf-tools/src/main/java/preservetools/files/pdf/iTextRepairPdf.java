@@ -38,17 +38,19 @@ public class iTextRepairPdf {
 						System.out.println(files.get(i).getCanonicalPath());
 						mimetype = preservetools.files.GenericFileAnalysis
 								.getFileMimeType(files.get(i));
-
-						if (mimetype.equals("application/pdf")) {
-							System.out.println(files.get(i));
-							try {
-								reader = new PdfReader(files.get(i).toString());
-								if (!reader.isEncrypted()) {
-									repairWithItext(reader, files.get(i)
-											.getName());
+						if (mimetype != null) {
+							if (mimetype.equals("application/pdf")) {
+								System.out.println(files.get(i));
+								try {
+									reader = new PdfReader(files.get(i)
+											.toString());
+									if (!reader.isEncrypted()) {
+										repairWithItext(reader, files.get(i)
+												.getName());
+									}
+								} catch (Exception e) {
+									System.out.println(e);
 								}
-							} catch (Exception e) {
-								System.out.println(e);
 							}
 						}
 					}

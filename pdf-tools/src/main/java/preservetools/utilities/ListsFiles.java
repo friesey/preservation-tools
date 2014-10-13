@@ -27,7 +27,8 @@ public class ListsFiles {
 			// TODO If a folder is chosen that cannot be searched/read, e. g.
 			// C:/, the tool runs into issues
 
-			// TODO: This cannot be done in this generic method. It's only for the Cdom_IsoImageChecker
+			// TODO: This cannot be done in this generic method. It's only for
+			// the Cdom_IsoImageChecker
 			/*
 			 * if (f.isDirectory()) { if (!f.getName().toLowerCase().contains
 			 * ("adobereader")) { getPaths(f, list); }
@@ -83,21 +84,6 @@ public class ListsFiles {
 									+ f);
 					list.add(f);
 				}
-
-				// remove all Adobe Reader setup files from list
-
-				String acrobatreadertest = f.toString().toLowerCase();
-
-				// TODO: ingore complete folder named "AdobeReader"
-
-				if ((acrobatreadertest.contains("adberdr"))
-						|| (acrobatreadertest.contains("acroread"))
-						|| (acrobatreadertest.contains("adobe_acrobat_reader"))) {
-					System.out.println("Adobe Reader Software:"
-							+ f.toString().toLowerCase());
-					list.remove(f);
-				}
-
 			}
 		}
 
