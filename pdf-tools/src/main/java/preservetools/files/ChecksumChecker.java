@@ -30,7 +30,7 @@ public class ChecksumChecker {
 		String checksum = null;		
 		try{
 		checksum = DigestUtils.md5Hex(new FileInputStream(file));
-		System.out.println (checksum);
+		// System.out.println (checksum);
 		}
 		catch (Exception e){
 			System.out.println (e + file.toString());

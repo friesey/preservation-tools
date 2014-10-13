@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Date;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
@@ -23,6 +24,8 @@ public class CdRom_IsoImageChecker {
 	static String mimetype;
 
 	static String extension;
+	
+	static int filescount;
 
 	static int FOLDERMAX = 15; /*
 								 * if there are more than FOLDERMAX folders, an
@@ -43,6 +46,9 @@ public class CdRom_IsoImageChecker {
 
 	public static void main(String args[]) throws IOException,
 			NoSuchAlgorithmException {
+		
+		//measures time
+		long starttime = System.currentTimeMillis();
 
 		try {
 
@@ -84,13 +90,18 @@ public class CdRom_IsoImageChecker {
 			filesExecutable = new PrintWriter(
 					new FileWriter(outputFolder + "//"
 							+ "potentiallyExecutableFiles_" + CdRomName
-							+ ".txt"));
+							+ ".txt"));		
+			
 
 			if (examinedCdRom != null) {
 
 				ArrayList<File> files = preservetools.utilities.ListsFiles
 						.getPaths(new File(examinedCdRom),
-								new ArrayList<File>());
+								new ArrayList<File>());			
+								
+				outputfile.println (" Mo. of files are in the folder/CD: " + files.size());
+				outputfile.println ();
+				filescount = files.size();
 
 				for (int i = 0; i < files.size(); i++) {
 
@@ -111,7 +122,7 @@ public class CdRom_IsoImageChecker {
 						if (preservetools.files.GenericFileAnalysis
 								.testIfExtensionCanbeExecutable(extension)) {
 
-							if (preservetools.files.ChecksumChecker
+							 if (preservetools.files.ChecksumChecker
 									.testIfChecksumisPdfReaderSoftware(files
 											.get(i))) {
 								// TODO Adobe Reader Software does not count.
@@ -120,9 +131,10 @@ public class CdRom_IsoImageChecker {
 										.println((files.get(i).toString())
 												+ " contains AdobeAcrobatReader MD5 checksum");
 							}
+						
 
 							else {
-
+							 
 								filesExecutable
 										.println("IsoImage recommended because of file:  "
 												+ files.get(i).toString());
@@ -161,9 +173,18 @@ public class CdRom_IsoImageChecker {
 					filesExecutable
 							.println("None of the files is potentially executable");
 				}
-			}
+		}
+			long endtime = System.currentTimeMillis();
+			
+			long runtime = endtime - starttime;
+			 outputfile.println("Time needed to operate: " + runtime);
+			
 			filesExecutable.close();
 			outputfile.close();
+			
+			System.out.println ("No. of files: " + filescount);
+			System.out.println ("Time needed to operate: " + runtime + " Milliseconds");
+			
 
 		}
 
