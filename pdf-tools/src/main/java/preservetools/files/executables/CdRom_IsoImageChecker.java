@@ -54,7 +54,7 @@ public class CdRom_IsoImageChecker {
 		try {
 
 			// measures time
-			long starttime = System.currentTimeMillis();
+			double starttime = System.currentTimeMillis();
 
 			int filecheck = 0;
 
@@ -189,9 +189,9 @@ public class CdRom_IsoImageChecker {
 							.println("None of the files is potentially executable");
 				}
 
-				long endtime = System.currentTimeMillis();
+				double endtime = System.currentTimeMillis();
 
-				long runtime = endtime - starttime;
+				double runtime = endtime - starttime;
 				outputfile.println("Time needed to operate: " + runtime
 						+ " Milliseconds");
 
@@ -205,8 +205,30 @@ public class CdRom_IsoImageChecker {
 						+ filecheck);
 
 				System.out.println("No. of files: " + filescount);
-				System.out.println("Time needed to operate: " + runtime
-						+ " Milliseconds");
+
+				double runtimeSec = runtime / 1000;
+
+				if (runtime > 1000) {
+					
+					if (runtimeSec > 60) {
+						
+						double runtimeMin = runtimeSec / 60;
+						
+						System.out.println("Time needed to operate: " + runtimeMin
+								+ " Seconds");
+					}
+					else {
+					System.out.println("Time needed to operate: " + runtimeSec
+							+ " Seconds");
+					}
+					
+				}
+
+				else {
+					System.out.println("Time needed to operate: " + runtime
+							+ " Milliseconds");
+				}
+
 			}
 
 			else {
