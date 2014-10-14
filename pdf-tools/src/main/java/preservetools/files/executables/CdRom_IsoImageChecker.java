@@ -46,15 +46,17 @@ public class CdRom_IsoImageChecker {
 	 * video MIME Type: application MIME Type: multipart MIME Type: message
 	 */
 
+	// TODO: How to end program if it runs too long?
+
 	public static void main(String args[]) throws IOException,
 			NoSuchAlgorithmException {
 
-		// measures time
-		long starttime = System.currentTimeMillis();
-
-		int filecheck = 0;
-
 		try {
+
+			// measures time
+			long starttime = System.currentTimeMillis();
+
+			int filecheck = 0;
 
 			isonecessary = false;
 
@@ -73,28 +75,28 @@ public class CdRom_IsoImageChecker {
 			outputFolder = preservetools.utilities.FolderBrowserDialog
 					.chooseFolder();
 
-			String CdRomName = preservetools.files.GenericFileAnalysis
-					.getCdRomFolderName(examinedCdRom);
+			if (examinedCdRom != null && outputFolder != null) {
 
-			// if the CD ROM drive is chosen, there are problems with the name
-			// of the folder
-			if (CdRomName.contains(":")) {
+				String CdRomName = preservetools.files.GenericFileAnalysis
+						.getCdRomFolderName(examinedCdRom);
 
-				System.out.println("Test");
-				CdRomName = JOptionPane.showInputDialog(null,
-						"Please type name of CD ROM", "CD ROM name unknown",
-						JOptionPane.PLAIN_MESSAGE);
-			}
+				// if the CD ROM drive is chosen, there are problems with the
+				// name
+				// of the folder
+				if (CdRomName.contains(":")) {
 
-			outputfile = new PrintWriter(new FileWriter(outputFolder + "//"
-					+ "CdRomExecutableAnalysis_" + CdRomName + ".txt"));
+					System.out.println("Test");
+					CdRomName = JOptionPane.showInputDialog(null,
+							"Please type name of CD ROM",
+							"CD ROM name unknown", JOptionPane.PLAIN_MESSAGE);
+				}
 
-			filesExecutable = new PrintWriter(
-					new FileWriter(outputFolder + "//"
-							+ "potentiallyExecutableFiles_" + CdRomName
-							+ ".txt"));
+				outputfile = new PrintWriter(new FileWriter(outputFolder + "//"
+						+ "CdRomExecutableAnalysis_" + CdRomName + ".txt"));
 
-			if (examinedCdRom != null) {
+				filesExecutable = new PrintWriter(new FileWriter(outputFolder
+						+ "//" + "potentiallyExecutableFiles_" + CdRomName
+						+ ".txt"));
 
 				ArrayList<File> files = preservetools.utilities.ListsFiles
 						.getPaths(new File(examinedCdRom),
@@ -175,27 +177,35 @@ public class CdRom_IsoImageChecker {
 					filesExecutable
 							.println("None of the files is potentially executable");
 				}
+
+				long endtime = System.currentTimeMillis();
+
+				long runtime = endtime - starttime;
+				outputfile.println("Time needed to operate: " + runtime
+						+ " Milliseconds");
+
+				outputfile.println("Checksum generated and compared: "
+						+ filecheck);
+
+				filesExecutable.close();
+				outputfile.close();
+
+				System.out.println("Checksum generated and compared: "
+						+ filecheck);
+
+				System.out.println("No. of files: " + filescount);
+				System.out.println("Time needed to operate: " + runtime
+						+ " Milliseconds");
 			}
-			long endtime = System.currentTimeMillis();
 
-			long runtime = endtime - starttime;
-			outputfile.println("Time needed to operate: " + runtime
-					+ " Milliseconds");
-
-			outputfile.println("Checksum generated and compared: " + filecheck);
-
-			filesExecutable.close();
-			outputfile.close();
-
-			System.out.println("Checksum generated and compared: " + filecheck);
-
-			System.out.println("No. of files: " + filescount);
-			System.out.println("Time needed to operate: " + runtime
-					+ " Milliseconds");
+			else {
+				System.out.println("Please choose a folder!");
+			}
 
 		}
 
 		catch (Exception e) {
+			// System.out.println (e);
 			JOptionPane.showMessageDialog(null, e.toString(), "Error Message",
 					JOptionPane.ERROR_MESSAGE);
 		}
