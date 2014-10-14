@@ -1,16 +1,16 @@
 package preservetools.files.executables;
 
+import java.awt.BorderLayout;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Date;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-
 import org.apache.commons.io.FilenameUtils;
 
 public class CdRom_IsoImageChecker {
@@ -91,6 +91,15 @@ public class CdRom_IsoImageChecker {
 							"CD ROM name unknown", JOptionPane.PLAIN_MESSAGE);
 				}
 
+				// TODO: Information about running seems to eat up too many
+				// ressources
+
+				JFrame f = new JFrame();
+				JButton but = new JButton("... Program is running ... ");
+				f.add(but, BorderLayout.PAGE_END);
+				f.pack();
+				f.setVisible(true);
+
 				outputfile = new PrintWriter(new FileWriter(outputFolder + "//"
 						+ "CdRomExecutableAnalysis_" + CdRomName + ".txt"));
 
@@ -160,6 +169,8 @@ public class CdRom_IsoImageChecker {
 					}
 				}
 
+				f.dispose();
+
 				if (isonecessary == true) {
 					JOptionPane.showMessageDialog(null,
 							"One or more files are potentially executable",
@@ -201,7 +212,6 @@ public class CdRom_IsoImageChecker {
 			else {
 				System.out.println("Please choose a folder!");
 			}
-
 		}
 
 		catch (Exception e) {
