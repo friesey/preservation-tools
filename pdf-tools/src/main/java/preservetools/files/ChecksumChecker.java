@@ -9,6 +9,8 @@ import java.util.ArrayList;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
+import preservetools.files.executables.CdRom_IsoImageChecker;
+
 public class ChecksumChecker {
 
 	/**
@@ -35,7 +37,7 @@ public class ChecksumChecker {
 		String checksum = null;
 		try {
 			checksum = DigestUtils.md5Hex(new FileInputStream(file));
-			// System.out.println (checksum);
+			CdRom_IsoImageChecker.outputfile.println ("MD5 Checksumme: " + checksum);
 	
 		} catch (Exception e) {
 			System.out.println(e + file.toString());

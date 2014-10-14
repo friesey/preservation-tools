@@ -17,6 +17,8 @@ public class CdRom_IsoImageChecker {
 
 	public static PrintWriter filesExecutable;
 
+	public static PrintWriter outputfile;
+
 	static String examinedCdRom;
 
 	static String outputFolder;
@@ -84,10 +86,8 @@ public class CdRom_IsoImageChecker {
 						JOptionPane.PLAIN_MESSAGE);
 			}
 
-			@SuppressWarnings("resource")
-			PrintWriter outputfile = new PrintWriter(new FileWriter(
-					outputFolder + "//" + "CdRomExecutableAnalysis_"
-							+ CdRomName + ".txt"));
+			outputfile = new PrintWriter(new FileWriter(outputFolder + "//"
+					+ "CdRomExecutableAnalysis_" + CdRomName + ".txt"));
 
 			filesExecutable = new PrintWriter(
 					new FileWriter(outputFolder + "//"
@@ -100,7 +100,7 @@ public class CdRom_IsoImageChecker {
 						.getPaths(new File(examinedCdRom),
 								new ArrayList<File>());
 
-				outputfile.println(" No. of files are in the folder/CD: "
+				outputfile.println("No. of files are in the folder or CD: "
 						+ files.size());
 				outputfile.println();
 				filescount = files.size();
@@ -123,7 +123,7 @@ public class CdRom_IsoImageChecker {
 
 						if (preservetools.files.GenericFileAnalysis
 								.testIfExtensionCanbeExecutable(extension)) {
-							filecheck++;						
+							filecheck++;
 
 							if (preservetools.files.ChecksumChecker
 									.testIfChecksumisPdfReaderSoftware(files
@@ -181,16 +181,13 @@ public class CdRom_IsoImageChecker {
 			long runtime = endtime - starttime;
 			outputfile.println("Time needed to operate: " + runtime
 					+ " Milliseconds");
-			
-			outputfile.println("Checksum generated and compared: "
-					+ filecheck);
+
+			outputfile.println("Checksum generated and compared: " + filecheck);
 
 			filesExecutable.close();
 			outputfile.close();
-			
-			System.out
-			.println("Checksum generated and compared: "
-					+ filecheck);
+
+			System.out.println("Checksum generated and compared: " + filecheck);
 
 			System.out.println("No. of files: " + filescount);
 			System.out.println("Time needed to operate: " + runtime
