@@ -146,6 +146,13 @@ public class GenericFileAnalysis {
 		extensionlist.add("xhtm");
 		extensionlist.add("css");
 		extensionlist.add("xsd");
+		extensionlist.add("csv");
+		extensionlist.add("emf");
+		extensionlist.add("ifc");
+		extensionlist.add("e57");
+		extensionlist.add("dtd");
+		extensionlist.add("bmml");
+		
 
 		if (extensionlist.contains(extension)) {
 			return false;
