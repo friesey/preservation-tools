@@ -142,8 +142,12 @@ public class GenericFileAnalysis {
 		extensionlist.add("db");
 		extensionlist.add("rtf");
 		extensionlist.add("xml");
+		extensionlist.add("xsl");
+		extensionlist.add("tei");
 		extensionlist.add("htm");
 		extensionlist.add("xhtm");
+		extensionlist.add("html");
+		extensionlist.add("xhtml");
 		extensionlist.add("css");
 		extensionlist.add("xsd");
 		extensionlist.add("csv");
