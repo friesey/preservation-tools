@@ -152,6 +152,7 @@ public class GenericFileAnalysis {
 		extensionlist.add("e57");
 		extensionlist.add("dtd");
 		extensionlist.add("bmml");
+		extensionlist.add("log");
 		
 
 		if (extensionlist.contains(extension)) {
