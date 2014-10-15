@@ -7,10 +7,14 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+
 import org.apache.commons.io.FilenameUtils;
 
 public class CdRom_IsoImageChecker {
@@ -53,158 +57,176 @@ public class CdRom_IsoImageChecker {
 	public static void main(String args[]) throws IOException,
 			NoSuchAlgorithmException {
 
-		try {
-			// measures time
-			double starttime = System.currentTimeMillis();
-			filecheck = 0;
-			isonecessary = false;
-			JOptionPane
-					.showMessageDialog(null, "CD ROM Dialog",
-							"Please choose CD ROM Folder",
-							JOptionPane.QUESTION_MESSAGE);
-			examinedCdRom = preservetools.utilities.FolderBrowserDialog
-					.chooseFolder();
-			JOptionPane.showMessageDialog(null, "Output Folder",
-					"Please choose Folder where Outputfile will be created",
-					JOptionPane.QUESTION_MESSAGE);
-			outputFolder = preservetools.utilities.FolderBrowserDialog
-					.chooseFolder();
+		// try {
+		// measures time
+		double starttime = System.currentTimeMillis();
+		filecheck = 0;
+		isonecessary = false;
 
-			if (examinedCdRom != null && outputFolder != null) {
+		JOptionPane.showMessageDialog(null, "CD ROM Dialog",
+				"Please choose CD ROM Folder", JOptionPane.QUESTION_MESSAGE);
+		examinedCdRom = preservetools.utilities.FolderBrowserDialog
+				.chooseFolder();
+		JOptionPane.showMessageDialog(null, "Output Folder",
+				"Please choose Folder where Outputfile will be created",
+				JOptionPane.QUESTION_MESSAGE);
 
-				String CdRomName = preservetools.files.GenericFileAnalysis
-						.getCdRomFolderName(examinedCdRom);
+		outputFolder = preservetools.utilities.FolderBrowserDialog
+				.chooseFolder();
 
-				// if the CD ROM drive is chosen, there are problems with the
-				// name
-				// of the folder
-				if (CdRomName.contains(":")) {
+		if (examinedCdRom != null && outputFolder != null) {
 
-					System.out.println("Test");
-					CdRomName = JOptionPane.showInputDialog(null,
-							"Please type name of CD ROM",
-							"CD ROM name unknown", JOptionPane.PLAIN_MESSAGE);
-				}
+			String CdRomName = preservetools.files.GenericFileAnalysis
+					.getCdRomFolderName(examinedCdRom);
 
-				// TODO: Information about running seems to eat up too many
-				// ressources
+			if (CdRomName.contains(":")) {
+				CdRomName = JOptionPane.showInputDialog(null,
+						"Please type name of CD ROM", "CD ROM name unknown",
+						JOptionPane.PLAIN_MESSAGE);
+			}
 
-				JFrame f = new JFrame();
-				JButton but = new JButton("... Program is running ... ");
-				f.add(but, BorderLayout.PAGE_END);
-				f.pack();
-				f.setVisible(true);
+			JFrame f = new JFrame();
+			JButton but = new JButton("... Program is running ... ");
+			f.add(but, BorderLayout.PAGE_END);
+			f.pack();
+			f.setVisible(true);
 
-				outputfile = new PrintWriter(new FileWriter(outputFolder + "//"
-						+ "CdRomExecutableAnalysis_" + CdRomName + ".txt"));
+			outputfile = new PrintWriter(new FileWriter(outputFolder + "//"
+					+ "CdRomExecutableAnalysis_" + CdRomName + ".txt"));
 
-				filesExecutable = new PrintWriter(new FileWriter(outputFolder
-						+ "//" + "potentiallyExecutableFiles_" + CdRomName
-						+ ".txt"));
+			filesExecutable = new PrintWriter(
+					new FileWriter(outputFolder + "//"
+							+ "potentiallyExecutableFiles_" + CdRomName
+							+ ".txt"));
 
-				ArrayList<File> files = preservetools.utilities.ListsFiles
-						.getPaths(new File(examinedCdRom),
-								new ArrayList<File>());
+			ArrayList<File> files = preservetools.utilities.ListsFiles
+					.getPaths(new File(examinedCdRom), new ArrayList<File>());
 
-				outputfile.println("No. of files are in the folder or CD: "
-						+ files.size());
-				outputfile.println();
-				filescount = files.size();
+			outputfile.println("No. of files are in the folder or CD: "
+					+ files.size());
+			outputfile.println();
+			filescount = files.size();
 
-				for (int i = 0; i < files.size(); i++) {
+			for (int i = 0; i < files.size(); i++) {
 
-					if (extension != null) {
-						if (extension.equals("zip")) {
+				extension = FilenameUtils.getExtension(files.get(i).toString())
+						.toLowerCase();
 
-							ArrayList<File> zipfiles = preservetools.utilities.ListsFilesZipFolders
-									.unzipFolder(new File(files.get(i)
-											.toString()), new ArrayList<File>());
+				if (extension != null) {
 
-							if (zipfiles != null) {
-								for (int j = 0; j < zipfiles.size(); j++) {
-									ckeckifFileIsExecutable(zipfiles.get(j));
-								}
-							}
-						}
-
-						else {
-							ckeckifFileIsExecutable(files.get(i));
-						}
-
-					}
-				}
-
-				f.dispose();
-
-				if (isonecessary == true) {
-					JOptionPane.showMessageDialog(null,
-							"One or more files are potentially executable",
-							"Create Iso Image", JOptionPane.PLAIN_MESSAGE);
-				}
-
-				else {
-					JOptionPane
-							.showMessageDialog(
-									null,
-									"None of the files is potentially executable",
-									"No Iso Image necessary",
-									JOptionPane.PLAIN_MESSAGE);
-
-					filesExecutable
-							.println("None of the files is potentially executable");
-				}
-
-				double endtime = System.currentTimeMillis();
-
-				double runtime = endtime - starttime;
-				outputfile.println("Time needed to operate: " + runtime
-						+ " Milliseconds");
-
-				outputfile.println("Checksum generated and compared: "
-						+ filecheck);
-
-				filesExecutable.close();
-				outputfile.close();
-
-				System.out.println("Checksum generated and compared: "
-						+ filecheck);
-
-				System.out.println("No. of files: " + filescount);
-
-				double runtimeSec = runtime / 1000;
-
-				if (runtime > 1000) {
-
-					if (runtimeSec > 60) {
-
-						double runtimeMin = runtimeSec / 60;
-
-						System.out.println("Time needed to operate: "
-								+ runtimeMin + " Seconds");
+					if (extension.equals("zip")) {
+						unzipFolder(new File(files.get(i).toString()));
 					} else {
-						System.out.println("Time needed to operate: "
-								+ runtimeSec + " Seconds");
+						ckeckifFileIsExecutable(files.get(i));
 					}
-
 				}
+			}
 
-				else {
-					System.out.println("Time needed to operate: " + runtime
-							+ " Milliseconds");
-				}
+			f.dispose();
 
+			if (isonecessary == true) {
+				JOptionPane.showMessageDialog(null,
+						"One or more files are potentially executable",
+						"Create Iso Image", JOptionPane.PLAIN_MESSAGE);
 			}
 
 			else {
-				System.out.println("Please choose a folder!");
-			}
-		}
+				JOptionPane.showMessageDialog(null,
+						"None of the files is potentially executable",
+						"No Iso Image necessary", JOptionPane.PLAIN_MESSAGE);
 
-		catch (Exception e) {
-			// System.out.println (e);
-			JOptionPane.showMessageDialog(null, e.toString(), "Error Message",
-					JOptionPane.ERROR_MESSAGE);
+				filesExecutable
+						.println("None of the files is potentially executable");
+			}
+
+			double endtime = System.currentTimeMillis();
+
+			double runtime = endtime - starttime;
+			outputfile.println("Time needed to operate: " + runtime
+					+ " Milliseconds");
+
+			outputfile.println("Checksum generated and compared: " + filecheck);
+
+			filesExecutable.close();
+			outputfile.close();
+
+			System.out.println("Checksum generated and compared: " + filecheck);
+
+			System.out.println("No. of files: " + filescount);
+
+			double runtimeSec = runtime / 1000;
+
+			if (runtime > 1000) {
+
+				if (runtimeSec > 60) {
+
+					double runtimeMin = runtimeSec / 60;
+
+					System.out.println("Time needed to operate: " + runtimeMin
+							+ " Seconds");
+				} else {
+					System.out.println("Time needed to operate: " + runtimeSec
+							+ " Seconds");
+				}
+			}
+
+			else {
+				System.out.println("Time needed to operate: " + runtime
+						+ " Milliseconds");
+			}
+		} else {
+			System.out.println("Please choose a folder!");
 		}
+		/*
+		 * } catch (Exception e) { // System.out.println (e);
+		 * JOptionPane.showMessageDialog(null, e.toString(), "Error Message",
+		 * JOptionPane.ERROR_MESSAGE); }
+		 */
+
+	}
+
+	static void unzipFolder(File zipfile) throws IOException,
+			NoSuchAlgorithmException {
+		// try {
+
+		ZipFile zf = new ZipFile(zipfile.toString());
+		
+		System.out.println ("Zipfile " + zf);
+		
+		Enumeration<? extends ZipEntry> e = zf.entries();
+		
+		System.out.println ("ZipEntry e " + e);
+		ZipEntry ze;			
+
+		while (e.hasMoreElements()) {
+			try {
+				ze = e.nextElement();
+				System.out.println ("ZipEntry ze " + ze.toString());
+				File CompFile = new File(ze.toString());
+				System.out.println ("Compfile " + CompFile);
+				
+				System.out.println ("Compfile Absolute Path" + CompFile.getAbsolutePath());
+			
+
+				if (!CompFile.isDirectory()) {
+					System.out.println ("Test: " + CompFile);
+					ckeckifFileIsExecutable(CompFile);
+				}
+			} catch (Exception ex) {
+				System.out.print(ex);
+			}
+
+		}
+		zf.close();
+
+		/*
+		 * } catch (Exception e) { // TODO: After this exception is caused, the
+		 * adding // of the rest // of the files in the zip folder stops
+		 * CdRom_IsoImageChecker.filesExecutable.println(zipfile +
+		 * " causes an Exception" + e);
+		 * 
+		 * }
+		 */
 
 	}
 
@@ -212,7 +234,7 @@ public class CdRom_IsoImageChecker {
 			NoSuchAlgorithmException {
 		mimetype = preservetools.files.GenericFileAnalysis
 				.getFileMimeType(file);
-		extension = FilenameUtils.getExtension(file.toString()).toLowerCase();
+
 		outputfile.println(file.toString());
 		outputfile.println("Mimetype: " + mimetype);
 		outputfile.println("File-Extension: " + extension);
