@@ -10,6 +10,44 @@ this readme will soon to be changed as the repository not only cares for PDF fil
 * validation test (for PDF/A, if it is actually a PDF/A)
 * repair function (quite simple)
 * quality analysis after Migration
+* 
+
+### CdRomIsoImageChecker
+
+This Tool can be used to decide wether and (additional) ISO Image should be created from a CD / CD ROM oder a DVD ROM /USB-Stick. The tool can be applied to any folder, however, and give you the decision via a Message Box + two output-txt-files which gives you information about the findings.
+
+The tool extracts all the files from the folder (a zip-unpacking method is to be implemented) and follows these steps:
+Checks Mimetype. If the Mimetype is either /application or not known (== null), the files are examined further
+Checks Extenstion. Following extensions are considered to be non-executable and therefor not the reason for an ISO-Image:
+		extensionlist.add("pdf");
+		extensionlist.add("doc");
+		extensionlist.add("docx");
+		extensionlist.add("docx");
+		extensionlist.add("xls");
+		extensionlist.add("xlsx");
+		extensionlist.add("ppt");
+		extensionlist.add("pptx");
+		extensionlist.add("epub");
+		extensionlist.add("opf");
+		extensionlist.add("db");
+		extensionlist.add("rtf");
+		extensionlist.add("xml");
+		extensionlist.add("htm");
+		extensionlist.add("xhtm");
+		extensionlist.add("css");
+		extensionlist.add("xsd");
+		extensionlist.add("csv");
+		extensionlist.add("emf");
+		extensionlist.add("ifc");
+		extensionlist.add("e57");
+		extensionlist.add("dtd");
+		extensionlist.add("bmml");
+		extensionlist.add("log");
+		
+For all other files, an additional test is run. As many Adobe PDF Readers are part of the CDs, these should not be the reason for an ISO-Image nor should they be archived at all. The MD5 checksums of these are collected and tested. If there is a match, the file should not be archived. We do not need thousands of Adobe Reader SW installation files in our archive.
+
+Many things are yet to be implemented, e. g. the ISO Creation and the copy of the files.
+
 
 ### PDF Analysis
 
