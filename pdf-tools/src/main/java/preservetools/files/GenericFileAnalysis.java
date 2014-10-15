@@ -157,6 +157,7 @@ public class GenericFileAnalysis {
 		extensionlist.add("dtd");
 		extensionlist.add("bmml");
 		extensionlist.add("log");
+		extensionlist.add("ttf");
 		
 
 		if (extensionlist.contains(extension)) {

@@ -29,6 +29,8 @@ public class CdRom_IsoImageChecker {
 
 	static int filescount;
 
+	static int filecheck;
+
 	static int FOLDERMAX = 15; /*
 								 * if there are more than FOLDERMAX folders, an
 								 * ISO Image has to be created
@@ -52,26 +54,19 @@ public class CdRom_IsoImageChecker {
 			NoSuchAlgorithmException {
 
 		try {
-
 			// measures time
 			double starttime = System.currentTimeMillis();
-
-			int filecheck = 0;
-
+			filecheck = 0;
 			isonecessary = false;
-
 			JOptionPane
 					.showMessageDialog(null, "CD ROM Dialog",
 							"Please choose CD ROM Folder",
 							JOptionPane.QUESTION_MESSAGE);
-
 			examinedCdRom = preservetools.utilities.FolderBrowserDialog
 					.chooseFolder();
-
 			JOptionPane.showMessageDialog(null, "Output Folder",
 					"Please choose Folder where Outputfile will be created",
 					JOptionPane.QUESTION_MESSAGE);
-
 			outputFolder = preservetools.utilities.FolderBrowserDialog
 					.chooseFolder();
 
@@ -118,54 +113,24 @@ public class CdRom_IsoImageChecker {
 
 				for (int i = 0; i < files.size(); i++) {
 
-					mimetype = preservetools.files.GenericFileAnalysis
-							.getFileMimeType(files.get(i));
+					if (extension != null) {
+						if (extension.equals("zip")) {
 
-					extension = FilenameUtils.getExtension(
-							files.get(i).toString()).toLowerCase();
+							ArrayList<File> zipfiles = preservetools.utilities.ListsFilesZipFolders
+									.unzipFolder(new File(files.get(i)
+											.toString()), new ArrayList<File>());
 
-					outputfile.println(files.get(i).toString());
-					outputfile.println("Mimetype: " + mimetype);
-					outputfile.println("File-Extension: " + extension);
-					outputfile.println();
-
-					if (preservetools.files.GenericFileAnalysis
-							.testIfMimeMightBeExecutable(mimetype)) {
-
-						if (preservetools.files.GenericFileAnalysis
-								.testIfExtensionCanbeExecutable(extension)) {
-							filecheck++;
-
-							if (preservetools.files.ChecksumChecker
-									.testIfChecksumisPdfReaderSoftware(files
-											.get(i))) {
-								// TODO Adobe Reader Software does not count.
-
-								filesExecutable
-										.println((files.get(i).toString())
-												+ " contains AdobeAcrobatReader MD5 checksum");
-							}
-
-							else {
-
-								filesExecutable
-										.println("IsoImage recommended because of file:  "
-												+ files.get(i).toString());
-								filesExecutable
-										.println("Mimetype: " + mimetype);
-								filesExecutable.println();
-
-								// TODO: Count files which are potentially
-								// executable
-
-								isonecessary = true;
-
-								// TODO: If ISO Image recommended, create one
-								// and
-								// copy files. Else only copy files.
-
+							if (zipfiles != null) {
+								for (int j = 0; j < zipfiles.size(); j++) {
+									ckeckifFileIsExecutable(zipfiles.get(j));
+								}
 							}
 						}
+
+						else {
+							ckeckifFileIsExecutable(files.get(i));
+						}
+
 					}
 				}
 
@@ -209,19 +174,18 @@ public class CdRom_IsoImageChecker {
 				double runtimeSec = runtime / 1000;
 
 				if (runtime > 1000) {
-					
+
 					if (runtimeSec > 60) {
-						
+
 						double runtimeMin = runtimeSec / 60;
-						
-						System.out.println("Time needed to operate: " + runtimeMin
-								+ " Seconds");
+
+						System.out.println("Time needed to operate: "
+								+ runtimeMin + " Seconds");
+					} else {
+						System.out.println("Time needed to operate: "
+								+ runtimeSec + " Seconds");
 					}
-					else {
-					System.out.println("Time needed to operate: " + runtimeSec
-							+ " Seconds");
-					}
-					
+
 				}
 
 				else {
@@ -240,6 +204,53 @@ public class CdRom_IsoImageChecker {
 			// System.out.println (e);
 			JOptionPane.showMessageDialog(null, e.toString(), "Error Message",
 					JOptionPane.ERROR_MESSAGE);
+		}
+
+	}
+
+	public static void ckeckifFileIsExecutable(File file) throws IOException,
+			NoSuchAlgorithmException {
+		mimetype = preservetools.files.GenericFileAnalysis
+				.getFileMimeType(file);
+		extension = FilenameUtils.getExtension(file.toString()).toLowerCase();
+		outputfile.println(file.toString());
+		outputfile.println("Mimetype: " + mimetype);
+		outputfile.println("File-Extension: " + extension);
+		outputfile.println();
+
+		if (preservetools.files.GenericFileAnalysis
+				.testIfMimeMightBeExecutable(mimetype)) {
+
+			if (preservetools.files.GenericFileAnalysis
+					.testIfExtensionCanbeExecutable(extension)) {
+				filecheck++;
+
+				if (preservetools.files.ChecksumChecker
+						.testIfChecksumisPdfReaderSoftware(file)) {
+
+					filesExecutable.println((file.toString())
+							+ " contains AdobeAcrobatReader MD5 checksum");
+				}
+
+				else {
+
+					filesExecutable
+							.println("IsoImage recommended because of file:  "
+									+ file.toString());
+					filesExecutable.println("Mimetype: " + mimetype);
+					filesExecutable.println();
+
+					// TODO: Count files which are potentially
+					// executable
+
+					isonecessary = true;
+
+					// TODO: If ISO Image recommended, create one
+					// and
+					// copy files. Else only copy files.
+
+				}
+			}
 		}
 
 	}
