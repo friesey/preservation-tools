@@ -97,12 +97,7 @@ public class CdRom_IsoImageChecker {
 			filesExecutable = new PrintWriter(
 					new FileWriter(outputFolder + "//"
 							+ "potentiallyExecutableFiles_" + CdRomName
-							+ ".txt"));
-			
-			//TODO: Test if audio CD
-			
-			preservetools.files.AudioCD.checkifAudioCd (CdRomName);
-			
+							+ ".txt"));						
 
 			ArrayList<File> files = preservetools.utilities.ListsFiles
 					.getPaths(new File(examinedCdRom), new ArrayList<File>());
@@ -118,8 +113,12 @@ public class CdRom_IsoImageChecker {
 						.toLowerCase();
 
 				if (extension != null) {
-
-					if (extension.equals("zip")) {
+					
+					if (extension.equals("cda")) {
+						//TODO: Could be tested earlier to save time						
+						preservetools.files.AudioCD.checkifAudioCd (CdRomName);
+					}
+					else if (extension.equals("zip")) {
 						unzipFolder(new File(files.get(i).toString()));
 					} else {
 						ckeckifFileIsExecutable(files.get(i));
