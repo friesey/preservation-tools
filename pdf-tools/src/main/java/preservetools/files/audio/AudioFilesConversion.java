@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.ContentHandler;
 import java.util.ArrayList;
 
 import javax.sound.sampled.AudioFileFormat;
@@ -14,13 +13,13 @@ import javax.sound.sampled.AudioSystem;
 import javax.swing.JOptionPane;
 
 import org.apache.commons.io.FilenameUtils;
-import org.apache.tika.exception.TikaException;
 import org.apache.tika.metadata.Metadata;
 import org.apache.tika.parser.ParseContext;
 import org.apache.tika.parser.Parser;
 import org.apache.tika.parser.mp3.Mp3Parser;
-import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
+import org.openimaj.audio.conversion.AudioConverter;
 
 public class AudioFilesConversion {
 
@@ -67,9 +66,24 @@ public class AudioFilesConversion {
 							parser.parse(inputfile, handler, metadata, parseCtx);
 
 							String tracktitle = (metadata.get("title") + metadata
-									.get("xmpDM:artist"));
+									.get("xmpDM:artist"));	
+							
+						
+							
+							File outputfile = new File(
+									preservetools.files.executables.CdRom_IsoImageChecker.archivFolder
+											+ "\\" + tracktitle + ".wav");													
+							
+							// AudioConverter con = new AudioConverter  (AudioStream stream, AudioFormat output);
+							
+							/*
 
-							long framelength = 400000;
+							long framelength = 275219;
+									
+							
+							System.out.println("Size: " + metadata.size());
+									//Long.parseLong(metadata.get("xmpDM:duration"));
+									
 
 							float sampleRate = Float.parseFloat(metadata
 									.get("xmpDM:audioSampleRate"));
@@ -97,13 +111,14 @@ public class AudioFilesConversion {
 
 							AudioSystem.write(audiostream,
 									AudioFileFormat.Type.WAVE, outputfile);
+							
+							*/
 
 						}
 
 						else {
-							System.out
-									.println("This file has not been converted: "
-											+ files.get(i).toString());
+							// System.out.println("This file has not been converted: "+
+							// files.get(i).toString());
 						}
 
 					}
