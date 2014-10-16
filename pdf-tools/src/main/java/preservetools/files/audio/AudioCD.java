@@ -1,4 +1,4 @@
-package preservetools.files;
+package preservetools.files.audio;
 
 import java.io.File;
 import java.util.ArrayList;
