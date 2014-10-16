@@ -98,6 +98,10 @@ public class CdRom_IsoImageChecker {
 					new FileWriter(outputFolder + "//"
 							+ "potentiallyExecutableFiles_" + CdRomName
 							+ ".txt"));
+			
+			//TODO: Test if audio CD
+			
+			
 
 			ArrayList<File> files = preservetools.utilities.ListsFiles
 					.getPaths(new File(examinedCdRom), new ArrayList<File>());
