@@ -1,9 +1,15 @@
 package preservetools.files.audio;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
+import javax.sound.sampled.AudioFileFormat;
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
 import javax.swing.JOptionPane;
 
 import org.apache.commons.io.FilenameUtils;
@@ -41,37 +47,49 @@ public class AudioFilesConversion {
 
 					if (extension != null) {
 
-						if (extension.equals("m4a")) {
+						if (extension.equals("mp3")) {						
+		
+							String tracktitle = "track"+i;
+													
+							InputStream inputfile = new FileInputStream(
+									files.get(i));
 
-							// AudioInputStream audioInputStream =
-							// AudioSystem.getAudioInputStream(files.get(i));
-							//
-							// System.out.println(audioInputStream.toString());
-							//
-							// AudioFileFormat audiofileformatwave = new
-							// AudioFileFormat(
-							// AudioFileFormat.Type.WAVE,
-							// audioInputStream.getFormat(),
-							// (int) audioInputStream.getFrameLength());
-							//
-							// JOptionPane.showMessageDialog(null,
-							// "CD ROM Dialog",
-							// "Please choose where your files will be archived",
-							// JOptionPane.QUESTION_MESSAGE);
-							// preservetools.files.executables.CdRom_IsoImageChecker.archivFolder
-							// = preservetools.utilities.FolderBrowserDialog
-							// .chooseFolder();
-							//
-							// AudioFileFormat.Type fileType =
-							// audiofileformatwave.getType();
-							// File outputfile = new File(
-							// preservetools.files.executables.CdRom_IsoImageChecker.archivFolder
-							// + tracktitle);
-							// AudioSystem.write(audioInputStream, fileType,
-							// outputfile);
-							//
-							//
+							long length = 1014; 
 
+							float sampleRate = 8000;
+							int sampleSizeInBits = 8;
+							int channels = 1;
+							boolean signed = true;
+							boolean bigEndian = true;
+
+							AudioFormat format = new AudioFormat(sampleRate,
+									sampleSizeInBits, channels, signed,
+									bigEndian);
+
+							@SuppressWarnings("resource")
+							AudioInputStream audiostream = new AudioInputStream(
+									inputfile, format, length);
+
+							long test = audiostream.getFrameLength();
+							System.out.println(test);
+							
+							AudioFormat audioformattest = audiostream.getFormat();							
+							System.out.println(audioformattest);							
+										 							 
+							File outputfile = new File(
+							 preservetools.files.executables.CdRom_IsoImageChecker.archivFolder
+							 + "\\" + tracktitle);
+							
+							 AudioSystem.write(audiostream, AudioFileFormat.Type.WAVE,
+							 outputfile);						
+							
+
+						}
+
+						else {
+							System.out
+									.println("This file has not been converted: "
+											+ files.get(i).toString());
 						}
 
 					}
