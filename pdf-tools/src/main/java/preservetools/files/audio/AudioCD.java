@@ -19,10 +19,18 @@ public class AudioCD {
 
 		for (int i = 0; i < files.size(); i++) {
 
-			try {
+			try {							
+				int len = files.get(i).toString().length();
+					
+				String tracktitle = files.get(i).toString().substring (3, len-4);
+				
+				System.out.println (tracktitle);
 
 				AudioInputStream audioInputStream = AudioSystem
-						.getAudioInputStream(files.get(i));
+						.getAudioInputStream(files.get(i));			
+				
+				
+				System.out.println(audioInputStream.toString());
 
 				AudioFileFormat audiofileformatwave = new AudioFileFormat(
 						AudioFileFormat.Type.WAVE,
@@ -38,7 +46,7 @@ public class AudioCD {
 				AudioFileFormat.Type fileType = audiofileformatwave.getType();
 				File outputfile = new File(
 						preservetools.files.executables.CdRom_IsoImageChecker.archivFolder
-								+ files.get(i).toString());
+								+ tracktitle);
 				AudioSystem.write(audioInputStream, fileType, outputfile);
 				
 
