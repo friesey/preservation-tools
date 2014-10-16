@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.ContentHandler;
 import java.util.ArrayList;
 
 import javax.sound.sampled.AudioFileFormat;
@@ -13,6 +14,13 @@ import javax.sound.sampled.AudioSystem;
 import javax.swing.JOptionPane;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.tika.exception.TikaException;
+import org.apache.tika.metadata.Metadata;
+import org.apache.tika.parser.ParseContext;
+import org.apache.tika.parser.Parser;
+import org.apache.tika.parser.mp3.Mp3Parser;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 public class AudioFilesConversion {
 
@@ -47,18 +55,27 @@ public class AudioFilesConversion {
 
 					if (extension != null) {
 
-						if (extension.equals("mp3")) {						
-		
-							String tracktitle = "track"+i;
-													
+						if (extension.equals("mp3")) {
+
 							InputStream inputfile = new FileInputStream(
 									files.get(i));
 
-							long framelength = 400000; 
+							DefaultHandler handler = new DefaultHandler();
+							Metadata metadata = new Metadata();
+							Parser parser = new Mp3Parser();
+							ParseContext parseCtx = new ParseContext();
+							parser.parse(inputfile, handler, metadata, parseCtx);
 
-							float sampleRate = 8000;
+							String tracktitle = (metadata.get("title") + metadata
+									.get("xmpDM:artist"));
+
+							long framelength = 400000;
+
+							float sampleRate = Float.parseFloat(metadata
+									.get("xmpDM:audioSampleRate"));
 							int sampleSizeInBits = 16;
-							int channels = 2;
+							int channels = Integer.parseInt(metadata
+									.get("channels"));
 							boolean signed = true;
 							boolean bigEndian = true;
 
@@ -68,18 +85,18 @@ public class AudioFilesConversion {
 
 							@SuppressWarnings("resource")
 							AudioInputStream audiostream = new AudioInputStream(
-									inputfile, format, framelength);					
-							
-							AudioFormat audioformattest = audiostream.getFormat();							
-							System.out.println(audioformattest);							
-										 							 
+									inputfile, format, framelength);
+
+							AudioFormat audioformattest = audiostream
+									.getFormat();
+							System.out.println(audioformattest);
+
 							File outputfile = new File(
-							 preservetools.files.executables.CdRom_IsoImageChecker.archivFolder
-							 + "\\" + tracktitle + ".wav");
-							
-							 AudioSystem.write(audiostream, AudioFileFormat.Type.WAVE,
-							 outputfile);			
-							
+									preservetools.files.executables.CdRom_IsoImageChecker.archivFolder
+											+ "\\" + tracktitle + ".wav");
+
+							AudioSystem.write(audiostream,
+									AudioFileFormat.Type.WAVE, outputfile);
 
 						}
 
