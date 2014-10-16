@@ -101,7 +101,7 @@ public class CdRom_IsoImageChecker {
 			
 			//TODO: Test if audio CD
 			
-			
+			preservetools.files.AudioCD.checkifAudioCd (CdRomName);
 			
 
 			ArrayList<File> files = preservetools.utilities.ListsFiles
