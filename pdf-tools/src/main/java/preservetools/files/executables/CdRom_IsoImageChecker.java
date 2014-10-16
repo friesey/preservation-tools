@@ -193,6 +193,7 @@ public class CdRom_IsoImageChecker {
 	static void unzipFolder(File zipfile) throws IOException,
 			NoSuchAlgorithmException {
 		
+		
 		filesExecutable
 		.println("IsoImage recommended because of file:  "
 				+ zipfile.toString());
