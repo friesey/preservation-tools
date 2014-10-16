@@ -26,6 +26,8 @@ public class CdRom_IsoImageChecker {
 	static String examinedCdRom;
 
 	static String outputFolder;
+	
+	public static String archivFolder;
 
 	static String mimetype;
 
@@ -67,10 +69,10 @@ public class CdRom_IsoImageChecker {
 				"Please choose CD ROM Folder", JOptionPane.QUESTION_MESSAGE);
 		examinedCdRom = preservetools.utilities.FolderBrowserDialog
 				.chooseFolder();
+		
 		JOptionPane.showMessageDialog(null, "Output Folder",
 				"Please choose Folder where Outputfile will be created",
 				JOptionPane.QUESTION_MESSAGE);
-
 		outputFolder = preservetools.utilities.FolderBrowserDialog
 				.chooseFolder();
 

@@ -3,7 +3,10 @@ package preservetools.files;
 import java.io.File;
 import java.util.ArrayList;
 
-import javax.sound.*;
+import javax.sound.sampled.AudioFileFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.swing.JOptionPane;
 
 public class AudioCD {
 
@@ -13,19 +16,37 @@ public class AudioCD {
 
 		// extract wav files
 		// copy them to some folder
-		
+
 		for (int i = 0; i < files.size(); i++) {
-			
+
 			try {
-		
-		// getAudioFileFormat (files.get(i));
-		
-		}
-		
-			catch (Exception e) {
-				System.out.println ("Audio CD Error: " + e);
+
+				AudioInputStream audioInputStream = AudioSystem
+						.getAudioInputStream(files.get(i));
+
+				AudioFileFormat audiofileformatwave = new AudioFileFormat(
+						AudioFileFormat.Type.WAVE,
+						audioInputStream.getFormat(),
+						(int) audioInputStream.getFrameLength());
+
+				JOptionPane.showMessageDialog(null, "CD ROM Dialog",
+						"Please choose where your files will be archived",
+						JOptionPane.QUESTION_MESSAGE);
+				preservetools.files.executables.CdRom_IsoImageChecker.archivFolder = preservetools.utilities.FolderBrowserDialog
+						.chooseFolder();
+
+				AudioFileFormat.Type fileType = audiofileformatwave.getType();
+				File outputfile = new File(
+						preservetools.files.executables.CdRom_IsoImageChecker.archivFolder
+								+ files.get(i).toString());
+				AudioSystem.write(audioInputStream, fileType, outputfile);
+
 			}
 
+			catch (Exception e) {
+				System.out.println("Audio CD Error: " + e);
+			}
+
+		}
 	}
-}
 }
