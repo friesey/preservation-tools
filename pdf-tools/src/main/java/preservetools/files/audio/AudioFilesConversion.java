@@ -54,11 +54,11 @@ public class AudioFilesConversion {
 							InputStream inputfile = new FileInputStream(
 									files.get(i));
 
-							long length = 1014; 
+							long framelength = 400000; 
 
 							float sampleRate = 8000;
-							int sampleSizeInBits = 8;
-							int channels = 1;
+							int sampleSizeInBits = 16;
+							int channels = 2;
 							boolean signed = true;
 							boolean bigEndian = true;
 
@@ -68,20 +68,17 @@ public class AudioFilesConversion {
 
 							@SuppressWarnings("resource")
 							AudioInputStream audiostream = new AudioInputStream(
-									inputfile, format, length);
-
-							long test = audiostream.getFrameLength();
-							System.out.println(test);
+									inputfile, format, framelength);					
 							
 							AudioFormat audioformattest = audiostream.getFormat();							
 							System.out.println(audioformattest);							
 										 							 
 							File outputfile = new File(
 							 preservetools.files.executables.CdRom_IsoImageChecker.archivFolder
-							 + "\\" + tracktitle);
+							 + "\\" + tracktitle + ".wav");
 							
 							 AudioSystem.write(audiostream, AudioFileFormat.Type.WAVE,
-							 outputfile);						
+							 outputfile);			
 							
 
 						}
