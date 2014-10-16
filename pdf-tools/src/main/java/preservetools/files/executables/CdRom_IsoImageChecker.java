@@ -116,7 +116,7 @@ public class CdRom_IsoImageChecker {
 					
 					if (extension.equals("cda")) {
 						//TODO: Could be tested earlier to save time						
-						preservetools.files.AudioCD.checkifAudioCd (CdRomName);
+						preservetools.files.AudioCD.extractAudioFiles (files);
 					}
 					else if (extension.equals("zip")) {
 						unzipFolder(new File(files.get(i).toString()));
