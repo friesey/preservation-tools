@@ -26,7 +26,7 @@ public class CdRom_IsoImageChecker {
 	static String examinedCdRom;
 
 	static String outputFolder;
-	
+
 	public static String archivFolder;
 
 	static String mimetype;
@@ -69,7 +69,7 @@ public class CdRom_IsoImageChecker {
 				"Please choose CD ROM Folder", JOptionPane.QUESTION_MESSAGE);
 		examinedCdRom = preservetools.utilities.FolderBrowserDialog
 				.chooseFolder();
-		
+
 		JOptionPane.showMessageDialog(null, "Output Folder",
 				"Please choose Folder where Outputfile will be created",
 				JOptionPane.QUESTION_MESSAGE);
@@ -99,7 +99,7 @@ public class CdRom_IsoImageChecker {
 			filesExecutable = new PrintWriter(
 					new FileWriter(outputFolder + "//"
 							+ "potentiallyExecutableFiles_" + CdRomName
-							+ ".txt"));						
+							+ ".txt"));
 
 			ArrayList<File> files = preservetools.utilities.ListsFiles
 					.getPaths(new File(examinedCdRom), new ArrayList<File>());
@@ -115,12 +115,11 @@ public class CdRom_IsoImageChecker {
 						.toLowerCase();
 
 				if (extension != null) {
-					
+
 					if (extension.equals("cda")) {
-						//TODO: Could be tested earlier to save time						
-						preservetools.files.AudioCD.extractAudioFiles (files);
-					}
-					else if (extension.equals("zip")) {
+						// TODO: Could be tested earlier to save time
+						preservetools.files.AudioCD.extractAudioFiles(files);
+					} else if (extension.equals("zip")) {
 						unzipFolder(new File(files.get(i).toString()));
 					} else {
 						ckeckifFileIsExecutable(files.get(i));
@@ -193,41 +192,48 @@ public class CdRom_IsoImageChecker {
 
 	static void unzipFolder(File zipfile) throws IOException,
 			NoSuchAlgorithmException {
-		// try {
-
-		ZipFile zf = new ZipFile(zipfile.toString());
 		
-		System.out.println ("Zipfile " + zf);
+		filesExecutable
+		.println("IsoImage recommended because of file:  "
+				+ zipfile.toString());
 		
-		Enumeration<? extends ZipEntry> e = zf.entries();
+		outputfile.println ("CD / Folder consists of the following zipped Folder :  "
+				+ zipfile.toString());
 		
-		System.out.println ("ZipEntry e " + e);
-		ZipEntry ze;			
+		outputfile.println ();
+		
+		isonecessary = true;
+		
 
-		while (e.hasMoreElements()) {
-			try {
-				ze = e.nextElement();
-				System.out.println ("ZipEntry ze " + ze.toString());
-				File CompFile = new File(ze.toString());
-				System.out.println ("Compfile " + CompFile);
-				
-				System.out.println ("Compfile Absolute Path" + CompFile.getAbsolutePath());
-			
-
-				if (!CompFile.isDirectory()) {
-					System.out.println ("Test: " + CompFile);
-					ckeckifFileIsExecutable(CompFile);
-				}
-			} catch (Exception ex) {
-				System.out.print(ex);
-			}
-			
-			
-
-		}
-		zf.close();
+		// TODO: This method does not work the way it should yet.
 
 		/*
+		 * 
+		 * // try {
+		 * 
+		 * ZipFile zf = new ZipFile(zipfile.toString());
+		 * 
+		 * System.out.println ("Zipfile " + zf);
+		 * 
+		 * Enumeration<? extends ZipEntry> e = zf.entries();
+		 * 
+		 * System.out.println ("ZipEntry e " + e); ZipEntry ze;
+		 * 
+		 * while (e.hasMoreElements()) { try { ze = e.nextElement();
+		 * System.out.println ("ZipEntry ze " + ze.toString()); File CompFile =
+		 * new File(ze.toString()); System.out.println ("Compfile " + CompFile);
+		 * 
+		 * System.out.println ("Compfile Absolute Path" +
+		 * CompFile.getAbsolutePath());
+		 * 
+		 * 
+		 * if (!CompFile.isDirectory()) { System.out.println ("Test: " +
+		 * CompFile); ckeckifFileIsExecutable(CompFile); } } catch (Exception
+		 * ex) { System.out.print(ex); }
+		 * 
+		 * } zf.close();
+		 * 
+		 * 
 		 * } catch (Exception e) { // TODO: After this exception is caused, the
 		 * adding // of the rest // of the files in the zip folder stops
 		 * CdRom_IsoImageChecker.filesExecutable.println(zipfile +
