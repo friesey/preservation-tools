@@ -54,7 +54,7 @@ public class AudioFilesConversion {
 
 					if (extension != null) {
 
-						if (extension.equals("mp3")) {
+						if ((extension.equals("mp3")) ||(extension.equals("m4a")) || (extension.equals("wma"))) {
 
 							InputStream inputfile = new FileInputStream(
 									files.get(i));
@@ -117,8 +117,8 @@ public class AudioFilesConversion {
 						}
 
 						else {
-							// System.out.println("This file has not been converted: "+
-							// files.get(i).toString());
+							System.out.println("This file has not been converted: "+
+							 files.get(i).toString());
 						}
 
 					}
