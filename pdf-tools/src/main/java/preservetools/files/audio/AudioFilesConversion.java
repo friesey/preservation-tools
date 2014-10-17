@@ -6,21 +6,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-import javax.sound.sampled.AudioFileFormat;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
 import javax.swing.JOptionPane;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.tika.exception.TikaException;
 import org.apache.tika.metadata.Metadata;
-import org.apache.tika.parser.ParseContext;
-import org.apache.tika.parser.Parser;
-import org.apache.tika.parser.mp3.Mp3Parser;
 import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
-import org.openimaj.audio.conversion.AudioConverter;
 
 public class AudioFilesConversion {
 
@@ -59,102 +50,69 @@ public class AudioFilesConversion {
 					if ((extension.equals("mp3")) || (extension.equals("m4a"))
 							|| (extension.equals("wma"))) {
 
+						InputStream inputfile = new FileInputStream(
+								files.get(i));
+
+						System.out.println();
+						System.out.println(files.get(i).toString());
+
 						if (extension.equals("mp3")) {
 
-							InputStream inputfile = new FileInputStream(
-									files.get(i));
-
-							DefaultHandler handler = new DefaultHandler();
-							Metadata metadata = new Metadata();
-							Parser parser = new Mp3Parser();
-							ParseContext parseCtx = new ParseContext();
-							parser.parse(inputfile, handler, metadata, parseCtx);
-							
-							System.out.println();
-							System.out.println(files.get(i).toString());
-							
-							String tracktitle = (metadata.get("title"));
-							String artist = metadata.get("xmpDM:artist");
-							float duration = Float.parseFloat(metadata
-									.get("xmpDM:duration"));
-							float sampleRate = Float.parseFloat(metadata
-									.get("xmpDM:audioSampleRate"));
-							int channel = Integer.parseInt(metadata
-									.get("channels"));
-
-
-							System.out.println("Titel: " + tracktitle);
-							System.out.println("Verfasser: " + artist);
-							System.out.println("Dauer " + duration);
-							System.out.println("Sample-Rate: " + sampleRate);
-							System.out
-									.println("Channel (1 für mono, 2 für stereo): "
-											+ channel);
-							System.out.println();
-
-							
-							System.out.println("Size: " + metadata.size());
-							
-							String[] metadataNames = metadata.names();
-							
-							for(String name : metadataNames){
-								System.out.println(name + ": " + metadata.get(name));
-								}
-							
-							}
-					
-
-						// File outputfile = new
-						// File(preservetools.files.executables.CdRom_IsoImageChecker.archivFolder+
-						// "\\" + tracktitle + ".wav");
-
-						// AudioConverter con = new AudioConverter
-						// (AudioStream stream, AudioFormat output);
-
-						/* *
-						 * long framelength = 275219; *
-						 * 
-						 * System.out.println("Size: " + metadata.size());
-						 * //Long.parseLong(metadata.get("xmpDM:duration"));
-						 * 
-						 * 
-						 * float sampleRate = Float.parseFloat(metadata
-						 * .get("xmpDM:audioSampleRate")); int sampleSizeInBits
-						 * = 16; int channels = Integer.parseInt(metadata
-						 * .get("channels")); boolean signed = true; boolean
-						 * bigEndian = true;
-						 * 
-						 * AudioFormat format = new AudioFormat(sampleRate,
-						 * sampleSizeInBits, channels, signed, bigEndian);
-						 * 
-						 * @SuppressWarnings("resource") AudioInputStream
-						 * audiostream = new AudioInputStream( inputfile,
-						 * format, framelength);
-						 * 
-						 * AudioFormat audioformattest = audiostream
-						 * .getFormat(); System.out.println(audioformattest);
-						 * 
-						 * File outputfile = new File(
-						 * preservetools.files.executables
-						 * .CdRom_IsoImageChecker.archivFolder + "\\" +
-						 * tracktitle + ".wav");
-						 * 
-						 * AudioSystem.write(audiostream,
-						 * AudioFileFormat.Type.WAVE, outputfile);
-						 */
-					}
-
-					else {
-						// System.out.println("This file has not been converted: "
-						// + files.get(i).toString());
+							Metadata metadata = preservetools.files.MetadataExtraction
+									.getMetadatafromMP3(inputfile);
+						}
 
 					}
+
+					// File outputfile = new
+					// File(preservetools.files.executables.CdRom_IsoImageChecker.archivFolder+
+					// "\\" + tracktitle + ".wav");
+
+					// AudioConverter con = new AudioConverter
+					// (AudioStream stream, AudioFormat output);
+
+					/* *
+					 * long framelength = 275219; *
+					 * 
+					 * System.out.println("Size: " + metadata.size());
+					 * //Long.parseLong(metadata.get("xmpDM:duration"));
+					 * 
+					 * 
+					 * float sampleRate = Float.parseFloat(metadata
+					 * .get("xmpDM:audioSampleRate")); int sampleSizeInBits =
+					 * 16; int channels = Integer.parseInt(metadata
+					 * .get("channels")); boolean signed = true; boolean
+					 * bigEndian = true;
+					 * 
+					 * AudioFormat format = new AudioFormat(sampleRate,
+					 * sampleSizeInBits, channels, signed, bigEndian);
+					 * 
+					 * @SuppressWarnings("resource") AudioInputStream
+					 * audiostream = new AudioInputStream( inputfile, format,
+					 * framelength);
+					 * 
+					 * AudioFormat audioformattest = audiostream .getFormat();
+					 * System.out.println(audioformattest);
+					 * 
+					 * File outputfile = new File(
+					 * preservetools.files.executables
+					 * .CdRom_IsoImageChecker.archivFolder + "\\" + tracktitle +
+					 * ".wav");
+					 * 
+					 * AudioSystem.write(audiostream, AudioFileFormat.Type.WAVE,
+					 * outputfile);
+					 */
+				}
+
+				else {
+					// System.out.println("This file has not been converted: "
+					// + files.get(i).toString());
+
 				}
 			}
 		}
-		/*
-		 * } catch (Exception e) { System.out.println(e); }
-		 */
 	}
+	/*
+	 * } catch (Exception e) { System.out.println(e); }
+	 */
 }
-
