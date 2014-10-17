@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.sound.sampled.AudioFileFormat;
+import javax.sound.sampled.AudioFileFormat.Type;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioFormat.Encoding;
 import javax.sound.sampled.AudioInputStream;
@@ -146,6 +147,7 @@ public class AudioFilesConversion {
 		}
 	}
 
+	@SuppressWarnings("static-access")
 	private static void convertWavFile(File file) {
 
 		 File outputfile = new File(preservetools.files.executables.CdRom_IsoImageChecker.archivFolder + "\\" + filename + ".wav");
@@ -184,14 +186,14 @@ public class AudioFilesConversion {
 		       numFramesRead = numBytesRead / bytesPerFrame;
 		       totalFramesRead += numFramesRead;
 		       // Here, do something useful with the audio data that's 
-		       // now in the audioBytes array...
+		       // now in the audioBytes array...		       	       
+		  
 		       
-		       AudioStream stream = new AudioStream();
-		       org.openimaj.audio.AudioFormat format = new org.openimaj.audio.AudioFormat (bits, samplerate, channel);
-		    		   //(Encoding encodingStr, duration, bits, numFramesRead, numFramesRead, samplerate, true);
+		       AudioFileFormat.Type filetype = new AudioFileFormat.Type(file.toString(), audioFolder);
 		       
-		       AudioConverter con = new AudioConverter (stream, format);
+		       AudioFileFormat format = new AudioFileFormat (filetype, audioInputStream.getFormat(), numFramesRead);
 		       
+		       AudioSystem.write(audioInputStream, format.getType(), outputfile);
 		       
 		     }
 		   } catch (Exception ex) { 
@@ -206,6 +208,13 @@ public class AudioFilesConversion {
 		 
 		 boolean signed = true;
 		 boolean bigEndian = true;
+		 
+		 		       AudioStream stream = new AudioStream();
+		       org.openimaj.audio.AudioFormat format = new org.openimaj.audio.AudioFormat (bits, samplerate, channel);
+		    		   //(Encoding encodingStr, duration, bits, numFramesRead, numFramesRead, samplerate, true);
+		       
+		       AudioConverter con = new AudioConverter (stream, format);
+		       
 
 		AudioFormat format = new AudioFormat(samplerate, bits,
 		channel, signed, bigEndian);
