@@ -35,10 +35,22 @@ public class MetadataExtraction {
 
 		String tracktitle = metadata.get("title");
 		String artist = metadata.get("xmpDM:artist");
-		String duration = metadata.get("xmpDM:duration");
-		String sampleRate = metadata.get("xmpDM:audioSampleRate");
-		String channel = metadata.get("channels");
 		String compression = metadata.get("xmpDM:audioCompressor");
+		String durationStr = metadata.get("xmpDM:duration");
+		String sampleRateStr = metadata.get("xmpDM:audioSampleRate");
+		String channelStr = metadata.get("channels");
+		
+		
+		if (durationStr != null) {
+		long duration = Long.parseLong (durationStr);
+		}
+		if (sampleRateStr != null){
+		float samplerate = Float.parseFloat (sampleRateStr);
+		}
+		if (channelStr != null) {
+		int channel = Integer.parseInt (channelStr);
+		}
+		
 
 		// TODO: Hardcoded only for testing purposes
 
@@ -47,10 +59,10 @@ public class MetadataExtraction {
 
 		metadataOutput.println("Titel: " + tracktitle);
 		metadataOutput.println("Verfasser: " + artist);
-		metadataOutput.println("Dauer " + duration);
-		metadataOutput.println("Sample-Rate: " + sampleRate);
+		metadataOutput.println("Dauer " + durationStr);
+		metadataOutput.println("Sample-Rate: " + sampleRateStr);
 		metadataOutput
-				.println("Channel (1 für mono, 2 für stereo): " + channel);
+				.println("Channel (1 für mono, 2 für stereo): " + channelStr);
 		metadataOutput.println("Audio Compression: " + compression);
 		metadataOutput.println();
 
