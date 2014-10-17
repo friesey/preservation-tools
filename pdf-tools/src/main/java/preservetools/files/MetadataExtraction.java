@@ -27,8 +27,6 @@ public class MetadataExtraction {
 		ParseContext parseCtx = new ParseContext();
 		parser.parse(inputfile, handler, metadata, parseCtx);
 
-		outputsMetadata(metadata);
-
 		return metadata;
 
 	}
@@ -42,8 +40,10 @@ public class MetadataExtraction {
 		String channel = metadata.get("channels");
 		String compression = metadata.get("xmpDM:audioCompressor");
 
-		metadataOutput = new PrintWriter(new FileWriter("D:\\"
-				+ "MetadataFolder\\" + tracktitle + ".txt"));
+		// TODO: Hardcoded only for testing purposes
+
+		metadataOutput = new PrintWriter(new FileWriter(
+				"D:\\MetadataFolder\\audiotest.txt"));
 
 		metadataOutput.println("Titel: " + tracktitle);
 		metadataOutput.println("Verfasser: " + artist);
@@ -58,9 +58,7 @@ public class MetadataExtraction {
 		String[] metadataNames = metadata.names();
 		for (String name : metadataNames) {
 			metadataOutput.println(name + ": " + metadata.get(name));
-			
-			metadataOutput.close();
-
 		}
+
 	}
 }
