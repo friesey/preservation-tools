@@ -32,8 +32,17 @@ public class SearchCertainFormat {
 					String extension = FilenameUtils.getExtension(
 							files.get(i).toString()).toLowerCase();
 					
+					String mimetype = preservetools.files.GenericFileAnalysis
+							.getFileMimeType(files.get(i));
+					
 					if (extension != null) {
 						if (extension.equals("wav")) {
+							System.out.println(files.get(i));
+						}
+					}
+					
+					if (mimetype != null) {
+						if (mimetype.contains("audio")) {
 							System.out.println(files.get(i));
 						}
 					}
