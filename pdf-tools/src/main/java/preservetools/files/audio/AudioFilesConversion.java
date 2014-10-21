@@ -119,7 +119,7 @@ public class AudioFilesConversion {
 						preservetools.files.MetadataExtraction.metadataOutput.println("Verfasser: " + artist);
 						preservetools.files.MetadataExtraction.metadataOutput.println("Dauer " + durationStr);
 						preservetools.files.MetadataExtraction.metadataOutput.println("Sample-Rate: " + sampleRateStr);
-						preservetools.files.MetadataExtraction.metadataOutput.println("Channel (1 für mono, 2 für stereo): " + channelStr);
+						preservetools.files.MetadataExtraction.metadataOutput.println("Channel (1 for mono, 2 for stereo): " + channelStr);
 						preservetools.files.MetadataExtraction.metadataOutput.println("Audio Compression: " + compression);
 						preservetools.files.MetadataExtraction.metadataOutput.println("Encoding: " + (encodingStr));
 						preservetools.files.MetadataExtraction.metadataOutput.println("Sample Size: " + (bitsStr));
