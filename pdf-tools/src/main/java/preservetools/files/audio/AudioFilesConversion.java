@@ -187,8 +187,7 @@ public class AudioFilesConversion {
 		       totalFramesRead += numFramesRead;
 		       // Here, do something useful with the audio data that's 
 		       // now in the audioBytes array...		       	       
-		  
-		       
+		  		       
 		       AudioFileFormat.Type filetype = new AudioFileFormat.Type(file.toString(), audioFolder);
 		       
 		       AudioFileFormat format = new AudioFileFormat (filetype, audioInputStream.getFormat(), numFramesRead);
