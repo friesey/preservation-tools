@@ -9,9 +9,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.sound.sampled.AudioFileFormat;
-import javax.sound.sampled.AudioFileFormat.Type;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioFormat.Encoding;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.swing.JOptionPane;
@@ -19,8 +16,6 @@ import javax.swing.JOptionPane;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.tika.exception.TikaException;
 import org.apache.tika.metadata.Metadata;
-import org.openimaj.audio.AudioStream;
-import org.openimaj.audio.conversion.AudioConverter;
 import org.xml.sax.SAXException;
 
 public class AudioFilesConversion {
@@ -39,11 +34,12 @@ public class AudioFilesConversion {
 	
 	static int bits;
 	
-
 	
 	public static void main(String args[]) throws IOException, SAXException, TikaException {
+		
+		/*
 
-		// try {
+		try {
 
 		JOptionPane.showMessageDialog(null, "CD ROM Dialog", "Please choose Folder with Audio Files", JOptionPane.QUESTION_MESSAGE);
 		audioFolder = preservetools.utilities.FolderBrowserDialog.chooseFolder();
@@ -241,11 +237,14 @@ public class AudioFilesConversion {
 		 * 
 		 * AudioSystem.write(audiostream, AudioFileFormat.Type.WAVE,
 		 * outputfile);
-		 */
+		
 
 	}
 
-	/*
-	 * } catch (Exception e) { System.out.println(e); }
-	 */
+	
+	  } catch (Exception e) { System.out.println(e); }
+	
+	
+	*/
+}
 }

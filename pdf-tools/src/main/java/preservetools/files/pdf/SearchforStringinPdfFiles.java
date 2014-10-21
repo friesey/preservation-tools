@@ -2,6 +2,7 @@ package preservetools.files.pdf;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ import javax.swing.JOptionPane;
 
 import org.apache.commons.io.FilenameUtils;
 
-public class SearchforStringinPDFFiles {
+public class SearchforStringinPdfFiles {
 
 	static String folder;
 
@@ -22,13 +23,16 @@ public class SearchforStringinPDFFiles {
 		
 		String extension;
 
+		PrintWriter outputfile = new PrintWriter(new FileWriter(folder + "//"
+				+ "SearchForString_" + folder.toString() + ".txt"));
+		
 		System.out.println("Test");
 
-		try {
-
+		try {			
+			
 			folder = preservetools.utilities.FolderBrowserDialog.chooseFolder();
 
-			searchedString = JOptionPane.showInputDialog(null, "Geben Sie Ihren Namen ein", "Eine Eingabeaufforderung", JOptionPane.PLAIN_MESSAGE);
+			searchedString = JOptionPane.showInputDialog(null, "Please enter String that should be searched in the PDF Files", "Enter String Mask", JOptionPane.PLAIN_MESSAGE);
 
 			if (searchedString != null) {
 
