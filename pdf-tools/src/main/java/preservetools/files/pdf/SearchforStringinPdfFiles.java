@@ -22,15 +22,16 @@ public class SearchforStringinPdfFiles {
 	public static void main(String args[]) throws IOException {
 		
 		String extension;
-
-		PrintWriter outputfile = new PrintWriter(new FileWriter(folder + "//"
-				+ "SearchForString_" + folder.toString() + ".txt"));
-		
+	
 		System.out.println("Test");
 
 		try {			
 			
 			folder = preservetools.utilities.FolderBrowserDialog.chooseFolder();
+			
+			PrintWriter outputfile = new PrintWriter(new FileWriter(folder + "//"
+					+ "SearchForString" + ".txt"));
+			
 
 			searchedString = JOptionPane.showInputDialog(null, "Please enter String that should be searched in the PDF Files", "Enter String Mask", JOptionPane.PLAIN_MESSAGE);
 
@@ -57,12 +58,17 @@ public class SearchforStringinPdfFiles {
 
 								for (int j = 0; j < lenlines; j++) {
 									if ((linesPdf[j]).contains(searchedString)) {
-										System.out.println(files.get(i));
-										System.out.println(linesPdf[j]);
-										System.out.println("Line: " + j);
+										outputfile.println();
+										outputfile.println(files.get(i));
+										outputfile.println(linesPdf[j]);
+										//TODO: I wonder why the lines are so high. Is this calculating cumulative?
+										outputfile.println("Line: " + j);
+										outputfile.println();
 									}
 								}
 							}
+							
+							//TODO: Add other file formats, e. g. MS Word to search for string there, too
 
 							else {
 							//	System.out.println(files.get(i) + " is not a PDF file");
@@ -72,6 +78,8 @@ public class SearchforStringinPdfFiles {
 
 				}
 			}
+			
+			outputfile.close();
 		}
 
 		catch (FileNotFoundException e) {
