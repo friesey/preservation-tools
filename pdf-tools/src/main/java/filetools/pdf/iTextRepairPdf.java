@@ -20,13 +20,13 @@ public class iTextRepairPdf {
 	public static void main(String args[]) throws IOException {
 
 		try {
-			examinedFolder = preservetools.utilities.FolderBrowserDialog
+			examinedFolder = utilities.FolderBrowserDialog
 					.chooseFolder();
 
 			if (examinedFolder != null) {
 
 				try {
-					ArrayList<File> files = preservetools.utilities.ListsFiles
+					ArrayList<File> files = utilities.ListsFiles
 							.getPaths(new File(examinedFolder),
 									new ArrayList<File>());
 					if (files == null)

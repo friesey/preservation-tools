@@ -17,11 +17,11 @@ public class PdfToImageConverter {
 
 	public static void main(String args[]) {
 		try {
-			folder = preservetools.utilities.FolderBrowserDialog.chooseFolder();
+			folder = utilities.FolderBrowserDialog.chooseFolder();
 			// TODO: create a method which tests if the file is an
 			// ok-to-the-end-PDF to work with
 			if (folder != null) {
-				ArrayList<File> files = preservetools.utilities.ListsFiles.getPaths(new File(folder),
+				ArrayList<File> files = utilities.ListsFiles.getPaths(new File(folder),
 						new ArrayList<File>());
 				if (files != null) {
 					for (int i = 0; i < files.size(); i++) {

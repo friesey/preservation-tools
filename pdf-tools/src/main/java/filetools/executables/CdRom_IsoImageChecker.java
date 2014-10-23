@@ -63,13 +63,13 @@ public class CdRom_IsoImageChecker {
 
 		JOptionPane.showMessageDialog(null, "CD ROM Dialog",
 				"Please choose CD ROM Folder", JOptionPane.QUESTION_MESSAGE);
-		examinedCdRom = preservetools.utilities.FolderBrowserDialog
+		examinedCdRom = utilities.FolderBrowserDialog
 				.chooseFolder();
 
 		JOptionPane.showMessageDialog(null, "Output Folder",
 				"Please choose Folder where Outputfile will be created",
 				JOptionPane.QUESTION_MESSAGE);
-		outputFolder = preservetools.utilities.FolderBrowserDialog
+		outputFolder = utilities.FolderBrowserDialog
 				.chooseFolder();
 
 		if (examinedCdRom != null && outputFolder != null) {
@@ -97,7 +97,7 @@ public class CdRom_IsoImageChecker {
 							+ "potentiallyExecutableFiles_" + CdRomName
 							+ ".txt"));
 
-			ArrayList<File> files = preservetools.utilities.ListsFiles
+			ArrayList<File> files = utilities.ListsFiles
 					.getPaths(new File(examinedCdRom), new ArrayList<File>());
 
 			outputfile.println("No. of files are in the folder or CD: "

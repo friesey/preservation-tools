@@ -1,4 +1,4 @@
-package preservetools.utilities;
+package utilities;
 
 import javax.swing.JOptionPane;
 

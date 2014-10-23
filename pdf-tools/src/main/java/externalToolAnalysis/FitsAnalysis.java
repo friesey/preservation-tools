@@ -16,7 +16,7 @@ public class FitsAnalysis {
 	public static void main(String args[]) throws IOException,
 			InterruptedException {
 
-		examinedFile = preservetools.utilities.FileBrowserDialog.chooseFile();
+		examinedFile = utilities.FileBrowserDialog.chooseFile();
 		// examinedFolder =
 		// preservetools.utilities.FolderBrowserDialog.chooseFolder();
 

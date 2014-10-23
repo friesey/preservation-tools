@@ -1,4 +1,4 @@
-package preservetools.utilities;
+package utilities;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,12 +18,12 @@ public class SearchCertainFormat {
 			JOptionPane.showMessageDialog(null, "CD ROM Dialog",
 					"Please choose Folder",
 					JOptionPane.QUESTION_MESSAGE);
-			examinedFolder = preservetools.utilities.FolderBrowserDialog
+			examinedFolder = utilities.FolderBrowserDialog
 					.chooseFolder();
 
 			if (examinedFolder != null) {
 
-				ArrayList<File> files = preservetools.utilities.ListsFiles
+				ArrayList<File> files = utilities.ListsFiles
 						.getPaths(new File(examinedFolder),
 								new ArrayList<File>());
 

@@ -39,14 +39,14 @@ public class AudioFilesConversion {
 		try {
 
 			JOptionPane.showMessageDialog(null, "CD ROM Dialog", "Please choose Folder with Audio Files", JOptionPane.QUESTION_MESSAGE);
-			audioFolder = preservetools.utilities.FolderBrowserDialog.chooseFolder();
+			audioFolder = utilities.FolderBrowserDialog.chooseFolder();
 
 			JOptionPane.showMessageDialog(null, "CD ROM Dialog", "Please choose where your files will be archived", JOptionPane.QUESTION_MESSAGE);
-			filetools.executables.CdRom_IsoImageChecker.archivFolder = preservetools.utilities.FolderBrowserDialog.chooseFolder();
+			filetools.executables.CdRom_IsoImageChecker.archivFolder = utilities.FolderBrowserDialog.chooseFolder();
 
 			if (audioFolder != null && filetools.executables.CdRom_IsoImageChecker.archivFolder != null) {
 
-				ArrayList<File> files = preservetools.utilities.ListsFiles.getPaths(new File(audioFolder), new ArrayList<File>());
+				ArrayList<File> files = utilities.ListsFiles.getPaths(new File(audioFolder), new ArrayList<File>());
 
 				// TODO: Hardcoded only for testing purposes
 					

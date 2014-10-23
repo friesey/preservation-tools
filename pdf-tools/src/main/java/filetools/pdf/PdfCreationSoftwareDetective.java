@@ -28,11 +28,11 @@ public class PdfCreationSoftwareDetective {
 		PrintWriter outputfile;
 
 		try {
-			ExaminedFolder = preservetools.utilities.FolderBrowserDialog.chooseFolder();
+			ExaminedFolder = utilities.FolderBrowserDialog.chooseFolder();
 
 			if (ExaminedFolder != null) {
 				ProducerType = new ArrayList<String>();
-				ArrayList<File> files = preservetools.utilities.ListsFiles.getPaths(new File(ExaminedFolder),
+				ArrayList<File> files = utilities.ListsFiles.getPaths(new File(ExaminedFolder),
 						new ArrayList<File>());
 
 				outputfile = new PrintWriter(new FileWriter(ExaminedFolder + "//" + "CreationSoftwareDetective.txt"));

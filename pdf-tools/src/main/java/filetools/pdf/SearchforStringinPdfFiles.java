@@ -27,7 +27,7 @@ public class SearchforStringinPdfFiles {
 
 		try {			
 			
-			folder = preservetools.utilities.FolderBrowserDialog.chooseFolder();
+			folder = utilities.FolderBrowserDialog.chooseFolder();
 			
 			PrintWriter outputfile = new PrintWriter(new FileWriter(folder + "//"
 					+ "SearchForString" + ".txt"));
@@ -39,7 +39,7 @@ public class SearchforStringinPdfFiles {
 
 				if (folder != null) {
 
-					ArrayList<File> files = preservetools.utilities.ListsFiles.getPaths(new File(folder), new ArrayList<File>());
+					ArrayList<File> files = utilities.ListsFiles.getPaths(new File(folder), new ArrayList<File>());
 					if (files != null) {
 
 						// TODO: All the PDF-ExceptionHandling is missing here

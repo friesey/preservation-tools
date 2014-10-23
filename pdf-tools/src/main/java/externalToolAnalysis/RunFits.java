@@ -18,7 +18,7 @@ public class RunFits {
 
 		try {
 
-			examinedFile = preservetools.utilities.FileBrowserDialog
+			examinedFile = utilities.FileBrowserDialog
 					.chooseFile();
 			// examinedFolder =
 			// preservetools.utilities.FolderBrowserDialog.chooseFolder();

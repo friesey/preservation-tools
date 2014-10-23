@@ -9,7 +9,7 @@ public class XmpMetadataReader {
 
 	public static void main(String args[]) throws IOException {
 
-		String pdfFile = preservetools.utilities.FileBrowserDialog.chooseFile();
+		String pdfFile = utilities.FileBrowserDialog.chooseFile();
 
 		String xmpMetadata;
 		PdfReader reader;

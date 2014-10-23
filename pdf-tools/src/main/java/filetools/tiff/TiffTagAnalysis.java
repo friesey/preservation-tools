@@ -17,11 +17,11 @@ public class TiffTagAnalysis {
 
 		try {
 
-			examinedFolder = preservetools.utilities.FolderBrowserDialog.chooseFolder();
+			examinedFolder = utilities.FolderBrowserDialog.chooseFolder();
 
 			if (examinedFolder != null) {
 
-				ArrayList<File> files = preservetools.utilities.ListsFiles.getPaths(new File(examinedFolder),
+				ArrayList<File> files = utilities.ListsFiles.getPaths(new File(examinedFolder),
 						new ArrayList<File>());
 
 				for (int i = 0; i < files.size(); i++) {

@@ -10,13 +10,13 @@ public class EbubChecker {
 
 	public static void main(String args[]) throws IOException {
 
-		String examinedFolder = preservetools.utilities.FolderBrowserDialog
+		String examinedFolder = utilities.FolderBrowserDialog
 				.chooseFolder();
 		String extension;
 
 		if (examinedFolder != null) {
 
-			ArrayList<File> files = preservetools.utilities.ListsFiles
+			ArrayList<File> files = utilities.ListsFiles
 					.getPaths(new File(examinedFolder), new ArrayList<File>());
 
 			try {
