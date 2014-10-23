@@ -84,7 +84,7 @@ public class MetadataExtraction {
 		metadataOutput.println("Verfasser: " + artist);
 		metadataOutput.println("Dauer " + durationStr);
 		metadataOutput.println("Sample-Rate: " + sampleRateStr);
-		metadataOutput.println("Channel (1 für mono, 2 für stereo): "
+		metadataOutput.println("Channel (1 for mono, 2 for stereo): "
 				+ channelStr);
 		metadataOutput.println("Audio Compression: " + compression);
 		metadataOutput.println();
