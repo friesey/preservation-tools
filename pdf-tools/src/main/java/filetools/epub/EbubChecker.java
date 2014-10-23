@@ -1,4 +1,4 @@
-package preservetools.files.epub;
+package filetools.epub;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,7 +24,7 @@ public class EbubChecker {
 					
 					System.out.println(files.get(i).getCanonicalPath());
 					
-					extension =  preservetools.files.GenericFileAnalysis.getFileMimeType(files.get(i));	
+					extension =  filetools.GenericFileAnalysis.getFileMimeType(files.get(i));	
 
 					if (extension.equals("application/epub")) {
 

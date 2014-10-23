@@ -1,4 +1,4 @@
-package preservetools.files.pdf;
+package filetools.pdf;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -36,7 +36,7 @@ public class iTextRepairPdf {
 
 					for (int i = 0; i < files.size(); i++) {
 						System.out.println(files.get(i).getCanonicalPath());
-						mimetype = preservetools.files.GenericFileAnalysis
+						mimetype = filetools.GenericFileAnalysis
 								.getFileMimeType(files.get(i));
 						if (mimetype != null) {
 							if (mimetype.equals("application/pdf")) {

@@ -33,10 +33,10 @@ public class PdfUtilitiesTest {
 		// make an 18MB test file, should be too large
 		File largeTest = getTestTempFile(18);
 		// Check that it's flagged too large
-		assertTrue(preservetools.files.GenericFileAnalysis.checkFileSize(largeTest));
+		assertTrue(filetools.GenericFileAnalysis.checkFileSize(largeTest));
 		
 		// Isator manual is smaller than 16MB so should be false
-		assertFalse(preservetools.files.GenericFileAnalysis.checkFileSize(ISATOR_MANUAL));
+		assertFalse(filetools.GenericFileAnalysis.checkFileSize(ISATOR_MANUAL));
 		largeTest.delete();
 	}
 

@@ -1,4 +1,4 @@
-package preservetools.files.pdf;
+package filetools.pdf;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -49,8 +49,8 @@ public class PdfTwinTest {
 
 				if (filesizeOrg < 16000000 && filesizeMig < 16000000) {
 
-					if (preservetools.files.GenericFileAnalysis.testFileHeaderPdf(OrgPdf) == true
-							&& preservetools.files.GenericFileAnalysis.testFileHeaderPdf(MigPdf) == true) {
+					if (filetools.GenericFileAnalysis.testFileHeaderPdf(OrgPdf) == true
+							&& filetools.GenericFileAnalysis.testFileHeaderPdf(MigPdf) == true) {
 
 						PDDocument testfileOrg = PDDocument.load(OrgPdf);
 						PDDocument testfileMig = PDDocument.load(MigPdf);

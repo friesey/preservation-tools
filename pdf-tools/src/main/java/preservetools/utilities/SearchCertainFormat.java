@@ -32,7 +32,7 @@ public class SearchCertainFormat {
 					String extension = FilenameUtils.getExtension(
 							files.get(i).toString()).toLowerCase();
 					
-					String mimetype = preservetools.files.GenericFileAnalysis
+					String mimetype = filetools.GenericFileAnalysis
 							.getFileMimeType(files.get(i));
 					
 					if (extension != null) {

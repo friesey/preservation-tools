@@ -1,4 +1,4 @@
-package preservetools.files;
+package filetools;
 
 import java.io.BufferedReader;
 import java.io.File;

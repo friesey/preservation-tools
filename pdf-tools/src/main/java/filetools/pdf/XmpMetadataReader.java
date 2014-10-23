@@ -1,4 +1,4 @@
-package preservetools.files.pdf;
+package filetools.pdf;
 
 import java.io.FileWriter;
 import java.io.IOException;

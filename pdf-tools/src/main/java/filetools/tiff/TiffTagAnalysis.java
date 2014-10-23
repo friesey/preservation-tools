@@ -1,4 +1,4 @@
-package preservetools.files.tiff;
+package filetools.tiff;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -32,7 +32,7 @@ public class TiffTagAnalysis {
 					String extension = FilenameUtils.getExtension(files.get(i).getCanonicalPath());
 					if (extension.equals(tiffExtension)) {
 						
-						if (preservetools.files.GenericFileAnalysis.testFileHeaderTiff(files.get(i))) {
+						if (filetools.GenericFileAnalysis.testFileHeaderTiff(files.get(i))) {
 							
 							
 							System.out.println ( files.get(i) + "is a tiff-file");

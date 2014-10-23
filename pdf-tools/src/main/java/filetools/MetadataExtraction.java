@@ -1,4 +1,4 @@
-package preservetools.files;
+package filetools;
 
 import java.io.FileWriter;
 import java.io.IOException;

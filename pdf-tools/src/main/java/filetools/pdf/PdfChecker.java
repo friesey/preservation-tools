@@ -1,4 +1,4 @@
-package preservetools.files.pdf;
+package filetools.pdf;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -61,9 +61,9 @@ public class PdfChecker {
 
 						if (extension.equals("pdf")) {
 
-							if(!preservetools.files.GenericFileAnalysis.checkFileSize(files.get(i))) {							
+							if(!filetools.GenericFileAnalysis.checkFileSize(files.get(i))) {							
 								
-								if (preservetools.files.GenericFileAnalysis.testFileHeaderPdf(files.get(i)) == true) {
+								if (filetools.GenericFileAnalysis.testFileHeaderPdf(files.get(i)) == true) {
 
 									System.out
 											.println(files.get(i).getName()

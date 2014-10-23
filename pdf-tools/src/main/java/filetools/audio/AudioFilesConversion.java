@@ -1,4 +1,4 @@
-package preservetools.files.audio;
+package filetools.audio;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -42,15 +42,15 @@ public class AudioFilesConversion {
 			audioFolder = preservetools.utilities.FolderBrowserDialog.chooseFolder();
 
 			JOptionPane.showMessageDialog(null, "CD ROM Dialog", "Please choose where your files will be archived", JOptionPane.QUESTION_MESSAGE);
-			preservetools.files.executables.CdRom_IsoImageChecker.archivFolder = preservetools.utilities.FolderBrowserDialog.chooseFolder();
+			filetools.executables.CdRom_IsoImageChecker.archivFolder = preservetools.utilities.FolderBrowserDialog.chooseFolder();
 
-			if (audioFolder != null && preservetools.files.executables.CdRom_IsoImageChecker.archivFolder != null) {
+			if (audioFolder != null && filetools.executables.CdRom_IsoImageChecker.archivFolder != null) {
 
 				ArrayList<File> files = preservetools.utilities.ListsFiles.getPaths(new File(audioFolder), new ArrayList<File>());
 
 				// TODO: Hardcoded only for testing purposes
-
-				preservetools.files.MetadataExtraction.metadataOutput = new PrintWriter(new FileWriter("D:\\MetadataFolder\\audiotest.txt"));
+					
+				filetools.MetadataExtraction.metadataOutput = new PrintWriter(new FileWriter("D:\\MetadataFolder\\audiotest.txt"));
 
 				for (int i = 0; i < files.size(); i++) {
 
@@ -66,15 +66,15 @@ public class AudioFilesConversion {
 						if (extension.equals("mp3") || extension.equals("m4a") || extension.equals("wma") || extension.equals("wav") || extension.equals("cda")) {
 
 							if (extension.equals("mp3")) {
-								metadata = preservetools.files.MetadataExtraction.getMetadatafromMP3(inputfile);
+								metadata = filetools.MetadataExtraction.getMetadatafromMP3(inputfile);
 							}
 
 							else if (extension.equals("m4a")) {
-								metadata = preservetools.files.MetadataExtraction.getMetadatafromMP4(inputfile);
+								metadata = filetools.MetadataExtraction.getMetadatafromMP4(inputfile);
 							}
 
 							else if (extension.equals("wma") || extension.equals("wav") || extension.equals("cda")) {
-								metadata = preservetools.files.MetadataExtraction.getMetadatafromAudio(inputfile);
+								metadata = filetools.MetadataExtraction.getMetadatafromAudio(inputfile);
 							}
 
 							String tracktitle = metadata.get("title");
@@ -103,24 +103,24 @@ public class AudioFilesConversion {
 
 							filename = FilenameUtils.getBaseName(files.get(i).toString());
 
-							preservetools.files.MetadataExtraction.metadataOutput.println();
-							preservetools.files.MetadataExtraction.metadataOutput.println();
-							preservetools.files.MetadataExtraction.metadataOutput.println("Dateiname:" + (filename));
-							preservetools.files.MetadataExtraction.metadataOutput.println("No. of MD Elements: " + metadata.size());
-							preservetools.files.MetadataExtraction.metadataOutput.println("Titel: " + tracktitle);
-							preservetools.files.MetadataExtraction.metadataOutput.println("Verfasser: " + artist);
-							preservetools.files.MetadataExtraction.metadataOutput.println("Dauer " + durationStr);
-							preservetools.files.MetadataExtraction.metadataOutput.println("Sample-Rate: " + sampleRateStr);
-							preservetools.files.MetadataExtraction.metadataOutput.println("Channel (1 for mono, 2 for stereo): " + channelStr);
-							preservetools.files.MetadataExtraction.metadataOutput.println("Audio Compression: " + compression);
-							preservetools.files.MetadataExtraction.metadataOutput.println("Encoding: " + (encodingStr));
-							preservetools.files.MetadataExtraction.metadataOutput.println("Sample Size: " + (bitsStr));
-							preservetools.files.MetadataExtraction.metadataOutput.println("Content-Type: " + (format));
-							preservetools.files.MetadataExtraction.metadataOutput.println();
+							filetools.MetadataExtraction.metadataOutput.println();
+							filetools.MetadataExtraction.metadataOutput.println();
+							filetools.MetadataExtraction.metadataOutput.println("Dateiname:" + (filename));
+							filetools.MetadataExtraction.metadataOutput.println("No. of MD Elements: " + metadata.size());
+							filetools.MetadataExtraction.metadataOutput.println("Titel: " + tracktitle);
+							filetools.MetadataExtraction.metadataOutput.println("Verfasser: " + artist);
+							filetools.MetadataExtraction.metadataOutput.println("Dauer " + durationStr);
+							filetools.MetadataExtraction.metadataOutput.println("Sample-Rate: " + sampleRateStr);
+							filetools.MetadataExtraction.metadataOutput.println("Channel (1 for mono, 2 for stereo): " + channelStr);
+							filetools.MetadataExtraction.metadataOutput.println("Audio Compression: " + compression);
+							filetools.MetadataExtraction.metadataOutput.println("Encoding: " + (encodingStr));
+							filetools.MetadataExtraction.metadataOutput.println("Sample Size: " + (bitsStr));
+							filetools.MetadataExtraction.metadataOutput.println("Content-Type: " + (format));
+							filetools.MetadataExtraction.metadataOutput.println();
 
 							String[] metadataNames = metadata.names();
 							for (String name : metadataNames) {
-								preservetools.files.MetadataExtraction.metadataOutput.println(name + ": " + metadata.get(name));
+								filetools.MetadataExtraction.metadataOutput.println(name + ": " + metadata.get(name));
 							}
 
 							if (extension.equals("wav")) {
@@ -135,7 +135,7 @@ public class AudioFilesConversion {
 
 					}
 				}
-				preservetools.files.MetadataExtraction.metadataOutput.close();
+				filetools.MetadataExtraction.metadataOutput.close();
 			}
 		}
 
@@ -147,7 +147,7 @@ public class AudioFilesConversion {
 	@SuppressWarnings("static-access")
 	private static void convertWavFile(File file) {
 
-		File outputfile = new File(preservetools.files.executables.CdRom_IsoImageChecker.archivFolder + "\\" + filename + ".wav");
+		File outputfile = new File(filetools.executables.CdRom_IsoImageChecker.archivFolder + "\\" + filename + ".wav");
 
 		int totalFramesRead = 0;
 		File fileIn = new File(file.toString());

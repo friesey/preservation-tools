@@ -1,4 +1,4 @@
-package preservetools.files.pdf;
+package filetools.pdf;
 
 // TODO: next time, the package name should start with a small character, this is the convention
 
@@ -39,7 +39,7 @@ public class PdfAnalysis {
 
 	public static boolean testPdfOk(File file) throws IOException {
 
-		if (!preservetools.files.GenericFileAnalysis.testFileHeaderPdf(file)) {
+		if (!filetools.GenericFileAnalysis.testFileHeaderPdf(file)) {
 			/*if (preservetools.files.GenericFileAnalysis.checkFileSize(file)) {*/
 				PDDocument testfile = PDDocument.load(file);
 				if (!testfile.isEncrypted()) {

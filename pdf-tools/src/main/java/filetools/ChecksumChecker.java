@@ -1,4 +1,4 @@
-package preservetools.files;
+package filetools;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
-import preservetools.files.executables.CdRom_IsoImageChecker;
+import filetools.executables.CdRom_IsoImageChecker;
 
 public class ChecksumChecker {
 

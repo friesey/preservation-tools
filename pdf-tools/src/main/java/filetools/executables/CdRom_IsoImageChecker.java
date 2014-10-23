@@ -1,4 +1,4 @@
-package preservetools.files.executables;
+package filetools.executables;
 
 import java.awt.BorderLayout;
 import java.io.File;
@@ -74,7 +74,7 @@ public class CdRom_IsoImageChecker {
 
 		if (examinedCdRom != null && outputFolder != null) {
 
-			String CdRomName = preservetools.files.GenericFileAnalysis
+			String CdRomName = filetools.GenericFileAnalysis
 					.getCdRomFolderName(examinedCdRom);
 
 			if (CdRomName.contains(":")) {
@@ -114,7 +114,7 @@ public class CdRom_IsoImageChecker {
 
 					if (extension.equals("cda")) {
 						// TODO: Could be tested earlier to save time
-						preservetools.files.audio.AudioCD.extractAudioFiles(files);
+						filetools.audio.AudioCD.extractAudioFiles(files);
 						// has to stop afterwards. Should not do it as often as cda files are found
 						// break is brute force
 						break;
@@ -247,7 +247,7 @@ public class CdRom_IsoImageChecker {
 
 	public static void ckeckifFileIsExecutable(File file) throws IOException,
 			NoSuchAlgorithmException {
-		mimetype = preservetools.files.GenericFileAnalysis
+		mimetype = filetools.GenericFileAnalysis
 				.getFileMimeType(file);
 
 		outputfile.println(file.toString());
@@ -255,14 +255,14 @@ public class CdRom_IsoImageChecker {
 		outputfile.println("File-Extension: " + extension);
 		outputfile.println();
 
-		if (preservetools.files.GenericFileAnalysis
+		if (filetools.GenericFileAnalysis
 				.testIfMimeMightBeExecutable(mimetype)) {
 
-			if (preservetools.files.GenericFileAnalysis
+			if (filetools.GenericFileAnalysis
 					.testIfExtensionCanbeExecutable(extension)) {
 				filecheck++;
 
-				if (preservetools.files.ChecksumChecker
+				if (filetools.ChecksumChecker
 						.testIfChecksumisPdfReaderSoftware(file)) {
 
 					filesExecutable.println((file.toString())
