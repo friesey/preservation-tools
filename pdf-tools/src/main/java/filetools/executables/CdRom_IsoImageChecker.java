@@ -54,7 +54,9 @@ public class CdRom_IsoImageChecker {
 
 	public static void main(String args[]) throws IOException,
 			NoSuchAlgorithmException {
-
+		
+		output.XmlOutput.createsXMLHeader();
+		
 		// try {
 		// measures time
 		double starttime = System.currentTimeMillis();
@@ -99,6 +101,8 @@ public class CdRom_IsoImageChecker {
 
 			ArrayList<File> files = utilities.ListsFiles
 					.getPaths(new File(examinedCdRom), new ArrayList<File>());
+			
+			output.XmlOutput.xmlSimpleWriter.println("<CdRomFolderTest>");
 
 			outputfile.println("No. of files are in the folder or CD: "
 					+ files.size());
@@ -154,6 +158,8 @@ public class CdRom_IsoImageChecker {
 
 			filesExecutable.close();
 			outputfile.close();
+			output.XmlOutput.xmlSimpleWriter.println("</CdRomFolderTest>");
+			output.XmlOutput.closesxmlSimpleWriter();
 
 			System.out.println("Checksum generated and compared: " + filecheck);
 
