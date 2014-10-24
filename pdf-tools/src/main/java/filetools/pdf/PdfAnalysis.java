@@ -32,32 +32,34 @@ public class PdfAnalysis {
 	/****************************************************************************
 	 * Checks if a PDF is ok to work with %PDF Header, Broken PDF & Encryption
 	 * 
-	 * @param file            
+	 * @param file
 	 * @return: boolean true or false
 	 * @throws IOException
 	 */
 
 	public static boolean testPdfOk(File file) throws IOException {
 
-		if (!filetools.GenericFileAnalysis.testFileHeaderPdf(file)) {
-			/*if (preservetools.files.GenericFileAnalysis.checkFileSize(file)) {*/
-				PDDocument testfile = PDDocument.load(file);
-				if (!testfile.isEncrypted()) {
-					if (!checkBrokenPdf(file.toString())) {
-						return true;
-					} else {
-						System.out.println("Broken Pdf");
-						return false;
-					}
+		if (filetools.GenericFileAnalysis.testFileHeaderPdf(file)==true) {
+			/*
+			 * if (preservetools.files.GenericFileAnalysis.checkFileSize(file))
+			 * {
+			 */
+			PDDocument testfile = PDDocument.load(file);
+			if (!testfile.isEncrypted()) {
+				if (!checkBrokenPdf(file.toString())) {
+					return true;
 				} else {
-					System.out.println("Is encrypted");
+					System.out.println("Broken Pdf");
 					return false;
 				}
-			} /* else {
-				System.out.println("Pdf too big to be examined");
-				return false; 
-			} 
-		} */ else {
+			} else {
+				System.out.println("Is encrypted");
+				return false;
+			}
+		} /*
+		 * else { System.out.println("Pdf too big to be examined"); return
+		 * false; } }
+		 */else {
 			System.out.println("No PDF Header");
 			return false;
 		}
@@ -78,7 +80,7 @@ public class PdfAnalysis {
 		String XmpMetadata;
 		PdfReader reader;
 		try {
-			reader = new PdfReader(file.toString());		
+			reader = new PdfReader(file.toString());
 			if (reader.getPdfVersion() > 3) {
 				if (reader.getMetadata() != null) {
 					XmpMetadata = new String(reader.getMetadata()); // nullpointerException
@@ -151,22 +153,26 @@ public class PdfAnalysis {
 	}
 
 	public static String[] extractsPdfLines(String PdfFile) throws IOException {
-		StringBuffer buff = new StringBuffer();
-		String ExtractedText = null;
-		PdfReader reader = new PdfReader(PdfFile);
-		PdfReaderContentParser parser = new PdfReaderContentParser(reader);
-		TextExtractionStrategy strategy;
-		for (int i = 1; i <= reader.getNumberOfPages(); i++) {
-			strategy = parser.processContent(i, new SimpleTextExtractionStrategy());
-			ExtractedText = strategy.getResultantText().toString();
-			buff.append(ExtractedText + "\n");
+		try {
+			StringBuffer buff = new StringBuffer();
+			String ExtractedText = null;
+			PdfReader reader = new PdfReader(PdfFile);
+			PdfReaderContentParser parser = new PdfReaderContentParser(reader);
+			TextExtractionStrategy strategy;
+
+			for (int i = 1; i <= reader.getNumberOfPages(); i++) {
+				strategy = parser.processContent(i, new SimpleTextExtractionStrategy());
+				ExtractedText = strategy.getResultantText().toString();
+				buff.append(ExtractedText + "\n");
+			}
+
+			String[] LinesArray;
+			LinesArray = buff.toString().split("\n");
+			reader.close();
+			return LinesArray;
+		} catch (Exception e) {
+			return null;
 		}
-
-		String[] LinesArray;
-
-		LinesArray = buff.toString().split("\n");
-		reader.close();
-		return LinesArray;
 	}
 
 	/**

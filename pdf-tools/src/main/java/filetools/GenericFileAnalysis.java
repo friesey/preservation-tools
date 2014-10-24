@@ -8,6 +8,8 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
+import org.apache.commons.io.FilenameUtils;
+
 public class GenericFileAnalysis {
 
 	// TODO: If I do not know yet which file it is, just a generic analyse
@@ -35,7 +37,7 @@ public class GenericFileAnalysis {
 		String FileHeader = fileReader.readLine();
 		// System.out.println(FileHeader);
 		if (FileHeader != null) {
-			if (FileHeader.contains("magicNumberPdf")) {
+			if (FileHeader.contains(magicNumberPdf)) {
 				return true;
 			} else {
 				return false;
@@ -50,7 +52,7 @@ public class GenericFileAnalysis {
 		String FileHeader = fileReader.readLine();
 		// System.out.println(FileHeader);
 		if (FileHeader != null) {
-			if (FileHeader.contains("magicNumberPdf")) {
+			if (FileHeader.contains(magicNumberPdf)) {
 				return true;
 			} else {
 				return false;
@@ -65,8 +67,7 @@ public class GenericFileAnalysis {
 		String FileHeader = fileReader.readLine();
 		// System.out.println(FileHeader);
 		if (FileHeader != null) {
-			if ((FileHeader.contains(magicNumberTiffIntel))
-					|| (FileHeader.contains(magicNumberTiffMotorola))) {
+			if ((FileHeader.contains(magicNumberTiffIntel)) || (FileHeader.contains(magicNumberTiffMotorola))) {
 				return true;
 			} else {
 				return false;
@@ -81,8 +82,7 @@ public class GenericFileAnalysis {
 		String FileHeader = fileReader.readLine();
 		// System.out.println(FileHeader);
 		if (FileHeader != null) {
-			if ((FileHeader.contains(magicNumberTiffIntel))
-					|| (FileHeader.contains(magicNumberTiffMotorola))) {
+			if ((FileHeader.contains(magicNumberTiffIntel)) || (FileHeader.contains(magicNumberTiffMotorola))) {
 				return true;
 			} else {
 				return false;
@@ -158,7 +158,6 @@ public class GenericFileAnalysis {
 		extensionlist.add("bmml");
 		extensionlist.add("log");
 		extensionlist.add("ttf");
-		
 
 		if (extensionlist.contains(extension)) {
 			return false;
@@ -208,6 +207,11 @@ public class GenericFileAnalysis {
 		String[] segs = file.toString().split(Pattern.quote("."));
 
 		return segs[segs.length - 1];
+	}
+
+	public static String getFileName(File file) {
+		String filename = FilenameUtils.getBaseName(file.toString());
+		return filename;
 	}
 
 }
