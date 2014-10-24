@@ -80,6 +80,7 @@ public class SearchforStringinPdfFiles {
 			}
 			
 			outputfile.close();
+			System.out.println("File was closed");
 		}
 
 		catch (FileNotFoundException e) {
