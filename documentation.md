@@ -2,51 +2,48 @@
 # Documentation
 
 
-+## Structure of preservation-tools
-+
-+Currently (10/2014, but the project is growing fast) the preservation-tools project is divided in 9 packages.
-+
-+### externalToolAnalysis
-+This package contains several classes which do not work yet to access external programs like JHOVE, FITS and co. It is planned to be able to use these tools from the java program if this is possible in the first place at all.
-+
-+### filetools
-+The filetools-package contains classes which should be usable for all types of file. For example, it consists of a Checksum Checker (so far only MD5) and a GeneralFileAnalysis which e. g. checks for the Magical Number at the beginning of the file.
-+
-+### filetools.audio
-+As one can easily guess, the containing classes deals with audio files in particular.
-+
-+### filetools.epub
-+
-+### filetools.executables
-+
-+### filetools.pdf
-+
-+### filetools.tiff
-+
-+### output
-+There is an XmlOutput class in this package which helps to get some xml Output. Currently, this class is under construction.
-+
-+### utilities
-+Some classes (+ methods) are used very frequently and by almost all classes which contain of a main-program.
-+* ArchiveFilesToFolder
-+under construction. Will be able to copy/paste files to a certain folder
-+* FileBrowserDialog
-+Navigates to a file
-+* FolderBrowserDialog
-+Navigates to a folder
-+* FolderCreation
-+under construction
-+* IsoImageCreator
-+One day, this class will hopefully contain methods to create an Iso Image File from a CD ROM.
-+* ListFiles
-+One of the very important methods, to get all files from a choosen folder incl. subfolders and list them in an ArrayList of files.
-+* SearchCertainFormat
-+Very usefull sometimes to gather test data.
-+
-+
-+
-+
-+(old:)
+## Structure of preservation-tools
+
+Currently (10/2014, but the project is growing fast) the preservation-tools project is divided in 9 packages.
+
+### externalToolAnalysis
+This package contains several classes which do not work yet to access external programs like JHOVE, FITS and co. It is planned to be able to use these tools from the java program if this is possible in the first place at all.
+
+### filetools
+The filetools-package contains classes which should be usable for all types of file. For example, it consists of a Checksum Checker (so far only MD5) and a GeneralFileAnalysis which e. g. checks for the Magical Number at the beginning of the file.
+
+### filetools.audio
+As one can easily guess, the containing classes deals with audio files in particular.
+
+### filetools.epub
+
+### filetools.executables
+
+### filetools.pdf
+
+### filetools.tiff
+
+### output
+There is an XmlOutput class in this package which helps to get some xml Output. Currently, this class is under construction.
+
+### utilities
+Some classes (+ methods) are used very frequently and by almost all classes which contain of a main-program.
+* ArchiveFilesToFolder
+under construction. Will be able to copy/paste files to a certain folder
+* FileBrowserDialog
+Navigates to a file
+* FolderBrowserDialog
+Navigates to a folder
+* FolderCreation
+under construction
+* IsoImageCreator
+One day, this class will hopefully contain methods to create an Iso Image File from a CD ROM.
+* ListFiles
+One of the very important methods, to get all files from a choosen folder incl. subfolders and list them in an ArrayList of files.
+* SearchCertainFormat
+Very usefull sometimes to gather test data.
+
+(old:)
 
 ## PdfUtilies
 
