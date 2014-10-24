@@ -1,8 +1,10 @@
 package filetools.pdf;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,10 +44,10 @@ public class SearchforStringinPdfFiles {
 					ArrayList<File> files = utilities.ListsFiles.getPaths(new File(folder), new ArrayList<File>());
 					if (files != null) {
 
-						for (int i = 0; i < files.size(); i++) {						
-							
+						for (int i = 0; i < files.size(); i++) {
+
 							String filename = FilenameUtils.getBaseName(files.get(i).toString());
-									
+
 							if (!filename.startsWith("~")) {
 
 								extension = FilenameUtils.getExtension(files.get(i).toString()).toLowerCase();
@@ -68,8 +70,7 @@ public class SearchforStringinPdfFiles {
 											}
 										}
 									}
-								}
-								else if (extension.equals("docx")) {
+								} else if (extension.equals("docx")) {
 									InputStream wordstream = new FileInputStream(files.get(i));
 									XWPFDocument wordfile = new XWPFDocument(wordstream);
 
@@ -89,36 +90,57 @@ public class SearchforStringinPdfFiles {
 										}
 									}
 								}
-								
-								//commit
-								
+
+								else if (extension.equals("txt")) {
+									if (files.get(i).length() != 0)/*
+																	 * important
+																	 * because
+																	 * otherwise
+																	 * not yet
+																	 * closed
+																	 * outpufile
+																	 * causes
+																	 * neverending
+																	 * story
+																	 */{
+										// TODO: There is a big performance
+										// problem with too large Txt-Files, e.
+										// g. more than 500 KB or a certain no.
+										// of lines.
+										BufferedReader txtreader = new BufferedReader(new FileReader(files.get(i)));
+										String line;
+										while (null != (line = txtreader.readLine())) {
+											if (line.contains(searchedString)) {
+												stringfound++;
+												outputfile.println();
+												outputfile.println(files.get(i));
+												outputfile.println(line);
+												outputfile.println();
+											}
+										}
+										txtreader.close();
+									}
+								}
+
 								// else if "doc"
-								
+
 								// else if "xls"
-								
+
 								// else if "xlsx"
-								
+
 								// else if "ppt"
-								
-								// else if "txt"
-								
+
 								// else if "xml"
-								
+
 								// else if "html"
-								
+
 								// else if "pptx"
-								
-								
+
 								else {
 									System.out.println(files.get(i).toString());
 								}
-
-								
-								
-								
 							}
 						}
-
 					}
 				}
 
