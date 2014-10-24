@@ -13,7 +13,6 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 import org.apache.commons.io.FilenameUtils;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 
@@ -43,8 +42,7 @@ public class SearchforStringinPdfFiles {
 					ArrayList<File> files = utilities.ListsFiles.getPaths(new File(folder), new ArrayList<File>());
 					if (files != null) {
 
-						for (int i = 0; i < files.size(); i++) {
-							System.out.println(files.get(i).toString());
+						for (int i = 0; i < files.size(); i++) {						
 							
 							String filename = FilenameUtils.getBaseName(files.get(i).toString());
 									
@@ -71,7 +69,7 @@ public class SearchforStringinPdfFiles {
 										}
 									}
 								}
-								if (extension.equals("docx")) {
+								else if (extension.equals("docx")) {
 									InputStream wordstream = new FileInputStream(files.get(i));
 									XWPFDocument wordfile = new XWPFDocument(wordstream);
 
@@ -91,6 +89,32 @@ public class SearchforStringinPdfFiles {
 										}
 									}
 								}
+								
+								
+								// else if "doc"
+								
+								// else if "xls"
+								
+								// else if "xlsx"
+								
+								// else if "ppt"
+								
+								// else if "txt"
+								
+								// else if "xml"
+								
+								// else if "html"
+								
+								// else if "pptx"
+								
+								
+								else {
+									System.out.println(files.get(i).toString());
+								}
+
+								
+								
+								
 							}
 						}
 
