@@ -1,4 +1,4 @@
-package utilities;
+/*package utilities;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 import org.apache.commons.io.FilenameUtils;
+
 
 public class SearchforStringinjavaFiles {
 	
@@ -46,7 +47,7 @@ public class SearchforStringinjavaFiles {
 								extension = FilenameUtils.getExtension(files.get(i).toString()).toLowerCase();
 											
 														 if ((extension.equals("txt")) || (extension.equals("java"))) {
-									if (files.get(i).length() != 0)/*
+									if (files.get(i).length() != 0)
 																	 * important
 																	 * because
 																	 * otherwise
@@ -56,7 +57,7 @@ public class SearchforStringinjavaFiles {
 																	 * causes
 																	 * neverending
 																	 * story
-																	 */{
+																	 {
 										// TODO: There is a big performance
 										// problem with too large Txt-Files, e.
 										// g. more than 500 KB or a certain no.
@@ -106,3 +107,4 @@ public class SearchforStringinjavaFiles {
 }
 
 
+*/
