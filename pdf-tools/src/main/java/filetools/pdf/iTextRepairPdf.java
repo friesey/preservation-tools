@@ -82,6 +82,8 @@ public class iTextRepairPdf {
 
 		PdfCopy copy = new PdfCopy(document, new FileOutputStream(
 				examinedFolder + "//" + "Mig_iText" + filename));
+		
+		
 		copy.setPDFXConformance(PdfWriter.PDFA1B);
 		document.addTitle((String) info.get("Title"));
 		if (info.get("Author") != null)
