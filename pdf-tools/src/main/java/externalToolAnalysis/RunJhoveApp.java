@@ -1,4 +1,4 @@
-/*package externalToolAnalysis;
+package externalToolAnalysis;
 
 import java.io.FileNotFoundException;
 
@@ -10,7 +10,7 @@ import edu.harvard.hul.ois.jhove.OutputHandler;
 import edu.harvard.hul.ois.jhove.handler.XmlHandler;
 import edu.harvard.hul.ois.jhove.module.PdfModule;
 
- the libray JhoveApp.jar is not in the maven library
+// the libray JhoveApp.jar is not in the maven library
 
 public class RunJhoveApp {
 
@@ -18,14 +18,11 @@ public class RunJhoveApp {
 
 		try {
 
-			String outputFile = utilities.FileBrowserDialog.chooseFile();
-			
-			 * Findings will be written here
+			String outputFile = utilities.FileBrowserDialog.chooseFile();		
 			 
-
 			String folder = utilities.FolderBrowserDialog.chooseFolder();
 			
-			 * Choosing Folder which is to be examined
+			// Choosing Folder which is to be examined
 			 
 
 			JhoveBase jb = new JhoveBase();
@@ -37,8 +34,8 @@ public class RunJhoveApp {
 			jb.init(configFilePath, null);
 
 			jb.setEncoding("UTF-8"); 
-									 * UTF-8 does not calculate checksums, which
-									 * saves time
+/*									 * UTF-8 does not calculate checksums, which
+									 * saves time*/
 									 
 			jb.setTempDirectory("/user/me/temp1");
 			jb.setBufferSize(131072);
@@ -54,7 +51,7 @@ public class RunJhoveApp {
 			String rights = "Copyright nestor Format Working Group";
 			App app = new App(appName, version, date, usage, rights);
 
-			Module module = new PdfModule();  to try this with PdfModule only 
+			Module module = new PdfModule();  /*to try this with PdfModule only */
 
 			OutputHandler handler = new XmlHandler();
 
@@ -69,4 +66,3 @@ public class RunJhoveApp {
 	}
 
 }
-*/
