@@ -1,4 +1,4 @@
-package externalToolAnalysis;
+/*package externalToolAnalysis;
 
 import java.io.FileNotFoundException;
 
@@ -34,8 +34,8 @@ public class RunJhoveApp {
 			jb.init(configFilePath, null);
 
 			jb.setEncoding("UTF-8"); 
-/*									 * UTF-8 does not calculate checksums, which
-									 * saves time*/
+									 * UTF-8 does not calculate checksums, which
+									 * saves time
 									 
 			jb.setTempDirectory("/user/me/temp1");
 			jb.setBufferSize(131072);
@@ -51,7 +51,7 @@ public class RunJhoveApp {
 			String rights = "Copyright nestor Format Working Group";
 			App app = new App(appName, version, date, usage, rights);
 
-			Module module = new PdfModule();  /*to try this with PdfModule only */
+			Module module = new PdfModule();  to try this with PdfModule only 
 
 			OutputHandler handler = new XmlHandler();
 
@@ -66,3 +66,4 @@ public class RunJhoveApp {
 	}
 
 }
+*/
