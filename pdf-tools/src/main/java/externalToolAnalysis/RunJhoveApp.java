@@ -31,7 +31,7 @@ public class RunJhoveApp {
 			JhoveBase jb = new JhoveBase();
 
 			//der Path stimmt so noch nicht
-			String configFilePath = utilities.FileBrowserDialog.chooseFile();
+			String configFilePath = "C://Users//Friese Yvonne//jhove-1_11//jhove//conf//jhove.conf";
 			System.out.println (configFilePath);
 
 			jb.init(configFilePath, null);

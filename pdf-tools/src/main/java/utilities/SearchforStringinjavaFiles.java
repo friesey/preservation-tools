@@ -1,4 +1,4 @@
-/*package utilities;
+package utilities;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -48,7 +48,7 @@ public class SearchforStringinjavaFiles {
 											
 														 if ((extension.equals("txt")) || (extension.equals("java"))) {
 									if (files.get(i).length() != 0)
-																	 * important
+																	 /** important
 																	 * because
 																	 * otherwise
 																	 * not yet
@@ -56,7 +56,7 @@ public class SearchforStringinjavaFiles {
 																	 * outpufile
 																	 * causes
 																	 * neverending
-																	 * story
+																	 * story*/
 																	 {
 										// TODO: There is a big performance
 										// problem with too large Txt-Files, e.
@@ -107,4 +107,3 @@ public class SearchforStringinjavaFiles {
 }
 
 
-*/
