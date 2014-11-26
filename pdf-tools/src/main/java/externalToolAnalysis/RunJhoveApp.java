@@ -1,4 +1,4 @@
-package externalToolAnalysis;
+/*package externalToolAnalysis;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -6,14 +6,18 @@ import java.io.PrintWriter;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Iterator;
 
 import javax.swing.JOptionPane;
 
 import edu.harvard.hul.ois.jhove.App;
 import edu.harvard.hul.ois.jhove.JhoveBase;
+import edu.harvard.hul.ois.jhove.Message;
 import edu.harvard.hul.ois.jhove.Module;
 import edu.harvard.hul.ois.jhove.OutputHandler;
 import edu.harvard.hul.ois.jhove.RepInfo;
+import edu.harvard.hul.ois.jhove.handler.TextHandler;
 import edu.harvard.hul.ois.jhove.handler.XmlHandler;
 import edu.harvard.hul.ois.jhove.module.PdfModule;
 import edu.harvard.hul.ois.jhove.OutputHandler;
@@ -44,10 +48,10 @@ public class RunJhoveApp {
 
 				jb.init(configFilePath, null);
 
-				jb.setEncoding("UTF-8"); /*
+				jb.setEncoding("UTF-8"); 
 										 * UTF-8 does not calculate checksums,
 										 * which saves time
-										 */
+										 
 				jb.setTempDirectory("C://temp1");
 				jb.setBufferSize(131072);
 				jb.setChecksumFlag(false);
@@ -62,10 +66,10 @@ public class RunJhoveApp {
 				String rights = "Copyright nestor Format Working Group";
 				App app = new App(appName, version, date, usage, rights);
 
-				Module module = new PdfModule(); /*
+				Module module = new PdfModule(); 
 												 * to try this with PdfModule
 												 * only
-												 */
+												 
 
 				OutputHandler handler = new XmlHandler();
 
@@ -78,31 +82,26 @@ public class RunJhoveApp {
 				handler.setBase(jb);
 				module.init("");
 				module.setDefaultParams(new ArrayList<String>());
-				
-			
 
 				// To handle one file after the other
 				for (int i = 0; i < files.size(); i++) {
 					testingpurposes.println(i + files.get(i).toString());
 					if (filetools.GenericFileAnalysis.testFileHeaderPdf(files.get(i)) == true) {
-						 jb.process(app, module, handler, files.get(i).toString());
-						 
-						// System.out.println (files.get(i).toURI().toString());
-						 
-						 // URL url = new URL ("files://"+files.get(i).getPath());
-						 URL url = files.get(i).toURI().toURL();
+						jb.process(app, module, handler, files.get(i).toString());
+
+						URL url = files.get(i).toURI().toURL();
+						RepInfo infoobject = new RepInfo(url.toExternalForm());
+
+						List<Message> messages = infoobject.getMessage();
+
+						Iterator<Message> iterator = messages.iterator();
+
+						while (iterator.hasNext()) {
+							System.out.println(iterator.next());
+						}
 						
-					//	RepInfo infoobject = new RepInfo (uri.toString());
-						
-						RepInfo infoobject = new RepInfo (url.toExternalForm());				
-												
-						System.out.println (infoobject.getMessage());
-						System.out.println (infoobject.getLastModified());						
-						System.out.println (infoobject.getSize());						
-						System.out.println (infoobject.getUri());
-						System.out.println (infoobject.getFormat());
-						System.out.println (infoobject.getWellFormed());
-						System.out.println (infoobject.getModule());
+						String format = infoobject.getFormat();
+						System.out.println(format);
 					}
 				}
 
@@ -111,9 +110,7 @@ public class RunJhoveApp {
 				externalToolAnalysis.JhoveStatistics.JhoveOutputAnalysis(pathwriter);
 				testingpurposes.close();
 
-				/* testing Gary's output handler */
-
-			
+				 testing Gary's output handler 
 
 			}
 		}
@@ -127,9 +124,9 @@ public class RunJhoveApp {
 	public void init(String init) throws Exception {
 
 	}
-	
-	public void reset () {
-		
+
+	public void reset() {
+
 	}
 
-}
+}*/
