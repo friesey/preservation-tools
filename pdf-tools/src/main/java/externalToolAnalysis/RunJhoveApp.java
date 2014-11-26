@@ -3,6 +3,8 @@ package externalToolAnalysis;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
@@ -11,8 +13,12 @@ import edu.harvard.hul.ois.jhove.App;
 import edu.harvard.hul.ois.jhove.JhoveBase;
 import edu.harvard.hul.ois.jhove.Module;
 import edu.harvard.hul.ois.jhove.OutputHandler;
+import edu.harvard.hul.ois.jhove.RepInfo;
 import edu.harvard.hul.ois.jhove.handler.XmlHandler;
 import edu.harvard.hul.ois.jhove.module.PdfModule;
+import edu.harvard.hul.ois.jhove.OutputHandler;
+import edu.harvard.hul.ois.jhove.HandlerBase;
+import edu.harvard.hul.ois.jhove.ModuleBase;
 
 // the libray JhoveApp.jar is not in the maven library
 
@@ -20,7 +26,8 @@ public class RunJhoveApp {
 
 	public static void main(String args[]) throws Exception {
 
-		PrintWriter testingpurposes  = new PrintWriter(new FileWriter( "D://testingpurposes.txt"));;
+		PrintWriter testingpurposes = new PrintWriter(new FileWriter("D://testingpurposes.txt"));
+		;
 
 		try {
 
@@ -63,7 +70,7 @@ public class RunJhoveApp {
 				OutputHandler handler = new XmlHandler();
 
 				ArrayList<File> files = utilities.ListsFiles.getPaths(new File(folder), new ArrayList<File>());
-				
+
 				String pathwriter = (folder + "//" + "JhoveExamination" + ".xml");
 
 				PrintWriter writer = new PrintWriter(new FileWriter(pathwriter));
@@ -71,19 +78,43 @@ public class RunJhoveApp {
 				handler.setBase(jb);
 				module.init("");
 				module.setDefaultParams(new ArrayList<String>());
+				
+			
 
 				// To handle one file after the other
 				for (int i = 0; i < files.size(); i++) {
 					testingpurposes.println(i + files.get(i).toString());
 					if (filetools.GenericFileAnalysis.testFileHeaderPdf(files.get(i)) == true) {
-						jb.process(app, module, handler, files.get(i).toString());
+						 jb.process(app, module, handler, files.get(i).toString());
+						 
+						// System.out.println (files.get(i).toURI().toString());
+						 
+						 // URL url = new URL ("files://"+files.get(i).getPath());
+						 URL url = files.get(i).toURI().toURL();
+						
+					//	RepInfo infoobject = new RepInfo (uri.toString());
+						
+						RepInfo infoobject = new RepInfo (url.toExternalForm());				
+												
+						System.out.println (infoobject.getMessage());
+						System.out.println (infoobject.getLastModified());						
+						System.out.println (infoobject.getSize());						
+						System.out.println (infoobject.getUri());
+						System.out.println (infoobject.getFormat());
+						System.out.println (infoobject.getWellFormed());
+						System.out.println (infoobject.getModule());
 					}
 				}
 
-				writer.close();							
+				writer.close();
 
 				externalToolAnalysis.JhoveStatistics.JhoveOutputAnalysis(pathwriter);
-				testingpurposes.close();	
+				testingpurposes.close();
+
+				/* testing Gary's output handler */
+
+			
+
 			}
 		}
 
@@ -91,6 +122,14 @@ public class RunJhoveApp {
 			testingpurposes.println("Exception: " + e);
 		}
 
+	}
+
+	public void init(String init) throws Exception {
+
+	}
+	
+	public void reset () {
+		
 	}
 
 }
