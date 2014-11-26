@@ -2,7 +2,6 @@ package externalToolAnalysis;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -40,8 +39,7 @@ public class JhoveStatistics {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
 		String name = FilenameUtils.getFullPathNoEndSeparator(jhoveFindings);
-		System.out.println(name);
-
+	
 		PrintWriter output = new PrintWriter(new FileWriter(name + "Statistics.txt"));
 
 		String line = null;
@@ -70,8 +68,9 @@ public class JhoveStatistics {
 				invalid++;
 			} else if (lines.get(i).contains("Not well-formed")) {
 				malformed++;
-			} else if (lines.get(i).contains("ErrorMessage")) {
+			} else if ((lines.get(i).contains("error")) && (lines.get(i).contains("message"))) {
 				errorlist.add(lines.get(i));
+				//TODO: nur was zwischen den eckigen Klammern steht
 			}
 
 		}
