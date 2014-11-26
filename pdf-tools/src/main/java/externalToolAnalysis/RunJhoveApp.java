@@ -22,8 +22,10 @@ public class RunJhoveApp {
 
 	public static void main(String args[]) throws Exception {
 
+		PrintWriter testingpurposes  = new PrintWriter(new FileWriter( "D://testingpurposes.txt"));;
+
 		try {
-	
+
 			JOptionPane.showMessageDialog(null, "Please choose a Folder with PDF files", "FolderExamination", JOptionPane.QUESTION_MESSAGE);
 			String folder = utilities.FolderBrowserDialog.chooseFolder();
 
@@ -31,9 +33,10 @@ public class RunJhoveApp {
 
 				JhoveBase jb = new JhoveBase();
 
-				//TODO: Edit the Path to JHOVE config file or find a better solution for this.
+				// TODO: Edit the Path to JHOVE config file or find a better
+				// solution for this.
 				String configFilePath = "C://Users//Friese Yvonne//jhove-1_11//jhove//conf//jhove.conf";
-				
+
 				jb.init(configFilePath, null);
 
 				jb.setEncoding("UTF-8"); /*
@@ -48,7 +51,7 @@ public class RunJhoveApp {
 
 				String appName = "Yvonne JHOVE wrapper";
 				String version = "1.0";
-				int[] date = { 2014, 11, 26 }; 
+				int[] date = { 2014, 11, 26 };
 				// year, month, day
 				String usage = "Call JHOVE via own Java";
 				String rights = "Copyright nestor Format Working Group";
@@ -62,21 +65,32 @@ public class RunJhoveApp {
 				OutputHandler handler = new XmlHandler();
 
 				ArrayList<File> files = utilities.ListsFiles.getPaths(new File(folder), new ArrayList<File>());
+				
+				String pathwriter = (folder + "//" + "JhoveExamination" + ".xml");
 
-				PrintWriter writer = new PrintWriter(new FileWriter(folder + "//" + "JhoveExamination" + ".xml"));
+				PrintWriter writer = new PrintWriter(new FileWriter(pathwriter));
 				handler.setWriter(writer);
 				handler.setBase(jb);
 				module.init("");
 				module.setDefaultParams(new ArrayList<String>());
 
+				// To handle one file after the other
 				for (int i = 0; i < files.size(); i++) {
-					jb.process(app, module, handler, files.get(i).toString());
+					testingpurposes.println(i + files.get(i).toString());
+					if (filetools.GenericFileAnalysis.testFileHeaderPdf(files.get(i)) == true) {
+						jb.process(app, module, handler, files.get(i).toString());
+					}
 				}
+
+				writer.close();							
+
+				externalToolAnalysis.JhoveStatistics.JhoveOutputAnalysis(pathwriter);
+				testingpurposes.close();	
 			}
 		}
 
 		catch (Exception e) {
-			System.out.println("Exception: " + e);
+			testingpurposes.println("Exception: " + e);
 		}
 
 	}

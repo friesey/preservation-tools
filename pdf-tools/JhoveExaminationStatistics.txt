@@ -1,0 +1,5 @@
+1546
+Files Well-Formed and valid: 0
+Files malformed: 1
+Files invalid: 1
+Sample consists of 0 different JHOVE error messages
