@@ -15,17 +15,17 @@ public class JhoveStatistics {
 
 	public static void main(String args[]) throws IOException {
 
-		String JhoveFindings = utilities.FileBrowserDialog.chooseFile();
+		String jhoveFindings = utilities.FileBrowserDialog.chooseFile();
 
-		if (JhoveFindings != null) {
+		if (jhoveFindings != null) {
 
-			boolean jhove = isJhoveOutput(JhoveFindings);
+			boolean jhove = isJhoveOutput(jhoveFindings);
 
 			// TODO: Add Outputtextfile
 
 			if (jhove == true) {
 
-				JhoveOutputAnalysis(JhoveFindings);
+				JhoveOutputAnalysis(jhoveFindings);
 			}
 
 			else {

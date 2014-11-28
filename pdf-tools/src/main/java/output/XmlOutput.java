@@ -18,19 +18,16 @@ public class XmlOutput {
 
 		String xmlVersion = "xml version='1.0'";
 		String xmlEncoding = "encoding='ISO-8859-1'";
-		//TODO: Choose Stylesheet from folder FileBrowseDialog
+		// TODO: Choose Stylesheet from folder FileBrowseDialog
 		String xmlStylesheet = "TiffTagStyle.xsl";
 
 		xmlSimpleWriter.println("<=?" + xmlVersion + " " + xmlEncoding + "?>");
 		xmlSimpleWriter.println("<?xml-stylesheet type=\"test/xsl\" href =\"" + xmlStylesheet + "\"?>");
 
-	
 	}
-	
-	public static void closesxmlSimpleWriter() 	 {
+
+	public static void closesxmlSimpleWriter() {
 		xmlSimpleWriter.close();
 	}
-	
-	
 
 }
