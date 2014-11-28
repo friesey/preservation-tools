@@ -4,11 +4,23 @@ package filetools.pdf;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.apache.pdfbox.cos.COSArray;
+import org.apache.pdfbox.cos.COSBase;
+import org.apache.pdfbox.cos.COSDictionary;
 import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDDocumentCatalog;
+import org.apache.pdfbox.pdmodel.PDDocumentInformation;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.interactive.annotation.PDAnnotation;
 
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.parser.PdfReaderContentParser;
@@ -30,6 +42,59 @@ public class PdfAnalysis {
 	 ********************************************************/
 
 	/****************************************************************************
+	 * Analysis PDF-Objects
+	 * 
+	 * @param file
+	 * @return: nothings, puts out the information in a file
+	 * @throws IOException
+	 */
+	public static void analysePdfObjects(File file) throws IOException {
+
+		PrintWriter pdfboxanalysis = new PrintWriter(new FileWriter("D://pdfboxanalysis.txt"));
+		pdfboxanalysis.println(file.toString());
+
+		PDDocument pdf = PDDocument.load(file);
+		PDDocumentInformation info = pdf.getDocumentInformation();
+		COSDictionary dict = info.getDictionary();
+		Collection<COSBase> l = dict.getValues();
+
+		COSArray mediaBox = (COSArray) dict.getDictionaryObject("MediaBox");
+		System.out.println("MediaBox: " + mediaBox);
+
+		COSDictionary trailer = pdf.getDocument().getTrailer();
+		System.out.println("Trailer:" + trailer);
+
+		if (pdf.isEncrypted()) { //this actually works easily
+			System.out.println("Encrypted");
+		}
+
+		for (Object o : l) {
+			// System.out.println(o.toString());
+			pdfboxanalysis.println(o.toString());
+		}
+
+		PDDocumentCatalog cat = pdf.getDocumentCatalog();
+
+		@SuppressWarnings("unchecked")
+		List<PDPage> lp = cat.getAllPages();
+		pdfboxanalysis.println("# Pages: " + lp.size());
+		PDPage page = lp.get(4);
+		pdfboxanalysis.println("Page: " + page);
+		pdfboxanalysis.println("\tCropBox: " + page.getCropBox());
+		pdfboxanalysis.println("\tMediaBox: " + page.getMediaBox());
+		pdfboxanalysis.println("\tResources: " + page.getResources());
+		pdfboxanalysis.println("\tRotation: " + page.getRotation());
+		pdfboxanalysis.println("\tArtBox: " + page.getArtBox());
+		pdfboxanalysis.println("\tBleedBox: " + page.getBleedBox());
+		pdfboxanalysis.println("\tContents: " + page.getContents());
+		pdfboxanalysis.println("\tTrimBox: " + page.getTrimBox());
+		List<PDAnnotation> la = page.getAnnotations();
+		pdfboxanalysis.println("\t# Annotations: " + la.size());
+
+		pdfboxanalysis.close();
+	}
+
+	/*********************************************************
 	 * Checks if a PDF is ok to work with %PDF Header, Broken PDF & Encryption
 	 * 
 	 * @param file
@@ -39,7 +104,7 @@ public class PdfAnalysis {
 
 	public static boolean testPdfOk(File file) throws IOException {
 
-		if (filetools.GenericFileAnalysis.testFileHeaderPdf(file)==true) {
+		if (filetools.GenericFileAnalysis.testFileHeaderPdf(file) == true) {
 			/*
 			 * if (preservetools.files.GenericFileAnalysis.checkFileSize(file))
 			 * {
