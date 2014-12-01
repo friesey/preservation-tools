@@ -1,4 +1,4 @@
-/*package externalToolAnalysis;
+package externalToolAnalysis;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -17,15 +17,18 @@ import edu.harvard.hul.ois.jhove.module.PdfModule;
 // the libray JhoveApp.jar is not in the maven library
 
 public class RunJhoveApp {
+	
+	public static String folder;
 
 	public static void main(String args[]) throws Exception {
 
 		PrintWriter testingpurposes = new PrintWriter(new FileWriter("D://testingpurposes.txt"));
-		String pathwriter;
+		String pathwriter;	
+		
 		try {
 
 			JOptionPane.showMessageDialog(null, "Please choose a Folder with PDF files", "FolderExamination", JOptionPane.QUESTION_MESSAGE);
-			String folder = utilities.FolderBrowserDialog.chooseFolder();
+			folder = utilities.FolderBrowserDialog.chooseFolder();
 
 			if (folder != null) {
 
@@ -38,9 +41,9 @@ public class RunJhoveApp {
 				jb.init(configFilePath, null);
 
 				jb.setEncoding("UTF-8");
-				
+				/*
 				 * * UTF-8 does not calculate checksums, which saves time
-				 
+				 */
 				jb.setTempDirectory("C://temp1");
 				jb.setBufferSize(131072);
 				jb.setChecksumFlag(false);
@@ -56,9 +59,9 @@ public class RunJhoveApp {
 				App app = new App(appName, version, date, usage, rights);
 
 				Module module = new PdfModule();
-				
+				/*
 				 * * to try this with PdfModule only
-				 
+				 */
 				OutputHandler handler = new XmlHandler();
 
 				ArrayList<File> files = utilities.ListsFiles.getPaths(new File(folder), new ArrayList<File>());
@@ -89,7 +92,7 @@ public class RunJhoveApp {
 
 						// TODO: This does not work yet. Would be a great idea,
 						// though.
-						
+						/*
 						 * URL url = files.get(i).toURI().toURL(); RepInfo
 						 * infoobject = new RepInfo(url.toExternalForm());
 						 * List<Message> messages = infoobject.getMessage();
@@ -97,7 +100,7 @@ public class RunJhoveApp {
 						 * while (iterator.hasNext()) {
 						 * System.out.println(iterator.next()); } String format
 						 * = infoobject.getFormat();
-						 
+						 */
 						writer.println("</item>");
 					}
 				}
@@ -126,4 +129,4 @@ public class RunJhoveApp {
 
 	}
 
-}*/
+}
