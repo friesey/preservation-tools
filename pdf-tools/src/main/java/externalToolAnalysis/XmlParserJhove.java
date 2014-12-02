@@ -37,9 +37,13 @@ public class XmlParserJhove {
 
 			String xmlVersion = "xml version='1.0'";
 			String xmlEncoding = "encoding='ISO-8859-1'";
+			String xmlxslStyleSheet = "<?xml-stylesheet type=\"text/xsl\" href=\"JhoveCustomized.xsl\"?>";
 
 			xmlsummary.println("<?" + xmlVersion + " " + xmlEncoding + "?>");
+			xmlsummary.println (xmlxslStyleSheet);
 			xmlsummary.println("<JhoveFindingsSummary>");
+			
+			output.XslStyleSheetJhoveCustomized.JhoveCustomizedXsl();
 
 			ArrayList<String> errormessages = new ArrayList<String>();
 
@@ -73,7 +77,7 @@ public class XmlParserJhove {
 
 					xmlsummary.println("<FileName>" + eElement.getElementsByTagName("filename").item(0).getTextContent() + "</FileName>");
 					xmlsummary.println("<Format>" + eElement.getElementsByTagName("format").item(0).getTextContent() + "</Format>");
-					System.out.println("<Status>" + eElement.getElementsByTagName("status").item(0).getTextContent() + "</Status>");
+					xmlsummary.println("<Status>" + eElement.getElementsByTagName("status").item(0).getTextContent() + "</Status>");
 
 					String status = eElement.getElementsByTagName("status").item(0).getTextContent();
 					if ((status.contains("Not")) || (status.contains("not"))) {
