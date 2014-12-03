@@ -51,7 +51,7 @@ public class XmlParserJhove {
 			// doc.getDocumentElement().getNodeName());
 
 			NodeList nList = doc.getElementsByTagName("item");
-	
+
 			System.out.println("Examined PDF files: " + nList.getLength()); // this
 																			// is
 																			// the
@@ -60,12 +60,8 @@ public class XmlParserJhove {
 
 			for (int temp = 0; temp < nList.getLength(); temp++) {
 				int lenmessages = 0;
-		
-			
-				Node nNode = nList.item(temp);
 
-				// System.out.println("\nCurrent Element :" +
-				// nNode.getNodeName());
+				Node nNode = nList.item(temp);
 
 				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 
@@ -81,36 +77,16 @@ public class XmlParserJhove {
 					if ((status.contains("Not")) || (status.contains("not"))) {
 						System.out.println(eElement.getElementsByTagName("filename").item(0).getTextContent());
 
-						
-						NodeList allElements = eElement.getChildNodes();					
-											
-						lenmessages = allElements.getLength();	
-						System.out.println("Innerhalb der Schleife " + lenmessages);
-						
-						
-						for (int l = 0; l <lenmessages; l++){
-							
-							try {
-							System.out.println (allElements.item(l).getFirstChild().getNodeValue());
-							}
-							
-							catch (NullPointerException e)  {
-								
-							}
-						}					
-
-					
+						lenmessages = eElement.getElementsByTagName("message").getLength();
+						System.out.println(lenmessages);
+						xmlsummary.println("<JhoveMessages>" + lenmessages + "</JhoveMessages>");
 
 						for (int temp3 = 0; temp3 < lenmessages; temp3++) {
-							
-							if (eElement.getElementsByTagName("message").item(temp3) != null){
 
 							String error = eElement.getElementsByTagName("message").item(temp3).getTextContent();
-							// TODO: What if there are more than 1 messages?
 							xmlsummary.println("<Message>" + error + "</Message>");
 
 							errormessages.add(error);
-							}
 						}
 
 					}

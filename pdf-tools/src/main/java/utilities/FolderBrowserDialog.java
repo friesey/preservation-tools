@@ -21,11 +21,11 @@ public class FolderBrowserDialog {
 		j.showOpenDialog(j);
 		if (j.getSelectedFile() == null) {
 			JOptionPane.showMessageDialog(null, "No folder was chosen", "Info Message", JOptionPane.PLAIN_MESSAGE);
+			return null;
 		} else {
 			String folder = j.getSelectedFile().getPath();
 			return folder;
 		}
-		return null;
 	}
 }
 
