@@ -26,9 +26,7 @@ public class XmlParserJhove {
 	}
 
 	public static void parseXmlFile(String xmlfile) {
-
 		try {
-
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(xmlfile);
@@ -40,9 +38,9 @@ public class XmlParserJhove {
 			String xmlxslStyleSheet = "<?xml-stylesheet type=\"text/xsl\" href=\"JhoveCustomized.xsl\"?>";
 
 			xmlsummary.println("<?" + xmlVersion + " " + xmlEncoding + "?>");
-			xmlsummary.println (xmlxslStyleSheet);
+			xmlsummary.println(xmlxslStyleSheet);
 			xmlsummary.println("<JhoveFindingsSummary>");
-			
+
 			output.XslStyleSheetJhoveCustomized.JhoveCustomizedXsl();
 
 			ArrayList<String> errormessages = new ArrayList<String>();
@@ -53,9 +51,7 @@ public class XmlParserJhove {
 			// doc.getDocumentElement().getNodeName());
 
 			NodeList nList = doc.getElementsByTagName("item");
-			// If I choose "repInfo", "filename" is not part of the node, but I
-			// want that information
-
+	
 			System.out.println("Examined PDF files: " + nList.getLength()); // this
 																			// is
 																			// the
@@ -63,7 +59,9 @@ public class XmlParserJhove {
 																			// length
 
 			for (int temp = 0; temp < nList.getLength(); temp++) {
-
+				int lenmessages = 0;
+		
+			
 				Node nNode = nList.item(temp);
 
 				// System.out.println("\nCurrent Element :" +
@@ -81,18 +79,43 @@ public class XmlParserJhove {
 
 					String status = eElement.getElementsByTagName("status").item(0).getTextContent();
 					if ((status.contains("Not")) || (status.contains("not"))) {
+						System.out.println(eElement.getElementsByTagName("filename").item(0).getTextContent());
 
-						String error = eElement.getElementsByTagName("message").item(0).getTextContent();
-						// TODO: What if there are more than 1 messages?
-						xmlsummary.println("<Message>" + error + "</Message>");
+						
+						NodeList allElements = eElement.getChildNodes();					
+											
+						lenmessages = allElements.getLength();	
+						System.out.println("Innerhalb der Schleife " + lenmessages);
+						
+						
+						for (int l = 0; l <lenmessages; l++){
+							
+							try {
+							System.out.println (allElements.item(l).getFirstChild().getNodeValue());
+							}
+							
+							catch (NullPointerException e)  {
+								
+							}
+						}					
 
-						errormessages.add(error);
+					
+
+						for (int temp3 = 0; temp3 < lenmessages; temp3++) {
+							
+							if (eElement.getElementsByTagName("message").item(temp3) != null){
+
+							String error = eElement.getElementsByTagName("message").item(temp3).getTextContent();
+							// TODO: What if there are more than 1 messages?
+							xmlsummary.println("<Message>" + error + "</Message>");
+
+							errormessages.add(error);
+							}
+						}
 
 					}
 					xmlsummary.println("</PdfFile>");
-
 				}
-
 			}
 
 			Collections.sort(errormessages);

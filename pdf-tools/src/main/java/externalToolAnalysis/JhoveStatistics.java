@@ -68,11 +68,9 @@ public class JhoveStatistics {
 				invalid++;
 			} else if (lines.get(i).contains("Not well-formed")) {
 				malformed++;
-			} else if ((lines.get(i).contains("error")) && (lines.get(i).contains("message"))) {				
-				// else if (lines.get(i).contains("ErrorMessage")) {
-				//TODO: With JHOVE-Files, the searched string has to be "ErrorMessage"
-				errorlist.add(lines.get(i));
-				//TODO: nur was zwischen den eckigen Klammern steht
+			} // else if ((lines.get(i).contains("error")) && (lines.get(i).contains("message"))) {				
+				 else if (lines.get(i).contains("ErrorMessage")) {
+					errorlist.add(lines.get(i));		
 			}
 
 		}
