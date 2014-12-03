@@ -1,9 +1,11 @@
 package externalToolAnalysis;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Properties;
 
 import javax.swing.JOptionPane;
 
@@ -14,36 +16,32 @@ import edu.harvard.hul.ois.jhove.OutputHandler;
 import edu.harvard.hul.ois.jhove.handler.XmlHandler;
 import edu.harvard.hul.ois.jhove.module.PdfModule;
 
-// the libray JhoveApp.jar is not in the maven library
+// the libray JhoveApp.jar is not in the maven library. This causes a Travis error.
 
 public class RunJhoveApp {
-	
+
 	public static String folder;
+
+	public static String JHOVE_DIR = "jhove";
 
 	public static void main(String args[]) throws Exception {
 
-		PrintWriter testingpurposes = new PrintWriter(new FileWriter("D://testingpurposes.txt"));
-		String pathwriter;	
-		
+		String pathwriter;
+
 		try {
-
-			JOptionPane.showMessageDialog(null, "Please choose a Folder with PDF files", "FolderExamination", JOptionPane.QUESTION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Please choose a Folder with PDF files", "JHOVE PDF-Examination", JOptionPane.QUESTION_MESSAGE);
 			folder = utilities.FolderBrowserDialog.chooseFolder();
-
 			if (folder != null) {
-
 				JhoveBase jb = new JhoveBase();
 
-				// TODO: Edit the Path to JHOVE config file or find a better
-				// solution for this.
-				String configFilePath = "C://Users//Friese Yvonne//jhove-1_11//jhove//conf//jhove.conf";
-
+			//	String configFilePath = getConfigFileFromProperties();
+				
+				String configFilePath = JhoveBase.getConfigFileFromProperties ();
 				jb.init(configFilePath, null);
 
-				jb.setEncoding("UTF-8");
-				/*
-				 * * UTF-8 does not calculate checksums, which saves time
-				 */
+				jb.setEncoding("UTF-8");// UTF-8 does not calculate checksums,
+										// which saves time
+
 				jb.setTempDirectory("C://temp1");
 				jb.setBufferSize(131072);
 				jb.setChecksumFlag(false);
@@ -82,25 +80,12 @@ public class RunJhoveApp {
 
 				// To handle one file after the other
 				for (int i = 0; i < files.size(); i++) {
-					testingpurposes.println(i + files.get(i).toString());
+
 					if (filetools.GenericFileAnalysis.testFileHeaderPdf(files.get(i)) == true) {
 						writer.println("<item>");
 						writer.println("<filename>" + files.get(i).toString() + "</filename>");
 						jb.process(app, module, handler, files.get(i).toString());
 
-						// filetools.pdf.PdfAnalysis.analysePdfObjects(files.get(i));
-
-						// TODO: This does not work yet. Would be a great idea,
-						// though.
-						/*
-						 * URL url = files.get(i).toURI().toURL(); RepInfo
-						 * infoobject = new RepInfo(url.toExternalForm());
-						 * List<Message> messages = infoobject.getMessage();
-						 * Iterator<Message> iterator = messages.iterator();
-						 * while (iterator.hasNext()) {
-						 * System.out.println(iterator.next()); } String format
-						 * = infoobject.getFormat();
-						 */
 						writer.println("</item>");
 					}
 				}
@@ -108,7 +93,6 @@ public class RunJhoveApp {
 				writer.close();
 
 				externalToolAnalysis.JhoveStatistics.JhoveOutputAnalysis(pathwriter);
-				testingpurposes.close();
 
 				externalToolAnalysis.XmlParserJhove.parseXmlFile(pathwriter);
 
@@ -116,9 +100,42 @@ public class RunJhoveApp {
 		}
 
 		catch (Exception e) {
-			testingpurposes.println("Exception: " + e);
+			System.out.println("Exception: " + e);
 		}
 
+	}
+
+	public static String getConfigFileFromProperties() {
+		String configFile = null;
+		String CONFIG_PROPERTY = "edu.harvard.hul.ois." + "jhove.config";
+
+		String CONFIG_DIR = "conf";
+
+		configFile = getFromProperties(CONFIG_PROPERTY);
+		if (configFile == null) {
+			try {
+				String fs = System.getProperty("file.separator");
+				configFile = System.getProperty("user.home") + fs + JHOVE_DIR + fs + CONFIG_DIR + fs + "jhove.conf";
+				System.out.println(configFile);
+			} catch (Exception e) {
+			}
+		}
+		return configFile;
+	}
+
+	public static String getFromProperties(String name) {
+		String value = null;
+		try {
+			String fs = System.getProperty("file.separator");
+			Properties props = new Properties();
+			String propsFile = System.getProperty("user.home") + fs + JHOVE_DIR + fs + "jhove.properties";
+			FileInputStream stream = new FileInputStream(propsFile);
+			props.load(stream);
+			stream.close();
+			value = props.getProperty(name);
+		} catch (Exception e) {
+		}
+		return value;
 	}
 
 	public void init(String init) throws Exception {

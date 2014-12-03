@@ -3,9 +3,10 @@ package utilities;
 import java.io.FileNotFoundException;
 
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 public class FolderBrowserDialog {
-	
+
 	/**
 	 * Chooses the folder which is examined via a simple folder browser Dialog
 	 * 
@@ -19,14 +20,13 @@ public class FolderBrowserDialog {
 		j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		j.showOpenDialog(j);
 		if (j.getSelectedFile() == null) {
-			System.out.println("No folder was chosen");
+			JOptionPane.showMessageDialog(null, "No folder was chosen", "Info Message", JOptionPane.PLAIN_MESSAGE);
 		} else {
 			String folder = j.getSelectedFile().getPath();
 			return folder;
 		}
 		return null;
 	}
-
 }
 
-//TODO: search zip file
+// TODO: search zip file
