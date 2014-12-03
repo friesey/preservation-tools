@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+
 import javax.swing.JOptionPane;
 
 import edu.harvard.hul.ois.jhove.App;
@@ -69,7 +70,12 @@ public class RunJhoveApp {
 				for (int i = 0; i < files.size(); i++) {
 					if (filetools.GenericFileAnalysis.testFileHeaderPdf(files.get(i)) == true) {
 						writer.println("<item>");
-						writer.println("<filename>" + files.get(i).toString() + "</filename>");
+						if (files.get(i).toString().contains("&")) {
+							String substitute = normaliseToUtf8(files.get(i).toString());
+							writer.println("<filename>" + substitute + "</filename>");
+						} else {
+							writer.println("<filename>" + files.get(i).toString() + "</filename>");
+						}
 						jb.process(app, module, handler, files.get(i).toString());
 						writer.println("</item>");
 					}
@@ -81,6 +87,12 @@ public class RunJhoveApp {
 		} catch (Exception e) {
 			System.out.println("Exception: " + e);
 		}
+	}
+
+	public static String normaliseToUtf8(String string) {
+		String[] splitstring = string.split("&");
+		String substitute = splitstring[0] + "&#38;" + splitstring[1];
+		return substitute;
 	}
 
 	public void init(String init) throws Exception {

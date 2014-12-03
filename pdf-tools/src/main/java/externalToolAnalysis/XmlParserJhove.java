@@ -49,14 +49,19 @@ public class XmlParserJhove {
 
 			NodeList nList = doc.getElementsByTagName("item");
 
-			
-
 			for (int temp = 0; temp < nList.getLength(); temp++) {
 				Node nNode = nList.item(temp);
 				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 					Element eElement = (Element) nNode;
 					xmlsummary.println("<PdfFile>");
-					xmlsummary.println("<FileName>" + eElement.getElementsByTagName("filename").item(0).getTextContent() + "</FileName>");
+					String testutf8 = eElement.getElementsByTagName("filename").item(0).getTextContent();
+
+					if (testutf8.contains("&")) {
+						String sub = RunJhoveApp.normaliseToUtf8(testutf8);
+						xmlsummary.println("<FileName>" + sub + "</FileName>");
+					} else {
+						xmlsummary.println("<FileName>" + eElement.getElementsByTagName("filename").item(0).getTextContent() + "</FileName>");
+					}
 					xmlsummary.println("<Status>" + eElement.getElementsByTagName("status").item(0).getTextContent() + "</Status>");
 
 					String status = eElement.getElementsByTagName("status").item(0).getTextContent();
@@ -67,8 +72,11 @@ public class XmlParserJhove {
 						xmlsummary.println("<JhoveMessages>" + lenmessages + "</JhoveMessages>");
 
 						for (int temp3 = 0; temp3 < lenmessages; temp3++) {
+
 							String error = eElement.getElementsByTagName("message").item(temp3).getTextContent();
-							xmlsummary.println("<Message>" + error + "</Message>");
+							int writtenmessage = temp3 + 1;
+
+							xmlsummary.println("<Message" + writtenmessage + ">" + error + "</Message" + writtenmessage + ">");
 							errormessages.add(error);
 						}
 					}
@@ -112,7 +120,7 @@ public class XmlParserJhove {
 					}
 				}
 				xmlsummary.println("<JhoveMessage>");
-				xmlsummary.println("<MessageText>"+ errormessages.get(i) + "</MessageText>");
+				xmlsummary.println("<MessageText>" + errormessages.get(i) + "</MessageText>");
 				xmlsummary.println("<Occurance>" + temp1 + "</Occurance>");
 				xmlsummary.println("</JhoveMessage>");
 			}
