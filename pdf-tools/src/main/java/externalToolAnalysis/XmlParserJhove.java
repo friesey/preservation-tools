@@ -47,48 +47,30 @@ public class XmlParserJhove {
 
 			doc.getDocumentElement().normalize();
 
-			// System.out.println("Root element :" +
-			// doc.getDocumentElement().getNodeName());
-
 			NodeList nList = doc.getElementsByTagName("item");
 
-			System.out.println("Examined PDF files: " + nList.getLength()); // this
-																			// is
-																			// the
-																			// right
-																			// length
+			
 
 			for (int temp = 0; temp < nList.getLength(); temp++) {
-				int lenmessages = 0;
-
 				Node nNode = nList.item(temp);
-
 				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-
 					Element eElement = (Element) nNode;
-
 					xmlsummary.println("<PdfFile>");
-
 					xmlsummary.println("<FileName>" + eElement.getElementsByTagName("filename").item(0).getTextContent() + "</FileName>");
-					xmlsummary.println("<Format>" + eElement.getElementsByTagName("format").item(0).getTextContent() + "</Format>");
 					xmlsummary.println("<Status>" + eElement.getElementsByTagName("status").item(0).getTextContent() + "</Status>");
 
 					String status = eElement.getElementsByTagName("status").item(0).getTextContent();
 					if ((status.contains("Not")) || (status.contains("not"))) {
 						System.out.println(eElement.getElementsByTagName("filename").item(0).getTextContent());
 
-						lenmessages = eElement.getElementsByTagName("message").getLength();
-						System.out.println(lenmessages);
+						int lenmessages = eElement.getElementsByTagName("message").getLength();
 						xmlsummary.println("<JhoveMessages>" + lenmessages + "</JhoveMessages>");
 
 						for (int temp3 = 0; temp3 < lenmessages; temp3++) {
-
 							String error = eElement.getElementsByTagName("message").item(temp3).getTextContent();
 							xmlsummary.println("<Message>" + error + "</Message>");
-
 							errormessages.add(error);
 						}
-
 					}
 					xmlsummary.println("</PdfFile>");
 				}
@@ -107,7 +89,6 @@ public class XmlParserJhove {
 															// function for this
 				originerrors.add(errormessages.get(i));
 			}
-
 			// get rid of redundant entries
 			i = 0;
 			while (i < errormessages.size() - 1) {
@@ -117,13 +98,12 @@ public class XmlParserJhove {
 					i++;
 				}
 			}
-
-			System.out.println("Sample consists of " + errormessages.size() + " different JHOVE error messages");
-
+			xmlsummary.println("<SampleSummary>");
+			xmlsummary.println("<ExaminedPdfFiles>" + nList.getLength() + "</ExaminedPdfFiles>");
+			xmlsummary.println("<DifferentJhoveMessages>" + errormessages.size() + "</DifferentJhoveMessages>");
 			// how often does each JHOVE error occur?
 			int j = 0;
 			int temp1;
-
 			for (i = 0; i < errormessages.size(); i++) {
 				temp1 = 0;
 				for (j = 0; j < originerrors.size(); j++) {
@@ -131,17 +111,18 @@ public class XmlParserJhove {
 						temp1++;
 					}
 				}
-				System.out.println((i + 1) + ": " + temp1 + " x " + errormessages.get(i));
+				xmlsummary.println("<JhoveMessage>");
+				xmlsummary.println("<MessageText>"+ errormessages.get(i) + "</MessageText>");
+				xmlsummary.println("<Occurance>" + temp1 + "</Occurance>");
+				xmlsummary.println("</JhoveMessage>");
 			}
-
+			xmlsummary.println("</SampleSummary>");
 			xmlsummary.println("</JhoveFindingsSummary>");
 			xmlsummary.close();
-
 		}
 
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 }

@@ -7,7 +7,7 @@ import externalToolAnalysis.RunJhoveApp;
 
 public class XslStyleSheetJhoveCustomized {
 	public static void JhoveCustomizedXsl() throws IOException {
-		
+
 		PrintWriter xslStyle = new PrintWriter(new FileWriter((RunJhoveApp.folder + "//" + "JhoveCustomized.xsl")));
 		xslStyle.println("<?xml version=\"1.0\"?>");
 		xslStyle.println("<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">");
@@ -26,28 +26,21 @@ public class XslStyleSheetJhoveCustomized {
 		xslStyle.println("</style>");
 		xslStyle.println("</head>");
 		xslStyle.println("<body>");
-		
+
 		xslStyle.println("<h1>PDF files examined by JHOVE</h1>");
-		
-		xslStyle.println("<xsl:value-of select=\"FileName\"/><br/><br/>	");
-			
+
+
+
 		xslStyle.println("<h2>Well-formed and valid</h2>");
 		
-		xslStyle.println("<table border =\"1\">");
-		xslStyle.println("<tr>");
-		
-		xslStyle.println("<td>");
-			xslStyle.println("<xsl:value-of select= \"FileName\">");
-			xslStyle.println("<\td>");
-		xslStyle.println("<td> Format</td>");
-		xslStyle.println("<td> Status</td>");
-		
-		xslStyle.println("</tr>");
-		
-		xslStyle.println("<xsl:apply-templates/>");	
 
-											
+
+		xslStyle.println("<table border =\"1\">");
+
 		xslStyle.println("</table>");
+
+
+	
 		xslStyle.println("</body>");
 		xslStyle.println("</html>");
 		xslStyle.println("</xsl:template>");
