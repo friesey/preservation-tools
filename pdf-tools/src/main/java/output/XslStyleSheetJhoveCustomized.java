@@ -13,7 +13,6 @@ public class XslStyleSheetJhoveCustomized {
 		xslStyle.println("<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">");
 		xslStyle.println("<xsl:template match=\"JhoveFindingsSummary\">");
 		xslStyle.println("<html>");
-		xslStyle.println("<head>");
 		xslStyle.println("<style>");
 		xslStyle.println("body {font-family: Verdana, Geneva, sans-serif; font-size: 10pt; }");
 		xslStyle.println("table {font-family: Verdana, Geneva, sans-serif; font-size: 10pt; }");
@@ -24,25 +23,42 @@ public class XslStyleSheetJhoveCustomized {
 		xslStyle.println("tr.captionm {background-color: #f8dfdf}");
 		xslStyle.println("tr.captionio {background-color: #afeeaf; font-weight:bold}");
 		xslStyle.println("</style>");
-		xslStyle.println("</head>");
 		xslStyle.println("<body>");
 
 		xslStyle.println("<h1>PDF files examined by JHOVE</h1>");
 
-
-
-		xslStyle.println("<h2>Well-formed and valid</h2>");
-		
-
-
+		xslStyle.println("<xsl:value-of select=\"FileName\"/><br/>");
+		xslStyle.println("<br/>	");
+		xslStyle.println("<h4>JHOVE Examination per File</h4>");
 		xslStyle.println("<table border =\"1\">");
-
+		xslStyle.println("<tr>");
+		xslStyle.println("<th>FileName</th>");
+		xslStyle.println("<th>Status</th>");
+		xslStyle.println("<th>Messages</th>");
+		xslStyle.println("</tr>");
+		xslStyle.println("<xsl:for-each select=\"PdfFile\">");
+		xslStyle.println("	<tr>");
+		xslStyle.println("	<td><xsl:value-of select=\"FileName\"/></td>	");
+		xslStyle.println("	<td><xsl:value-of select=\"Status\"/></td>	");
+		xslStyle.println("	<td><xsl:value-of select=\"Message\"/></td>");
+		xslStyle.println("	</tr>");
+		xslStyle.println("</xsl:for-each>");
 		xslStyle.println("</table>");
-
-
-	
-		xslStyle.println("</body>");
-		xslStyle.println("</html>");
+		xslStyle.println("	<h4>Summary of Sample</h4>");
+		xslStyle.println("	<table border =\"1\">");
+		xslStyle.println("	<tr>");
+		xslStyle.println("	<th> MessageText</th>");
+		xslStyle.println("<th> Occurance</th>	");
+		xslStyle.println("	</tr>");
+		xslStyle.println("<xsl:for-each select=\"JhoveMessage\">");
+		xslStyle.println("	<tr>");
+		xslStyle.println("	<td><xsl:value-of select=\"MessageText\"/></td>	");
+		xslStyle.println("	<td><xsl:value-of select=\"Occurance\"/></td>	");
+		xslStyle.println("		</tr>");
+		xslStyle.println("	</xsl:for-each>");
+		xslStyle.println("	</table>");
+		xslStyle.println("	</body>");
+		xslStyle.println("	</html>");
 		xslStyle.println("</xsl:template>");
 		xslStyle.println("</xsl:stylesheet>");
 		xslStyle.close();
