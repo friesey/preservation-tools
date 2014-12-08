@@ -26,8 +26,6 @@ public class GifChecker {
 				pathwriter = (folder + "//" + "GifAnalysis.xml");
 				PrintWriter writer = new PrintWriter(new FileWriter(pathwriter));
 
-
-
 				String xmlVersion = "xml version='1.0'";
 				String xmlEncoding = "encoding='ISO-8859-1'";
 				String xmlxslStyleSheet = "<?xml-stylesheet type=\"text/xsl\" href=\"GifAnalysisCustom.xsl\"?>";
@@ -47,6 +45,8 @@ public class GifChecker {
 				 * utilities.HexReader.convertToHex(tempHexWriter,
 				 * files.get(i)); }
 				 */
+				
+				
 				
 				writer.println("<GifAnalysis>");
 				writer.println("</GifAnalysis>");

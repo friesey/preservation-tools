@@ -1,4 +1,4 @@
-/*package externalToolAnalysis;
+package externalToolAnalysis;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -24,7 +24,7 @@ public class RunJhoveApp {
 
 		String pathwriter;
 
-		try {
+		/*try {
 			JOptionPane.showMessageDialog(null, "Please choose a Folder with PDF files", "JHOVE PDF-Examination", JOptionPane.QUESTION_MESSAGE);
 			folder = utilities.FolderBrowserDialog.chooseFolder();
 			if (folder != null) {
@@ -87,7 +87,7 @@ public class RunJhoveApp {
 		} catch (Exception e) {
 			System.out.println("Exception: " + e);
 		
-		}
+		}*/
 	}
 
 	public static String normaliseToUtf8(String string) {
@@ -102,4 +102,4 @@ public class RunJhoveApp {
 
 	public void reset() {
 	}
-}*/
+}
