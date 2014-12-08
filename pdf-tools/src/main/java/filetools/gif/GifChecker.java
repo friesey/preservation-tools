@@ -2,13 +2,10 @@ package filetools.gif;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
-
-import org.apache.commons.io.FilenameUtils;
 
 public class GifChecker {
 

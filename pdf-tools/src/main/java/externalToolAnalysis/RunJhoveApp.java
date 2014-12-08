@@ -1,6 +1,6 @@
 package externalToolAnalysis;
 
-import java.io.File;
+/*import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import edu.harvard.hul.ois.jhove.JhoveBase;
 import edu.harvard.hul.ois.jhove.Module;
 import edu.harvard.hul.ois.jhove.OutputHandler;
 import edu.harvard.hul.ois.jhove.handler.XmlHandler;
-import edu.harvard.hul.ois.jhove.module.PdfModule;
+import edu.harvard.hul.ois.jhove.module.PdfModule;*/
 
 // the libray JhoveApp.jar is not in the maven library. This causes a Travis error.
 
