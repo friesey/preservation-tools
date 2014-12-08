@@ -1,4 +1,4 @@
-package externalToolAnalysis;
+/*package externalToolAnalysis;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -18,7 +18,7 @@ import edu.harvard.hul.ois.jhove.module.PdfModule;
 
 public class RunJhoveApp {
 
-	public static String folder;
+	public static String folder;	
 
 	public static void main(String args[]) throws Exception {
 
@@ -86,6 +86,7 @@ public class RunJhoveApp {
 			}
 		} catch (Exception e) {
 			System.out.println("Exception: " + e);
+		
 		}
 	}
 
@@ -101,4 +102,4 @@ public class RunJhoveApp {
 
 	public void reset() {
 	}
-}
+}*/
