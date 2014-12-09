@@ -1,10 +1,5 @@
 package utilities;
 
-import java.io.File;
-import java.util.ArrayList;
-
-import javax.swing.JOptionPane;
-
 public class FolderMethods {
 	
 	// general access point to folder handling

@@ -56,18 +56,14 @@ public class FitsAnalysis {
 				final int exitStatus = process.waitFor();
 				System.out.println("Processed finished with status: "
 						+ exitStatus);
-
 			}
 
 			else {
 				System.out.println("File could not be found.");
 			}
 		}
-
 		catch (IOException e) {
 			logger.error("Error analyzing " + e);
 		}
-
 	}
-
 }
