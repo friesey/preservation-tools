@@ -21,12 +21,12 @@ public class CountStringinFile {
 		int stringfound = 0;
 
 		try {
-			
+
 			JOptionPane.showMessageDialog(null, "Please choose the file (\"txt\"; \"java\" or \"yml\") you want to examine with the File Browser Dialog", "User Input", JOptionPane.PLAIN_MESSAGE);
 
 			file = utilities.FileBrowserDialog.chooseFile();
 
-			searchedString = JOptionPane.showInputDialog(null, "Please enter String that should be searched in Files", "Enter String Mask", JOptionPane.PLAIN_MESSAGE);
+			searchedString = JOptionPane.showInputDialog(null, "Please enter Text that should be searched in Files", "Enter Text Mask", JOptionPane.PLAIN_MESSAGE);
 
 			if (searchedString != null) {
 
@@ -37,7 +37,7 @@ public class CountStringinFile {
 					if (!filename.startsWith("~")) {
 						extension = FilenameUtils.getExtension(file.toString()).toLowerCase();
 
-						if ((extension.equals("txt")) || (extension.equals("java"))|| (extension.equals("yml"))) {
+						if ((extension.equals("txt")) || (extension.equals("java")) || (extension.equals("yml"))) {
 							if (file.length() != 0)
 							/**
 							 * important because otherwise not yet closed
@@ -58,10 +58,10 @@ public class CountStringinFile {
 								txtreader.close();
 							}
 						}
-						
+
 						else {
 							JOptionPane.showMessageDialog(null, "Not a txt or java File", "Findings", JOptionPane.PLAIN_MESSAGE);
-						}				
+						}
 					}
 				}
 			} else {
@@ -75,7 +75,7 @@ public class CountStringinFile {
 				JOptionPane.showMessageDialog(null, "The searched String was found " + stringfound + " times", "Findings", JOptionPane.PLAIN_MESSAGE);
 			}
 		} catch (FileNotFoundException e) {
-			System.out.println(e);
+			JOptionPane.showMessageDialog(null, "An exception occured " + e);
 		}
 	}
 }

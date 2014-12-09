@@ -7,6 +7,36 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 
 public class HexReader {
+	
+	public static String readEofTag (File file)throws IOException {
+		
+		//This method does not work at all
+		
+		String eofTag = null;
+		
+		InputStream is = new FileInputStream(file);
+		int value = 0;
+		
+		StringBuilder sbHex = new StringBuilder();
+		StringBuilder sbText = new StringBuilder();
+		
+		if ((value = is.read()) == -1) {
+			// convert to hex value with "X" formatter
+			sbHex.append(String.format("%02X ", value));	
+
+			// If the character is not convertable, just print a dot symbol "."
+			if (!Character.isISOControl(value)) {
+				sbText.append((char) value);
+			} else {
+				sbText.append(".");
+			}
+		}	
+		
+		is.close();
+		eofTag = sbText.toString();
+		
+		return eofTag;
+	}
 
 	public static void convertToHex(PrintWriter out, File file) throws IOException {
 		

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-public class FolderCreation {
+public class FolderMethods {
 	
 	// general access point to folder handling
 	
@@ -19,5 +19,15 @@ public class FolderCreation {
 		// examinedCdRom = preservetools.utilities.FolderBrowserDialog
 		// .chooseFolder();
 	}
+	
+	public class archiveFilesToFolder {
+		
+		
+		
+
+		
+
+	}
+
 
 }

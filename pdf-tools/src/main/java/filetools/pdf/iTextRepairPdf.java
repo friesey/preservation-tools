@@ -20,15 +20,12 @@ public class iTextRepairPdf {
 	public static void main(String args[]) throws IOException {
 
 		try {
-			examinedFolder = utilities.FolderBrowserDialog
-					.chooseFolder();
+			examinedFolder = utilities.FolderBrowserDialog.chooseFolder();
 
 			if (examinedFolder != null) {
 
 				try {
-					ArrayList<File> files = utilities.ListsFiles
-							.getPaths(new File(examinedFolder),
-									new ArrayList<File>());
+					ArrayList<File> files = utilities.ListsFiles.getPaths(new File(examinedFolder), new ArrayList<File>());
 					if (files == null)
 						return;
 					String mimetype;
@@ -36,17 +33,14 @@ public class iTextRepairPdf {
 
 					for (int i = 0; i < files.size(); i++) {
 						System.out.println(files.get(i).getCanonicalPath());
-						mimetype = filetools.GenericFileAnalysis
-								.getFileMimeType(files.get(i));
+						mimetype = filetools.GenericFileAnalysis.getFileMimeType(files.get(i));
 						if (mimetype != null) {
 							if (mimetype.equals("application/pdf")) {
 								System.out.println(files.get(i));
 								try {
-									reader = new PdfReader(files.get(i)
-											.toString());
+									reader = new PdfReader(files.get(i).toString());
 									if (!reader.isEncrypted()) {
-										repairWithItext(reader, files.get(i)
-												.getName());
+										repairWithItext(reader, files.get(i).getName());
 									}
 								} catch (Exception e) {
 									System.out.println(e);
@@ -74,22 +68,23 @@ public class iTextRepairPdf {
 	 */
 
 	@SuppressWarnings("rawtypes")
-	static void repairWithItext(PdfReader reader, String filename)
-			throws DocumentException, IOException {
+	static void repairWithItext(PdfReader reader, String filename) throws DocumentException, IOException {
 
 		Map info = reader.getInfo();
 		Document document = new Document();
 
-		PdfCopy copy = new PdfCopy(document, new FileOutputStream(
-				examinedFolder + "//" + "Mig_iText" + filename));
-		
-		
-		copy.setPDFXConformance(PdfWriter.PDFA1B);
+		PdfCopy copy = new PdfCopy(document, new FileOutputStream(examinedFolder + "//" + "Mig_iText" + filename));
+
+		// copy.setPDFXConformance(PdfWriter.PDF_VERSION_1_5);
+		copy.setPdfVersion(PdfWriter.PDF_VERSION_1_5);
 		document.addTitle((String) info.get("Title"));
 		if (info.get("Author") != null)
 			document.addAuthor((String) info.get("Author"));
 		if (info.get("Keywords") != null)
 			document.addKeywords((String) info.get("Keywords"));
+		// TODO: Is this the right Keyword?
+		if (info.get("Date") != null)
+			document.addKeywords((String) info.get("Date"));
 		copy.createXmpMetadata();
 		document.open();
 		int n = reader.getNumberOfPages();

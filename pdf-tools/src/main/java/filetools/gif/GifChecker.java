@@ -16,7 +16,7 @@ public class GifChecker {
 		String pathwriter;
 
 		try {
-			JOptionPane.showMessageDialog(null, "Please choose a Folder with files", "JHOVE PDF-Examination", JOptionPane.QUESTION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Please choose a Folder with files", "Gif File Examination", JOptionPane.QUESTION_MESSAGE);
 			folder = utilities.FolderBrowserDialog.chooseFolder();
 			if (folder != null) {
 
@@ -32,7 +32,10 @@ public class GifChecker {
 
 				ArrayList<File> files = utilities.ListsFiles.getPaths(new File(folder), new ArrayList<File>());
 
-				/*TODO: This is a nice way to print every file in the folder in hex files, but there is always missing so much at the end */
+				/*
+				 * TODO: This is a nice way to print every file in the folder in
+				 * hex files, but there is always missing so much at the end
+				 */
 				/*
 				 * String tempwriter; PrintWriter tempHexWriter; String
 				 * filename; for (int i = 0; i < files.size(); i++) { filename =
@@ -42,9 +45,15 @@ public class GifChecker {
 				 * utilities.HexReader.convertToHex(tempHexWriter,
 				 * files.get(i)); }
 				 */
-				
-				
-				
+
+				// try to get EOF Tag
+				for (int i = 0; i < files.size(); i++) {
+					if (filetools.GenericFileAnalysis.testFileHeaderGif(files.get(i)) == true) {
+					System.out.println( files.get(i).toString());
+					System.out.println(utilities.HexReader.readEofTag(files.get(i)));
+				}
+				}
+
 				writer.println("<GifAnalysis>");
 				writer.println("</GifAnalysis>");
 				writer.close();
@@ -56,4 +65,6 @@ public class GifChecker {
 			JOptionPane.showMessageDialog(null, e, "Exception", JOptionPane.WARNING_MESSAGE);
 		}
 	}
+
+
 }

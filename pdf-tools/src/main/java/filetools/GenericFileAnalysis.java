@@ -18,6 +18,7 @@ public class GenericFileAnalysis {
 	static String magicNumberPdf = "%PDF";
 	static String magicNumberTiffIntel = "II";
 	static String magicNumberTiffMotorola = "MM";
+	static String magicNumberGif3 = "GIF89a";
 
 	private static final long DEFAULT_MAX_FILE_LENGTH = 1024 * 1024 * 16;
 
@@ -214,4 +215,31 @@ public class GenericFileAnalysis {
 		return filename;
 	}
 
+	public static boolean testFileHeaderGif(File file) throws IOException {
+		fileReader = new BufferedReader(new FileReader(file));
+
+		System.out.println(file.toString());
+
+		// TODO: Das hier funktioniert noch nicht
+
+/*		char[] chararray = { 'G', 'I', 'F', '8', '9', 'a' };
+		StringBuffer sb = new StringBuffer();
+		int ch;
+		while ((ch = fileReader.read()) < chararray.length) {
+			sb.append((char) ch);
+		}
+		System.out.println(sb.toString());*/
+
+		String FileHeader = fileReader.readLine();
+
+		if (FileHeader != null) {
+			if (FileHeader.contains(magicNumberGif3)) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
 }

@@ -3,6 +3,7 @@ package utilities;
 import java.io.FileNotFoundException;
 
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 public class FileBrowserDialog {
 
@@ -18,7 +19,7 @@ public class FileBrowserDialog {
 		j.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		j.showOpenDialog(j);
 		if (j.getSelectedFile() == null) {
-			System.out.println("No file was chosen");
+			JOptionPane.showMessageDialog(null, "No file was chosen");
 		} else {
 			String file = j.getSelectedFile().getPath();
 			return file;
