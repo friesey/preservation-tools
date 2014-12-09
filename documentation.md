@@ -4,7 +4,15 @@
 
 ## Structure of preservation-tools
 
-Currently (10/2014, but the project is growing fast) the preservation-tools project is divided in 9 packages.
+Generell ist das Repository /die Toolsammlung so aufgebaut, dass alles, was irgendwie für die LZA nützlich sein kann, dort gesammelt wird. Einiges ist sehr rudimentär, wie z. B. dir Prüfung, ob die ersten Bytes einer PDF Datei "%PDF" sind bzw. dies in der ersten Zeile der PDF Datei enthalten ist. Anderes geht über die reine Analyse einer Datei hinaus, z. B. die Bearbeitung von PDF-Dateien mit iText oder die Konvertierung einer PDF-Datei in JPEG-Dateien (eine pro Seite).
+
+Es gibt Methoden - meist unter Utilities zu finden, die fast von allen anderen Klasse benutzt werden wie der File- bzw. Folder Browser Dialog oder die Methode getPaths der Klasse ListsFiles, die aus einem Ordner inkl. aller Unterordner alle Dateien in einer ArrayList aus Files speichert und zurückgibt.
+
+Nicht alle Klassen/ Programme sind bereits produktiv einsetzbar, einiges besteht nur aus einem wieder verworfenen Ansatz (keine Zeit, zu wenig Wissen, zu wenig dringende Aufgabe). Manches wird vielleicht sogar wieder ganz gelöscht.
+
+Für viele der Klassen werden bereits vorhandene Bibliotheken genutzt (oft Apache Tika, iText, JHOVE u. ä.). Oftmals sind Klassen dabei, die Aufgaben erledigen, für die es bereits Tools gibt (HexReader, JPEG-Migration). Ziel ist hier nicht, das Rad neu zu erfinden, sondern möglichst autonom aus einer eigenen Umgebung heraus agieren zu können - wie z. B. das Tool/die Klasse Run Jhove App, das zwar auf die JHOVE Library zurückgreift, aber eine gezielte XML-Ausgabe inkl. eigenem Stylesheet ausgibt, um nur die Informationen anzuzeigen, die ich auch brauche. Oftmals geht es auch nur darum, mehr über das verwendete Tool und die Funktionsweise (Bsp. JHOVE) oder das Dateiformat (PDF, JPEG, TIFF, gif, wave usw.) zu lernen, um die Risiken für die LZA bessser einschätzen oder sogar vermindern zu können.
+
+Das ganze Repositorium ist ein Work in Progress und verändert sich stetig.
 
 ### externalToolAnalysis
 This package contains several classes which do not work yet to access external programs like JHOVE, FITS and co. It is planned to be able to use these tools from the java program if this is possible in the first place at all.
