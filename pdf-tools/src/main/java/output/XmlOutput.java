@@ -4,8 +4,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import org.apache.tika.metadata.Metadata;
-
 public class XmlOutput {
 
 	public static PrintWriter xmlSimpleWriter;
@@ -26,8 +24,6 @@ public class XmlOutput {
 
 	}
 
-	public static void closesxmlSimpleWriter() {
-		xmlSimpleWriter.close();
-	}
+	
 
 }

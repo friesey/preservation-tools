@@ -10,8 +10,7 @@ import javax.swing.JOptionPane;
 
 public class AudioCD {
 
-	public static void extractAudioFiles(ArrayList<File> files) {		
-	
+	public static void extractAudioFiles(ArrayList<File> files) {			
 
 		// it is already known that .cda-files are included
 		// extract wav files

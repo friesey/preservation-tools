@@ -159,7 +159,7 @@ public class CdRom_IsoImageChecker {
 			filesExecutable.close();
 			outputfile.close();
 			output.XmlOutput.xmlSimpleWriter.println("</CdRomFolderTest>");
-			output.XmlOutput.closesxmlSimpleWriter();
+			output.XmlOutput.xmlSimpleWriter.close();
 
 			System.out.println("Checksum generated and compared: " + filecheck);
 

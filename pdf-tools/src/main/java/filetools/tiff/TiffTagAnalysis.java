@@ -32,20 +32,16 @@ public class TiffTagAnalysis {
 					String extension = FilenameUtils.getExtension(files.get(i).getCanonicalPath());
 					if (extension.equals(tiffExtension)) {
 						
-						if (filetools.GenericFileAnalysis.testFileHeaderTiff(files.get(i))) {
+						if (filetools.GenericFileAnalysis.testFileHeaderTiff(files.get(i))) {			
 							
-							
-							System.out.println ( files.get(i) + "is a tiff-file");
-							
+							System.out.println ( files.get(i) + "is a tiff-file");							
 							
 						}
 						else {
 							System.out.println ("This file purports to be a tiff-file. It has a .TIF-extension, but no lacks the magic number.");
-							
-							
+													
 						}
 					}
-
 				}
 
 			}

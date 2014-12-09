@@ -29,9 +29,7 @@ public class ChecksumChecker {
 	public static boolean testIfChecksumisPdfReaderSoftware(File file)
 			throws NoSuchAlgorithmException, IOException {
 		ArrayList<String> checksumlist = new ArrayList<String>();
-		checksumlist.add("bb7c1d820e2a2db263655a799590caab");
-
-	
+		checksumlist.add("bb7c1d820e2a2db263655a799590caab");	
 
 		// TODO: create MD5 checksum
 		String checksum = null;

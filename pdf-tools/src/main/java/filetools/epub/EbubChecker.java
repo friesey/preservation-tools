@@ -29,15 +29,12 @@ public class EbubChecker {
 					if (extension.equals("application/epub")) {
 
 					}
-
 				}
 			}
 
 			catch (IOException e) {
 				e.printStackTrace();
-
 			}
-
 		}
 
 		else {
