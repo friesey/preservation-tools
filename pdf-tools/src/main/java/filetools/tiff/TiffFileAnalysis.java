@@ -35,8 +35,9 @@ public class TiffFileAnalysis {
 						if (filetools.GenericFileAnalysis.testFileHeaderTiff(files.get(i))) {		
 							
 							TiffTagChecker.analyseTiffTags(files.get(i));
+							TiffProperties.getTiffProperties(files.get(i).toString());
 							
-							System.out.println ( files.get(i) + "is a tiff-file");							
+							System.out.println ( files.get(i) + " is a tiff-file");							
 							
 						}
 						else {
