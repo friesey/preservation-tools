@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import org.apache.commons.io.FilenameUtils;
 
-public class TiffTagAnalysis {
+public class TiffFileAnalysis {
 
 	static String examinedFolder;
 	static PrintWriter outputfile;
@@ -32,7 +32,9 @@ public class TiffTagAnalysis {
 					String extension = FilenameUtils.getExtension(files.get(i).getCanonicalPath());
 					if (extension.equals(tiffExtension)) {
 						
-						if (filetools.GenericFileAnalysis.testFileHeaderTiff(files.get(i))) {			
+						if (filetools.GenericFileAnalysis.testFileHeaderTiff(files.get(i))) {		
+							
+							TiffTagChecker.analyseTiffTags(files.get(i));
 							
 							System.out.println ( files.get(i) + "is a tiff-file");							
 							
