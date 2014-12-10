@@ -14,6 +14,8 @@ import javax.swing.JOptionPane;
 
 import org.apache.commons.io.FilenameUtils;
 
+import filetools.pdf.PdfAnalysis;
+
 public class SearchforString {
 
 	static String fileorfolder;
@@ -136,15 +138,36 @@ public class SearchforString {
 									txtreader.close();
 								}
 							}
-							
-							 else if (extension.equals("pdf")) {
-								//TODO: implement for pdf file
+
+							else if (extension.equals("pdf")) {
+								// TODO: implement for pdf file
+
+								File pdffile = new File(fileorfolder);
+
+								if (filetools.pdf.PdfAnalysis.testPdfOk(pdffile)) {
+
+									String[] linesPdf = PdfAnalysis.extractsPdfLines(fileorfolder);
+
+									if (linesPdf != null) {
+										int lenlines = linesPdf.length;
+
+										for (int j = 0; j < lenlines; j++) {
+											if ((linesPdf[j]).contains(searchedString)) {
+												stringfound++;
+												outputfile.println();
+												outputfile.println(fileorfolder);
+												outputfile.println(linesPdf[j]);
+												outputfile.println();
+											}
+										}
+									}
+								}
 							}
-							
-							
+
 							else {
 								JOptionPane.showMessageDialog(null, "Search for String is not implemented yet for this kind of file format.", "Findings", JOptionPane.PLAIN_MESSAGE);
-								return; //TODO: this is not very elegant and has to be improved
+								return; // TODO: this is not very elegant and
+										// has to be improved
 							}
 
 							if (stringfound == 0) {
