@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 import org.apache.commons.io.FilenameUtils;
 
 
-public class SearchforStringinjavaFiles {
+public class SearchforString {
 	
 	static String folder;
 	static String searchedString;
