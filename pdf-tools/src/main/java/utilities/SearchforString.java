@@ -155,7 +155,7 @@ public class SearchforString {
 	public static void searchforStringinSimpleFiles(File file) throws IOException {
 		if (file.length() != 0)
 		/**
-		 * important because otherwise not yet closed outpufile causes
+		 * important because otherwise not yet closed outputfile causes
 		 * neverending story
 		 */
 		{

@@ -3,6 +3,8 @@ package utilities;
 import java.io.File;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 public class ListsFiles {
 	/**
 	 * lists all files and directories in given directory
@@ -12,6 +14,8 @@ public class ListsFiles {
 	 *
 	 */
 	public static ArrayList<File> getPaths(File file, ArrayList<File> list) {
+		
+		try {
 		if (file == null || list == null || !file.isDirectory())
 			return null;
 		File[] fileArr = file.listFiles();
@@ -27,4 +31,9 @@ public class ListsFiles {
 		}
 		return list;
 	}
+		catch (Exception e) {		
+			JOptionPane.showMessageDialog(null, "Most likely you tried to choose a folder like \"C:\" but you do not have the rights to read files there.", "Info Message", JOptionPane.PLAIN_MESSAGE);
+		return null;		
+	}
+}
 }

@@ -17,6 +17,8 @@ public class BrowserDialogs {
 	// TODO: search zip file
 
 	public static String chooseFolder() throws FileNotFoundException {
+		try {
+		JOptionPane.showMessageDialog(null, "Folder Browser Dialog", "Please choose Folder", JOptionPane.QUESTION_MESSAGE);
 		JFileChooser j = new JFileChooser();
 		j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		j.showOpenDialog(j);
@@ -27,6 +29,10 @@ public class BrowserDialogs {
 			String folder = j.getSelectedFile().getPath();
 			return folder;
 		}
+	} catch (Exception e) {
+		JOptionPane.showMessageDialog(null, "Most likely you tried to choose a folder like \"C:\" but you do not have the rights to read files there.", "Info Message", JOptionPane.PLAIN_MESSAGE);
+		return null;
+	}
 	}
 
 	/**
@@ -37,28 +43,41 @@ public class BrowserDialogs {
 	 * @return: string for file path
 	 */
 	public static String chooseFile() throws FileNotFoundException {
-		JFileChooser j = new JFileChooser();
-		j.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		j.showOpenDialog(j);
-		if (j.getSelectedFile() == null) {
-			JOptionPane.showMessageDialog(null, "No file was chosen");
-		} else {
-			String file = j.getSelectedFile().getPath();
-			return file;
+		try {
+			JOptionPane.showMessageDialog(null, "File Browser Dialog", "Please choose Folder", JOptionPane.QUESTION_MESSAGE);
+			JFileChooser j = new JFileChooser();
+			j.setFileSelectionMode(JFileChooser.FILES_ONLY);
+			j.showOpenDialog(j);
+			if (j.getSelectedFile() == null) {
+				JOptionPane.showMessageDialog(null, "No file was chosen");
+			} else {
+				String file = j.getSelectedFile().getPath();
+				return file;
+			}
+			return null;
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Most likely you tried to choose a folder like \"C:\" but you do not have the rights to read files there.", "Info Message", JOptionPane.PLAIN_MESSAGE);
+			return null;
 		}
-		return null;
 	}
 
 	public static String chooseFileOrFolder() throws FileNotFoundException {
-		JFileChooser j = new JFileChooser();
-		j.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-		j.showOpenDialog(j);
-		if (j.getSelectedFile() == null) {
-			JOptionPane.showMessageDialog(null, "No file or folder was chosen", "Info Message", JOptionPane.PLAIN_MESSAGE);
+
+		try {
+			JOptionPane.showMessageDialog(null, "Folder or File Browser Dialog", "Please choose Folder", JOptionPane.QUESTION_MESSAGE);
+			JFileChooser j = new JFileChooser();
+			j.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+			j.showOpenDialog(j);
+			if (j.getSelectedFile() == null) {
+				JOptionPane.showMessageDialog(null, "No file or folder was chosen", "Info Message", JOptionPane.PLAIN_MESSAGE);
+				return null;
+			} else {
+				String folder = j.getSelectedFile().getPath();
+				return folder;
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Most likely you tried to choose a folder like \"C:\" but you do not have the rights to read files there.", "Info Message", JOptionPane.PLAIN_MESSAGE);
 			return null;
-		} else {
-			String folder = j.getSelectedFile().getPath();
-			return folder;
 		}
 	}
 
