@@ -41,7 +41,7 @@ public class TiffFileAnalysis {
 						}
 						else {
 							System.out.println ("This file purports to be a tiff-file. It has a .TIF-extension, but no lacks the magic number.");
-													
+												
 						}
 					}
 				}
