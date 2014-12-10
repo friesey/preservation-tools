@@ -8,14 +8,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
+
 import javax.swing.JOptionPane;
 
 import org.apache.commons.io.FilenameUtils;
 
-
 public class SearchforString {
-	
-	static String folder;
+
+	static String fileorfolder;
 	static String searchedString;
 	static PrintWriter outputfile;
 
@@ -23,20 +24,34 @@ public class SearchforString {
 
 		String extension;
 		int stringfound = 0;
+		PrintWriter outputfile;
 
 		try {
 
-			folder = utilities.FolderBrowserDialog.chooseFolder();
+			fileorfolder = utilities.FolderBrowserDialog.chooseFileOrFolder();
 
-			PrintWriter outputfile = new PrintWriter(new FileWriter(folder + "//" + "SearchForString" + ".txt"));
+			if (new File(fileorfolder).isDirectory()) {
+				outputfile = new PrintWriter(new FileWriter(fileorfolder + "//" + "SearchForString" + ".txt"));
+			} else {
+				System.out.println(fileorfolder);
+				StringBuilder stringBuilder = new StringBuilder();
+				String[] parts = fileorfolder.split(Pattern.quote("\\"));
+				for (int i = 0; i < parts.length - 1; i++) {
+					stringBuilder.append(parts[i]);
+					stringBuilder.append ("//");
+					System.out.println(parts[i]);
+				}
+				String finalString = stringBuilder.toString();
+				outputfile = new PrintWriter(new FileWriter(finalString  + "SearchForString" + ".txt"));
+			}
 
 			searchedString = JOptionPane.showInputDialog(null, "Please enter String that should be searched in the PDF Files", "Enter String Mask", JOptionPane.PLAIN_MESSAGE);
 
 			if (searchedString != null) {
 
-				if (folder != null) {
+				if (fileorfolder != null) {
 
-					ArrayList<File> files = utilities.ListsFiles.getPaths(new File(folder), new ArrayList<File>());
+					ArrayList<File> files = utilities.ListsFiles.getPaths(new File(fileorfolder), new ArrayList<File>());
 					if (files != null) {
 
 						for (int i = 0; i < files.size(); i++) {
@@ -45,19 +60,14 @@ public class SearchforString {
 
 							if (!filename.startsWith("~")) {
 								extension = FilenameUtils.getExtension(files.get(i).toString()).toLowerCase();
-											
-														 if ((extension.equals("txt")) || (extension.equals("java"))) {
+
+								if ((extension.equals("txt")) || (extension.equals("java"))) {
 									if (files.get(i).length() != 0)
-																	 /** important
-																	 * because
-																	 * otherwise
-																	 * not yet
-																	 * closed
-																	 * outpufile
-																	 * causes
-																	 * neverending
-																	 * story*/
-																	 {
+									/**
+									 * important because otherwise not yet
+									 * closed outpufile causes neverending story
+									 */
+									{
 										// TODO: There is a big performance
 										// problem with too large Txt-Files, e.
 										// g. more than 500 KB or a certain no.
@@ -82,28 +92,25 @@ public class SearchforString {
 								}
 							}
 						}
-						}
 					}
 				}
+			}
 
-				// TODO: Add other file formats, e. g. MS Word to
-				// search for string there, too
+			// TODO: Add other file formats, e. g. MS Word to
+			// search for string there, too
 
-				else {
-					// System.out.println(files.get(i) +
-					// " is not a PDF file");
-				}		
+			else {
+				// System.out.println(files.get(i) +
+				// " is not a PDF file");
+			}
 
 			if (stringfound == 0) {
 				outputfile.println("The searched String was not found");
 			}
 			outputfile.println("The searched String was found in " + stringfound + " paragraphs");
 			outputfile.close();
-			}
-		 catch (FileNotFoundException e) {
+		} catch (FileNotFoundException e) {
 			System.out.println(e);
 		}
 	}
 }
-
-

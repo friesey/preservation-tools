@@ -27,6 +27,20 @@ public class FolderBrowserDialog {
 			return folder;
 		}
 	}
+	
+	public static String chooseFileOrFolder() throws FileNotFoundException {
+		JFileChooser j = new JFileChooser();
+		j.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+		j.showOpenDialog(j);
+		if (j.getSelectedFile() == null) {
+			JOptionPane.showMessageDialog(null, "No file or folder was chosen", "Info Message", JOptionPane.PLAIN_MESSAGE);
+			return null;
+		} else {
+			String folder = j.getSelectedFile().getPath();
+			return folder;
+		}
+	}
+	
 }
 
 // TODO: search zip file
