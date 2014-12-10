@@ -28,7 +28,7 @@ public class PdfCreationSoftwareDetective {
 		PrintWriter outputfile;
 
 		try {
-			ExaminedFolder = utilities.FolderBrowserDialog.chooseFolder();
+			ExaminedFolder = utilities.BrowserDialogs.chooseFolder();
 
 			if (ExaminedFolder != null) {
 				ProducerType = new ArrayList<String>();

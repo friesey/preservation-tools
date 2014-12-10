@@ -27,9 +27,7 @@ public class SearchforString {
 		PrintWriter outputfile;
 
 		try {
-
-			fileorfolder = utilities.FolderBrowserDialog.chooseFileOrFolder();
-
+			fileorfolder = utilities.BrowserDialogs.chooseFileOrFolder();
 			if (new File(fileorfolder).isDirectory()) {
 				outputfile = new PrintWriter(new FileWriter(fileorfolder + "//" + "SearchForString" + ".txt"));
 			} else {

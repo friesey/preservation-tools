@@ -20,7 +20,7 @@ public class iTextRepairPdf {
 	public static void main(String args[]) throws IOException {
 
 		try {
-			examinedFolder = utilities.FolderBrowserDialog.chooseFolder();
+			examinedFolder = utilities.BrowserDialogs.chooseFolder();
 
 			if (examinedFolder != null) {
 

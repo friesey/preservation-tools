@@ -15,7 +15,7 @@ public class JhoveStatistics {
 
 	public static void main(String args[]) throws IOException {
 
-		String jhoveFindings = utilities.FileBrowserDialog.chooseFile();
+		String jhoveFindings = utilities.BrowserDialogs.chooseFile();
 
 		if (jhoveFindings != null) {
 

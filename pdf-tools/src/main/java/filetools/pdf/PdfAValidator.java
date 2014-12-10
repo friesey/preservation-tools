@@ -31,7 +31,7 @@ public class PdfAValidator {
 
 		try {
 
-			examinedFolder = utilities.FolderBrowserDialog.chooseFolder();
+			examinedFolder = utilities.BrowserDialogs.chooseFolder();
 
 			// Generating two Outputfiles in the folder that is examined
 

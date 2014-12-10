@@ -18,8 +18,7 @@ public class RunFits {
 
 		try {
 
-			examinedFile = utilities.FileBrowserDialog
-					.chooseFile();
+			examinedFile = utilities.BrowserDialogs.chooseFile();
 			// examinedFolder =
 			// preservetools.utilities.FolderBrowserDialog.chooseFolder();
 

@@ -29,7 +29,7 @@ public class PdfChecker {
 
 		 try {
 		 
-		 examinedFolder = utilities.FolderBrowserDialog.chooseFolder();
+		 examinedFolder = utilities.BrowserDialogs.chooseFolder();
 		 
 		 // TODO: Create an XML Writer		
 		 

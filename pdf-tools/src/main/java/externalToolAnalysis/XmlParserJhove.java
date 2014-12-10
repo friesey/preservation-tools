@@ -20,7 +20,7 @@ public class XmlParserJhove {
 
 		JOptionPane.showMessageDialog(null, "Please choose the XML File to analyse", "XmlParsing", JOptionPane.QUESTION_MESSAGE);
 
-		String xmlfile = utilities.FileBrowserDialog.chooseFile();
+		String xmlfile = utilities.BrowserDialogs.chooseFile();
 
 		parseXmlFile(xmlfile);
 	}

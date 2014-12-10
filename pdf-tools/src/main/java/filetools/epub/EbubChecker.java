@@ -10,7 +10,7 @@ public class EbubChecker {
 
 	public static void main(String args[]) throws IOException {
 
-		String examinedFolder = utilities.FolderBrowserDialog
+		String examinedFolder = utilities.BrowserDialogs
 				.chooseFolder();
 		String extension;
 

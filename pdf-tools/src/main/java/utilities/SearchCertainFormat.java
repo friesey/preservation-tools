@@ -18,7 +18,7 @@ public class SearchCertainFormat {
 			JOptionPane.showMessageDialog(null, "CD ROM Dialog",
 					"Please choose Folder",
 					JOptionPane.QUESTION_MESSAGE);
-			examinedFolder = utilities.FolderBrowserDialog
+			examinedFolder = utilities.BrowserDialogs
 					.chooseFolder();
 
 			if (examinedFolder != null) {

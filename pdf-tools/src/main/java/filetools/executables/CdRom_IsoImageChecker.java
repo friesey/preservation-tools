@@ -65,13 +65,13 @@ public class CdRom_IsoImageChecker {
 
 		JOptionPane.showMessageDialog(null, "CD ROM Dialog",
 				"Please choose CD ROM Folder", JOptionPane.QUESTION_MESSAGE);
-		examinedCdRom = utilities.FolderBrowserDialog
+		examinedCdRom = utilities.BrowserDialogs
 				.chooseFolder();
 
 		JOptionPane.showMessageDialog(null, "Output Folder",
 				"Please choose Folder where Outputfile will be created",
 				JOptionPane.QUESTION_MESSAGE);
-		outputFolder = utilities.FolderBrowserDialog
+		outputFolder = utilities.BrowserDialogs
 				.chooseFolder();
 
 		if (examinedCdRom != null && outputFolder != null) {

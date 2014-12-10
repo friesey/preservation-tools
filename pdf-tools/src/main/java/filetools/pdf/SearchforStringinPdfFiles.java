@@ -31,7 +31,7 @@ public class SearchforStringinPdfFiles {
 
 		try {
 
-			folder = utilities.FolderBrowserDialog.chooseFolder();
+			folder = utilities.BrowserDialogs.chooseFolder();
 
 			PrintWriter outputfile = new PrintWriter(new FileWriter(folder + "//" + "SearchForString" + ".txt"));
 

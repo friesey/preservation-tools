@@ -24,7 +24,7 @@ public class CountStringinFile {
 
 			JOptionPane.showMessageDialog(null, "Please choose the file (\"txt\"; \"java\" or \"yml\") you want to examine with the File Browser Dialog", "User Input", JOptionPane.PLAIN_MESSAGE);
 
-			file = utilities.FileBrowserDialog.chooseFile();
+			file = utilities.BrowserDialogs.chooseFile();
 
 			searchedString = JOptionPane.showInputDialog(null, "Please enter Text that should be searched in Files", "Enter Text Mask", JOptionPane.PLAIN_MESSAGE);
 

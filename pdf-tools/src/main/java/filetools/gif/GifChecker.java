@@ -17,7 +17,7 @@ public class GifChecker {
 
 		try {
 			JOptionPane.showMessageDialog(null, "Please choose a Folder with files", "Gif File Examination", JOptionPane.QUESTION_MESSAGE);
-			folder = utilities.FolderBrowserDialog.chooseFolder();
+			folder = utilities.BrowserDialogs.chooseFolder();
 			if (folder != null) {
 
 				pathwriter = (folder + "//" + "GifAnalysis.xml");
