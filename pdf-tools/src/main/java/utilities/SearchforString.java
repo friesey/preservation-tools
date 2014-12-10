@@ -19,96 +19,156 @@ public class SearchforString {
 	static String fileorfolder;
 	static String searchedString;
 	static PrintWriter outputfile;
+	static int stringfound;
 
 	public static void main(String args[]) throws IOException {
 
 		String extension;
-		int stringfound = 0;
-		PrintWriter outputfile;
+		stringfound = 0;
 
 		try {
 			fileorfolder = utilities.BrowserDialogs.chooseFileOrFolder();
+			searchedString = JOptionPane.showInputDialog(null, "Please enter String that should be searched in the PDF Files", "Enter String Mask", JOptionPane.PLAIN_MESSAGE);
+
 			if (new File(fileorfolder).isDirectory()) {
 				outputfile = new PrintWriter(new FileWriter(fileorfolder + "//" + "SearchForString" + ".txt"));
-			} else {
-				System.out.println(fileorfolder);
+
+				if (searchedString != null) {
+
+					if (fileorfolder != null) {
+
+						ArrayList<File> files = utilities.ListsFiles.getPaths(new File(fileorfolder), new ArrayList<File>());
+						if (files != null) {
+
+							for (int i = 0; i < files.size(); i++) {
+
+								String filename = FilenameUtils.getBaseName(files.get(i).toString());
+
+								if (!filename.startsWith("~")) {
+									extension = FilenameUtils.getExtension(files.get(i).toString()).toLowerCase();
+
+									if ((extension.equals("txt")) || (extension.equals("java")) || (extension.equals("yml"))) {
+										if (files.get(i).length() != 0)
+										/**
+										 * important because otherwise not yet
+										 * closed outpufile causes neverending
+										 * story
+										 */
+										{
+											// TODO: There is a big performance
+											// problem with too large Txt-Files,
+											// e.
+											// g. more than 500 KB or a certain
+											// no.
+											// of lines.
+											BufferedReader txtreader = new BufferedReader(new FileReader(files.get(i)));
+											String line;
+											while (null != (line = txtreader.readLine())) {
+												if (line.contains(searchedString)) {
+													stringfound++;
+													outputfile.println();
+													outputfile.println(files.get(i));
+													outputfile.println(line);
+													outputfile.println();
+												}
+											}
+											txtreader.close();
+										}
+									}
+
+									else {
+										System.out.println(files.get(i).toString());
+									}
+								}
+							}
+						}
+
+					}
+				}
+
+				if (stringfound == 0) {
+					JOptionPane.showMessageDialog(null, "The searched String was not found", "Findings", JOptionPane.PLAIN_MESSAGE);
+					outputfile.println("The searched String was not found");
+				} else {
+					JOptionPane.showMessageDialog(null, "The searched String was found " + stringfound + " times", "Findings", JOptionPane.PLAIN_MESSAGE);
+					outputfile.println("The searched String was found in " + stringfound + " paragraphs");
+				}
+				outputfile.close();
+
+			} else if (new File(fileorfolder).isFile()) {
+
 				StringBuilder stringBuilder = new StringBuilder();
 				String[] parts = fileorfolder.split(Pattern.quote("\\"));
 				for (int i = 0; i < parts.length - 1; i++) {
 					stringBuilder.append(parts[i]);
-					stringBuilder.append ("//");
-					System.out.println(parts[i]);
+					stringBuilder.append("//");
 				}
 				String finalString = stringBuilder.toString();
-				outputfile = new PrintWriter(new FileWriter(finalString  + "SearchForString" + ".txt"));
-			}
+				outputfile = new PrintWriter(new FileWriter(finalString + "SearchForString" + ".txt"));
 
-			searchedString = JOptionPane.showInputDialog(null, "Please enter String that should be searched in the PDF Files", "Enter String Mask", JOptionPane.PLAIN_MESSAGE);
+				if (searchedString != null) {
 
-			if (searchedString != null) {
+					if (fileorfolder != null) {
 
-				if (fileorfolder != null) {
+						String filename = FilenameUtils.getBaseName(fileorfolder.toString());
 
-					ArrayList<File> files = utilities.ListsFiles.getPaths(new File(fileorfolder), new ArrayList<File>());
-					if (files != null) {
+						if (!filename.startsWith("~")) {
+							extension = FilenameUtils.getExtension(fileorfolder.toString()).toLowerCase();
 
-						for (int i = 0; i < files.size(); i++) {
-
-							String filename = FilenameUtils.getBaseName(files.get(i).toString());
-
-							if (!filename.startsWith("~")) {
-								extension = FilenameUtils.getExtension(files.get(i).toString()).toLowerCase();
-
-								if ((extension.equals("txt")) || (extension.equals("java"))) {
-									if (files.get(i).length() != 0)
-									/**
-									 * important because otherwise not yet
-									 * closed outpufile causes neverending story
-									 */
-									{
-										// TODO: There is a big performance
-										// problem with too large Txt-Files, e.
-										// g. more than 500 KB or a certain no.
-										// of lines.
-										BufferedReader txtreader = new BufferedReader(new FileReader(files.get(i)));
-										String line;
-										while (null != (line = txtreader.readLine())) {
-											if (line.contains(searchedString)) {
-												stringfound++;
-												outputfile.println();
-												outputfile.println(files.get(i));
-												outputfile.println(line);
-												outputfile.println();
-											}
+							if ((extension.equals("txt")) || (extension.equals("java")) || (extension.equals("yml"))) {
+								if (fileorfolder.length() != 0)
+								/**
+								 * important because otherwise not yet closed
+								 * outpufile causes neverending story
+								 */
+								{
+									// TODO: There is a big performance
+									// problem with too large Txt-Files, e.
+									// g. more than 500 KB or a certain no.
+									// of lines.
+									BufferedReader txtreader = new BufferedReader(new FileReader(fileorfolder));
+									String line;
+									while (null != (line = txtreader.readLine())) {
+										if (line.contains(searchedString)) {
+											stringfound++;
 										}
-										txtreader.close();
 									}
-								}
-
-								else {
-									System.out.println(files.get(i).toString());
+									txtreader.close();
 								}
 							}
+							
+							 else if (extension.equals("pdf")) {
+								//TODO: implement for pdf file
+							}
+							
+							
+							else {
+								JOptionPane.showMessageDialog(null, "Search for String is not implemented yet for this kind of file format.", "Findings", JOptionPane.PLAIN_MESSAGE);
+								return; //TODO: this is not very elegant and has to be improved
+							}
+
+							if (stringfound == 0) {
+								JOptionPane.showMessageDialog(null, "The searched String was not found", "Findings", JOptionPane.PLAIN_MESSAGE);
+								outputfile.println("The searched String was not found");
+							} else {
+								JOptionPane.showMessageDialog(null, "The searched String was found " + stringfound + " times", "Findings", JOptionPane.PLAIN_MESSAGE);
+								outputfile.println("The searched String was found in " + stringfound + " paragraphs");
+							}
+							outputfile.close();
 						}
+
+						else {
+							JOptionPane.showMessageDialog(null, "You have chosen neither file nor folder", "Findings", JOptionPane.PLAIN_MESSAGE);
+						}
+
+						// TODO: Add other file formats, e. g. MS Word to
+						// search for string there, too
+
 					}
 				}
 			}
-
-			// TODO: Add other file formats, e. g. MS Word to
-			// search for string there, too
-
-			else {
-				// System.out.println(files.get(i) +
-				// " is not a PDF file");
-			}
-
-			if (stringfound == 0) {
-				outputfile.println("The searched String was not found");
-			}
-			outputfile.println("The searched String was found in " + stringfound + " paragraphs");
-			outputfile.close();
 		} catch (FileNotFoundException e) {
-			System.out.println(e);
+			JOptionPane.showMessageDialog(null, "An exception occured " + e);
 		}
 	}
 }
