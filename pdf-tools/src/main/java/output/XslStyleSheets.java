@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import externalToolAnalysis.RunJhoveApp;
 
-public class XslStyleSheetJhoveCustomized {
+public class XslStyleSheets {
 	public static void JhoveCustomizedXsl() throws IOException {
 
 		PrintWriter xslStyle = new PrintWriter(new FileWriter((RunJhoveApp.folder + "//" + "JhoveCustomized.xsl")));
@@ -56,5 +56,10 @@ public class XslStyleSheetJhoveCustomized {
 		xslStyle.println("</xsl:template>");
 		xslStyle.println("</xsl:stylesheet>");
 		xslStyle.close();
+	}
+
+	public static void GifCustomizedXsl() {
+		// TODO Auto-generated method stub
+		
 	}
 }

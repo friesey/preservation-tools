@@ -41,7 +41,7 @@ public class XmlParserJhove {
 			xmlsummary.println(xmlxslStyleSheet);
 			xmlsummary.println("<JhoveFindingsSummary>");
 
-			output.XslStyleSheetJhoveCustomized.JhoveCustomizedXsl();
+			output.XslStyleSheets.JhoveCustomizedXsl();
 
 			ArrayList<String> errormessages = new ArrayList<String>();
 
