@@ -64,7 +64,7 @@ public class BrowserDialogs {
 	public static String chooseFileOrFolder() throws FileNotFoundException {
 
 		try {
-			JOptionPane.showMessageDialog(null, "Folder or File Browser Dialog", "Please choose Folder", JOptionPane.QUESTION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Folder or File Browser Dialog", "Please choose File Folder", JOptionPane.QUESTION_MESSAGE);
 			JFileChooser j = new JFileChooser();
 			j.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 			j.showOpenDialog(j);

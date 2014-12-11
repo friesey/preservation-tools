@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import org.apache.commons.io.FilenameUtils;
+
 import edu.harvard.hul.ois.jhove.App;
 import edu.harvard.hul.ois.jhove.JhoveBase;
 import edu.harvard.hul.ois.jhove.JhoveException;
@@ -25,13 +27,15 @@ public class GifChecker {
 	static Module gifmodule;
 	static OutputHandler handler;
 
-	public static void main(String args[]) throws Exception {
+	// TODO: This will error on Travis as the JHOVE Library is not in the maven
+	// repository and had to be added externally
 
+	public static void main(String args[]) throws Exception {
 		try {
-			JOptionPane.showMessageDialog(null, "Please choose a Folder with files", "Gif File Examination", JOptionPane.QUESTION_MESSAGE);
+			boolean gifisvalid = false;
+			// JOptionPane.showMessageDialog(null, "Please choose a Folder with files", "Gif File Examination", JOptionPane.QUESTION_MESSAGE);
 			giffolder = utilities.BrowserDialogs.chooseFolder();
 			if (giffolder != null) {
-
 				ArrayList<File> files = utilities.ListsFiles.getPaths(new File(giffolder), new ArrayList<File>());
 
 				GifXmlOutput.createXmlGifOutput();
@@ -50,23 +54,29 @@ public class GifChecker {
 				 * utilities.HexReader.convertToHex(tempHexWriter,
 				 * files.get(i)); }
 				 */
+
 				for (int i = 0; i < files.size(); i++) {
-					boolean gifisvalid = checkifgifisvalid(files.get(i));
-					boolean hasEofTag = checkIfGifHasEof(files.get(i));
-					if (!gifisvalid) {
-						GifReparator.repairgif(files.get(i));
-						gifisvalid = checkifgifisvalid(files.get(i));
-						if (gifisvalid) {
-							// Some output that it has worked
-						} else {
-							// Some output of failure
+					String extension = FilenameUtils.getExtension(files.get(i).toString()).toLowerCase();
+					if (extension.equals("gif")) {
+						if (filetools.GenericFileAnalysis.testFileHeaderGif(files.get(i).toString()) == false) {
+							JOptionPane.showMessageDialog(null, (files.get(i).toString()), "gif-Extension has no correct Gif Header", JOptionPane.QUESTION_MESSAGE);
+						}
+						checkGifWithJhove(files.get(i));
+
+						// gifisvalid anders als mit Jhove testen und gifisvalid auf true setzen, jetzt sind alle false
+						boolean hasEofTag = checkIfGifHasEof(files.get(i));
+						if (!gifisvalid) {
+							GifReparator.repairgif(files.get(i));
+							if (gifisvalid) {
+								// Some output that it has worked
+							} else {
+								// Some output of failure
+							}
 						}
 					}
 				}
 			}
-
 			GifXmlOutput.closeXmlGifOutput();
-
 		}
 
 		catch (Exception e) {
@@ -85,7 +95,7 @@ public class GifChecker {
 		}
 	}
 
-	public static boolean checkifgifisvalid(File giffile) throws Exception {
+	public static void checkGifWithJhove(File giffile) throws Exception {
 		GifXmlOutput.xmlgifwriter.println("<item>");
 		if (giffile.toString().contains("&")) {
 			String substitute = RunJhoveApp.normaliseToUtf8(giffile.toString());
@@ -95,7 +105,6 @@ public class GifChecker {
 		}
 		jhoveBaseGif.process(gifjhoveapp, gifmodule, handler, giffile.toString());
 		GifXmlOutput.xmlgifwriter.println("</item>");
-		return false;
 	}
 
 	public static void createJhoveChecker() throws Exception {
@@ -119,7 +128,6 @@ public class GifChecker {
 		gifjhoveapp = new App(appName, version, date, usage, rights);
 
 		gifmodule = new GifModule(); // JHOVE GifModule only
-
 		handler = new XmlHandler();
 
 		handler.setWriter(GifXmlOutput.xmlgifwriter);
