@@ -64,6 +64,7 @@ public class GifChecker {
 						boolean hasEofTag = checkIfGifHasEof(files.get(i));
 						if (!gifisvalid) {
 							GifReparator.repairgif(files.get(i));
+					
 							if (gifisvalid) {
 								// Some output that it has worked
 							} else {

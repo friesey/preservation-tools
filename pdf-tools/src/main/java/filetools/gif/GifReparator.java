@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.Iterator;
 
 import javax.imageio.ImageIO;
@@ -15,6 +16,9 @@ import javax.imageio.stream.FileImageInputStream;
 import javax.imageio.stream.ImageInputStream;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.sanselan.formats.gif.GifImageParser;
+
+import com.itextpdf.text.pdf.codec.GifImage;
 
 //import ij.*;
 
@@ -26,13 +30,16 @@ public class GifReparator {
 		String ext = FilenameUtils.getExtension(giffile.toString()).toLowerCase();
 		// all the files should have "gif"
 
-		Iterator<?> imgReaders = ImageIO.getImageReadersByFormatName(ext);
+		Iterator<?> imgReaders = ImageIO.getImageReadersByFormatName(ext);		
 
 		// get the first image reader from the collection
-		ImageReader reader = (ImageReader) imgReaders.next();
-
+		javax.imageio.ImageReader reader = (ImageReader) imgReaders.next();
+	
 		reader.setInput(iis, true);
-		ImageReadParam param = reader.getDefaultReadParam();
+		ImageReadParam param = reader.getDefaultReadParam();	
+		
+		readGifwithItext (giffile);
+					
 		try {
 			// read the image
 			Image image = reader.read(0, param); // prop
@@ -61,5 +68,15 @@ public class GifReparator {
 
 		iis.close();
 
+	}
+
+	@SuppressWarnings("deprecation")
+	public static void readGifwithItext(File giffile) throws MalformedURLException, IOException {
+		
+		GifImage gif = new GifImage(giffile.toURL());	
+		System.out.println("Test");
+		
+		
+		
 	}
 }
