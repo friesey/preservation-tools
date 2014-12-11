@@ -62,5 +62,11 @@
 			<artifactId>sanselan</artifactId>
 			<version>0.97-incubator</version>
 		</dependency>
+		<dependency>
+			<groupId>gov.nih.imagej</groupId>
+			<artifactId>imagej</artifactId>
+			<version>1.47</version>
+		</dependency>
+
 	</dependencies>
 </project>
