@@ -37,10 +37,8 @@ public class GifChecker {
 			giffolder = utilities.BrowserDialogs.chooseFolder();
 			if (giffolder != null) {
 				ArrayList<File> files = utilities.ListsFiles.getPaths(new File(giffolder), new ArrayList<File>());
-
 				GifXmlOutput.createXmlGifOutput();
 				createJhoveChecker();
-
 				/*
 				 * TODO: This is a nice way to print every file in the folder in
 				 * hex files, but there is always missing so much at the end
@@ -54,7 +52,6 @@ public class GifChecker {
 				 * utilities.HexReader.convertToHex(tempHexWriter,
 				 * files.get(i)); }
 				 */
-
 				for (int i = 0; i < files.size(); i++) {
 					String extension = FilenameUtils.getExtension(files.get(i).toString()).toLowerCase();
 					if (extension.equals("gif")) {
@@ -87,8 +84,8 @@ public class GifChecker {
 	private static boolean checkIfGifHasEof(File giffile) throws IOException {
 		// TODO
 		if (filetools.GenericFileAnalysis.testFileHeaderGif(giffile) == true) {
-			System.out.println(giffile.toString());
-			System.out.println(utilities.HexReader.readEofTag(giffile));
+			// System.out.println(giffile.toString());
+		//	System.out.println(utilities.HexReader.readEofTag(giffile));
 			return true;
 		} else {
 			return false;
