@@ -1,53 +1,62 @@
 package filetools.gif;
 
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
+import java.awt.image.FilteredImageSource;
+import java.awt.image.ImageFilter;
+import java.awt.image.ImageProducer;
 import java.io.File;
 
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
+import javax.swing.ImageIcon;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.apache.sanselan.formats.gif.GifImageParser;
 
+import ij.*;
+
 public class ReadcorruptGif {
 
 	public static void main(String args[]) throws Exception {
 
-		String giffile = utilities.BrowserDialogs.chooseFile();
+		String gifstr = utilities.BrowserDialogs.chooseFile();
 
-		File gif = new File(giffile);
-		
-		//TODO: getXmpXml works for intact files, returns null if no XMP available
-/*		String xmp = Sanselan.getXmpXml(gif); 
-		System.out.println(xmp);*/
+		File gif = new File(gifstr);
+
+		// TODO: getXmpXml works for intact files, returns null if no XMP
+		// available
+		/*
+		 * String xmp = Sanselan.getXmpXml(gif); System.out.println(xmp);
+		 */
 
 		// try {
-	
-		InputStream is = new BufferedInputStream(new FileInputStream(giffile));
-	//	ImageInputStream iis = ImageIO.createImageInputStream(is);
 
-	//	Image toolkitImage = Toolkit.getDefaultToolkit().getImage(giffile); // this works			
-		
+		// new file to be saved here:
+		File outputImg = new File(gif.getParent().toString() + "//modifiedGif_" + gif.getName().toString()/*
+																										 * +
+																										 * ".gif"
+																										 */);
+
+		java.awt.Image toolkitImage = Toolkit.getDefaultToolkit().getImage(gifstr); // this
+																					// works
+
+		InputStream is = new BufferedInputStream(new FileInputStream(gifstr));
 		GifImageParser parser = new GifImageParser();
-		
-		File outputImg = new File(gif.getParent().toString() + "//modifiedGif_" + gif.getName().toString() + ".gif");
-		OutputStream stream = new FileOutputStream(outputImg);		
+		OutputStream stream = new FileOutputStream(outputImg);
 		parser.copyStreamToStream(is, stream);
-		
-		ImageInputStream iis = ImageIO.createImageInputStream(stream);
-
-		BufferedImage bufImage = ImageIO.read(iis); // this only works for
-													// intact images
-		
-		ImageIO.write(bufImage, "gif", outputImg);
 
 		/*
 		 * } catch (Exception e) { System.out.println(e); }
 		 */
 	}
+
+
 }
