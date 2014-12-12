@@ -7,6 +7,8 @@ import javax.swing.JOptionPane;
 
 public class TiffTagChecker {
 	
+	//geht das nicht bitte auch als array? ggf zweidmenional
+	
     //12 mandatory
     public static String ImageWidth = "256";
     public static boolean booleanImageWidth = false;
