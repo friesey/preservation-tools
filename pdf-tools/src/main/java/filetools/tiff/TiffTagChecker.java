@@ -25,8 +25,7 @@ public class TiffTagChecker {
     public static String RowsPerStrip = "278";
     public static boolean booleanRowsPerStrip = false;
     public static String StripByteCounts = "279";
-    public static boolean booleanStripByteCounts = false;
-    public static String XResolution = "282";
+   public static String XResolution = "282";
     public static boolean booleanXResolution = false;
     public static String YResolution = "283";
     public static boolean booleanYResolution = false;

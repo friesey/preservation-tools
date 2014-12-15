@@ -4,13 +4,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import externalToolAnalysis.RunJhoveApp;
+import externalToolAnalysis.JhoveValidator;
 import filetools.gif.GifChecker;
 
 public class XslStyleSheets {
 	public static void JhoveCustomizedXsl() throws IOException {
 
-		PrintWriter xslStyle = new PrintWriter(new FileWriter((RunJhoveApp.folder + "//" + "JhoveCustomized.xsl")));
+		PrintWriter xslStyle = new PrintWriter(new FileWriter(JhoveValidator.folder + "//" + "JhoveCustomized.xsl"));
 		xslStyle.println("<?xml version=\"1.0\"?>");
 		xslStyle.println("<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">");
 		xslStyle.println("<xsl:template match=\"JhoveFindingsSummary\">");

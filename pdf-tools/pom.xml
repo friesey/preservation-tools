@@ -19,6 +19,20 @@
 					<target>1.7</target>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<extensions>true</extensions>
+				<configuration>
+					<instructions>
+						<Export-Package>de.akquinet.commons.image.io;version=${project.version},
+							org.apache.commons.imaging.*;version=1.0.SNAPSHOT;-split-package=merge-first
+						</Export-Package>
+						<Embed-Dependency>commons-imaging;inline=true</Embed-Dependency>
+					</instructions>
+				</configuration>
+			</plugin>
+
 		</plugins>
 	</build>
 	<dependencies>
@@ -67,6 +81,5 @@
 			<artifactId>imagej</artifactId>
 			<version>1.47</version>
 		</dependency>
-
 	</dependencies>
 </project>

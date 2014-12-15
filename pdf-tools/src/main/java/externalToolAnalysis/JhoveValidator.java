@@ -12,21 +12,29 @@ import edu.harvard.hul.ois.jhove.JhoveBase;
 import edu.harvard.hul.ois.jhove.Module;
 import edu.harvard.hul.ois.jhove.OutputHandler;
 import edu.harvard.hul.ois.jhove.handler.XmlHandler;
+import edu.harvard.hul.ois.jhove.module.GifModule;
 import edu.harvard.hul.ois.jhove.module.PdfModule;*/
+
+import filetools.gif.GifXmlOutput;
 
 // the libray JhoveApp.jar is not in the maven library. This causes a Travis error.
 
-public class RunJhoveApp {
+public class JhoveValidator {
+	
+/*	static App gifjhoveapp;
+	static JhoveBase jhoveBaseGif;
+	static Module gifmodule;
+	static OutputHandler handler;*/
 
 	public static String folder;	
 
 	public static void main(String args[]) throws Exception {
 
-	/*	String pathwriter;
+		String pathwriter;
 
-		try {
+		/*try {
 			JOptionPane.showMessageDialog(null, "Please choose a Folder with PDF files", "JHOVE PDF-Examination", JOptionPane.QUESTION_MESSAGE);
-			folder = utilities.FolderBrowserDialog.chooseFolder();
+			folder = utilities.BrowserDialogs.chooseFolder();
 			if (folder != null) {
 				JhoveBase jb = new JhoveBase();
 
@@ -102,4 +110,48 @@ public class RunJhoveApp {
 
 	public void reset() {
 	}
+	
+	public static void checkGifWithJhove(File giffile) throws Exception {
+/*		GifXmlOutput.xmlgifwriter.println("<item>");
+		if (giffile.toString().contains("&")) {
+			String substitute = JhoveValidator.normaliseToUtf8(giffile.toString());
+			GifXmlOutput.xmlgifwriter.println("<filename>" + substitute + "</filename>");
+		} else {
+			GifXmlOutput.xmlgifwriter.println("<filename>" + giffile.toString() + "</filename>");
+		}
+		JhoveValidator.jhoveBaseGif.process(JhoveValidator.gifjhoveapp, JhoveValidator.gifmodule, JhoveValidator.handler, giffile.toString());
+		GifXmlOutput.xmlgifwriter.println("</item>");*/
+	}
+
+	public static void createJhoveChecker() throws Exception {
+		/*JhoveValidator.jhoveBaseGif = new JhoveBase();
+
+		String configFilePath = JhoveBase.getConfigFileFromProperties();
+		JhoveValidator.jhoveBaseGif.init(configFilePath, null);
+
+		JhoveValidator.jhoveBaseGif.setEncoding("UTF-8");// UTF-8 does not calculate checksums,
+		// which saves time
+		JhoveValidator.jhoveBaseGif.setBufferSize(131072);
+		JhoveValidator.jhoveBaseGif.setChecksumFlag(false);
+		JhoveValidator.jhoveBaseGif.setShowRawFlag(false);
+		JhoveValidator.jhoveBaseGif.setSignatureFlag(false);
+
+		String appName = "Customized JHOVE";
+		String version = "1.0";
+		int[] date = { 2014, 12, 03 };
+		String usage = "Call JHOVE via own Java";
+		String rights = "Copyright nestor Format Working Group";
+		JhoveValidator.gifjhoveapp = new App(appName, version, date, usage, rights);
+
+		JhoveValidator.gifmodule = new GifModule(); // JHOVE GifModule only
+		JhoveValidator.handler = new XmlHandler();
+
+		JhoveValidator.handler.setWriter(GifXmlOutput.xmlgifwriter);
+		JhoveValidator.handler.setBase(JhoveValidator.jhoveBaseGif);
+		JhoveValidator.gifmodule.init("");
+		JhoveValidator.gifmodule.setDefaultParams(new ArrayList<String>());*/
+
+	}
+
+	
 }

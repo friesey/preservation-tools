@@ -31,7 +31,7 @@ public class XmlParserJhove {
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(xmlfile);
 
-			PrintWriter xmlsummary = new PrintWriter(new FileWriter((RunJhoveApp.folder + "//" + "JhoveExaminationSummary" + ".xml")));
+			PrintWriter xmlsummary = new PrintWriter(new FileWriter((JhoveValidator.folder + "//" + "JhoveExaminationSummary" + ".xml")));
 
 			String xmlVersion = "xml version='1.0'";
 			String xmlEncoding = "encoding='ISO-8859-1'";
@@ -57,7 +57,7 @@ public class XmlParserJhove {
 					String testutf8 = eElement.getElementsByTagName("filename").item(0).getTextContent();
 
 					if (testutf8.contains("&")) {
-						String sub = RunJhoveApp.normaliseToUtf8(testutf8);
+						String sub = JhoveValidator.normaliseToUtf8(testutf8);
 						xmlsummary.println("<FileName>" + sub + "</FileName>");
 					} else {
 						xmlsummary.println("<FileName>" + eElement.getElementsByTagName("filename").item(0).getTextContent() + "</FileName>");
