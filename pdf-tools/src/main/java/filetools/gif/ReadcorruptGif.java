@@ -52,10 +52,20 @@ public class ReadcorruptGif {
 		GifImageParser parser = new GifImageParser();
 		OutputStream stream = new FileOutputStream(outputImg);
 		parser.copyStreamToStream(is, stream);
+		
+		convertToBmp (gif);
 
 		/*
 		 * } catch (Exception e) { System.out.println(e); }
 		 */
+	}
+
+	public static void convertToBmp(File gif) throws IOException {
+		//this works fine for non-corrupted (gif)-files
+		
+		BufferedImage bufimg = ImageIO.read(gif);  
+		File bmpfile = new File(gif.getParent().toString() + "//toBmp_" + gif.getName().toString() + ".bmp");
+		ImageIO.write(bufimg, "bmp", bmpfile); 
 	}
 
 
