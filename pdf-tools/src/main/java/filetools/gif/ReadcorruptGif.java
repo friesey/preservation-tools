@@ -1,10 +1,13 @@
 package filetools.gif;
 
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.awt.image.FilteredImageSource;
 import java.awt.image.ImageFilter;
 import java.awt.image.ImageProducer;
+import java.awt.image.RenderedImage;
 import java.io.File;
 
 import javax.imageio.ImageIO;
@@ -20,6 +23,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.apache.sanselan.formats.gif.GifImageParser;
+import org.apache.xmlgraphics.image.loader.util.ImageUtil;
 
 import ij.*;
 
@@ -27,46 +31,18 @@ public class ReadcorruptGif {
 
 	public static void main(String args[]) throws Exception {
 
-		String gifstr = utilities.BrowserDialogs.chooseFile();
+		String gifstr = utilities.BrowserDialogs.chooseFile();		
+			
+		File gif = new File(gifstr);			
 
-		File gif = new File(gifstr);
-
-		// TODO: getXmpXml works for intact files, returns null if no XMP
-		// available
-		/*
-		 * String xmp = Sanselan.getXmpXml(gif); System.out.println(xmp);
-		 */
-
-		// try {
-
-		// new file to be saved here:
-		File outputImg = new File(gif.getParent().toString() + "//modifiedGif_" + gif.getName().toString()/*
-																										 * +
-																										 * ".gif"
-																										 */);
-
+		
 		java.awt.Image toolkitImage = Toolkit.getDefaultToolkit().getImage(gifstr); // this
-																					// works
 
-		InputStream is = new BufferedInputStream(new FileInputStream(gifstr));
-		GifImageParser parser = new GifImageParser();
-		OutputStream stream = new FileOutputStream(outputImg);
-		parser.copyStreamToStream(is, stream);
 		
-		convertToBmp (gif);
 
-		/*
-		 * } catch (Exception e) { System.out.println(e); }
-		 */
-	}
 
-	public static void convertToBmp(File gif) throws IOException {
-		//this works fine for non-corrupted (gif)-files
+
 		
-		BufferedImage bufimg = ImageIO.read(gif);  
-		File bmpfile = new File(gif.getParent().toString() + "//toBmp_" + gif.getName().toString() + ".bmp");
-		ImageIO.write(bufimg, "bmp", bmpfile); 
+
 	}
-
-
 }

@@ -4,8 +4,14 @@ package filetools.gif;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.util.Iterator;
 
@@ -16,6 +22,8 @@ import javax.imageio.stream.FileImageInputStream;
 import javax.imageio.stream.ImageInputStream;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.sanselan.ImageReadException;
+import org.apache.sanselan.Sanselan;
 import org.apache.sanselan.formats.gif.GifImageParser;
 
 import com.itextpdf.text.pdf.codec.GifImage;
@@ -37,8 +45,6 @@ public class GifReparator {
 	
 		reader.setInput(iis, true);
 		ImageReadParam param = reader.getDefaultReadParam();	
-		
-		readGifwithItext (giffile);
 					
 		try {
 			// read the image
@@ -67,16 +73,37 @@ public class GifReparator {
 		}
 
 		iis.close();
-
+	}
+	
+	public static void convertToBmp(File gif) throws IOException {
+		//this works fine for non-corrupted (gif)-files
+		
+		BufferedImage bufimg = ImageIO.read(gif);  
+		File bmpfile = new File(gif.getParent().toString() + "//toBmp_" + gif.getName().toString() + ".bmp");
+		ImageIO.write(bufimg, "bmp", bmpfile); 
+	}
+	
+	public static void createNewGif (File gif) throws IOException {
+		
+		//this works for valid and invalid gif files, but the outputfile still is invalid
+	
+	File outputImg = new File(gif.getParent().toString() + "//modifiedGif_" + gif.getName().toString()/*
+				 * +
+				 * ".gif"
+						 */);
+		
+	InputStream is = new BufferedInputStream(new FileInputStream(gif.toString()));
+	GifImageParser parser = new GifImageParser();
+	OutputStream stream = new FileOutputStream(outputImg);
+	parser.copyStreamToStream(is, stream);
+	}
+	
+	public static String getXmpMeta (File gif) throws ImageReadException, IOException {
+		// TODO: getXmpXml works for intact files, returns null if no XMP
+		// available
+		
+		String xmp = Sanselan.getXmpXml(gif); System.out.println(xmp);
+		return xmp;
 	}
 
-	@SuppressWarnings("deprecation")
-	public static void readGifwithItext(File giffile) throws MalformedURLException, IOException {
-		
-		GifImage gif = new GifImage(giffile.toURL());	
-		System.out.println("Test");
-		
-		
-		
-	}
 }

@@ -1,10 +1,13 @@
 package filetools.tiff;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 import org.apache.commons.io.FilenameUtils;
 
@@ -35,9 +38,11 @@ public class TiffFileAnalysis {
 						if (filetools.GenericFileAnalysis.testFileHeaderTiff(files.get(i))) {		
 							
 							TiffTagChecker.analyseTiffTags(files.get(i));
-							TiffProperties.getTiffProperties(files.get(i).toString());
+							//TiffProperties.getTiffProperties(files.get(i).toString());
 							
-							System.out.println ( files.get(i) + " is a tiff-file");							
+							System.out.println ( files.get(i) + " is a tiff-file");		
+							
+						
 							
 						}
 						else {
@@ -50,6 +55,5 @@ public class TiffFileAnalysis {
 			}
 		} catch (FileNotFoundException e) {
 		}
-
 	}
 }
