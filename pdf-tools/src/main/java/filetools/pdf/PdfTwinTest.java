@@ -64,15 +64,15 @@ public class PdfTwinTest {
 
 							if (PdfAnalysis.checkBrokenPdf(OrgPdf) == false
 									&& PdfAnalysis.checkBrokenPdf(MigPdf) == false) {
-								String[] LinesOrg = PdfAnalysis
+								String[] linesOrg = PdfAnalysis
 										.extractsPdfLines(OrgPdf);
-								String[] LinesMig = PdfAnalysis
+								String[] linesMig = PdfAnalysis
 										.extractsPdfLines(MigPdf);
 
 								int differences = 0;
 
-								int lenOrg = LinesOrg.length;
-								int lenMig = LinesMig.length;
+								int lenOrg = linesOrg.length;
+								int lenMig = linesMig.length;
 
 								outputfile.println(OrgPdf + " has " + lenOrg
 										+ " lines.");
@@ -98,16 +98,16 @@ public class PdfTwinTest {
 
 									for (int j = 0; j < lenMig; j++) {
 
-										if (!(LinesOrg[j]).equals(LinesMig[j])) {
+										if (!(linesOrg[j]).equals(linesMig[j])) {
 											outputfile.println();
 											outputfile
 													.println("Differs in line: "
 															+ (j + 1));
 											outputfile.println();
 											outputfile.println("Original : "
-													+ LinesOrg[j]);
+													+ linesOrg[j]);
 											outputfile.println("Migration: "
-													+ LinesMig[j]);
+													+ linesMig[j]);
 											outputfile.println();
 											differences++;
 										}
@@ -128,16 +128,16 @@ public class PdfTwinTest {
 
 										// happens twice, maybe create a method?
 
-										if (!(LinesOrg[j]).equals(LinesMig[j])) {
+										if (!(linesOrg[j]).equals(linesMig[j])) {
 											outputfile.println();
 											outputfile
 													.println("Differs in line: "
 															+ (j + 1));
 											outputfile.println();
 											outputfile.println("Original : "
-													+ LinesOrg[j]);
+													+ linesOrg[j]);
 											outputfile.println("Migration: "
-													+ LinesMig[j]);
+													+ linesMig[j]);
 											outputfile.println();
 											differences++;
 										}
