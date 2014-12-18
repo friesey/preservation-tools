@@ -136,7 +136,7 @@ public class CdRom_IsoImageChecker {
 						for (int j = 0; j < arrzips.size(); j++) {
 							System.out.println (arrzips.get(j));
 							//TODO: muss ich die zipfiles erst auspacken,um sie zu files zu machen? So geht es nicht, ist nur tmp-file aus zipfile
-							//oder ich lasse es mir als zip-entries übergeben und mache hierfür eine andere Methode, um die Ausführbarkeit zu pruefen
+							//oder ich lasse es mir als zip-entries übergeben und mache hierfür eine andere Methode, um die Ausfuehrbarkeit zu pruefen
 							ckeckifFileIsExecutable(arrzips.get(j));
 						}
 

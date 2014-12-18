@@ -49,13 +49,31 @@ public class ListsFiles {
 		}
 	}
 
-	public static ArrayList<File> unpackzip(File zipfile) throws ZipException, IOException {
+	public static ArrayList<File> getpathsfromzip(File zipfile) throws ZipException, IOException {
 		ArrayList<File> arrzips = new ArrayList<File>();
 		ZipFile zf = new ZipFile(zipfile);
 		for (Enumeration<? extends ZipEntry> e = zf.entries(); e.hasMoreElements();) {
 			try {
 				ZipEntry entry = e.nextElement();
 
+				File entrytofile = ziptofile(entry, zf);
+				arrzips.add(entrytofile);
+			
+			} catch (Exception exc) {
+				System.out.println(exc);
+			}
+		}
+		zf.close();
+		// TODO Auto-generated method stub
+		return arrzips;
+	}
+	
+	public static ArrayList<File> unpackzip(File zipfile) throws ZipException, IOException {
+		ArrayList<File> arrzips = new ArrayList<File>();
+		ZipFile zf = new ZipFile(zipfile);
+		for (Enumeration<? extends ZipEntry> e = zf.entries(); e.hasMoreElements();) {
+			try {
+				ZipEntry entry = e.nextElement();
 				File entrytofile = ziptofile(entry, zf);
 				arrzips.add(entrytofile);
 			
