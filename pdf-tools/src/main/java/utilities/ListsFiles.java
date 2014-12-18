@@ -1,6 +1,7 @@
 package utilities;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,66 +50,67 @@ public class ListsFiles {
 		}
 	}
 
-	public static ArrayList<File> getpathsfromzip(File zipfile) throws ZipException, IOException {
-		ArrayList<File> arrzips = new ArrayList<File>();
+	public static void unpackzip(File zipfile) throws ZipException, IOException {
 		ZipFile zf = new ZipFile(zipfile);
 		for (Enumeration<? extends ZipEntry> e = zf.entries(); e.hasMoreElements();) {
 			try {
 				ZipEntry entry = e.nextElement();
-
-				File entrytofile = ziptofile(entry, zf);
-				arrzips.add(entrytofile);
-			
+				ziptofile(entry, zf);
 			} catch (Exception exc) {
 				System.out.println(exc);
 			}
 		}
 		zf.close();
-		// TODO Auto-generated method stub
-		return arrzips;
-	}
-	
-	public static ArrayList<File> unpackzip(File zipfile) throws ZipException, IOException {
-		ArrayList<File> arrzips = new ArrayList<File>();
-		ZipFile zf = new ZipFile(zipfile);
-		for (Enumeration<? extends ZipEntry> e = zf.entries(); e.hasMoreElements();) {
-			try {
-				ZipEntry entry = e.nextElement();
-				File entrytofile = ziptofile(entry, zf);
-				arrzips.add(entrytofile);			
-			} catch (Exception exc) {
-				System.out.println(exc);
-			}
-		}
-		zf.close();
-		// TODO Auto-generated method stub
-		return arrzips;
 	}
 
-	private static File ziptofile(ZipEntry entry, ZipFile zf) throws IOException {
-		final InputStream zipStream = zf.getInputStream(entry);
+	private static void ziptofile(ZipEntry entry, ZipFile zf) throws IOException {
+
+		String onlyname = entry.toString();
+		String fullpath = zf.getName();		
+
+		InputStream in = zf.getInputStream(entry);
+		GZIPInputStream zipStream = new GZIPInputStream(in); //does not work
 		byte[] buffer = new byte[zipStream.available()];
 		zipStream.read(buffer);
 
-		/* gets directory of the zip file to know where to create the tmp file */
-		String[] parts = zf.getName().split(".");
-		System.out.println (zf.getName());
-		int len = parts.length;
-		StringBuilder builder = new StringBuilder();
-		for (int i = 0; i < len - 1; i++) {
-			builder.append(parts[i]);
-			builder.append("//");
+		String[] parts = entry.getName().split("/");
+
+		if (entry.isDirectory()) {
+			// TODO: Create a new folder with the name in the folderforzips
+			for (int l = 0; l < parts.length; l++) {
+				if (!parts[l].contains(".")) {
+					utilities.FolderMethods.createnewFolderfromString(parts[l]);
+					// TODO: Does not see subfolders and that's why the next
+					// part does not work
+				}
+			}
 		}
-		String path = builder.toString();
-		
-		System.out.println(path);
-		File targetFile = new File(path + "targetFile.tmp");		
-	
+
+		System.out.println(utilities.TestClass.folderforzips);
+		System.out.println(parts[parts.length - 1]);
+		// File targetFile = new File(utilities.TestClass.folderforzips + "//" +
+		// entry.getName()); /*does not work because of the subfolders*/
+		File targetFile = new File(utilities.TestClass.folderforzips + "//" + parts[parts.length - 1]); // but
+																										// these
+																										// files
+																										// are
+																										// all
+																										// broken
 
 		OutputStream outStream = new FileOutputStream(targetFile);
-		outStream.write(buffer);
-		outStream.close();
-		return targetFile;
+
+		for (int length; (length = zipStream.read(buffer)) != -1;) {
+			outStream.write(buffer, 0, length);
+		}
+
+		if (outStream != null) {
+			outStream.close();
+		}
+
+		if (zipStream != null) {
+			zipStream.close();
+		}
+
 	}
 
 	public static ArrayList<File> unpackjar(File jarfile) {

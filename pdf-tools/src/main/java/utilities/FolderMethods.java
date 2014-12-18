@@ -7,12 +7,13 @@ import java.io.IOException;
 import javax.swing.JOptionPane;
 
 public class FolderMethods {
-	
+
 	public static void main(String args[]) throws IOException {
-		
+
 		String folder = createnewFolder();
 		System.out.println(folder);
 	}
+
 	// general access point to folder handling
 
 	// TODO: generate Folder as an object which always needs a name for the
@@ -37,13 +38,12 @@ public class FolderMethods {
 			pathtonewfolder = parentdirectory + "//" + name;
 
 			File directory = new File(pathtonewfolder);
-			if (directory.exists()){
+			if (directory.exists()) {
 				JOptionPane.showMessageDialog(null, "This directory already exists and will not be created.", "Warning", JOptionPane.PLAIN_MESSAGE);
+			} else {
+				directory.mkdirs();
 			}
-			else {
-		       directory.mkdirs();
-		    }
-			
+
 			newfolder = directory.toString();
 			return newfolder;
 		} catch (Exception e) {
@@ -54,5 +54,19 @@ public class FolderMethods {
 
 	public class archiveFilesToFolder {
 
+	}
+
+	public static void createnewFolderfromString(String string) {
+		// TODO Auto-generated method stub
+		try {
+			String pathtonewfolder = utilities.TestClass.folderforzips + "//" + string;
+			File directory = new File(pathtonewfolder);
+			if (!directory.exists()) {		
+				directory.mkdirs();
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e, "Error", JOptionPane.PLAIN_MESSAGE);
+
+		}
 	}
 }

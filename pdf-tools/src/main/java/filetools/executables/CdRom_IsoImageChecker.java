@@ -131,7 +131,7 @@ public class CdRom_IsoImageChecker {
 						isonecessary = true;
 						
 						ArrayList<File> arrzips = new ArrayList<File>();		
-						arrzips = utilities.ListsFiles.getpathsfromzip(files.get(i));	
+						//arrzips = utilities.ListsFiles.getpathsfromzip(files.get(i));	
 						
 						for (int j = 0; j < arrzips.size(); j++) {
 							System.out.println (arrzips.get(j));
