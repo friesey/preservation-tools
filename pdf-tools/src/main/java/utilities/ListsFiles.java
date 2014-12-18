@@ -75,8 +75,7 @@ public class ListsFiles {
 			try {
 				ZipEntry entry = e.nextElement();
 				File entrytofile = ziptofile(entry, zf);
-				arrzips.add(entrytofile);
-			
+				arrzips.add(entrytofile);			
 			} catch (Exception exc) {
 				System.out.println(exc);
 			}
@@ -92,18 +91,19 @@ public class ListsFiles {
 		zipStream.read(buffer);
 
 		/* gets directory of the zip file to know where to create the tmp file */
-		String[] parts = zf.getName().split("//");
+		String[] parts = zf.getName().split(".");
+		System.out.println (zf.getName());
 		int len = parts.length;
 		StringBuilder builder = new StringBuilder();
 		for (int i = 0; i < len - 1; i++) {
 			builder.append(parts[i]);
 			builder.append("//");
 		}
-
 		String path = builder.toString();
+		
 		System.out.println(path);
-		File targetFile = new File(path + "targetFile.tmp");
-		/* does not work, gives the targetFile.tmp files back to main */
+		File targetFile = new File(path + "targetFile.tmp");		
+	
 
 		OutputStream outStream = new FileOutputStream(targetFile);
 		outStream.write(buffer);
