@@ -63,15 +63,11 @@ public class ListsFiles {
 		zf.close();
 	}
 
-	private static void ziptofile(ZipEntry entry, ZipFile zf) throws IOException {
+	static void ziptofile(ZipEntry entry, ZipFile zf) throws IOException {
 
-		String onlyname = entry.toString();
-		String fullpath = zf.getName();		
-
+		byte[] buffer = new byte[0xFFFF];
 		InputStream in = zf.getInputStream(entry);
-		GZIPInputStream zipStream = new GZIPInputStream(in); //does not work
-		byte[] buffer = new byte[zipStream.available()];
-		zipStream.read(buffer);
+		String extension = FilenameUtils.getExtension(entry.toString()).toLowerCase();
 
 		String[] parts = entry.getName().split("/");
 
@@ -86,31 +82,35 @@ public class ListsFiles {
 			}
 		}
 
-		System.out.println(utilities.TestClass.folderforzips);
-		System.out.println(parts[parts.length - 1]);
 		// File targetFile = new File(utilities.TestClass.folderforzips + "//" +
 		// entry.getName()); /*does not work because of the subfolders*/
-		File targetFile = new File(utilities.TestClass.folderforzips + "//" + parts[parts.length - 1]); // but
-																										// these
-																										// files
-																										// are
-																										// all
-																										// broken
 
-		OutputStream outStream = new FileOutputStream(targetFile);
+		// File newfile = new File ("D://Test//test." + extension);
 
-		for (int length; (length = zipStream.read(buffer)) != -1;) {
-			outStream.write(buffer, 0, length);
+		if (!entry.isDirectory()) {
+
+			System.out.println("Entry non directory: " + entry.getName());
+
+			String[] partsfolder = zf.getName().split("/");
+			for (int l = 0; l < partsfolder.length; l++) {
+				System.out.println(l + partsfolder[l]);
+			}
+			File targetFile;
+
+			try {
+				targetFile = new File(utilities.TestClass.folderforzips + "//" +utilities.TestClass.newzipfolder + "//" + entry.getName());
+			} catch (Exception e) {
+				targetFile = new File(utilities.TestClass.folderforzips + "//" +utilities.TestClass.newzipfolder  + "//" + parts[parts.length - 1]);
+			}
+
+			OutputStream outStream = new FileOutputStream(targetFile);
+			for (int len; (len = in.read(buffer)) != -1;)
+				outStream.write(buffer, 0, len);
+
+			if (outStream != null) {
+				outStream.close();
+			}
 		}
-
-		if (outStream != null) {
-			outStream.close();
-		}
-
-		if (zipStream != null) {
-			zipStream.close();
-		}
-
 	}
 
 	public static ArrayList<File> unpackjar(File jarfile) {
