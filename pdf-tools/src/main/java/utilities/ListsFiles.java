@@ -54,14 +54,13 @@ public class ListsFiles {
 		ZipFile zf = new ZipFile(zipfile);
 		for (Enumeration<? extends ZipEntry> e = zf.entries(); e.hasMoreElements();) {
 			try {
-			ZipEntry entry = e.nextElement();
+				ZipEntry entry = e.nextElement();
+
+				File entrytofile = ziptofile(entry, zf);
+				arrzips.add(entrytofile);
 			
-			File entrytofile = ziptofile(entry, zf);
-			arrzips.add(entrytofile);
-			System.out.println(entry.getName());
-			}
-			catch (Exception exc) {
-				System.out.println (zipfile.toString() + exc);
+			} catch (Exception exc) {
+				System.out.println(exc);
 			}
 		}
 		zf.close();
@@ -73,7 +72,21 @@ public class ListsFiles {
 		final InputStream zipStream = zf.getInputStream(entry);
 		byte[] buffer = new byte[zipStream.available()];
 		zipStream.read(buffer);
-		File targetFile =new File("C://FileSample//zipSample//targetFile.tmp"); //I do not like this solution
+
+		/* gets directory of the zip file to know where to create the tmp file */
+		String[] parts = zf.getName().split("//");
+		int len = parts.length;
+		StringBuilder builder = new StringBuilder();
+		for (int i = 0; i < len - 1; i++) {
+			builder.append(parts[i]);
+			builder.append("//");
+		}
+
+		String path = builder.toString();
+		System.out.println(path);
+		File targetFile = new File(path + "targetFile.tmp");
+		/* does not work, gives the targetFile.tmp files back to main */
+
 		OutputStream outStream = new FileOutputStream(targetFile);
 		outStream.write(buffer);
 		outStream.close();

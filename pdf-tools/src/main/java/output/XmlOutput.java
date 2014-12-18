@@ -12,7 +12,8 @@ public class XmlOutput {
 
 		// TODO: Add Folder Browser Dialog
 
-		xmlSimpleWriter = new PrintWriter(new FileWriter("C:\\Users\\Friese Yvonne\\Desktop\\Computer Science\\XML und Style\\xmltest.xml"));
+		
+		xmlSimpleWriter = new PrintWriter(new FileWriter("C:\\Users\\Friese Yvonne\\Desktop\\ZBW LZA\\Computer Science\\XML und Style\\xmltest.xml"));
 
 		String xmlVersion = "xml version='1.0'";
 		String xmlEncoding = "encoding='ISO-8859-1'";

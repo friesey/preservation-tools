@@ -123,8 +123,23 @@ public class CdRom_IsoImageChecker {
 						// break is brute force
 						break;
 						
-					} else if (extension.equals("zip")) {
-						unzipFolder(new File(files.get(i).toString()));
+					} else if (extension.equals("zip")) {			
+						
+						outputfile.println ("CD / Folder consists of the following zipped Folder :  "
+								+ files.get(i).toString());						
+						outputfile.println ();						
+						isonecessary = true;
+						
+						ArrayList<File> arrzips = new ArrayList<File>();		
+						arrzips = utilities.ListsFiles.unpackzip(files.get(i));	
+						
+						for (int j = 0; j < arrzips.size(); j++) {
+							System.out.println (arrzips.get(j));
+							//TODO: muss ich die zipfiles erst auspacken,um sie zu files zu machen? So geht es nicht, ist nur tmp-file aus zipfile
+							//oder ich lasse es mir als zip-entries übergeben und mache hierfür eine andere Methode, um die Ausführbarkeit zu pruefen
+							ckeckifFileIsExecutable(arrzips.get(j));
+						}
+
 					} else {
 						ckeckifFileIsExecutable(files.get(i));
 					}
@@ -192,61 +207,6 @@ public class CdRom_IsoImageChecker {
 		 * } catch (Exception e) { // System.out.println (e);
 		 * JOptionPane.showMessageDialog(null, e.toString(), "Error Message",
 		 * JOptionPane.ERROR_MESSAGE); }
-		 */
-
-	}
-
-	static void unzipFolder(File zipfile) throws IOException,
-			NoSuchAlgorithmException {
-		
-		
-		filesExecutable
-		.println("IsoImage recommended because of file:  "
-				+ zipfile.toString());
-		
-		outputfile.println ("CD / Folder consists of the following zipped Folder :  "
-				+ zipfile.toString());
-		
-		outputfile.println ();
-		
-		isonecessary = true;
-		
-
-		// TODO: This method does not work the way it should yet.
-
-		/*
-		 * 
-		 * // try {
-		 * 
-		 * ZipFile zf = new ZipFile(zipfile.toString());
-		 * 
-		 * System.out.println ("Zipfile " + zf);
-		 * 
-		 * Enumeration<? extends ZipEntry> e = zf.entries();
-		 * 
-		 * System.out.println ("ZipEntry e " + e); ZipEntry ze;
-		 * 
-		 * while (e.hasMoreElements()) { try { ze = e.nextElement();
-		 * System.out.println ("ZipEntry ze " + ze.toString()); File CompFile =
-		 * new File(ze.toString()); System.out.println ("Compfile " + CompFile);
-		 * 
-		 * System.out.println ("Compfile Absolute Path" +
-		 * CompFile.getAbsolutePath());
-		 * 
-		 * 
-		 * if (!CompFile.isDirectory()) { System.out.println ("Test: " +
-		 * CompFile); ckeckifFileIsExecutable(CompFile); } } catch (Exception
-		 * ex) { System.out.print(ex); }
-		 * 
-		 * } zf.close();
-		 * 
-		 * 
-		 * } catch (Exception e) { // TODO: After this exception is caused, the
-		 * adding // of the rest // of the files in the zip folder stops
-		 * CdRom_IsoImageChecker.filesExecutable.println(zipfile +
-		 * " causes an Exception" + e);
-		 * 
-		 * }
 		 */
 
 	}

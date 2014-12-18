@@ -18,7 +18,7 @@ public class TestClass {
 				if (extension.equals("zip")) {
 					System.out.println(files.get(i).toString() + " recognised zip");
 					ArrayList<File> arrzips = new ArrayList<File>();
-					arrzips = utilities.ListsFiles.unpackzip(files.get(i));
+					arrzips = utilities.ListsFiles.unpackzip(files.get(i));					
 				}
 			}
 		}
