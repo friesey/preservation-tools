@@ -93,7 +93,7 @@ public class JhoveValidator {
 				externalToolAnalysis.XmlParserJhove.parseXmlFile(pathwriter);
 			}
 		} catch (Exception e) {
-			System.out.println("Exception: " + e);
+				JOptionPane.showMessageDialog(null, e, "error message", JOptionPane.ERROR_MESSAGE);
 		
 		}*/
 	}

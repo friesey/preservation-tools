@@ -140,8 +140,8 @@ public class AudioFilesConversion {
 		}
 
 		catch (Exception exc) {
-			System.out.println(exc);
-		}
+			JOptionPane.showMessageDialog(null, exc, "error message", JOptionPane.ERROR_MESSAGE);		
+			}
 	}
 
 	@SuppressWarnings("static-access")

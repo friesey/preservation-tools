@@ -7,6 +7,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
 
+import javax.swing.JOptionPane;
+
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.PdfCopy;
@@ -53,6 +55,7 @@ public class iTextRepairPdf {
 				}
 			}
 		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(null, e, "error message", JOptionPane.ERROR_MESSAGE);		
 		}
 
 	}

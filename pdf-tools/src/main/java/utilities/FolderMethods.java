@@ -39,7 +39,7 @@ public class FolderMethods {
 
 			File directory = new File(pathtonewfolder);
 			if (directory.exists()) {
-				JOptionPane.showMessageDialog(null, "This directory already exists and will not be created.", "Warning", JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.showMessageDialog(null, "This directory already exists and will not be created.", "Warning", JOptionPane.WARNING_MESSAGE);
 			} else {
 				directory.mkdirs();
 			}
@@ -61,7 +61,7 @@ public class FolderMethods {
 		try {
 			String pathtonewfolder = utilities.TestClass.folderforzips + "//" + string;
 			File directory = new File(pathtonewfolder);
-			if (!directory.exists()) {		
+			if (!directory.exists()) {
 				directory.mkdirs();
 			}
 		} catch (Exception e) {

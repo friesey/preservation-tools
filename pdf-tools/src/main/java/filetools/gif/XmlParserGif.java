@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -121,6 +122,7 @@ public class XmlParserGif {
 		}
 
 		catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e, "error message", JOptionPane.ERROR_MESSAGE);		
 			e.printStackTrace();
 		}
 	}

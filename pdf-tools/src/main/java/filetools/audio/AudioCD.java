@@ -63,7 +63,7 @@ public class AudioCD {
 			}
 
 			catch (Exception e) {
-				System.out.println("Audio CD Error: " + e);
+				JOptionPane.showMessageDialog(null, e, "error message", JOptionPane.ERROR_MESSAGE);			
 			}
 		}	
 	}

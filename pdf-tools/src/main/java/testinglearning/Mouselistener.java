@@ -9,9 +9,9 @@ public class Mouselistener {
 		JFrame frame = new JFrame("Testing Mouseclicks");
 		frame.add(new HelloComponent("Hello Java"));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(300, 300);
+		frame.setSize(500, 500);
 		frame.setVisible(true);
-
+		
+	
 	}
-
 }

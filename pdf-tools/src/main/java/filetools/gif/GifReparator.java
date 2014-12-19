@@ -17,6 +17,7 @@ import javax.imageio.ImageIO;
 import javax.imageio.ImageReadParam;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
+import javax.swing.JOptionPane;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.sanselan.ImageReadException;
@@ -64,7 +65,7 @@ public class GifReparator {
 			ImageIO.write(bufferedImage, ext, outputImg);
 			
 		} catch (Exception e) {
-			System.out.println(e);
+			JOptionPane.showMessageDialog(null, e, "error message", JOptionPane.ERROR_MESSAGE);					
 		}
 
 		iis.close();

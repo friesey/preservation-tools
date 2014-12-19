@@ -2,6 +2,8 @@ package externalToolAnalysis;
 
 import java.io.IOException;
 
+import javax.swing.JOptionPane;
+
 public class DroidAnalysis {
 
 	static String droidPath;
@@ -13,15 +15,14 @@ public class DroidAnalysis {
 		// just FileBrowserDialog
 
 		try {
-			ProcessBuilder runsDroid = new ProcessBuilder("java", "-Xmx1024m", "-Xms1024m",
-					"-DTOOLS_DIR=/home/IM/work/dist", "-Daoi=whole", "-jar", droidPath);
+			ProcessBuilder runsDroid = new ProcessBuilder("java", "-Xmx1024m", "-Xms1024m", "-DTOOLS_DIR=/home/IM/work/dist", "-Daoi=whole", "-jar", droidPath);
 
 			runsDroid.start();
 
 		}
 
 		catch (IOException e) {
-			System.out.println(e);
+			JOptionPane.showMessageDialog(null, e, "error message", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 }

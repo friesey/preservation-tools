@@ -131,6 +131,7 @@ public class XmlParserJhove {
 
 		catch (Exception e) {
 			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e, "error message", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 }
