@@ -25,7 +25,7 @@ public class GifChecker {
 			if (giffolder != null) {
 				ArrayList<File> files = utilities.ListsFiles.getPaths(new File(giffolder), new ArrayList<File>());
 				GifXmlOutput.createXmlGifOutput();
-				JhoveValidator.createJhoveChecker();
+			//	JhoveValidator.createJhoveChecker();
 				/*
 				 * TODO: This is a nice way to print every file in the folder in
 				 * hex files, but there is always missing so much at the end
@@ -45,7 +45,7 @@ public class GifChecker {
 						if (filetools.GenericFileAnalysis.testFileHeaderGif(files.get(i).toString()) == false) {
 							JOptionPane.showMessageDialog(null, (files.get(i).toString()), "gif-Extension has no correct Gif Header", JOptionPane.QUESTION_MESSAGE);
 						}
-						JhoveValidator.checkGifWithJhove(files.get(i));
+					//	JhoveValidator.checkGifWithJhove(files.get(i));
 
 						// gifisvalid anders als mit Jhove testen und gifisvalid auf true setzen, jetzt sind alle false
 						boolean hasEofTag = checkIfGifHasEof(files.get(i));
