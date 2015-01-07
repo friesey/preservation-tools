@@ -9,9 +9,6 @@ public class JhoveGuiStarterDialog {
 
 	public static void main(String args[]) throws Exception {
 
-		String date = new java.util.Date().toString();
-		System.out.println(date);
-
 		changecolor();
 
 		String path = "D://Eclipse New//jhove-logo_small.gif";
@@ -26,8 +23,10 @@ public class JhoveGuiStarterDialog {
 			int inteingabe = JOptionPane.showOptionDialog(null, "Which file format do you want to validate?", "Jhove Validation", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
 			if (inteingabe == 0) {
 				JOptionPane.showMessageDialog(null, "JHOVE will be used to validate PDF files from a chosen folder", "PDF Validation", JOptionPane.INFORMATION_MESSAGE);
+				externalToolAnalysis.JhoveValidator.JhovePdfValidator();
 			} else if (inteingabe == 1) {
 				JOptionPane.showMessageDialog(null, "JHOVE will be used to validate GIF files from a chosen folder", "GIF Validation", JOptionPane.PLAIN_MESSAGE);
+				externalToolAnalysis.JhoveValidator.JhoveGifValidator();
 			} else if (inteingabe == 2) {
 				JOptionPane.showMessageDialog(null, "JHOVE will be used to validate XML files from a chosen folder", "XML Validation", JOptionPane.INFORMATION_MESSAGE);
 			} else if (inteingabe == 3) {

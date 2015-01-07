@@ -13,7 +13,7 @@ public class FitsAnalysis {
 	static String fitsPath;
 	static String examinedFile;
 	static String examinedFolder;
-	static Logger logger = LoggerFactory.getLogger(FitsAnalysis.class);
+	// static Logger logger = LoggerFactory.getLogger(FitsAnalysis.class);
 
 	public static void main(String args[]) throws IOException,
 			InterruptedException {
@@ -65,7 +65,7 @@ public class FitsAnalysis {
 			}
 		}
 		catch (IOException e) {
-			logger.error("Error analyzing " + e);
+		// 	logger.error("Error analyzing " + e);
 			JOptionPane.showMessageDialog(null, e, "error message", JOptionPane.ERROR_MESSAGE);
 		}
 	}

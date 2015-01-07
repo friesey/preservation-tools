@@ -26,6 +26,8 @@ public class SearchforString {
 
 	static int MAXIMAL_HITS = 50;
 
+	// implemented non-context-sensitiv for methods searchforStringinSimpleFiles and searchforStringinPdfFiles
+
 	public static void main(String args[]) throws IOException {
 		stringfound = 0;
 		try {
@@ -140,7 +142,9 @@ public class SearchforString {
 			if (linesPdf != null) {
 				int lenlines = linesPdf.length;
 				for (int j = 0; (j < lenlines && (stringfound < MAXIMAL_HITS)); j++) {
-					if ((linesPdf[j]).contains(searchedString)) {
+					String paragraph = linesPdf[j].toLowerCase();
+					String searchStringlowerCase = searchedString.toLowerCase();
+					if (paragraph.contains(searchStringlowerCase)) {
 						stringfound++;
 						outputfile.println();
 						outputfile.println(file.toString());
@@ -167,8 +171,10 @@ public class SearchforString {
 			// of lines.
 			BufferedReader txtreader = new BufferedReader(new FileReader(file));
 			String line;
-			while (null != (line = txtreader.readLine()) && (stringfound < MAXIMAL_HITS)) {
-				if (line.contains(searchedString)) {
+			while (null != (line = txtreader.readLine()) && (stringfound < MAXIMAL_HITS)) {				
+				String linelowercase = line.toLowerCase();
+				String searchStringlowerCase = searchedString.toLowerCase();				
+				if (linelowercase.contains(searchStringlowerCase)) {
 					stringfound++;
 					outputfile.println();
 					outputfile.println(file);
