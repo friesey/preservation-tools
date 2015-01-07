@@ -7,26 +7,26 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-/*import edu.harvard.hul.ois.jhove.App;
+import edu.harvard.hul.ois.jhove.App;
 import edu.harvard.hul.ois.jhove.JhoveBase;
 import edu.harvard.hul.ois.jhove.Module;
 import edu.harvard.hul.ois.jhove.OutputHandler;
 import edu.harvard.hul.ois.jhove.handler.XmlHandler;
 import edu.harvard.hul.ois.jhove.module.GifModule;
-import edu.harvard.hul.ois.jhove.module.PdfModule;*/
+import edu.harvard.hul.ois.jhove.module.PdfModule;
 import filetools.gif.GifXmlOutput;
 
 // the libray JhoveApp.jar is not in the maven library. This causes a Travis error.
 
 public class JhoveValidator {
 
-	/*static App gifjhoveapp;
+	static App gifjhoveapp;
 	static JhoveBase jhoveBaseGif;
 	static Module gifmodule;
-	static OutputHandler handler; */
+	static OutputHandler handler; 
 	public static String folder;
 
-	/* public static void JhovePdfValidator() {
+	 public static void JhovePdfValidator() {
 
 		String pathwriter;
 
@@ -218,7 +218,7 @@ public class JhoveValidator {
 			JOptionPane.showMessageDialog(null, e, "error message", JOptionPane.ERROR_MESSAGE);
 
 		}
-	} */
+	} 
 
 	public static String normaliseToUtf8(String string) {
 		String[] splitstring = string.split("&");
@@ -226,7 +226,7 @@ public class JhoveValidator {
 		return substitute;
 	}
 
-	/* public void init(String init) throws Exception {
+	 public void init(String init) throws Exception {
 
 	}
 
@@ -274,6 +274,6 @@ public class JhoveValidator {
 		JhoveValidator.gifmodule.init("");
 		JhoveValidator.gifmodule.setDefaultParams(new ArrayList<String>());
 
-	}*/
+	}
 
 }
