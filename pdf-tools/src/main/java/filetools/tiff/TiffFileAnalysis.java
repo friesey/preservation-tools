@@ -281,20 +281,15 @@ public class TiffFileAnalysis {
 		IImageMetadata metadata = Sanselan.getMetadata(file);
 		TiffDirectory tiffDirectory = ((TiffImageMetadata) metadata).findDirectory(TiffDirectoryConstants.DIRECTORY_TYPE_ROOT);
 
-/*		ByteSourceFile byteSource = new ByteSourceFile(file);
-		ArrayList<?> elements = tiffDirectory.getTiffRawImageDataElements();*/
+		ArrayList<?> allEntries = tiffDirectory.getDirectoryEntrys();
 
-/*		TiffImageData.Data data[] = new TiffImageData.Data[elements.size()];
+		for (int i = 0; i < allEntries.size(); i++) {
+			System.out.println(allEntries.get(i));
+		}
 
-		for (int i = 0; i < elements.size(); i++) {
-			TiffDirectory.ImageDataElement element = (TiffDirectory.ImageDataElement) elements.get(i);
-			byte bytes[] = byteSource.getBlock(element.offset, element.length);
-			data[i] = new TiffImageData.Data(element.offset, element.length, bytes);
-
-		}*/
-
-		TiffField tileWidthField = tiffDirectory.findField(TiffTagConstants.TIFF_TAG_BITS_PER_SAMPLE);
-		System.out.println(tileWidthField);
+		// how to get a certain tiff tag:
+		// TiffField tileWidthField =
+		// tiffDirectory.findField(TiffTagConstants.TIFF_TAG_BITS_PER_SAMPLE);
 
 	}
 
