@@ -10,17 +10,6 @@ public class TiffTagZbw {
 	String hexValue; //e. g. 0x100 for imageWidth
 	String tiffTagName; 
 	String tiffTagContent;	
-		
-	
-	boolean tiffTagexists; // true wenn vorhanden, false wenn nicht vorhanden
-	boolean mandatoryTiffTag; // true fuer 12 mandatory TiffTags, false für alle
-								// anderen
-
-	// ggf koennte man noch hinzufuegen, ob ein TiffTag optional moeglich ist
-	// oder eher nicht vorgesehen. Da wir noch nicht entschieden haben wie hier
-	// unsere Policy ist, machen wir das aber erst einmal nicht.
-	
-	
-	
-
+	String tiffTagDescription;	
+	String tiffTagKind;			
 }
