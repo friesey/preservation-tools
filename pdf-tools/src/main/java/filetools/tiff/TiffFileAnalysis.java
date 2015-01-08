@@ -1,6 +1,5 @@
 package filetools.tiff;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -8,8 +7,29 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.imageio.metadata.IIOMetadata;
+import javax.imageio.stream.ImageInputStream;
+import javax.imageio.stream.ImageOutputStream;
+import javax.imageio.ImageReader;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.sanselan.ImageReadException;
+import org.apache.sanselan.Sanselan;
+import org.apache.sanselan.common.IImageMetadata;
+import org.apache.sanselan.common.byteSources.ByteSourceFile;
+import org.apache.sanselan.formats.tiff.TiffDirectory;
+import org.apache.sanselan.formats.tiff.TiffField;
+import org.apache.sanselan.formats.tiff.TiffImageData;
+import org.apache.sanselan.formats.tiff.TiffImageMetadata;
+import org.apache.sanselan.formats.tiff.constants.TiffDirectoryConstants;
+import org.apache.sanselan.formats.tiff.constants.TiffTagConstants;
+import org.apache.xmlgraphics.image.writer.internal.TIFFImageWriter;
+
+import com.drew.imaging.tiff.TiffMetadataReader;
+
+import java.util.*;
+
+import javax.imageio.*;
 
 public class TiffFileAnalysis {
 
@@ -62,7 +82,7 @@ public class TiffFileAnalysis {
 	public static TiffTagZbw t6Option = new TiffTagZbw();
 	public static TiffTagZbw pageNumber = new TiffTagZbw();
 
-	public static void main(String args[]) throws IOException {
+	public static void main(String args[]) throws IOException, ImageReadException {
 
 		try {
 
@@ -130,7 +150,6 @@ public class TiffFileAnalysis {
 			treshHolding.decTiffTag = 263;
 			treshHolding.mandatoryTiffTag = false;
 			listTiffTags.add(treshHolding);
-
 			cellWidth.decTiffTag = 264;
 			cellWidth.mandatoryTiffTag = false;
 			listTiffTags.add(cellWidth);
@@ -228,8 +247,6 @@ public class TiffFileAnalysis {
 			pageNumber.decTiffTag = 297;
 			pageNumber.mandatoryTiffTag = false;
 			listTiffTags.add(pageNumber);
-			
-			
 
 			if (examinedFolder != null) {
 
@@ -237,14 +254,12 @@ public class TiffFileAnalysis {
 
 				for (int i = 0; i < files.size(); i++) {
 					System.out.println(files.get(i).getCanonicalPath());
-
 					String tiffExtension = "TIF";
 
 					String extension = FilenameUtils.getExtension(files.get(i).getCanonicalPath());
 					if (extension.equals(tiffExtension)) {
 
 						if (filetools.GenericFileAnalysis.testFileHeaderTiff(files.get(i))) {
-
 							analyseTiffTags(files.get(i));
 							// TiffProperties.getTiffProperties(files.get(i).toString());
 
@@ -256,14 +271,31 @@ public class TiffFileAnalysis {
 						}
 					}
 				}
-
 			}
 		} catch (FileNotFoundException e) {
 		}
 	}
 
-	private static void analyseTiffTags(File file) {
-		// TODO Auto-generated method stub
+	private static void analyseTiffTags(File file) throws IOException, ImageReadException {
+
+		IImageMetadata metadata = Sanselan.getMetadata(file);
+		TiffDirectory tiffDirectory = ((TiffImageMetadata) metadata).findDirectory(TiffDirectoryConstants.DIRECTORY_TYPE_ROOT);
+
+/*		ByteSourceFile byteSource = new ByteSourceFile(file);
+		ArrayList<?> elements = tiffDirectory.getTiffRawImageDataElements();*/
+
+/*		TiffImageData.Data data[] = new TiffImageData.Data[elements.size()];
+
+		for (int i = 0; i < elements.size(); i++) {
+			TiffDirectory.ImageDataElement element = (TiffDirectory.ImageDataElement) elements.get(i);
+			byte bytes[] = byteSource.getBlock(element.offset, element.length);
+			data[i] = new TiffImageData.Data(element.offset, element.length, bytes);
+
+		}*/
+
+		TiffField tileWidthField = tiffDirectory.findField(TiffTagConstants.TIFF_TAG_BITS_PER_SAMPLE);
+		System.out.println(tileWidthField);
 
 	}
+
 }
