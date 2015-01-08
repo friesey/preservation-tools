@@ -7,8 +7,12 @@ public class TiffTagZbw {
 	ArrayList<String> properties = new ArrayList<String>();		
 	
 	int decTiffTag; // e. g. 256 for imageWidth
+	String hexValue; //e. g. 0x100 for imageWidth
+	String tiffTagName; 
+	String tiffTagContent;	
+		
+	
 	boolean tiffTagexists; // true wenn vorhanden, false wenn nicht vorhanden
-
 	boolean mandatoryTiffTag; // true fuer 12 mandatory TiffTags, false für alle
 								// anderen
 
