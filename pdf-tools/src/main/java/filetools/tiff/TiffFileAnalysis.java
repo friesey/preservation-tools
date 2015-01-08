@@ -6,30 +6,13 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
-import javax.imageio.metadata.IIOMetadata;
-import javax.imageio.stream.ImageInputStream;
-import javax.imageio.stream.ImageOutputStream;
-import javax.imageio.ImageReader;
-
 import org.apache.commons.io.FilenameUtils;
 import org.apache.sanselan.ImageReadException;
 import org.apache.sanselan.Sanselan;
 import org.apache.sanselan.common.IImageMetadata;
-import org.apache.sanselan.common.byteSources.ByteSourceFile;
 import org.apache.sanselan.formats.tiff.TiffDirectory;
-import org.apache.sanselan.formats.tiff.TiffField;
-import org.apache.sanselan.formats.tiff.TiffImageData;
 import org.apache.sanselan.formats.tiff.TiffImageMetadata;
 import org.apache.sanselan.formats.tiff.constants.TiffDirectoryConstants;
-import org.apache.sanselan.formats.tiff.constants.TiffTagConstants;
-import org.apache.xmlgraphics.image.writer.internal.TIFFImageWriter;
-
-import com.drew.imaging.tiff.TiffMetadataReader;
-
-import java.util.*;
-
-import javax.imageio.*;
 
 public class TiffFileAnalysis {
 
@@ -44,7 +27,7 @@ public class TiffFileAnalysis {
 	public static TiffTagZbw photometric = new TiffTagZbw();
 	public static TiffTagZbw stripOffSets = new TiffTagZbw();
 	public static TiffTagZbw samplesPerPixel = new TiffTagZbw();
-	public static TiffTagZbw rowsPerStrip = new TiffTagZbw();
+	public static TiffTagZbw rowsPerStrip = new TiffTagZbw();	
 	public static TiffTagZbw stripByteCounts = new TiffTagZbw();
 	public static TiffTagZbw xResolution = new TiffTagZbw();
 	public static TiffTagZbw yResolution = new TiffTagZbw();
