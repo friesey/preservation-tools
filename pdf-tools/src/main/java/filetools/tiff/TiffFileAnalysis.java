@@ -50,9 +50,10 @@ public class TiffFileAnalysis {
 
 				for (int i = 0; i < files.size(); i++) {
 					System.out.println(files.get(i).getCanonicalPath());
-					String tiffExtension = "TIF";
+					String tiffExtension = "tif";
 
 					String extension = FilenameUtils.getExtension(files.get(i).getCanonicalPath());
+					extension.toLowerCase();
 					if (extension.equals(tiffExtension)) {
 
 						if (filetools.GenericFileAnalysis.testFileHeaderTiff(files.get(i))) {
@@ -136,7 +137,7 @@ public class TiffFileAnalysis {
 				}
 
 				xmlsummary.println("</AnalysisSummary>");
-				xmlsummary.println("</iffTagAnalysis>");
+				xmlsummary.println("</TiffTagAnalysis>");
 				xmlsummary.close();
 
 			}
@@ -145,11 +146,14 @@ public class TiffFileAnalysis {
 	}
 
 	public static void analyseTiffTags(File file, PrintWriter xmlsummary) throws IOException, ImageReadException {
+		
+		try {
 
 		IImageMetadata metadata = Sanselan.getMetadata(file);
 		TiffDirectory tiffDirectory = ((TiffImageMetadata) metadata).findDirectory(TiffDirectoryConstants.DIRECTORY_TYPE_ROOT);
-
+			
 		ArrayList<TiffField> allEntries = tiffDirectory.getDirectoryEntrys();
+		tiffDirectory.dump();
 		xmlsummary.println("<TiffTagsCount>" + allEntries.size() + "</TiffTagsCount>");
 		xmlsummary.println("<TiffTags>");
 		xmlsummary.println("<FileName>" + file.getName() + "</FileName>");
@@ -379,10 +383,16 @@ public class TiffFileAnalysis {
 
 			listTiffTags.add(temp); // used to be placed before all the cases,
 									// but the description should be included
+		}
+		xmlsummary.println("</TiffTags>");
+		
+		}
+		catch (Exception e) {
+			System.out.println (e);
 
 		}
 
-		xmlsummary.println("</TiffTags>");
+	
 
 		// how to get a certain tiff tag:
 		// TiffField tileWidthField =
