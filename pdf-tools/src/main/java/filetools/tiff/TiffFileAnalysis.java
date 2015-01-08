@@ -57,38 +57,36 @@ public class TiffFileAnalysis {
 							xmlsummary.println("<FileName>" + files.get(i).toString() + "</FileName>");
 
 							analyseTiffTags(files.get(i), xmlsummary);
+							xmlsummary.println("</TiffFile>");
 						}
-						
+
 						else {
 							System.out.println("This file purports to be a tiff-file. It has a .TIF-extension, but no lacks the magic number.");
 						}
-
-						xmlsummary.println("</TiffTags>");
 
 						// how to get a certain tiff tag:
 						// TiffField tileWidthField =
 						// tiffDirectory.findField(TiffTagConstants.TIFF_TAG_BITS_PER_SAMPLE);
 
-						xmlsummary.println("<TiffFile>");
-					} 
-			
+					}
+
 				}
 				xmlsummary.println("</TiffTagAnalysis>");
 				xmlsummary.close();
-		
+
 			}
 		} catch (FileNotFoundException e) {
 		}
 	}
 
-	private static void analyseTiffTags(File file, PrintWriter xmlsummary) throws IOException, ImageReadException {
+	public static void analyseTiffTags(File file, PrintWriter xmlsummary) throws IOException, ImageReadException {
 
 		IImageMetadata metadata = Sanselan.getMetadata(file);
 		TiffDirectory tiffDirectory = ((TiffImageMetadata) metadata).findDirectory(TiffDirectoryConstants.DIRECTORY_TYPE_ROOT);
 
-		ArrayList<TiffField> allEntries = tiffDirectory.getDirectoryEntrys();
-		xmlsummary.println("<TiffTags>");
+		ArrayList<TiffField> allEntries = tiffDirectory.getDirectoryEntrys();		
 		xmlsummary.println("<TiffTagsCount>" + allEntries.size() + "</TiffTagsCount>");
+		xmlsummary.println("<TiffTags>");
 
 		for (int i = 0; i < allEntries.size(); i++) {
 			// replace all the different separators with ','
