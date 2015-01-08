@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.sanselan.ImageReadException;
@@ -54,7 +55,7 @@ public class TiffFileAnalysis {
 
 						if (filetools.GenericFileAnalysis.testFileHeaderTiff(files.get(i))) {
 							xmlsummary.println("<TiffFile>");
-							xmlsummary.println("<FileName>" + files.get(i).toString() + "</FileName>");
+							xmlsummary.println("<FilePath>" + files.get(i).toString() + "</FilePath>");
 
 							analyseTiffTags(files.get(i), xmlsummary);
 							xmlsummary.println("</TiffFile>");
@@ -69,8 +70,58 @@ public class TiffFileAnalysis {
 						// tiffDirectory.findField(TiffTagConstants.TIFF_TAG_BITS_PER_SAMPLE);
 
 					}
-
 				}
+
+				// How often does each TiffTag occur?
+
+				int tifftagscount = listTiffTags.size();
+
+				// save all tifftags in ArrayList<String>
+				ArrayList<String> alltifftags = new ArrayList<String>();
+				for (int i = 0; i < tifftagscount; i++) {
+					alltifftags.add(listTiffTags.get(i).tiffTagName);
+				}
+
+				Collections.sort(alltifftags);
+
+				ArrayList<String> origintifftags = new ArrayList<String>();
+				for (int i = 0; i < alltifftags.size(); i++) {
+					// function for this
+					origintifftags.add(alltifftags.get(i));
+				}
+
+				// get rid of redundant entries
+				int n = 0;
+				while (n < alltifftags.size() - 1) {
+					if (alltifftags.get(n).equals(alltifftags.get(n + 1))) {
+						alltifftags.remove(n);
+					} else {
+						n++;
+					}
+				}
+				
+				xmlsummary.println("<AnalysisSummary>");				
+				xmlsummary.println("<DifferentTiffTagsInSample>" + alltifftags.size() + "</DifferentTiffTagsInSample>");
+				
+	
+				// how often does each Tiff Tag occur?
+				int j = 0;
+				int temp;
+				for (n = 0; n < alltifftags.size(); n++) {
+					temp = 0;
+					for (j = 0; j < origintifftags.size(); j++) {
+						if (alltifftags.get(n).equals(origintifftags.get(j))) {
+							temp++;
+						}
+					}				
+					xmlsummary.println("<DifferentTiffTags>");	
+					xmlsummary.println ("<TiffTag>" + alltifftags.get(n) + "</TiffTag>");
+					xmlsummary.println ("<Occurance>" + temp + "</Occurance>");
+					xmlsummary.println("</DifferentTiffTags>");	
+				
+				}
+				
+				xmlsummary.println("</AnalysisSummary>");
 				xmlsummary.println("</TiffTagAnalysis>");
 				xmlsummary.close();
 
@@ -84,9 +135,10 @@ public class TiffFileAnalysis {
 		IImageMetadata metadata = Sanselan.getMetadata(file);
 		TiffDirectory tiffDirectory = ((TiffImageMetadata) metadata).findDirectory(TiffDirectoryConstants.DIRECTORY_TYPE_ROOT);
 
-		ArrayList<TiffField> allEntries = tiffDirectory.getDirectoryEntrys();		
+		ArrayList<TiffField> allEntries = tiffDirectory.getDirectoryEntrys();
 		xmlsummary.println("<TiffTagsCount>" + allEntries.size() + "</TiffTagsCount>");
 		xmlsummary.println("<TiffTags>");
+		xmlsummary.println("<FileName>" + file.getName() + "</FileName>");
 
 		for (int i = 0; i < allEntries.size(); i++) {
 			// replace all the different separators with ','
@@ -108,7 +160,6 @@ public class TiffFileAnalysis {
 			xmlsummary.println("<hexValue>" + temp.hexValue + "</hexValue>");
 			xmlsummary.println("<TiffTagName>" + temp.tiffTagName + "</TiffTagName>");
 			xmlsummary.println("<TiffTagContent>" + temp.tiffTagContent + "</TiffTagContent>");
-
 		}
 
 		xmlsummary.println("</TiffTags>");
