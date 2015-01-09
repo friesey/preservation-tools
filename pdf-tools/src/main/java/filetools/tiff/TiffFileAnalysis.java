@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -17,10 +19,13 @@ import org.apache.sanselan.formats.tiff.TiffField;
 import org.apache.sanselan.formats.tiff.TiffImageMetadata;
 import org.apache.sanselan.formats.tiff.constants.TiffDirectoryConstants;
 
+import com.google.common.io.Files;
+
 public class TiffFileAnalysis {
 
 	public static String examinedFolder;
 	static PrintWriter xmlsummary;
+	static int problematicTiffs;
 
 	// mandatory in baseline tiff
 	public static ArrayList<TiffTagZbw> listTiffTags = new ArrayList<TiffTagZbw>();
@@ -30,6 +35,8 @@ public class TiffFileAnalysis {
 		try {
 			examinedFolder = utilities.BrowserDialogs.chooseFolder();
 			if (examinedFolder != null) {
+				
+				problematicTiffs = 0;
 
 				String outputfile = examinedFolder + "//XmlOutput.xml";
 				PrintWriter xmlsummary = new PrintWriter(new FileWriter(outputfile));
@@ -135,7 +142,7 @@ public class TiffFileAnalysis {
 					xmlsummary.println("</DifferentTiffTags>");
 
 				}
-
+				xmlsummary.println ("<ProblematicTiffs>" + problematicTiffs + "</ProblematicTiffs>");
 				xmlsummary.println("</AnalysisSummary>");
 				xmlsummary.println("</TiffTagAnalysis>");
 				xmlsummary.close();
@@ -378,7 +385,6 @@ public class TiffFileAnalysis {
 
 			default:
 				xmlsummary.println("<UnknownTiffTag>" + temp.tiffTagName + "</UnknownTiffTag>");
-
 			}
 
 			listTiffTags.add(temp); // used to be placed before all the cases,
@@ -389,7 +395,9 @@ public class TiffFileAnalysis {
 		}
 		catch (Exception e) {			
 			xmlsummary.println("<ErrorMessage>" + e + "</ErrorMessage>");
-			System.out.println (e);
+			System.out.println (e);		
+			problematicTiffs++;
+				
 		}
 
 	

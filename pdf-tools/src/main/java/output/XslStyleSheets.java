@@ -22,7 +22,7 @@ public class XslStyleSheets {
 		xslStyle.println("tr.captiondred {background-color: #FF0000}");
 		xslStyle.println("tr.captionred {background-color: #CD5C5C}");
 		xslStyle.println("tr.captiongreen {background-color: #006400}");
-		xslStyle.println("	tr.captiontan {background-color: #FFDEAD}");
+		xslStyle.println("tr.captiontan {background-color: #FFDEAD}");
 		xslStyle.println("</style>");
 		xslStyle.println("</head>");
 
@@ -31,7 +31,6 @@ public class XslStyleSheets {
 		// xslStyle.println("<h1>PDF files examined by JHOVE</h1>");
 		xslStyle.println("<table border =\"1\">");
 		xslStyle.println("<tr class=\"captiontan\">");
-
 		// xslStyle.println("<h4>JHOVE Examination per File</h4>");
 
 		xslStyle.println("<th>FileName</th>");
@@ -163,6 +162,9 @@ public class XslStyleSheets {
 		xslStyle.println("tr.captionred {background-color: #CD5C5C}");
 		xslStyle.println("tr.captiongreen {background-color: #006400}");
 		xslStyle.println("tr.captiontan {background-color: #FFDEAD}");
+		xslStyle.println("tr.captionkhaki {background-color: #BDB76B}");
+		xslStyle.println("tr.captionolive {background-color: #808000}");
+		xslStyle.println("tr.captionwheat {background-color: #F5DEB3}");			
 		xslStyle.println("</style>");
 		xslStyle.println("</head>");
 		xslStyle.println("<body>");
@@ -176,12 +178,29 @@ public class XslStyleSheets {
 		xslStyle.println("</tr>");
 		xslStyle.println("<xsl:for-each select=\"TiffTagAnalysis/AnalysisSummary/DifferentTiffTags\">");
 		xslStyle.println("<xsl:sort select=\"Occurance\" />");
+		
+		//TODO: sorts in alphabetic order
+		
 		xslStyle.println("<tr class=\"captiontan\">");
 		xslStyle.println("<td><xsl:value-of select=\"TiffTag\"/></td>");
 		xslStyle.println("<td><xsl:value-of select=\"Occurance\"/></td>");
 		xslStyle.println("</tr>");
 		xslStyle.println("</xsl:for-each>");
 		xslStyle.println("</table>");
+		
+		xslStyle.println("<h3>Amount of Tiff Files with Problems which were not examined</h3>");
+		xslStyle.println("<table border =\"1\">");
+		xslStyle.println("<tr class=\"captiondred\">");
+		xslStyle.println("<th>ProblematicTiffs</th>");	
+		xslStyle.println("</tr>");
+		xslStyle.println("<xsl:for-each select=\"TiffTagAnalysis/AnalysisSummary\">");
+		xslStyle.println("<tr class=\"captiondred\">");
+		xslStyle.println("<td><xsl:value-of select=\"ProblematicTiffs\"/></td>");
+			xslStyle.println("</tr>");
+		xslStyle.println("</xsl:for-each>");
+		xslStyle.println("</table>");
+		
+		
 		xslStyle.println("<h3>Examined Files and Quantity of Tiff Tags</h3>");
 		xslStyle.println("<table border =\"1\">");
 		xslStyle.println("<tr class=\"captiontan\">");
@@ -196,6 +215,7 @@ public class XslStyleSheets {
 		xslStyle.println("</xsl:for-each>");
 		xslStyle.println("</table>");
 
+		//TODO: lists all examined Files. Should list only the ones that failed.
 		xslStyle.println("<h3>Examination Failed for following Tiff Files</h3>");
 		xslStyle.println("<table border =\"1\">");
 		xslStyle.println("<tr class=\"captiondred\">");
@@ -252,7 +272,7 @@ public class XslStyleSheets {
 
 		xslStyle.println("<h3>Nice to have Tiff Tags optional in Baseline Tiff</h3>");
 		xslStyle.println("<table border =\"1\">");
-		xslStyle.println("<tr class=\"captionred\">");
+		xslStyle.println("<tr class=\"captionkhaki\">");
 		xslStyle.println("<th> FileName</th> ");
 		xslStyle.println("<th> MinSampleValue</th>  ");
 		xslStyle.println("<th> MaxSampleValue</th>  ");
@@ -265,7 +285,7 @@ public class XslStyleSheets {
 		xslStyle.println("<th> Copyright</th>   ");
 		xslStyle.println("</tr>");
 		xslStyle.println("<xsl:for-each select=\"TiffTagAnalysis/TiffFile/TiffTags\">");
-		xslStyle.println("<tr class=\"captionred\">");
+		xslStyle.println("<tr class=\"captionkhaki\">");
 		xslStyle.println("<td><xsl:value-of select=\"FileName\"/></td>");
 		xslStyle.println("<td><xsl:value-of select=\"MinSampleValue\"/></td>");
 		xslStyle.println("<td><xsl:value-of select=\"MaxSampleValue\"/></td>");
@@ -279,15 +299,16 @@ public class XslStyleSheets {
 		xslStyle.println("</tr>");
 		xslStyle.println("</xsl:for-each>");
 		xslStyle.println("</table>");
+		
 		xslStyle.println("<h3>No Tags for Baseline Tiff but nice to have for Digital Preservation</h3>");
 		xslStyle.println("<table border =\"1\">");
-		xslStyle.println("<tr class=\"captiondred\">");
+		xslStyle.println("<tr class=\"captionwheat\">");
 		xslStyle.println("<th> FileName</th> ");
 		xslStyle.println("<th> ExifIfd</th>");
 		xslStyle.println("<th> ExtraSamples</th>");
 		xslStyle.println("</tr>");
 		xslStyle.println("<xsl:for-each select=\"TiffTagAnalysis/TiffFile/TiffTags\">");
-		xslStyle.println("<tr class=\"captiondred\">");
+		xslStyle.println("<tr class=\"captionwheat\">");
 		xslStyle.println("<td><xsl:value-of select=\"FileName\"/></td>");
 		xslStyle.println("<td><xsl:value-of select=\"ExifIfd\"/></td>");
 		xslStyle.println("<td><xsl:value-of select=\"ExtraSamples\"/></td>");
@@ -297,7 +318,7 @@ public class XslStyleSheets {
 
 		xslStyle.println("<h3>Other known Tiff Tags</h3>");
 		xslStyle.println("<table border =\"1\">");
-		xslStyle.println("<tr class=\"captiondred\">");
+		xslStyle.println("<tr class=\"captionolive\">");
 		xslStyle.println("<th> FileName</th> ");
 		xslStyle.println("<th> T4Option</th>");
 		xslStyle.println("<th> T6Option</th>");
@@ -307,7 +328,7 @@ public class XslStyleSheets {
 		xslStyle.println("<th> PlanarConfiguration</th>");
 		xslStyle.println("</tr>");
 		xslStyle.println("<xsl:for-each select=\"TiffTagAnalysis/TiffFile/TiffTags\">");
-		xslStyle.println("<tr class=\"captiondred\">");
+		xslStyle.println("<tr class=\"captionolive\">");
 		xslStyle.println("<td><xsl:value-of select=\"FileName\"/></td>");
 		xslStyle.println("<td><xsl:value-of select=\"T4Option\"/></td>");
 		xslStyle.println("<td><xsl:value-of select=\"T6Option\"/></td>");

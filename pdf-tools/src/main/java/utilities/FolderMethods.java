@@ -3,8 +3,11 @@ package utilities;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Path;
 
 import javax.swing.JOptionPane;
+
+import com.google.common.io.Files;
 
 public class FolderMethods {
 
@@ -52,7 +55,18 @@ public class FolderMethods {
 		}
 	}
 
-	public class archiveFilesToFolder {
+	public static void archiveFilesToFolder(File file) {
+
+/*		String parentDir = file.getParentFile().toString();			
+		String newFolder = parentDir + "//someText";			
+		String filename = file.getName() // + Extension
+		
+	
+
+		String moveTargetPathStr = newFolder + 	"//" + filename;				
+		File targetFile = new File (moveTargetPathStr);		
+		
+		Files.move(file, targetFile);	*/
 
 	}
 
