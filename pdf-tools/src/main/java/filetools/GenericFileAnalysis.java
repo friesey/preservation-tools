@@ -27,6 +27,7 @@ public class GenericFileAnalysis {
 	public static boolean testFileHeaderGif(String file) throws IOException {
 		fileReader = new BufferedReader(new FileReader(file));
 		String FileHeader = fileReader.readLine();	
+		System.out.println(FileHeader);
 		if (FileHeader != null) {
 			if ((FileHeader.contains(magicNumberGif89)) || (FileHeader.contains(magicNumberGif87))) {
 				return true;

@@ -53,7 +53,7 @@ public class XmlParserJhove {
 				Node nNode = nList.item(temp);
 				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 					Element eElement = (Element) nNode;
-					xmlsummary.println("<PdfFile>");
+					xmlsummary.println("<PdfFile>"); //TODO: should be changed to File, but as well in XSLT
 					String testutf8 = eElement.getElementsByTagName("filename").item(0).getTextContent();
 
 					if (testutf8.contains("&")) {
@@ -80,7 +80,7 @@ public class XmlParserJhove {
 							errormessages.add(error);
 						}
 					}
-					xmlsummary.println("</PdfFile>");
+					xmlsummary.println("</PdfFile>"); //TODO: should be changed to File, but as well in XSLT
 				}
 			}
 

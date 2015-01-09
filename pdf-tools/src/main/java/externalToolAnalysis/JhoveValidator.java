@@ -86,7 +86,7 @@ public class JhoveValidator {
 
 				// To handle one file after the other
 				for (int i = 0; i < files.size(); i++) {
-					if (filetools.GenericFileAnalysis.testFileHeaderPdf(files.get(i)) == true) {
+					if (filetools.GenericFileAnalysis.testFileHeaderPdf(files.get(i)) == true) { //tests only PDF with Header %PDF
 						writer.println("<item>");
 						if (files.get(i).toString().contains("&")) {
 							String substitute = normaliseToUtf8(files.get(i).toString());
@@ -163,14 +163,19 @@ public class JhoveValidator {
 
 	public static void JhoveGifValidator() {
 		
-		//TODO: XML has to be customized for GIF
-
 		String pathwriter;
 
 		try {
 			JOptionPane.showMessageDialog(null, "Please choose a Folder with Gif files", "JHOVE Gif-Examination", JOptionPane.QUESTION_MESSAGE);
 			folder = utilities.BrowserDialogs.chooseFolder();
 			if (folder != null) {
+				
+				JFrame f = new JFrame();
+				JButton but = new JButton("... Program is running ... ");
+				f.add(but, BorderLayout.PAGE_END);
+				f.pack();
+				f.setVisible(true);
+				
 				JhoveBase jb = new JhoveBase();
 
 				String configFilePath = JhoveBase.getConfigFileFromProperties();
@@ -185,12 +190,13 @@ public class JhoveValidator {
 
 				String appName = "Customized JHOVE";
 				String version = "1.0";
-				int[] date =  getDate();
+				
+				int[] date = getDate();
 				String usage = "Call JHOVE via own Java";
 				String rights = "Copyright nestor Format Working Group";
 				App app = new App(appName, version, date, usage, rights);
 
-				Module module = new GifModule(); 
+				Module module = new GifModule();
 
 				OutputHandler handler = new XmlHandler();
 				ArrayList<File> files = utilities.ListsFiles.getPaths(new File(folder), new ArrayList<File>());
@@ -211,7 +217,7 @@ public class JhoveValidator {
 
 				// To handle one file after the other
 				for (int i = 0; i < files.size(); i++) {
-					if (filetools.GenericFileAnalysis.testFileHeaderPdf(files.get(i)) == true) {
+				if (filetools.GenericFileAnalysis.testFileHeaderGif(files.get(i).toString()) == true) {
 						writer.println("<item>");
 						if (files.get(i).toString().contains("&")) {
 							String substitute = normaliseToUtf8(files.get(i).toString());
@@ -221,11 +227,13 @@ public class JhoveValidator {
 						}
 						jb.process(app, module, handler, files.get(i).toString());
 						writer.println("</item>");
-					}
+			}
 				}
 				writer.println("</JhoveFindings>");
 				writer.close();
 				externalToolAnalysis.XmlParserJhove.parseXmlFile(pathwriter);
+				
+				f.dispose();
 			}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e, "error message", JOptionPane.ERROR_MESSAGE);
