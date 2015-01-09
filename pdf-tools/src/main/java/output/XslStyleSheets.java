@@ -195,6 +195,23 @@ public class XslStyleSheets {
 		xslStyle.println("</tr>");
 		xslStyle.println("</xsl:for-each>");
 		xslStyle.println("</table>");
+
+		xslStyle.println("<h3>Examination Failed for following Tiff Files</h3>");
+		xslStyle.println("<table border =\"1\">");
+		xslStyle.println("<tr class=\"captiondred\">");
+		xslStyle.println("<th> FilePath</th> ");
+		xslStyle.println("<th> ErrorMessage</th>");
+		xslStyle.println("</tr>");
+		xslStyle.println("<xsl:if test=\"TiffTagAnalysis/TiffFile/ErrorMessage\">");
+		xslStyle.println("<xsl:for-each select=\"TiffTagAnalysis/TiffFile\">");
+		xslStyle.println("<tr class=\"captiondred\">");
+		xslStyle.println("<td><xsl:value-of select=\"FilePath\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"ErrorMessage\"/></td>");
+		xslStyle.println("</tr>");
+		xslStyle.println("</xsl:for-each>");
+		xslStyle.println("</xsl:if>");
+		xslStyle.println("</table>");
+
 		xslStyle.println("<h3>12 Mandatory Tiff Tags in Baseline Tiff</h3>");
 		xslStyle.println("<table border =\"1\">");
 		xslStyle.println("<tr class=\"captiongreen\">");

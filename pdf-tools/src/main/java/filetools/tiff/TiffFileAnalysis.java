@@ -387,9 +387,9 @@ public class TiffFileAnalysis {
 		xmlsummary.println("</TiffTags>");
 		
 		}
-		catch (Exception e) {
+		catch (Exception e) {			
+			xmlsummary.println("<ErrorMessage>" + e + "</ErrorMessage>");
 			System.out.println (e);
-
 		}
 
 	
