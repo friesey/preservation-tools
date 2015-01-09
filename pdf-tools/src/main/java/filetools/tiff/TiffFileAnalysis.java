@@ -1,5 +1,6 @@
 package filetools.tiff;
 
+import java.awt.BorderLayout;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -9,6 +10,9 @@ import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.sanselan.ImageReadException;
@@ -36,12 +40,21 @@ public class TiffFileAnalysis {
 			examinedFolder = utilities.BrowserDialogs.chooseFolder();
 			if (examinedFolder != null) {
 				
+				int examinedTiffs = 0;
+				
+				JFrame f = new JFrame();
+				JButton but = new JButton("... Program is running ... ");
+				f.add(but, BorderLayout.PAGE_END);
+				f.pack();
+				f.setVisible(true);
+				
 				problematicTiffs = 0;
 
 				String outputfile = examinedFolder + "//XmlOutput.xml";
 				PrintWriter xmlsummary = new PrintWriter(new FileWriter(outputfile));
 
 				ArrayList<File> files = utilities.ListsFiles.getPaths(new File(examinedFolder), new ArrayList<File>());
+				
 
 				String xmlVersion = "xml version='1.0'";
 				String xmlEncoding = "encoding='ISO-8859-1'";
@@ -68,6 +81,7 @@ public class TiffFileAnalysis {
 							xmlsummary.println("<FilePath>" + files.get(i).toString() + "</FilePath>");
 
 							analyseTiffTags(files.get(i), xmlsummary);
+							examinedTiffs++;
 							xmlsummary.println("</TiffFile>");
 						}
 
@@ -143,9 +157,12 @@ public class TiffFileAnalysis {
 
 				}
 				xmlsummary.println ("<ProblematicTiffs>" + problematicTiffs + "</ProblematicTiffs>");
+				xmlsummary.println ("<ExaminedTiffs>" + examinedTiffs + "</ExaminedTiffs>");			
+				
 				xmlsummary.println("</AnalysisSummary>");
 				xmlsummary.println("</TiffTagAnalysis>");
 				xmlsummary.close();
+				f.dispose();
 
 			}
 		} catch (FileNotFoundException e) {
@@ -380,9 +397,91 @@ public class TiffFileAnalysis {
 				temp.tiffTagDescription = "How the components of each pixel are stored.";
 				temp.tiffTagKind = "Baseline";
 				break;
+				
+			case 317:			
+				xmlsummary.println("<Predictor>" + temp.tiffTagContent + "</Predictor>");
+				temp.tiffTagDescription = "A mathematical operator that is applied to the image data before an encoding scheme is applied.";
+				temp.tiffTagKind = "Extended";
+				break;
+				
+			case 318:
+				xmlsummary.println("<WhitePoint>" + temp.tiffTagContent + "</WhitePoint>");
+				temp.tiffTagDescription = "The chromaticity of the white point of the image.";
+				temp.tiffTagKind = "Extended";
+				break;
+				
+			case 319:
+				xmlsummary.println("<PrimaryChromaticities>" + temp.tiffTagContent + "</PrimaryChromaticities>");
+				temp.tiffTagDescription = "The chromaticities of the primaries of the image.";
+				temp.tiffTagKind = "Extended";
+				break;				
+				
+			case 529:
+				xmlsummary.println("<YCbCrCoefficients>" + temp.tiffTagContent + "</YCbCrCoefficients>");
+				temp.tiffTagDescription = "The transformation from RGB to YCbCr image data.";
+				temp.tiffTagKind = "Extended";
+				break;	
+				
+			case 532:				
+				xmlsummary.println("<ReferenceBlackWhite>" + temp.tiffTagContent + "</ReferenceBlackWhite>");
+				temp.tiffTagDescription = "Specifies a pair of headroom and footroom image data values (codes) for each pixel component.";
+				temp.tiffTagKind = "Extended";
+				break;
+				
+			case 263:					
+				xmlsummary.println("<Threshholding>" + temp.tiffTagContent + "</Threshholding>");
+				temp.tiffTagKind = "Baseline";
+				break;
 
-			// TODO: some default for not listed cases
-
+			case 33723:
+				xmlsummary.println("<IPTC_NAA>" + temp.tiffTagContent + "</IPTC_NAA>");
+				temp.tiffTagDescription = "IPTC-NAA (International Press Telecommunications Council-Newspaper Association of America) metadata.";
+				temp.tiffTagKind = "TIFF/EP spec, p. 33";
+				break;
+				
+			case 339:
+				xmlsummary.println("<SampleFormat>" + temp.tiffTagContent + "</SampleFormat>");
+				temp.tiffTagDescription = "Specifies how to interpret each data sample in a pixel.";
+				temp.tiffTagKind = "Extended";
+				break;
+				
+			case 512:
+				xmlsummary.println("<JPEGProc>" + temp.tiffTagContent + "</JPEGProc>");
+				temp.tiffTagDescription = "Old-style JPEG compression field. TechNote2 invalidates this part of the specification.";
+				temp.tiffTagKind = "Extended";
+				break;
+				
+			case 519:
+				xmlsummary.println("<JPEGQTables>" + temp.tiffTagContent + "</JPEGQTables>");
+				temp.tiffTagDescription = "Old-style JPEG compression field. TechNote2 invalidates this part of the specification.";
+				temp.tiffTagKind = "Extended";
+				break;
+				
+			case 520:
+				xmlsummary.println("<JPEGDCTables>" + temp.tiffTagContent + "</JPEGDCTables>");
+				temp.tiffTagDescription = "Old-style JPEG compression field. TechNote2 invalidates this part of the specification.";
+				temp.tiffTagKind = "Extended";
+				break;
+				
+			case 521:
+				xmlsummary.println("<JPEGACTables>" + temp.tiffTagContent + "</JPEGACTables>");
+				temp.tiffTagDescription = "Old-style JPEG compression field. TechNote2 invalidates this part of the specification.";
+				temp.tiffTagKind = "Extended";
+				break;
+					
+			case 34675:
+				xmlsummary.println("<InterColorProfile>" + temp.tiffTagContent + "</InterColorProfile>");
+				temp.tiffTagDescription = "ICC profile data.";
+				temp.tiffTagKind = "TIFF/EP spec, p. 47 Exif private IFD";
+				break;
+				
+			case 270:
+				xmlsummary.println("<ImageDescription>" + temp.tiffTagContent + "</ImageDescription>");
+				temp.tiffTagDescription = "A string that describes the subject of the image.";
+				temp.tiffTagKind = "Baseline";
+				break;
+				
+	
 			default:
 				xmlsummary.println("<UnknownTiffTag>" + temp.tiffTagName + "</UnknownTiffTag>");
 			}
@@ -390,14 +489,13 @@ public class TiffFileAnalysis {
 			listTiffTags.add(temp); // used to be placed before all the cases,
 									// but the description should be included
 		}
-		xmlsummary.println("</TiffTags>");
+		xmlsummary.println("</TiffTags>");	
 		
 		}
 		catch (Exception e) {			
 			xmlsummary.println("<ErrorMessage>" + e + "</ErrorMessage>");
 			System.out.println (e);		
-			problematicTiffs++;
-				
+			problematicTiffs++;										
 		}
 
 	

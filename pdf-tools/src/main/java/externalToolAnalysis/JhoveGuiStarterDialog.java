@@ -31,6 +31,7 @@ public class JhoveGuiStarterDialog {
 				JOptionPane.showMessageDialog(null, "JHOVE will be used to validate XML files from a chosen folder", "XML Validation", JOptionPane.INFORMATION_MESSAGE);
 			} else if (inteingabe == 3) {
 				JOptionPane.showMessageDialog(null, "JHOVE will be used to validate TIFF files from a chosen folder", "TIFF Validation", JOptionPane.INFORMATION_MESSAGE);
+				externalToolAnalysis.JhoveValidator.JhoveTiffValidator();
 			} else {
 				JOptionPane.showMessageDialog(null, "Nothing will be done. Please choose properly.", "Misbehaviour", JOptionPane.WARNING_MESSAGE);
 			}

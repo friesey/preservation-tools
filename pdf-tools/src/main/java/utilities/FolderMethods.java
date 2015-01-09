@@ -59,7 +59,7 @@ public class FolderMethods {
 
 /*		String parentDir = file.getParentFile().toString();			
 		String newFolder = parentDir + "//someText";			
-		String filename = file.getName() // + Extension
+		String filename = file.getName() 
 		
 	
 
