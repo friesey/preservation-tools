@@ -18,8 +18,27 @@ public class GenericFileAnalysis {
 	static String magicNumberPdf = "%PDF";
 	static String magicNumberTiffIntel = "II";
 	static String magicNumberTiffMotorola = "MM";
+	static String magicNumberGif87 = "GIF87a";
+	static String magicNumberGif89 = "GIF89a";
 
 	private static final long DEFAULT_MAX_FILE_LENGTH = 1024 * 1024 * 16;
+	
+	
+	public static boolean testFileHeaderGif(String file) throws IOException {
+		fileReader = new BufferedReader(new FileReader(file));
+		String FileHeader = fileReader.readLine();	
+			if (FileHeader != null) {
+			if ((FileHeader.contains(magicNumberGif89)) || (FileHeader.contains(magicNumberGif87))) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+
+	
 
 	/**
 	 * Tests if the first line of the file contains the proper PDF-Header "%PDF"
@@ -214,4 +233,31 @@ public class GenericFileAnalysis {
 		return filename;
 	}
 
+	public static boolean testFileHeaderGif(File file) throws IOException {
+		fileReader = new BufferedReader(new FileReader(file));
+
+		System.out.println(file.toString());
+
+		// TODO: Das hier funktioniert noch nicht
+
+/*		char[] chararray = { 'G', 'I', 'F', '8', '9', 'a' };
+		StringBuffer sb = new StringBuffer();
+		int ch;
+		while ((ch = fileReader.read()) < chararray.length) {
+			sb.append((char) ch);
+		}
+		System.out.println(sb.toString());*/
+
+		String FileHeader = fileReader.readLine();
+
+		if (FileHeader != null) {
+			if (FileHeader.contains(magicNumberGif87)) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
 }

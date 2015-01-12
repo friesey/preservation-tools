@@ -10,7 +10,7 @@ public class EbubChecker {
 
 	public static void main(String args[]) throws IOException {
 
-		String examinedFolder = utilities.FolderBrowserDialog
+		String examinedFolder = utilities.BrowserDialogs
 				.chooseFolder();
 		String extension;
 
@@ -29,15 +29,12 @@ public class EbubChecker {
 					if (extension.equals("application/epub")) {
 
 					}
-
 				}
 			}
 
 			catch (IOException e) {
 				e.printStackTrace();
-
 			}
-
 		}
 
 		else {

@@ -22,7 +22,7 @@ public class PdfTwinTest {
 		System.out
 				.println("Please select the folder for outputfile 'PdfTwinTest.txt'");
 
-		folder = utilities.FolderBrowserDialog.chooseFolder();
+		folder = utilities.BrowserDialogs.chooseFolder();
 
 		if (folder != null) {
 
@@ -30,10 +30,10 @@ public class PdfTwinTest {
 					+ "\\PdfTwinTester.txt"));
 			outputfile.println("Pdf Twin Test");
 
-			OrgPdf = utilities.FileBrowserDialog.chooseFile();
+			OrgPdf = utilities.BrowserDialogs.chooseFile();
 			System.out.println(OrgPdf);
 
-			MigPdf = utilities.FileBrowserDialog.chooseFile();
+			MigPdf = utilities.BrowserDialogs.chooseFile();
 			System.out.println(MigPdf);
 
 			outputfile.println("Original File: " + OrgPdf);
@@ -64,15 +64,15 @@ public class PdfTwinTest {
 
 							if (PdfAnalysis.checkBrokenPdf(OrgPdf) == false
 									&& PdfAnalysis.checkBrokenPdf(MigPdf) == false) {
-								String[] LinesOrg = PdfAnalysis
+								String[] linesOrg = PdfAnalysis
 										.extractsPdfLines(OrgPdf);
-								String[] LinesMig = PdfAnalysis
+								String[] linesMig = PdfAnalysis
 										.extractsPdfLines(MigPdf);
 
 								int differences = 0;
 
-								int lenOrg = LinesOrg.length;
-								int lenMig = LinesMig.length;
+								int lenOrg = linesOrg.length;
+								int lenMig = linesMig.length;
 
 								outputfile.println(OrgPdf + " has " + lenOrg
 										+ " lines.");
@@ -98,16 +98,16 @@ public class PdfTwinTest {
 
 									for (int j = 0; j < lenMig; j++) {
 
-										if (!(LinesOrg[j]).equals(LinesMig[j])) {
+										if (!(linesOrg[j]).equals(linesMig[j])) {
 											outputfile.println();
 											outputfile
 													.println("Differs in line: "
 															+ (j + 1));
 											outputfile.println();
 											outputfile.println("Original : "
-													+ LinesOrg[j]);
+													+ linesOrg[j]);
 											outputfile.println("Migration: "
-													+ LinesMig[j]);
+													+ linesMig[j]);
 											outputfile.println();
 											differences++;
 										}
@@ -128,16 +128,16 @@ public class PdfTwinTest {
 
 										// happens twice, maybe create a method?
 
-										if (!(LinesOrg[j]).equals(LinesMig[j])) {
+										if (!(linesOrg[j]).equals(linesMig[j])) {
 											outputfile.println();
 											outputfile
 													.println("Differs in line: "
 															+ (j + 1));
 											outputfile.println();
 											outputfile.println("Original : "
-													+ LinesOrg[j]);
+													+ linesOrg[j]);
 											outputfile.println("Migration: "
-													+ LinesMig[j]);
+													+ linesMig[j]);
 											outputfile.println();
 											differences++;
 										}

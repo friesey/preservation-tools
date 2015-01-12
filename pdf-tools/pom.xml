@@ -19,6 +19,20 @@
 					<target>1.7</target>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<extensions>true</extensions>
+				<configuration>
+					<instructions>
+						<Export-Package>de.akquinet.commons.image.io;version=${project.version},
+							org.apache.commons.imaging.*;version=1.0.SNAPSHOT;-split-package=merge-first
+						</Export-Package>
+						<Embed-Dependency>commons-imaging;inline=true</Embed-Dependency>
+					</instructions>
+				</configuration>
+			</plugin>
+
 		</plugins>
 	</build>
 	<dependencies>
@@ -57,5 +71,21 @@
 			<artifactId>poi</artifactId>
 			<version>3.10.1</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.sanselan</groupId>
+			<artifactId>sanselan</artifactId>
+			<version>0.97-incubator</version>
+		</dependency>
+		<dependency>
+			<groupId>gov.nih.imagej</groupId>
+			<artifactId>imagej</artifactId>
+			<version>1.47</version>
+		</dependency>
+		<dependency>
+			<groupId>uk.gov.nationalarchives</groupId>
+			<artifactId>droid-core-interfaces</artifactId>
+			<version>6.1.5</version>
+		</dependency>
+
 	</dependencies>
 </project>

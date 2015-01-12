@@ -17,7 +17,7 @@ public class PdfToImageConverter {
 
 	public static void main(String args[]) {
 		try {
-			folder = utilities.FolderBrowserDialog.chooseFolder();
+			folder = utilities.BrowserDialogs.chooseFolder();
 			// TODO: create a method which tests if the file is an
 			// ok-to-the-end-PDF to work with
 			if (folder != null) {

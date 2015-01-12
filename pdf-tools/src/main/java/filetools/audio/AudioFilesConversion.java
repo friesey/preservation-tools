@@ -39,10 +39,10 @@ public class AudioFilesConversion {
 		try {
 
 			JOptionPane.showMessageDialog(null, "CD ROM Dialog", "Please choose Folder with Audio Files", JOptionPane.QUESTION_MESSAGE);
-			audioFolder = utilities.FolderBrowserDialog.chooseFolder();
+			audioFolder = utilities.BrowserDialogs.chooseFolder();
 
 			JOptionPane.showMessageDialog(null, "CD ROM Dialog", "Please choose where your files will be archived", JOptionPane.QUESTION_MESSAGE);
-			filetools.executables.CdRom_IsoImageChecker.archivFolder = utilities.FolderBrowserDialog.chooseFolder();
+			filetools.executables.CdRom_IsoImageChecker.archivFolder = utilities.BrowserDialogs.chooseFolder();
 
 			if (audioFolder != null && filetools.executables.CdRom_IsoImageChecker.archivFolder != null) {
 
@@ -140,8 +140,8 @@ public class AudioFilesConversion {
 		}
 
 		catch (Exception exc) {
-			System.out.println(exc);
-		}
+			JOptionPane.showMessageDialog(null, exc, "error message", JOptionPane.ERROR_MESSAGE);		
+			}
 	}
 
 	@SuppressWarnings("static-access")

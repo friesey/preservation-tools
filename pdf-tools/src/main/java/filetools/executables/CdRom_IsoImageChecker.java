@@ -16,23 +16,14 @@ import org.apache.commons.io.FilenameUtils;
 public class CdRom_IsoImageChecker {
 
 	public static PrintWriter filesExecutable;
-
 	public static PrintWriter outputfile;
-
 	static String examinedCdRom;
-
 	static String outputFolder;
-
 	public static String archivFolder;
-
 	static String mimetype;
-
 	static String extension;
-
 	static int filescount;
-
 	static int filecheck;
-
 	static int FOLDERMAX = 15; /*
 								 * if there are more than FOLDERMAX folders, an
 								 * ISO Image has to be created
@@ -52,37 +43,25 @@ public class CdRom_IsoImageChecker {
 
 	// TODO: How to end program if it runs too long?
 
-	public static void main(String args[]) throws IOException,
-			NoSuchAlgorithmException {
-		
+	public static void main(String args[]) throws IOException, NoSuchAlgorithmException {
 		output.XmlOutput.createsXMLHeader();
-		
 		// try {
 		// measures time
 		double starttime = System.currentTimeMillis();
 		filecheck = 0;
 		isonecessary = false;
 
-		JOptionPane.showMessageDialog(null, "CD ROM Dialog",
-				"Please choose CD ROM Folder", JOptionPane.QUESTION_MESSAGE);
-		examinedCdRom = utilities.FolderBrowserDialog
-				.chooseFolder();
+		JOptionPane.showMessageDialog(null, "CD ROM Dialog", "Please choose CD ROM Folder", JOptionPane.QUESTION_MESSAGE);
+		examinedCdRom = utilities.BrowserDialogs.chooseFolder();
 
-		JOptionPane.showMessageDialog(null, "Output Folder",
-				"Please choose Folder where Outputfile will be created",
-				JOptionPane.QUESTION_MESSAGE);
-		outputFolder = utilities.FolderBrowserDialog
-				.chooseFolder();
+		JOptionPane.showMessageDialog(null, "Output Folder", "Please choose Folder where Outputfile will be created", JOptionPane.QUESTION_MESSAGE);
+		outputFolder = utilities.BrowserDialogs.chooseFolder();
 
 		if (examinedCdRom != null && outputFolder != null) {
-
-			String CdRomName = filetools.GenericFileAnalysis
-					.getCdRomFolderName(examinedCdRom);
+			String CdRomName = filetools.GenericFileAnalysis.getCdRomFolderName(examinedCdRom);
 
 			if (CdRomName.contains(":")) {
-				CdRomName = JOptionPane.showInputDialog(null,
-						"Please type name of CD ROM", "CD ROM name unknown",
-						JOptionPane.PLAIN_MESSAGE);
+				CdRomName = JOptionPane.showInputDialog(null, "Please type name of CD ROM", "CD ROM name unknown", JOptionPane.PLAIN_MESSAGE);
 			}
 
 			JFrame f = new JFrame();
@@ -91,78 +70,65 @@ public class CdRom_IsoImageChecker {
 			f.pack();
 			f.setVisible(true);
 
-			outputfile = new PrintWriter(new FileWriter(outputFolder + "//"
-					+ "CdRomExecutableAnalysis_" + CdRomName + ".txt"));
+			outputfile = new PrintWriter(new FileWriter(outputFolder + "//" + "CdRomExecutableAnalysis_" + CdRomName + ".txt"));
+			filesExecutable = new PrintWriter(new FileWriter(outputFolder + "//" + "potentiallyExecutableFiles_" + CdRomName + ".txt"));
+			ArrayList<File> files = utilities.ListsFiles.getPaths(new File(examinedCdRom), new ArrayList<File>());
 
-			filesExecutable = new PrintWriter(
-					new FileWriter(outputFolder + "//"
-							+ "potentiallyExecutableFiles_" + CdRomName
-							+ ".txt"));
-
-			ArrayList<File> files = utilities.ListsFiles
-					.getPaths(new File(examinedCdRom), new ArrayList<File>());
-			
 			output.XmlOutput.xmlSimpleWriter.println("<CdRomFolderTest>");
 
-			outputfile.println("No. of files are in the folder or CD: "
-					+ files.size());
+			outputfile.println("No. of files are in the folder or CD: " + files.size());
 			outputfile.println();
 			filescount = files.size();
 
 			for (int i = 0; i < files.size(); i++) {
-
-				extension = FilenameUtils.getExtension(files.get(i).toString())
-						.toLowerCase();
-
+				extension = FilenameUtils.getExtension(files.get(i).toString()).toLowerCase();
 				if (extension != null) {
-
 					if (extension.equals("cda")) {
 						// TODO: Could be tested earlier to save time
 						filetools.audio.AudioCD.extractAudioFiles(files);
-						// has to stop afterwards. Should not do it as often as cda files are found
+						// has to stop afterwards. Should not do it as often as
+						// cda files are found
 						// break is brute force
 						break;
-						
 					} else if (extension.equals("zip")) {
-						unzipFolder(new File(files.get(i).toString()));
+
+						outputfile.println("CD / Folder consists of the following zipped Folder :  " + files.get(i).toString());
+						outputfile.println();
+						isonecessary = true;
+
+						ArrayList<File> arrzips = new ArrayList<File>();
+						// arrzips =
+						// utilities.ListsFiles.getpathsfromzip(files.get(i));
+
+						for (int j = 0; j < arrzips.size(); j++) {
+							System.out.println(arrzips.get(j));
+							// TODO: Zifiles zu files auspacken oder mit Strings
+							// der Zip-Entries arbeiten
+							ckeckifFileIsExecutable(arrzips.get(j));
+						}
+
 					} else {
 						ckeckifFileIsExecutable(files.get(i));
 					}
 				}
 			}
-
 			f.dispose();
-
 			if (isonecessary == true) {
-				JOptionPane.showMessageDialog(null,
-						"One or more files are potentially executable",
-						"Create Iso Image", JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.showMessageDialog(null, "One or more files are potentially executable", "Create Iso Image", JOptionPane.PLAIN_MESSAGE);
+			} else {
+				JOptionPane.showMessageDialog(null, "None of the files is potentially executable", "No Iso Image necessary", JOptionPane.PLAIN_MESSAGE);
+				filesExecutable.println("None of the files is potentially executable");
 			}
-
-			else {
-				JOptionPane.showMessageDialog(null,
-						"None of the files is potentially executable",
-						"No Iso Image necessary", JOptionPane.PLAIN_MESSAGE);
-
-				filesExecutable
-						.println("None of the files is potentially executable");
-			}
-
 			double endtime = System.currentTimeMillis();
-
 			double runtime = endtime - starttime;
-			outputfile.println("Time needed to operate: " + runtime
-					+ " Milliseconds");
-
+			outputfile.println("Time needed to operate: " + runtime + " Milliseconds");
 			outputfile.println("Checksum generated and compared: " + filecheck);
-
 			filesExecutable.close();
 			outputfile.close();
 			output.XmlOutput.xmlSimpleWriter.println("</CdRomFolderTest>");
-			output.XmlOutput.closesxmlSimpleWriter();
+			output.XmlOutput.xmlSimpleWriter.close();
 
 			System.out.println("Checksum generated and compared: " + filecheck);
-
 			System.out.println("No. of files: " + filescount);
 
 			double runtimeSec = runtime / 1000;
@@ -170,20 +136,15 @@ public class CdRom_IsoImageChecker {
 			if (runtime > 1000) {
 
 				if (runtimeSec > 60) {
-
 					double runtimeMin = runtimeSec / 60;
-
-					System.out.println("Time needed to operate: " + runtimeMin
-							+ " Seconds");
+					System.out.println("Time needed to operate: " + runtimeMin + " Seconds");
 				} else {
-					System.out.println("Time needed to operate: " + runtimeSec
-							+ " Seconds");
+					System.out.println("Time needed to operate: " + runtimeSec + " Seconds");
 				}
 			}
 
 			else {
-				System.out.println("Time needed to operate: " + runtime
-						+ " Milliseconds");
+				System.out.println("Time needed to operate: " + runtime + " Milliseconds");
 			}
 		} else {
 			System.out.println("Please choose a folder!");
@@ -196,90 +157,21 @@ public class CdRom_IsoImageChecker {
 
 	}
 
-	static void unzipFolder(File zipfile) throws IOException,
-			NoSuchAlgorithmException {
-		
-		
-		filesExecutable
-		.println("IsoImage recommended because of file:  "
-				+ zipfile.toString());
-		
-		outputfile.println ("CD / Folder consists of the following zipped Folder :  "
-				+ zipfile.toString());
-		
-		outputfile.println ();
-		
-		isonecessary = true;
-		
-
-		// TODO: This method does not work the way it should yet.
-
-		/*
-		 * 
-		 * // try {
-		 * 
-		 * ZipFile zf = new ZipFile(zipfile.toString());
-		 * 
-		 * System.out.println ("Zipfile " + zf);
-		 * 
-		 * Enumeration<? extends ZipEntry> e = zf.entries();
-		 * 
-		 * System.out.println ("ZipEntry e " + e); ZipEntry ze;
-		 * 
-		 * while (e.hasMoreElements()) { try { ze = e.nextElement();
-		 * System.out.println ("ZipEntry ze " + ze.toString()); File CompFile =
-		 * new File(ze.toString()); System.out.println ("Compfile " + CompFile);
-		 * 
-		 * System.out.println ("Compfile Absolute Path" +
-		 * CompFile.getAbsolutePath());
-		 * 
-		 * 
-		 * if (!CompFile.isDirectory()) { System.out.println ("Test: " +
-		 * CompFile); ckeckifFileIsExecutable(CompFile); } } catch (Exception
-		 * ex) { System.out.print(ex); }
-		 * 
-		 * } zf.close();
-		 * 
-		 * 
-		 * } catch (Exception e) { // TODO: After this exception is caused, the
-		 * adding // of the rest // of the files in the zip folder stops
-		 * CdRom_IsoImageChecker.filesExecutable.println(zipfile +
-		 * " causes an Exception" + e);
-		 * 
-		 * }
-		 */
-
-	}
-
-	public static void ckeckifFileIsExecutable(File file) throws IOException,
-			NoSuchAlgorithmException {
-		mimetype = filetools.GenericFileAnalysis
-				.getFileMimeType(file);
-
+	public static void ckeckifFileIsExecutable(File file) throws IOException, NoSuchAlgorithmException {
+		mimetype = filetools.GenericFileAnalysis.getFileMimeType(file);
 		outputfile.println(file.toString());
 		outputfile.println("Mimetype: " + mimetype);
 		outputfile.println("File-Extension: " + extension);
 		outputfile.println();
-
-		if (filetools.GenericFileAnalysis
-				.testIfMimeMightBeExecutable(mimetype)) {
-
-			if (filetools.GenericFileAnalysis
-					.testIfExtensionCanbeExecutable(extension)) {
+		if (filetools.GenericFileAnalysis.testIfMimeMightBeExecutable(mimetype)) {
+			if (filetools.GenericFileAnalysis.testIfExtensionCanbeExecutable(extension)) {
 				filecheck++;
+				if (filetools.ChecksumChecker.testIfChecksumisPdfReaderSoftware(file)) {
 
-				if (filetools.ChecksumChecker
-						.testIfChecksumisPdfReaderSoftware(file)) {
+					filesExecutable.println((file.toString()) + " contains AdobeAcrobatReader MD5 checksum");
+				} else {
 
-					filesExecutable.println((file.toString())
-							+ " contains AdobeAcrobatReader MD5 checksum");
-				}
-
-				else {
-
-					filesExecutable
-							.println("IsoImage recommended because of file:  "
-									+ file.toString());
+					filesExecutable.println("IsoImage recommended because of file:  " + file.toString());
 					filesExecutable.println("Mimetype: " + mimetype);
 					filesExecutable.println();
 
@@ -295,6 +187,5 @@ public class CdRom_IsoImageChecker {
 				}
 			}
 		}
-
 	}
 }

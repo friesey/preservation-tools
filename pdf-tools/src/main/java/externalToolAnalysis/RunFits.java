@@ -3,6 +3,8 @@ package externalToolAnalysis;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.JOptionPane;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,8 +20,7 @@ public class RunFits {
 
 		try {
 
-			examinedFile = utilities.FileBrowserDialog
-					.chooseFile();
+			examinedFile = utilities.BrowserDialogs.chooseFile();
 			// examinedFolder =
 			// preservetools.utilities.FolderBrowserDialog.chooseFolder();
 
@@ -40,6 +41,7 @@ public class RunFits {
 
 		catch (IOException e) {
 			logger.error("Error analyzing " + e);
+			JOptionPane.showMessageDialog(null, e, "error message", JOptionPane.ERROR_MESSAGE);
 		}
 
 	}

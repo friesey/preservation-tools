@@ -12,6 +12,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.activation.FileDataSource;
+import javax.swing.JOptionPane;
 
 import org.apache.pdfbox.preflight.PreflightDocument;
 import org.apache.pdfbox.preflight.ValidationResult;
@@ -31,7 +32,7 @@ public class PdfAValidator {
 
 		try {
 
-			examinedFolder = utilities.FolderBrowserDialog.chooseFolder();
+			examinedFolder = utilities.BrowserDialogs.chooseFolder();
 
 			// Generating two Outputfiles in the folder that is examined
 
@@ -145,6 +146,7 @@ public class PdfAValidator {
 							outputfile.print(e);
 							 logger.error("Error analyzing " + files
 										.get(i).getAbsolutePath(), e);
+							 JOptionPane.showMessageDialog(null, e, "error message", JOptionPane.ERROR_MESSAGE);		
 						}
 					}
 				}
@@ -153,6 +155,7 @@ public class PdfAValidator {
 			outputfile.close();
 		} catch (FileNotFoundException e) {
 			 logger.error("Error analyzing " + e);
+			 JOptionPane.showMessageDialog(null, e, "error message", JOptionPane.ERROR_MESSAGE);		
 		}
 	}
 }
