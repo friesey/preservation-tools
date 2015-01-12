@@ -18,6 +18,7 @@ public class GifChecker {
 	// repository and had to be added externally
 
 	public static void main(String args[]) throws Exception {
+		//test
 		try {
 			boolean gifisvalid = false;
 			// JOptionPane.showMessageDialog(null, "Please choose a Folder with files", "Gif File Examination", JOptionPane.QUESTION_MESSAGE);
