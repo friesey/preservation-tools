@@ -324,10 +324,10 @@ public class XslStyleSheets {
 		xslStyle.println("<th> FileName</th> ");
 		xslStyle.println("<th> T4Option</th>");
 		xslStyle.println("<th> T6Option</th>");
-		xslStyle.println("<th> PageNumber</th>    ");
+		xslStyle.println("<th> PageNumber</th>");
 		xslStyle.println("<th> FillOrder</th>");
-		xslStyle.println("<th> Orientation</th>");
-		xslStyle.println("<th> PlanarConfiguration</th>");
+		xslStyle.println("<th> Orientation</th>");		
+		xslStyle.println("<th> PlanarConfiguration</th>");	
 		xslStyle.println("</tr>");
 		xslStyle.println("<xsl:for-each select=\"TiffTagAnalysis/TiffFile/TiffTags\">");
 		xslStyle.println("<tr class=\"captionolive\">");
@@ -344,10 +344,8 @@ public class XslStyleSheets {
 		xslStyle.println("</body>");
 		xslStyle.println("</html>");
 		xslStyle.println("</xsl:template>");
-		xslStyle.println("</xsl:stylesheet>");
-		
-		//it would be good to have something for unknown tifftags
-
+		xslStyle.println("</xsl:stylesheet>");			
+			
 		xslStyle.close();
 
 	}

@@ -56,7 +56,7 @@ public class TiffFileAnalysis {
 				if (outputfileFile.exists()) {
 					eingabe = JOptionPane.showConfirmDialog(null, name + ".xml already exists in folder. Choosing \"Ja\" closes program. Choosing \"Nein\" overwrites existing File and start analysis.", "Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
 				}
-				
+
 				else {
 					eingabe = 1;
 				}
@@ -80,7 +80,7 @@ public class TiffFileAnalysis {
 					xmlsummary.println("<TiffTagAnalysis>");
 
 					for (int i = 0; i < files.size(); i++) {
-						System.out.println(files.get(i).getCanonicalPath());
+
 						String tiffExtension = "tif";
 
 						String extension = FilenameUtils.getExtension(files.get(i).getCanonicalPath()).toLowerCase();
@@ -107,23 +107,18 @@ public class TiffFileAnalysis {
 					}
 
 					// How often does each TiffTag occur?
-
 					int tifftagscount = listTiffTags.size();
-
 					// save all tifftags in ArrayList<String>
 					ArrayList<String> alltifftags = new ArrayList<String>();
 					for (int i = 0; i < tifftagscount; i++) {
 						alltifftags.add(listTiffTags.get(i).tiffTagName);
 					}
-
 					Collections.sort(alltifftags);
-
 					ArrayList<String> origintifftags = new ArrayList<String>();
 					for (int i = 0; i < alltifftags.size(); i++) {
 						// function for this
 						origintifftags.add(alltifftags.get(i));
 					}
-
 					// get rid of redundant entries
 					int n = 0;
 					while (n < alltifftags.size() - 1) {
@@ -133,10 +128,8 @@ public class TiffFileAnalysis {
 							n++;
 						}
 					}
-
 					xmlsummary.println("<AnalysisSummary>");
 					xmlsummary.println("<DifferentTiffTagsInSample>" + alltifftags.size() + "</DifferentTiffTagsInSample>");
-
 					// how often does each Tiff Tag occur?
 					int j = 0;
 					int temp;
@@ -150,36 +143,29 @@ public class TiffFileAnalysis {
 						xmlsummary.println("<DifferentTiffTags>");
 						xmlsummary.println("<TiffTag>" + alltifftags.get(n) + "</TiffTag>");
 						for (int i = 0; i < listTiffTags.size(); i++) {
-
 							if (listTiffTags.get(i).tiffTagName.equals(alltifftags.get(n))) {
 								xmlsummary.println("<SourceOfTag>" + listTiffTags.get(i).tiffTagKind + "</SourceOfTag>");
 								xmlsummary.println("<Description>" + listTiffTags.get(i).tiffTagDescription + "</Description>");
-
 								// TODO: das geht, wird aber so oft
 								// ausgegeben wie
 								// tag in arraylist vorhanden ist
 							}
-
 						}
-
 						xmlsummary.println("<Occurance>" + temp + "</Occurance>");
 						xmlsummary.println("</DifferentTiffTags>");
-
 					}
 					xmlsummary.println("<ProblematicTiffs>" + problematicTiffs + "</ProblematicTiffs>");
 					xmlsummary.println("<ExaminedTiffs>" + examinedTiffs + "</ExaminedTiffs>");
-
 					xmlsummary.println("</AnalysisSummary>");
 					xmlsummary.println("</TiffTagAnalysis>");
 					xmlsummary.close();
 					f.dispose();
-
 				}
 
 				else {
 					JOptionPane.showMessageDialog(null, "You have closed the program. No analysis was done.", "Information", JOptionPane.INFORMATION_MESSAGE);
 					f.dispose();
-					
+
 				}
 			}
 		} catch (FileNotFoundException e) {
@@ -223,6 +209,53 @@ public class TiffFileAnalysis {
 				 * "</TiffTagName>"); xmlsummary.println("<TiffTagContent>" +
 				 * temp.tiffTagContent + "</TiffTagContent>");
 				 */
+
+				int privateTag = 32768;
+				int reusabletagbeginn = 65000;
+				int reusabletagend = 65535;
+
+				if (temp.decTiffTag > privateTag) {
+					if (temp.decTiffTag == 33432) {
+						xmlsummary.println("<Copyright>" + temp.tiffTagContent + "</Copyright>");
+						temp.tiffTagDescription = "Copyright notice.";
+						temp.tiffTagKind = "Baseline";
+					}
+
+					else if (temp.decTiffTag == 34665) {
+
+						xmlsummary.println("<ExifIfd>" + temp.tiffTagContent + "</ExifIfd>");
+						temp.tiffTagDescription = "A pointer to the Exif IFD. Private";
+						temp.tiffTagKind = "Private";
+					}
+
+					else if (temp.decTiffTag == 34675) {
+						xmlsummary.println("<InterColorProfile>" + temp.tiffTagContent + "</InterColorProfile>");
+						temp.tiffTagDescription = "ICC profile data.";
+						temp.tiffTagKind = "TIFF/EP spec, p. 47 Exif private IFD";
+					}
+
+					else if (temp.decTiffTag == 33723) {
+						xmlsummary.println("<IPTC_NAA>" + temp.tiffTagContent + "</IPTC_NAA>");
+						temp.tiffTagDescription = "IPTC-NAA (International Press Telecommunications Council-Newspaper Association of America) metadata.";
+						temp.tiffTagKind = "TIFF/EP spec, p. 33";
+					}
+
+					else {
+						xmlsummary.println("<UnknownTiffTag>" + temp.tiffTagName + "</UnknownTiffTag>");
+						temp.tiffTagKind = "Private";
+					}
+				}
+
+				else if ((reusabletagbeginn < temp.decTiffTag) && (temp.decTiffTag < reusabletagend)) {
+					xmlsummary.println("<ReusableTiffTag>");
+					xmlsummary.println("<UnknownTiffTag>" + temp.tiffTagName + "</UnknownTiffTag>");
+					temp.tiffTagKind = "Reusable";
+					JOptionPane.showMessageDialog(null, "Found a reusable Tiff Tag:" + temp.tiffTagName + temp.tiffTagContent, "Information", JOptionPane.INFORMATION_MESSAGE);
+					xmlsummary.println("</ReusableTiffTag>");
+				}
+
+				// TODO: if dec value > 32768, it is a private tag
+				// TODO: reusable range <65000 & < 65535
 
 				switch (temp.decTiffTag) {
 
@@ -358,19 +391,7 @@ public class TiffFileAnalysis {
 					temp.tiffTagKind = "Baseline";
 					break;
 
-				case 33432:
-					xmlsummary.println("<Copyright>" + temp.tiffTagContent + "</Copyright>");
-					temp.tiffTagDescription = "Copyright notice.";
-					temp.tiffTagKind = "Baseline";
-					break;
-
 				// not in Baseline, but nice to have for Digital Preservation
-
-				case 34665:
-					xmlsummary.println("<ExifIfd>" + temp.tiffTagContent + "</ExifIfd>");
-					temp.tiffTagDescription = "A pointer to the Exif IFD. Private";
-					temp.tiffTagKind = "Private";
-					break;
 
 				case 338:
 					xmlsummary.println("<ExtraSamples>" + temp.tiffTagContent + "</ExtraSamples>");
@@ -451,12 +472,6 @@ public class TiffFileAnalysis {
 					temp.tiffTagKind = "Baseline";
 					break;
 
-				case 33723:
-					xmlsummary.println("<IPTC_NAA>" + temp.tiffTagContent + "</IPTC_NAA>");
-					temp.tiffTagDescription = "IPTC-NAA (International Press Telecommunications Council-Newspaper Association of America) metadata.";
-					temp.tiffTagKind = "TIFF/EP spec, p. 33";
-					break;
-
 				case 339:
 					xmlsummary.println("<SampleFormat>" + temp.tiffTagContent + "</SampleFormat>");
 					temp.tiffTagDescription = "Specifies how to interpret each data sample in a pixel.";
@@ -487,12 +502,6 @@ public class TiffFileAnalysis {
 					temp.tiffTagKind = "Extended";
 					break;
 
-				case 34675:
-					xmlsummary.println("<InterColorProfile>" + temp.tiffTagContent + "</InterColorProfile>");
-					temp.tiffTagDescription = "ICC profile data.";
-					temp.tiffTagKind = "TIFF/EP spec, p. 47 Exif private IFD";
-					break;
-
 				case 270:
 					xmlsummary.println("<ImageDescription>" + temp.tiffTagContent + "</ImageDescription>");
 					temp.tiffTagDescription = "A string that describes the subject of the image.";
@@ -514,7 +523,7 @@ public class TiffFileAnalysis {
 
 		catch (Exception e) {
 			xmlsummary.println("<ErrorMessage>" + e + "</ErrorMessage>");
-			System.out.println(e);
+
 			problematicTiffs++;
 		}
 
