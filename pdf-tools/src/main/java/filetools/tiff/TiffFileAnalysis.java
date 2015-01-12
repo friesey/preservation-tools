@@ -64,6 +64,8 @@ public class TiffFileAnalysis {
 				if (eingabe == 1) {
 
 					PrintWriter xmlsummary = new PrintWriter(new FileWriter(outputfile));
+					
+					PrintWriter testpurposes = new PrintWriter(new FileWriter(examinedFolder + "//" + "testpurposes" + ".xml"));
 
 					ArrayList<File> files = utilities.ListsFiles.getPaths(new File(examinedFolder), new ArrayList<File>());
 
@@ -78,6 +80,9 @@ public class TiffFileAnalysis {
 					xmlsummary.println("<?" + xmlVersion + " " + xmlEncoding + "?>");
 					xmlsummary.println(xsltStyleSheet);
 					xmlsummary.println("<TiffTagAnalysis>");
+					
+					testpurposes.println("<?" + xmlVersion + " " + xmlEncoding + "?>");
+					testpurposes.println("<Test>");
 
 					for (int i = 0; i < files.size(); i++) {
 
@@ -144,11 +149,14 @@ public class TiffFileAnalysis {
 						xmlsummary.println("<TiffTag>" + alltifftags.get(n) + "</TiffTag>");
 						for (int i = 0; i < listTiffTags.size(); i++) {
 							if (listTiffTags.get(i).tiffTagName.equals(alltifftags.get(n))) {
-								xmlsummary.println("<SourceOfTag>" + listTiffTags.get(i).tiffTagKind + "</SourceOfTag>");
-								xmlsummary.println("<Description>" + listTiffTags.get(i).tiffTagDescription + "</Description>");
+								testpurposes.println ("<integeri>" + i + "</integeri>");
+								testpurposes.println ("<integern>" + n + "</integern>");
+								testpurposes.println("<SourceOfTag>" + listTiffTags.get(i).tiffTagKind + "</SourceOfTag>");
+								testpurposes.println("<Description>" + listTiffTags.get(i).tiffTagDescription + "</Description>");
 								// TODO: das geht, wird aber so oft
 								// ausgegeben wie
 								// tag in arraylist vorhanden ist
+								break;
 							}
 						}
 						xmlsummary.println("<Occurance>" + temp + "</Occurance>");
@@ -158,6 +166,10 @@ public class TiffFileAnalysis {
 					xmlsummary.println("<ExaminedTiffs>" + examinedTiffs + "</ExaminedTiffs>");
 					xmlsummary.println("</AnalysisSummary>");
 					xmlsummary.println("</TiffTagAnalysis>");
+					
+					
+					testpurposes.println("<Test>");
+					testpurposes.close();
 					xmlsummary.close();
 					f.dispose();
 				}
