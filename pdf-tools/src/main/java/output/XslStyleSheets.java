@@ -218,26 +218,8 @@ public class XslStyleSheets {
 		xslStyle.println("</tr>");
 		xslStyle.println("</xsl:for-each>");
 		xslStyle.println("</xsl:if>");
-		xslStyle.println("</table>");
-		
-		xslStyle.println("<h3>All found Tiff Tags in Sample</h3>");
-		xslStyle.println("<table border =\"1\">");
-		xslStyle.println("<tr class=\"captiontan\">");
-		xslStyle.println("<th> Tiff Tag</th> ");
-		xslStyle.println("<th> Source of Tag</th>");
-		xslStyle.println("<th> Description</th>");
-		xslStyle.println("</tr>");
-		xslStyle.println("<xsl:if test=\"TiffTagAnalysis/TiffFile/ErrorMessage\">");
-		xslStyle.println("<xsl:for-each select=\"TiffTagAnalysis/TiffFile\">");
-		xslStyle.println("<tr class=\"captiontan\">");
-		xslStyle.println("<td><xsl:value-of select=\"FilePath\"/></td>");
-		xslStyle.println("<td><xsl:value-of select=\"ErrorMessage\"/></td>");
-		xslStyle.println("</tr>");
-		xslStyle.println("</xsl:for-each>");
-		xslStyle.println("</xsl:if>");
-		xslStyle.println("</table>");
-		
-
+		xslStyle.println("</table>");	
+	
 		xslStyle.println("<h3>12 Mandatory Tiff Tags in Baseline Tiff</h3>");
 		xslStyle.println("<table border =\"1\">");
 		xslStyle.println("<tr class=\"captiongreen\">");
