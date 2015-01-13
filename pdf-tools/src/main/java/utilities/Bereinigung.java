@@ -27,7 +27,7 @@ public class Bereinigung {
 			
 		String editedString = editString + ".tif";
 							
-			
+			//test
 			
 			new File(files.get(i).toString()).renameTo(new File(editedString));
 			

@@ -175,15 +175,17 @@ public class XslStyleSheets {
 		xslStyle.println("<tr class=\"captiontan\">");
 		xslStyle.println("<th> TiffTag</th>");
 		xslStyle.println("<th> Occurance</th>");
+		xslStyle.println("<th> Description</th>");
+		xslStyle.println("<th> SourceOfTag</th>");
 		xslStyle.println("</tr>");
 		xslStyle.println("<xsl:for-each select=\"TiffTagAnalysis/AnalysisSummary/DifferentTiffTags\">");
-		xslStyle.println("<xsl:sort select=\"Occurance\" />");
-
+		xslStyle.println("<xsl:sort select=\"SourceOfTag\" />");
 		// TODO: sorts in alphabetic order
-
 		xslStyle.println("<tr class=\"captiontan\">");
 		xslStyle.println("<td><xsl:value-of select=\"TiffTag\"/></td>");
 		xslStyle.println("<td><xsl:value-of select=\"Occurance\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"Description\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"SourceOfTag\"/></td>");
 		xslStyle.println("</tr>");
 		xslStyle.println("</xsl:for-each>");
 		xslStyle.println("</table>");
@@ -202,22 +204,6 @@ public class XslStyleSheets {
 		xslStyle.println("</xsl:for-each>");
 		xslStyle.println("</table>");
 
-		xslStyle.println("<h3>Examined Files and Quantity of Tiff Tags</h3>");
-		xslStyle.println("<table border =\"1\">");
-		xslStyle.println("<tr class=\"captiontan\">");
-		xslStyle.println("<th>File Path</th>");
-		xslStyle.println("<th>Amount of Tiff Tags</th>");
-		xslStyle.println("</tr>");
-		xslStyle.println("<xsl:for-each select=\"TiffTagAnalysis/TiffFile\">");
-		xslStyle.println("<tr class=\"captiontan\">");
-		xslStyle.println("<td><xsl:value-of select=\"FilePath\"/></td>");
-		xslStyle.println("<td><xsl:value-of select=\"TiffTagsCount\"/></td>");
-		xslStyle.println("</tr>");
-		xslStyle.println("</xsl:for-each>");
-		xslStyle.println("</table>");
-
-		// TODO: lists all examined Files. Should list only the ones that
-		// failed.
 		xslStyle.println("<h3>Examination Failed for following Tiff Files</h3>");
 		xslStyle.println("<table border =\"1\">");
 		xslStyle.println("<tr class=\"captiondred\">");
@@ -232,8 +218,8 @@ public class XslStyleSheets {
 		xslStyle.println("</tr>");
 		xslStyle.println("</xsl:for-each>");
 		xslStyle.println("</xsl:if>");
-		xslStyle.println("</table>");
-
+		xslStyle.println("</table>");	
+	
 		xslStyle.println("<h3>12 Mandatory Tiff Tags in Baseline Tiff</h3>");
 		xslStyle.println("<table border =\"1\">");
 		xslStyle.println("<tr class=\"captiongreen\">");
