@@ -16,9 +16,9 @@ import org.apache.commons.io.FilenameUtils;
 
 import filetools.pdf.PdfAnalysis;
 
-public class SearchforString {
+public class TextSucheInOrdner {
 
-	static String fileorfolder;
+	public static String fileorfolder;
 	static String searchedString;
 	static PrintWriter outputfile;
 	static int stringfound;
@@ -26,14 +26,15 @@ public class SearchforString {
 
 	static int MAXIMAL_HITS = 50;
 
-	// implemented non-context-sensitiv for methods searchforStringinSimpleFiles and searchforStringinPdfFiles
+	// implemented non-context-sensitive for methods
+	// searchforStringinSimpleFiles and searchforStringinPdfFiles
 
 	public static void main(String args[]) throws IOException {
 		stringfound = 0;
 		try {
 			fileorfolder = utilities.BrowserDialogs.chooseFileOrFolder();
 			if (fileorfolder != null) {
-				searchedString = JOptionPane.showInputDialog(null, "Please enter String that should be searched in the file or folder", "Enter String Mask", JOptionPane.PLAIN_MESSAGE);
+				searchedString = JOptionPane.showInputDialog(null, "Bitte geben Sie den gesuchten Text ein. Groﬂ- und Kleinschreibung wird nicht beachtet", "Eingabemaske", JOptionPane.PLAIN_MESSAGE);
 				if ((searchedString == null) || (searchedString.length() == 0)) {
 					JOptionPane.showMessageDialog(null, "You have not typed in any text", "Misbehaviour. Program stopped.", JOptionPane.PLAIN_MESSAGE);
 				} else {
@@ -44,14 +45,18 @@ public class SearchforString {
 					}
 					if (stringfound == 0) {
 						JOptionPane.showMessageDialog(null, "The searched String was not found", "Findings", JOptionPane.PLAIN_MESSAGE);
-						outputfile.println("The searched String was not found");
+						outputfile.println("<StringWasNotFound>");
+						outputfile.println("<OccuranceSearchedTest>" + stringfound + "</OccuranceSearchedTest>");
+						outputfile.println("</StringWasNotFound>");
 					} else if (stringfound == MAXIMAL_HITS) {
 						JOptionPane.showMessageDialog(null, "The searched String was found at least " + MAXIMAL_HITS + " times. Search stopped", "Findings", JOptionPane.PLAIN_MESSAGE);
-						outputfile.println("The searched String was found at least " + MAXIMAL_HITS + " times. Search stopped");
+						outputfile.println("<SearchedStopped>Der gesuchte Text ist mehr als 50 Mal in den gesuchten Dateien vorhanden</SearchedStopped>");
 					} else {
 						JOptionPane.showMessageDialog(null, "The searched String was found " + stringfound + " times", "Findings", JOptionPane.PLAIN_MESSAGE);
-						outputfile.println("The searched String was found in " + stringfound + " paragraphs");
+						outputfile.println("<OccuranceSearchedTest>" + stringfound + "</OccuranceSearchedTest>");
 					}
+
+					outputfile.println("</Textsuche>");
 					outputfile.close();
 				}
 			}
@@ -68,10 +73,29 @@ public class SearchforString {
 			stringBuilder.append("//");
 		}
 		String finalString = stringBuilder.toString();
-		outputfile = new PrintWriter(new FileWriter(finalString + "SearchForString" + ".txt"));
+		outputfile = new PrintWriter(new FileWriter(finalString + "ErgebnisTextSuche" + ".xml"));
+
+		String xmlVersion = "xml version='1.0'";
+		String xmlEncoding = "encoding='ISO-8859-1'";
+		String xsltStyleSheet = "<?xml-stylesheet type=\"text/xsl\" href=\"TextSucheTagStyle.xsl\"?>";
+
+		String xsltLocation = finalString + "TextSucheTagStyle.xsl";
+
+		output.XslStyleSheets.TextSucheCustomizedXsl(xsltLocation);
+
+		outputfile.println("<?" + xmlVersion + " " + xmlEncoding + "?>");
+		outputfile.println(xsltStyleSheet);
+		outputfile.println("<Textsuche>");
+		outputfile.println("<Datei>");
+	//	outputfile.println("<Durchsucht =\"file\">" + fileorfolder + "</Durchsucht>");
+		outputfile.println("<Durchsucht>" + fileorfolder + "</Durchsucht>");
+		outputfile.println("<Art>File</Art>");
+		outputfile.println("<GesuchterText>" + searchedString + "</GesuchterText>");
+
 		String filename = FilenameUtils.getBaseName(file);
 		if (!filename.startsWith("~")) {
 			extension = FilenameUtils.getExtension(file.toString()).toLowerCase();
+			System.out.println (extension);
 			if ((extension.equals("txt")) || (extension.equals("java")) || (extension.equals("yml"))) {
 				if (fileorfolder.length() != 0)
 				/**
@@ -85,10 +109,12 @@ public class SearchforString {
 					// of lines.
 					File examinedfile = new File(file);
 					searchforStringinSimpleFiles(examinedfile);
-				} else if (extension.equals("pdf")) {
-					File pdffile = new File(fileorfolder);
-					searchforStringinPdfFiles(pdffile);
-				}
+				} 
+			}
+			
+			else if (extension.equals("pdf")) {
+				File pdffile = new File(fileorfolder);
+				searchforStringinPdfFiles(pdffile);
 			}
 
 			else {
@@ -97,15 +123,35 @@ public class SearchforString {
 						// has to be improved
 			}
 		}
+		
+		outputfile.println("</Datei>");
 	}
 
 	public static void searchStringinFolder(String folder) throws IOException {
-		outputfile = new PrintWriter(new FileWriter(folder + "//" + "SearchForString" + ".txt"));
+
+		outputfile = new PrintWriter(new FileWriter(folder + "//" + "ErgebnisTextSuche" + ".xml"));
+
+		String xmlVersion = "xml version='1.0'";
+		String xmlEncoding = "encoding='ISO-8859-1'";
+		String xsltStyleSheet = "<?xml-stylesheet type=\"text/xsl\" href=\"TextSucheTagStyle.xsl\"?>";
+
+		String xsltLocation = folder + "//" + "TextSucheTagStyle.xsl";
+		output.XslStyleSheets.TextSucheCustomizedXsl(xsltLocation);
+
+		outputfile.println("<?" + xmlVersion + " " + xmlEncoding + "?>");
+		outputfile.println(xsltStyleSheet);
+		outputfile.println("<Textsuche>");
+	//	outputfile.println("<Durchsucht = \"folder\">" + fileorfolder + "</Durchsucht>");
+		outputfile.println("<Durchsucht>" + fileorfolder + "</Durchsucht>");
+		outputfile.println("<Art>Folder</Art>");
+		outputfile.println("<GesuchterText>" + searchedString + "</GesuchterText>");
+
 		ArrayList<File> files = utilities.ListsFiles.getPaths(new File(folder), new ArrayList<File>());
 		if (files != null) {
 			for (int i = 0; i < files.size(); i++) {
 				String filename = FilenameUtils.getBaseName(files.get(i).toString());
 				if (!filename.startsWith("~")) {
+					outputfile.println("<Datei>");
 					extension = FilenameUtils.getExtension(files.get(i).toString()).toLowerCase();
 					if ((extension.equals("txt")) || (extension.equals("java")) || (extension.equals("yml"))) {
 						// TODO: add more extensions that can be
@@ -113,7 +159,14 @@ public class SearchforString {
 						searchforStringinSimpleFiles(files.get(i));
 					} else if (extension.equals("pdf")) {
 						searchforStringinPdfFiles(files.get(i));
+					}					
+					else {
+						outputfile.println("<FileExtension>" + extension + "</FileExtension>");
+						outputfile.println("<FileName>" + files.get(i).getName() + "</FileName>");
+						outputfile.println("<Information>" + "File Format is not implemented for search yet" + "</Information>");
 					}
+					
+					outputfile.println("</Datei>");
 				}
 			}
 		}
@@ -137,6 +190,9 @@ public class SearchforString {
 	// else if "pptx"
 
 	public static void searchforStringinPdfFiles(File file) throws IOException {
+
+		outputfile.println("<Dateiname>" + (file.getName()) + "</Dateiname>");
+
 		if (filetools.pdf.PdfAnalysis.testPdfOk(file)) {
 			String[] linesPdf = PdfAnalysis.extractsPdfLines(file.toString());
 			if (linesPdf != null) {
@@ -146,10 +202,10 @@ public class SearchforString {
 					String searchStringlowerCase = searchedString.toLowerCase();
 					if (paragraph.contains(searchStringlowerCase)) {
 						stringfound++;
-						outputfile.println();
-						outputfile.println(file.toString());
-						outputfile.println(linesPdf[j]);
-						outputfile.println();
+						outputfile.println("<Seitenzahl>" + "unbekannt" + "</Seitenzahl>"); // TODO:
+																							// Seitenzahl
+																							// herauskriegen
+						outputfile.println("<GanzeZeile>" + (linesPdf[j]) + "</GanzeZeile>");
 					}
 				}
 			}
@@ -158,10 +214,12 @@ public class SearchforString {
 
 	public static void searchforStringinSimpleFiles(File file) throws IOException {
 		if (file.length() != 0)
-		/**
-		 * important because otherwise not yet closed outputfile causes
-		 * neverending story
-		 */
+			/**
+			 * important because otherwise not yet closed outputfile causes
+			 * neverending story
+			 */
+
+			outputfile.println("<Dateiname>" + (file.getName()) + "</Dateiname>");
 		{
 			// TODO: There is a big performance
 			// problem with too large Txt-Files,
@@ -171,15 +229,12 @@ public class SearchforString {
 			// of lines.
 			BufferedReader txtreader = new BufferedReader(new FileReader(file));
 			String line;
-			while (null != (line = txtreader.readLine()) && (stringfound < MAXIMAL_HITS)) {				
+			while (null != (line = txtreader.readLine()) && (stringfound < MAXIMAL_HITS)) {
 				String linelowercase = line.toLowerCase();
-				String searchStringlowerCase = searchedString.toLowerCase();				
+				String searchStringlowerCase = searchedString.toLowerCase();
 				if (linelowercase.contains(searchStringlowerCase)) {
 					stringfound++;
-					outputfile.println();
-					outputfile.println(file);
-					outputfile.println(line);
-					outputfile.println();
+					outputfile.println("<GanzeZeile>" + (line) + "</GanzeZeile>");
 				}
 			}
 			txtreader.close();

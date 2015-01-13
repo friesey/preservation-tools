@@ -148,6 +148,72 @@ public class XslStyleSheets {
 		xslStyle.close();
 	}
 
+	public static void TextSucheCustomizedXsl(String xsltLocation) throws IOException {
+
+		PrintWriter xslStyle = new PrintWriter(new FileWriter(xsltLocation));
+
+		xslStyle.println("<?xml version=\"1.0\"?>");
+		xslStyle.println("<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">");
+		xslStyle.println("<xsl:template match=\"/\">");
+		xslStyle.println("<html>");
+		xslStyle.println("<head>");
+		xslStyle.println("<style>");
+		xslStyle.println("tr.captiondred {background-color: #FF0000}");
+		xslStyle.println("tr.captionred {background-color: #CD5C5C}");
+		xslStyle.println("tr.captiongreen {background-color: #006400}");
+		xslStyle.println("tr.captiontan {background-color: #FFDEAD}");
+		xslStyle.println("tr.captionkhaki {background-color: #BDB76B}");
+		xslStyle.println("tr.captionolive {background-color: #808000}");
+		xslStyle.println("tr.captionwheat {background-color: #F5DEB3}");
+		xslStyle.println("</style>");
+		xslStyle.println("</head>");
+		xslStyle.println("<body>");
+
+		xslStyle.println("<h2>Textsuche</h2>");
+		xslStyle.println("<table border =\"1\">");
+		xslStyle.println("<tr class=\"captiontan\">");
+		xslStyle.println("<th>Durchsuchter Ordner oder Datei</th>");
+		xslStyle.println("<th>Art der Suche</th>");
+		xslStyle.println("<th>Gesuchter Text</th>");
+
+		xslStyle.println("</tr>");
+		xslStyle.println("<tr class=\"captiontan\">");
+		xslStyle.println("<td><xsl:value-of select=\"Durchsucht\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"Art\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"GesuchterText\"/></td>");
+		xslStyle.println("</tr>");
+		xslStyle.println("</table>");
+
+		xslStyle.println("<h2>Ergebnis der Textsuche</h2>");
+
+		xslStyle.println("<xsl:value-of select=\"Textsuche\"/>");
+		xslStyle.println("<table border =\"1\">");
+		xslStyle.println("<tr class=\"captiontan\">");
+		xslStyle.println("<th>Dateiname</th>");
+		xslStyle.println("<th>Gesuchter Text</th>");
+		xslStyle.println("<th>Seitenzahl</th>");
+		xslStyle.println("<th>GanzeZeile</th>");
+		xslStyle.println("</tr>");
+		xslStyle.println("<xsl:for-each select=\"Textsuche/Datei\">");
+
+		xslStyle.println("<tr class=\"captiontan\">");
+		xslStyle.println("<td><xsl:value-of select=\"Dateiname\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"GesuchterText\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"Seitenzahl\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"GanzeZeile\"/></td>");
+		xslStyle.println("</tr>");
+		xslStyle.println("</xsl:for-each>");
+		xslStyle.println("</table>");
+
+		xslStyle.println("</body>");
+		xslStyle.println("</html>");
+		xslStyle.println("</xsl:template>");
+		xslStyle.println("</xsl:stylesheet>");
+
+		xslStyle.close();
+
+	}
+
 	public static void TiffTagAnalysisCustomizedXsl() throws IOException {
 
 		PrintWriter xslStyle = new PrintWriter(new FileWriter(filetools.tiff.TiffFileAnalysis.examinedFolder + "//" + "TiffTagStyle.xsl"));
@@ -168,6 +234,7 @@ public class XslStyleSheets {
 		xslStyle.println("</style>");
 		xslStyle.println("</head>");
 		xslStyle.println("<body>");
+
 		xslStyle.println("<h2>Examination of Tiff Tags</h2>");
 		xslStyle.println("<h3>Summary of Tiff Tags</h3>");
 		xslStyle.println("<xsl:value-of select=\"DifferentTiffTagsInSample\"/>");
@@ -218,8 +285,8 @@ public class XslStyleSheets {
 		xslStyle.println("</tr>");
 		xslStyle.println("</xsl:for-each>");
 		xslStyle.println("</xsl:if>");
-		xslStyle.println("</table>");	
-	
+		xslStyle.println("</table>");
+
 		xslStyle.println("<h3>12 Mandatory Tiff Tags in Baseline Tiff</h3>");
 		xslStyle.println("<table border =\"1\">");
 		xslStyle.println("<tr class=\"captiongreen\">");
@@ -312,8 +379,8 @@ public class XslStyleSheets {
 		xslStyle.println("<th> T6Option</th>");
 		xslStyle.println("<th> PageNumber</th>");
 		xslStyle.println("<th> FillOrder</th>");
-		xslStyle.println("<th> Orientation</th>");		
-		xslStyle.println("<th> PlanarConfiguration</th>");	
+		xslStyle.println("<th> Orientation</th>");
+		xslStyle.println("<th> PlanarConfiguration</th>");
 		xslStyle.println("</tr>");
 		xslStyle.println("<xsl:for-each select=\"TiffTagAnalysis/TiffFile/TiffTags\">");
 		xslStyle.println("<tr class=\"captionolive\">");
@@ -330,8 +397,8 @@ public class XslStyleSheets {
 		xslStyle.println("</body>");
 		xslStyle.println("</html>");
 		xslStyle.println("</xsl:template>");
-		xslStyle.println("</xsl:stylesheet>");			
-			
+		xslStyle.println("</xsl:stylesheet>");
+
 		xslStyle.close();
 
 	}
