@@ -95,8 +95,7 @@ public class CsvOutput {
 		return MISSING_VALUE;
 	}
 
-	private static String getfileName(File file) {
-		// TODO Auto-generated method stub
+	private static String getfileName(File file) {		
 		try {
 			String filename = file.getName();
 			return filename;
@@ -107,8 +106,7 @@ public class CsvOutput {
 	}
 
 	private static String getMimeType(File file) {
-		// TODO Auto-generated method stub
-		try {
+			try {
 			String filemime = Files.probeContentType(file.toPath());
 			return filemime;
 		} catch (Exception e) {
