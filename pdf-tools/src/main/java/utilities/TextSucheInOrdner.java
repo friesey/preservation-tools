@@ -16,6 +16,11 @@ import org.apache.commons.io.FilenameUtils;
 
 import filetools.pdf.PdfAnalysis;
 
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.parser.PdfReaderContentParser;
+import com.itextpdf.text.pdf.parser.SimpleTextExtractionStrategy;
+import com.itextpdf.text.pdf.parser.TextExtractionStrategy;
+
 public class TextSucheInOrdner {
 
 	public static String fileorfolder;
@@ -87,15 +92,17 @@ public class TextSucheInOrdner {
 		outputfile.println(xsltStyleSheet);
 		outputfile.println("<Textsuche>");
 		outputfile.println("<Datei>");
-	//	outputfile.println("<Durchsucht =\"file\">" + fileorfolder + "</Durchsucht>");
+		// outputfile.println("<Durchsucht =\"file\">" + fileorfolder +
+		// "</Durchsucht>");
 		outputfile.println("<Durchsucht>" + fileorfolder + "</Durchsucht>");
 		outputfile.println("<Art>File</Art>");
+		outputfile.println("<AnzahlDateien>" + "1" + "</AnzahlDateien>");
 		outputfile.println("<GesuchterText>" + searchedString + "</GesuchterText>");
 
 		String filename = FilenameUtils.getBaseName(file);
 		if (!filename.startsWith("~")) {
 			extension = FilenameUtils.getExtension(file.toString()).toLowerCase();
-			System.out.println (extension);
+			System.out.println(extension);
 			if ((extension.equals("txt")) || (extension.equals("java")) || (extension.equals("yml"))) {
 				if (fileorfolder.length() != 0)
 				/**
@@ -109,9 +116,9 @@ public class TextSucheInOrdner {
 					// of lines.
 					File examinedfile = new File(file);
 					searchforStringinSimpleFiles(examinedfile);
-				} 
+				}
 			}
-			
+
 			else if (extension.equals("pdf")) {
 				File pdffile = new File(fileorfolder);
 				searchforStringinPdfFiles(pdffile);
@@ -123,7 +130,7 @@ public class TextSucheInOrdner {
 						// has to be improved
 			}
 		}
-		
+
 		outputfile.println("</Datei>");
 	}
 
@@ -141,12 +148,16 @@ public class TextSucheInOrdner {
 		outputfile.println("<?" + xmlVersion + " " + xmlEncoding + "?>");
 		outputfile.println(xsltStyleSheet);
 		outputfile.println("<Textsuche>");
-	//	outputfile.println("<Durchsucht = \"folder\">" + fileorfolder + "</Durchsucht>");
+		// outputfile.println("<Durchsucht = \"folder\">" + fileorfolder +
+		// "</Durchsucht>");
 		outputfile.println("<Durchsucht>" + fileorfolder + "</Durchsucht>");
 		outputfile.println("<Art>Folder</Art>");
-		outputfile.println("<GesuchterText>" + searchedString + "</GesuchterText>");
 
 		ArrayList<File> files = utilities.ListsFiles.getPaths(new File(folder), new ArrayList<File>());
+		int anzahlDateien = files.size();				
+		outputfile.println("<AnzahlDateien>" + anzahlDateien + "</AnzahlDateien>");
+		outputfile.println("<GesuchterText>" + searchedString + "</GesuchterText>");
+		
 		if (files != null) {
 			for (int i = 0; i < files.size(); i++) {
 				String filename = FilenameUtils.getBaseName(files.get(i).toString());
@@ -159,13 +170,12 @@ public class TextSucheInOrdner {
 						searchforStringinSimpleFiles(files.get(i));
 					} else if (extension.equals("pdf")) {
 						searchforStringinPdfFiles(files.get(i));
-					}					
-					else {
+					} else {
 						outputfile.println("<FileExtension>" + extension + "</FileExtension>");
-						outputfile.println("<FileName>" + files.get(i).getName() + "</FileName>");
-						outputfile.println("<Information>" + "File Format is not implemented for search yet" + "</Information>");
+						outputfile.println("<Dateiname>" + files.get(i).getName() + "</Dateiname>");
+						outputfile.println("<Suchergebnis>" + "nicht durchsucht" + "</Suchergebnis>");
 					}
-					
+
 					outputfile.println("</Datei>");
 				}
 			}
@@ -193,23 +203,44 @@ public class TextSucheInOrdner {
 
 		outputfile.println("<Dateiname>" + (file.getName()) + "</Dateiname>");
 
+		int trefferinDatei;
+
 		if (filetools.pdf.PdfAnalysis.testPdfOk(file)) {
-			String[] linesPdf = PdfAnalysis.extractsPdfLines(file.toString());
-			if (linesPdf != null) {
-				int lenlines = linesPdf.length;
-				for (int j = 0; (j < lenlines && (stringfound < MAXIMAL_HITS)); j++) {
-					String paragraph = linesPdf[j].toLowerCase();
-					String searchStringlowerCase = searchedString.toLowerCase();
-					if (paragraph.contains(searchStringlowerCase)) {
-						stringfound++;
-						outputfile.println("<Seitenzahl>" + "unbekannt" + "</Seitenzahl>"); // TODO:
-																							// Seitenzahl
-																							// herauskriegen
-						outputfile.println("<GanzeZeile>" + (linesPdf[j]) + "</GanzeZeile>");
+			try {
+				PdfReader reader = new PdfReader(file.toString());
+				int pagesPdf = reader.getNumberOfPages();
+				StringBuffer buff = new StringBuffer();
+				String ExtractedText = null;
+				PdfReaderContentParser parser = new PdfReaderContentParser(reader);
+				TextExtractionStrategy strategy;
+
+				trefferinDatei = 0;
+				for (int i = 1; i <= pagesPdf; i++) {
+					strategy = parser.processContent(i, new SimpleTextExtractionStrategy());
+					ExtractedText = strategy.getResultantText().toString();
+					buff.append(ExtractedText + "\n");
+					String[] LinesArray = buff.toString().split("\n");
+					int linesPdf = LinesArray.length;
+					for (int j = 0; (j < linesPdf && (stringfound < MAXIMAL_HITS)); j++) {
+						String paragraph = LinesArray[j].toLowerCase();
+						String searchStringlowerCase = searchedString.toLowerCase();
+						if (paragraph.contains(searchStringlowerCase)) {
+							trefferinDatei++;
+							stringfound++;
+							outputfile.println("<Seitenzahl>" + i + "</Seitenzahl>");
+							outputfile.println("<GanzeZeile>" + (LinesArray[j]) + "</GanzeZeile>");
+						}
 					}
 				}
+				outputfile.println("<TextinDatei>" + trefferinDatei + "</TextinDatei>");
+				outputfile.println("<Suchergebnis>" + trefferinDatei + " x gefunden" + "</Suchergebnis>");
+				reader.close();
+
+			} catch (Exception e) {
+				outputfile.println("<Fehlermeldung>" + e + "</Fehlermeldung>");
 			}
 		}
+
 	}
 
 	public static void searchforStringinSimpleFiles(File file) throws IOException {
@@ -229,14 +260,18 @@ public class TextSucheInOrdner {
 			// of lines.
 			BufferedReader txtreader = new BufferedReader(new FileReader(file));
 			String line;
+			int trefferinDatei = 0;
 			while (null != (line = txtreader.readLine()) && (stringfound < MAXIMAL_HITS)) {
 				String linelowercase = line.toLowerCase();
 				String searchStringlowerCase = searchedString.toLowerCase();
 				if (linelowercase.contains(searchStringlowerCase)) {
+					trefferinDatei++;
 					stringfound++;
 					outputfile.println("<GanzeZeile>" + (line) + "</GanzeZeile>");
 				}
 			}
+			outputfile.println("<TextinDatei>" + trefferinDatei + "</TextinDatei>");
+			outputfile.println("<Suchergebnis>" + trefferinDatei + " x gefunden" + "</Suchergebnis>");
 			txtreader.close();
 		}
 	}

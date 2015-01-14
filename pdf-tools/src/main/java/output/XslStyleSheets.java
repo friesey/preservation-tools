@@ -174,14 +174,35 @@ public class XslStyleSheets {
 		xslStyle.println("<tr class=\"captiontan\">");
 		xslStyle.println("<th>Durchsuchter Ordner oder Datei</th>");
 		xslStyle.println("<th>Art der Suche</th>");
+		xslStyle.println("<th>Anzahl Dateien im Suchordner</th>");
 		xslStyle.println("<th>Gesuchter Text</th>");
+		xslStyle.println("<th>Text in durchsuchtem Ordner/Datei gefunden</th>");
 
 		xslStyle.println("</tr>");
+		xslStyle.println("<xsl:for-each select=\"Textsuche\">");
 		xslStyle.println("<tr class=\"captiontan\">");
 		xslStyle.println("<td><xsl:value-of select=\"Durchsucht\"/></td>");
 		xslStyle.println("<td><xsl:value-of select=\"Art\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"AnzahlDateien\"/></td>");
 		xslStyle.println("<td><xsl:value-of select=\"GesuchterText\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"OccuranceSearchedTest\"/></td>");
 		xslStyle.println("</tr>");
+		xslStyle.println("</xsl:for-each>");
+		xslStyle.println("</table>");
+		
+		xslStyle.println("<h2>Durchsuchte Dateien</h2>");
+		xslStyle.println("<table border =\"1\">");
+		xslStyle.println("<tr class=\"captiontan\">");
+		xslStyle.println("<th>Dateiname</th>");
+		xslStyle.println("<th>Gesuchten Text gefunden</th>");
+		xslStyle.println("</tr>");
+		xslStyle.println("<xsl:for-each select=\"Textsuche/Datei\">");
+	
+		xslStyle.println("<tr class=\"captiontan\">");
+		xslStyle.println("<td><xsl:value-of select=\"Dateiname\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"Suchergebnis\"/></td>");
+		xslStyle.println("</tr>");
+		xslStyle.println("</xsl:for-each>");
 		xslStyle.println("</table>");
 
 		xslStyle.println("<h2>Ergebnis der Textsuche</h2>");
@@ -189,16 +210,14 @@ public class XslStyleSheets {
 		xslStyle.println("<xsl:value-of select=\"Textsuche\"/>");
 		xslStyle.println("<table border =\"1\">");
 		xslStyle.println("<tr class=\"captiontan\">");
-		xslStyle.println("<th>Dateiname</th>");
-		xslStyle.println("<th>Gesuchter Text</th>");
-		xslStyle.println("<th>Seitenzahl</th>");
+		xslStyle.println("<th>Dateiname</th>");		
+		xslStyle.println("<th>Gefunden auf Seite</th>");
 		xslStyle.println("<th>GanzeZeile</th>");
 		xslStyle.println("</tr>");
 		xslStyle.println("<xsl:for-each select=\"Textsuche/Datei\">");
 
 		xslStyle.println("<tr class=\"captiontan\">");
 		xslStyle.println("<td><xsl:value-of select=\"Dateiname\"/></td>");
-		xslStyle.println("<td><xsl:value-of select=\"GesuchterText\"/></td>");
 		xslStyle.println("<td><xsl:value-of select=\"Seitenzahl\"/></td>");
 		xslStyle.println("<td><xsl:value-of select=\"GanzeZeile\"/></td>");
 		xslStyle.println("</tr>");
