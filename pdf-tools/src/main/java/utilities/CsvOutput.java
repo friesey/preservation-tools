@@ -108,6 +108,10 @@ public class CsvOutput {
 	private static String getMimeType(File file) {
 			try {
 			String filemime = Files.probeContentType(file.toPath());
+			
+			if (filemime == null){
+				filemime = "mimetype/unknown"; //TODO: check which solution is in Rosetta Mets if Mimetype is not known.
+			}
 			return filemime;
 		} catch (Exception e) {
 
