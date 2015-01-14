@@ -12,6 +12,8 @@ import java.util.regex.Pattern;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
+import org.apache.commons.io.FilenameUtils;
+
 public class CsvOutput {
 
 	public static String folderCsvData;
@@ -35,7 +37,8 @@ public class CsvOutput {
 				f.setVisible(true);
 
 				ArrayList<File> files = utilities.ListsFiles.getPaths(new File(folderCsvData), new ArrayList<File>());
-				PrintWriter outputCsv = new PrintWriter(new FileWriter(folderCsvData + "//" + "outputCsv.csv"));
+				String outputpath = folderCsvData + "//" + "outputCsv.csv"; //should be the content folder, now it's just the same folder
+				PrintWriter outputCsv = new PrintWriter(new FileWriter(outputpath));
 
 				// the first line is always known, Heading Line
 
@@ -52,6 +55,12 @@ public class CsvOutput {
 				outputCsv.println(objectType + SEPARATOR + title + SEPARATOR + alternativeTitle + SEPARATOR + preservationType + SEPARATOR + usageType + SEPARATOR + revisionNumber + SEPARATOR + fileMimeType + SEPARATOR + fileName + SEPARATOR + fileLabel);
 
 				for (int i = 0; i < files.size(); i++) {
+					
+					//the outputfile should be omitted
+					
+					// String extension = FilenameUtils.getExtension(files.get(i).toString()).toLowerCase();
+					
+					if (!files.get(i).toString().contains ("outputCsv")) {
 
 					objectType = "FILE"; // other possibilities: SIP, IE,
 											// REPRESENTATION
@@ -65,6 +74,7 @@ public class CsvOutput {
 					fileLabel = getFileLabel(files.get(i));
 
 					outputCsv.println(objectType + SEPARATOR + title + SEPARATOR + alternativeTitle + SEPARATOR + preservationType + SEPARATOR + usageType + SEPARATOR + revisionNumber + SEPARATOR + fileMimeType + SEPARATOR + fileName + SEPARATOR + fileLabel);
+				}
 				}
 				outputCsv.close();
 				f.dispose();
