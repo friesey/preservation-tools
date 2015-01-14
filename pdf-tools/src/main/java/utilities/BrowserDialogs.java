@@ -30,8 +30,8 @@ public class BrowserDialogs {
 			return folder;
 		}
 	} catch (Exception e) {
-		JOptionPane.showMessageDialog(null, "Most likely you tried to choose a folder like \"C:\" but you do not have the rights to read files there.", "Info Message", JOptionPane.PLAIN_MESSAGE);
-		return null;
+		JOptionPane.showMessageDialog(null, "Most likely you tried to choose a folder like \"C:\" but you do not have the rights to read files there." + e, "Info Message", JOptionPane.PLAIN_MESSAGE);
+		return null;		
 	}
 	}
 
@@ -56,7 +56,7 @@ public class BrowserDialogs {
 			}
 			return null;
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Most likely you tried to choose a folder like \"C:\" but you do not have the rights to read files there.", "Info Message", JOptionPane.PLAIN_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Most likely you tried to choose a folder like \"C:\" but you do not have the rights to read files there." + e, "Info Message", JOptionPane.PLAIN_MESSAGE);
 			return null;
 		}
 	}
@@ -76,7 +76,7 @@ public class BrowserDialogs {
 				return folder;
 			}
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Most likely you tried to choose a folder like \"C:\" but you do not have the rights to read files there.", "Info Message", JOptionPane.PLAIN_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Most likely you tried to choose a folder like \"C:\" but you do not have the rights to read files there." + e, "Info Message", JOptionPane.PLAIN_MESSAGE);
 			return null;
 		}
 	}

@@ -14,8 +14,6 @@ import javax.swing.JOptionPane;
 
 import org.apache.commons.io.FilenameUtils;
 
-import filetools.pdf.PdfAnalysis;
-
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.parser.PdfReaderContentParser;
 import com.itextpdf.text.pdf.parser.SimpleTextExtractionStrategy;
@@ -65,6 +63,7 @@ public class TextSucheInOrdner {
 					outputfile.close();
 				}
 			}
+
 		} catch (FileNotFoundException e) {
 			JOptionPane.showMessageDialog(null, "An exception occured " + e);
 		}
@@ -154,10 +153,10 @@ public class TextSucheInOrdner {
 		outputfile.println("<Art>Folder</Art>");
 
 		ArrayList<File> files = utilities.ListsFiles.getPaths(new File(folder), new ArrayList<File>());
-		int anzahlDateien = files.size();				
+		int anzahlDateien = files.size();
 		outputfile.println("<AnzahlDateien>" + anzahlDateien + "</AnzahlDateien>");
 		outputfile.println("<GesuchterText>" + searchedString + "</GesuchterText>");
-		
+
 		if (files != null) {
 			for (int i = 0; i < files.size(); i++) {
 				String filename = FilenameUtils.getBaseName(files.get(i).toString());
@@ -221,6 +220,7 @@ public class TextSucheInOrdner {
 					buff.append(ExtractedText + "\n");
 					String[] LinesArray = buff.toString().split("\n");
 					int linesPdf = LinesArray.length;
+
 					for (int j = 0; (j < linesPdf && (stringfound < MAXIMAL_HITS)); j++) {
 						String paragraph = LinesArray[j].toLowerCase();
 						String searchStringlowerCase = searchedString.toLowerCase();
@@ -231,9 +231,11 @@ public class TextSucheInOrdner {
 							outputfile.println("<GanzeZeile>" + (LinesArray[j]) + "</GanzeZeile>");
 						}
 					}
+
 				}
 				outputfile.println("<TextinDatei>" + trefferinDatei + "</TextinDatei>");
-				outputfile.println("<Suchergebnis>" + trefferinDatei + " x gefunden" + "</Suchergebnis>");
+				outputfile.println("<Suchergebnis>" + trefferinDatei + " x " + "</Suchergebnis>");
+
 				reader.close();
 
 			} catch (Exception e) {
