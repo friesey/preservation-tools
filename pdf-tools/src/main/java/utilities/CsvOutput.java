@@ -122,6 +122,8 @@ public class CsvOutput {
 	private static String getTitle(File file) {
 		// I am assuming that one folder is one IE and the name of the folder is
 		// the name of the IE
+		//TODO: but right now it chooses the name of the parent folder, it might have to be the highest-level-folder instead.
+		//this might not be the most clever way to solve this. 
 		try {
 			String titleofIE = file.getParent().toString();
 			System.out.println(titleofIE);
