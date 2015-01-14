@@ -5,7 +5,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,7 +17,6 @@ public class CsvOutput {
 	public static String folderCsvData;
 
 	static String SEPARATOR = ";";
-	static String NEWLINE = "\n";
 	static String MISSING_VALUE = "";
 
 	// assuming all files in folder are from the same entity. otherwise more
@@ -39,8 +40,8 @@ public class CsvOutput {
 				// the first line is always known, Heading Line
 
 				String objectType = "Object Type";
-				String title = "Title"
-;				String alternativeTitle = "Alternative Title";
+				String title = "Title";
+				String alternativeTitle = "Alternative Title";
 				String preservationType = "Preservation Type";
 				String usageType = "Usage Type";
 				String revisionNumber = "Revision Number";
@@ -52,7 +53,8 @@ public class CsvOutput {
 
 				for (int i = 0; i < files.size(); i++) {
 
-					objectType = "FILE"; //other possibilities: SIP, IE, REPRESENTATION
+					objectType = "FILE"; // other possibilities: SIP, IE,
+											// REPRESENTATION
 					title = getTitle(files.get(i));
 					alternativeTitle = getalternativeTitle(files.get(i));
 					preservationType = "PRESERVATION MASTER";
@@ -60,7 +62,7 @@ public class CsvOutput {
 					revisionNumber = "1";
 					fileMimeType = getMimeType(files.get(i));
 					fileName = getfileName(files.get(i));
-					fileLabel = getFileLabel (files.get(i));
+					fileLabel = getFileLabel(files.get(i));
 
 					outputCsv.println(objectType + SEPARATOR + title + SEPARATOR + alternativeTitle + SEPARATOR + preservationType + SEPARATOR + usageType + SEPARATOR + revisionNumber + SEPARATOR + fileMimeType + SEPARATOR + fileName + SEPARATOR + fileLabel);
 				}
@@ -73,12 +75,12 @@ public class CsvOutput {
 	}
 
 	private static String getFileLabel(File file) {
-		// TODO Auto-generated method stub
+		// this is the path. Is it the path that is needed?
 		try {
-			
-		}
-		catch (Exception e) {
-	
+			String fileLabel = file.getParent().toString();
+			return fileLabel;
+		} catch (Exception e) {
+
 		}
 		return MISSING_VALUE;
 	}
@@ -86,10 +88,10 @@ public class CsvOutput {
 	private static String getfileName(File file) {
 		// TODO Auto-generated method stub
 		try {
-			
-		}
-		catch (Exception e) {
-	
+			String filename = file.getName();
+			return filename;
+		} catch (Exception e) {
+
 		}
 		return MISSING_VALUE;
 	}
@@ -97,32 +99,35 @@ public class CsvOutput {
 	private static String getMimeType(File file) {
 		// TODO Auto-generated method stub
 		try {
-			
-		}
-		catch (Exception e) {
-	
+			String filemime = Files.probeContentType(file.toPath());
+			return filemime;
+		} catch (Exception e) {
+
 		}
 		return MISSING_VALUE;
 	}
 
 	private static String getTitle(File file) {
-		// TODO Auto-generated method stub
+		// I am assuming that one folder is one IE and the name of the folder is
+		// the name of the IE
 		try {
-			
-		}
-		catch (Exception e) {
-	
+			String titleofIE = file.getParent().toString();
+			System.out.println(titleofIE);
+			String[] temp = titleofIE.split(Pattern.quote("\\"));
+			int len = temp.length;
+			titleofIE = temp[len - 1];
+			return titleofIE;
+		} catch (Exception e) {
+
 		}
 		return MISSING_VALUE;
 	}
 
 	private static String getalternativeTitle(File file) {
-		// TODO Auto-generated method stub
 		try {
-			
-		}
-		catch (Exception e) {
-	
+			// usually there would not be an alternative title
+		} catch (Exception e) {
+
 		}
 		return MISSING_VALUE;
 	}
