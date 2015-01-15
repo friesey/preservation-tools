@@ -76,7 +76,7 @@ public class CsvOutput {
 																			 * is
 																			 * none
 																			 */
-						preservationType = "PRESERVATION MASTER";
+						preservationType = "PRESERVATION_MASTER";
 						usageType = "VIEW";
 						revisionNumber = "1";
 						fileMimeType = getMimeType(files.get(i));
