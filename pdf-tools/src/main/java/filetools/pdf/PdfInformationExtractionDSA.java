@@ -44,7 +44,7 @@ public class PdfInformationExtractionDSA {
 								int pages = reader.getNumberOfPages();
 								informationExtraction.println("<PdfPages>" + pages + "</PdfPages>");
 								createXml(files.get(i));
-								informationExtraction.println("</File>");							
+								informationExtraction.println("</File>");
 							}
 						}
 					}
@@ -56,7 +56,7 @@ public class PdfInformationExtractionDSA {
 					mimetype = filetools.GenericFileAnalysis.getFileMimeType(files.get(i));
 					if (mimetype != null) {
 						if (mimetype.equals("application/pdf")) {
-							System.out.println (files.get(i).toString());
+							System.out.println(files.get(i).toString());
 							createTableforC1(files.get(i));
 						}
 					}
@@ -94,7 +94,6 @@ public class PdfInformationExtractionDSA {
 		String filename = file.getName().toString();
 		int len = (filename.length() - 4);
 		filename = filename.substring(0, len);
-		System.out.println(filename);
 
 		File directory = new File(examinedFolder + "//" + filename);
 		if (!directory.exists()) {
@@ -110,21 +109,28 @@ public class PdfInformationExtractionDSA {
 		String implementation = "Implementation";
 		String criterium1 = "Criterium 1";
 
-		outputCsv.println(repositoryName + SEPARATOR + criterium1);
+		outputCsv.println(repositoryName + SEPARATOR + implementation + SEPARATOR + criterium1);
 
-		for (int i = 0; i < lines.length; i++) {
-			if (lines[i].contains("Applicant Entry")) {
-				do {
-					i++;
-					stringBuilder.append(lines[i]);
-				} while (!lines[i].contains("Applicant Entry"));
-
+		for (int j = 0; j < lines.length; j++) {
+			if ((!lines[j].contains("Minimum Required ") && (lines[j].contains("Statement of Compliance")))) {
+				implementation = (lines[j + 1]);
+				repositoryName = filename;
+				criterium1 = "answer";
+				outputCsv.println(repositoryName + SEPARATOR + implementation + SEPARATOR + criterium1);
+				outputCsv.close();
+				return;
 			}
-
-			// outputCsv.println (repository + SEPARATOR +
-			// stringBuilder.toString());
-			outputCsv.close();
-
+			System.out.println("Test");
+			/*
+			 * if (lines[j].contains("Applicant Entry")) { do { j++;
+			 * stringBuilder.append(lines[j]); } while
+			 * (!lines[j].contains("Applicant Entry"));
+			 */
 		}
+
+		// outputCsv.println (repository + SEPARATOR +
+		// stringBuilder.toString());
+
 	}
+
 }
