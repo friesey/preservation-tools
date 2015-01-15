@@ -32,19 +32,22 @@ public class XslStyleSheets {
 		xslStyle.println("<h2>Informationen aus Dateien</h2>");
 		xslStyle.println("<table border =\"1\">");
 		xslStyle.println("<tr class=\"captiontan\">");
-		xslStyle.println("<th>Filename</th>");
-		xslStyle.println("<th>Number of Pages</th>");
+		// xslStyle.println("<th>Filename</th>");
 		xslStyle.println("<th>Repository</th>");
-		xslStyle.println("<th>Seal Acquiry Date</th>");		
+		xslStyle.println("<th>Number of Pages</th>");
+		xslStyle.println("<th>Number of Links</th>");
+		xslStyle.println("<th>Seal Acquiry Date</th>");
 		xslStyle.println("</tr>");
 		xslStyle.println("<xsl:for-each select=\"Information/File\">");
 		xslStyle.println("<xsl:sort select=\"PdfPages\" />");
 
 		xslStyle.println("<tr class=\"captiontan\">");
-		xslStyle.println("<td><xsl:value-of select=\"FileName\"/></td>");
-		xslStyle.println("<td><xsl:value-of select=\"PdfPages\"/></td>");
+		// xslStyle.println("<td><xsl:value-of select=\"FileName\"/></td>");
 		xslStyle.println("<td><xsl:value-of select=\"Repository\"/></td>");
-		xslStyle.println("<td><xsl:value-of select=\"SealAcquiryDate\"/></td>");		 
+		xslStyle.println("<td><xsl:value-of select=\"PdfPages\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"NumberOfLinks\"/></td>");
+
+		xslStyle.println("<td><xsl:value-of select=\"SealAcquiryDate\"/></td>");
 		xslStyle.println("</tr>");
 		xslStyle.println("</xsl:for-each>");
 		xslStyle.println("</table>");

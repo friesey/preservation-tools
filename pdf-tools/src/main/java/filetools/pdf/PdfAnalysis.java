@@ -33,7 +33,7 @@ public class PdfAnalysis {
 	 ********************************************************/
 	public static BufferedReader PdfHeaderTest;
 
-	static Logger logger = LoggerFactory.getLogger(PdfAnalysis.class);
+//	static Logger logger = LoggerFactory.getLogger(PdfAnalysis.class);
 
 	/*********************************************************
 	 * Methods used within the whole package
@@ -162,7 +162,7 @@ public class PdfAnalysis {
 		} catch (java.lang.NullPointerException e) {
 			System.out.println(e);
 			pdfType = "PDF cannot be read by PdfReader";
-			logger.error("Error analyzing " + e);
+		//	logger.error("Error analyzing " + e);
 			return pdfType;
 		}
 	}
@@ -190,7 +190,7 @@ public class PdfAnalysis {
 		} catch (Exception e) {
 			System.out.println("Broken: " + file);
 			brokenPdf = true;
-			logger.error("Error analyzing " + e);
+		//	logger.error("Error analyzing " + e);
 			return brokenPdf;
 		}
 	}

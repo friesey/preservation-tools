@@ -15,12 +15,15 @@ public class PdfInformationExtractionDSA {
 	static String SEPARATOR = ";";
 	static String MISSING_VALUE = "";
 	static PrintWriter outputCsv;
+	public static ArrayList<String> linklist = new ArrayList<String>();
+	static int linkNum;
 
 	public static void main(String args[]) throws IOException {
 		try {
 			examinedFolder = utilities.BrowserDialogs.chooseFolder();
 			if (examinedFolder != null) {
 				informationExtraction = new PrintWriter(new FileWriter(examinedFolder + "//" + "InformationExtract" + ".xml"));
+
 				String xmlVersion = "xml version='1.0'";
 				String xmlEncoding = "encoding='ISO-8859-1'";
 				String xsltStyleSheet = "<?xml-stylesheet type=\"text/xsl\" href=\"InformationExtractionXsl.xsl\"?>";
@@ -34,6 +37,7 @@ public class PdfInformationExtractionDSA {
 				String mimetype;
 				PdfReader reader;
 				for (int i = 0; i < files.size(); i++) {
+					linkNum = 0;
 					mimetype = filetools.GenericFileAnalysis.getFileMimeType(files.get(i));
 					if (mimetype != null) {
 						if (mimetype.equals("application/pdf")) {
@@ -41,10 +45,13 @@ public class PdfInformationExtractionDSA {
 							if (!reader.isEncrypted()) {
 								informationExtraction.println("<File>");
 								informationExtraction.println("<FileName>" + files.get(i).getName().toString() + "</FileName>");
+
 								int pages = reader.getNumberOfPages();
+
 								informationExtraction.println("<PdfPages>" + pages + "</PdfPages>");
 								createXml(files.get(i));
 								informationExtraction.println("</File>");
+
 							}
 						}
 					}
@@ -73,20 +80,32 @@ public class PdfInformationExtractionDSA {
 		String[] lines = PdfAnalysis.extractsPdfLines(file.toString());
 		// stringBuilder.append();
 		// stringBuilder.toString();
+
 		for (int i = 0; i < lines.length; i++) {
 			if (lines[i].contains("Repository:")) {
 				String[] parts = lines[i].split(":");
 				informationExtraction.println("<Repository>" + parts[1] + "</Repository>");
+
 				//
 			}
 			if (lines[i].contains("Seal Acquiry Date:")) {
 				String[] parts = lines[i].split(":");
 				informationExtraction.println("<SealAcquiryDate>" + parts[1] + "</SealAcquiryDate>");
-				return;
+
+			}
+
+			if (lines[i].contains("http:")) {
+				linklist.add(lines[i]);
+				linkNum++;
 			}
 			// createTableforC1(lines, repository);
 			// System.out.println (lines[i]);
 		}
+		linkNum = linkNum - 2; // 2 Links are in the introduction and always the
+								// same ones
+
+		informationExtraction.println("<NumberOfLinks>" + linkNum + "</NumberOfLinks>");
+
 	}
 
 	private static void createTableforC1(File file) throws IOException {
@@ -103,7 +122,7 @@ public class PdfInformationExtractionDSA {
 		outputCsv = new PrintWriter(new FileWriter(directory.toString() + "//" + "Criterium1.csv"));
 		String[] lines = PdfAnalysis.extractsPdfLines(file.toString());
 
-		StringBuilder stringBuilder = new StringBuilder();
+		// StringBuilder stringBuilder = new StringBuilder();
 
 		String repositoryName = "Repository Name";
 		String implementation = "Implementation";
@@ -120,17 +139,19 @@ public class PdfInformationExtractionDSA {
 				outputCsv.close();
 				return;
 			}
-			System.out.println("Test");
-			/*
-			 * if (lines[j].contains("Applicant Entry")) { do { j++;
-			 * stringBuilder.append(lines[j]); } while
-			 * (!lines[j].contains("Applicant Entry"));
-			 */
+
+			else if (lines[j].contains("Self-assessment statement")) {
+
+			}
 		}
 
-		// outputCsv.println (repository + SEPARATOR +
-		// stringBuilder.toString());
-
+		/*
+		 * if (lines[j].contains("Applicant Entry")) { do { j++;
+		 * stringBuilder.append(lines[j]); } while
+		 * (!lines[j].contains("Applicant Entry"));
+		 */
 	}
+	// outputCsv.println (repository + SEPARATOR +
+	// stringBuilder.toString());
 
 }
