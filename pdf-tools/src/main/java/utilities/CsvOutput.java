@@ -36,13 +36,17 @@ public class CsvOutput {
 				f.pack();
 				f.setVisible(true);
 
-				ArrayList<File> files = utilities.ListsFiles.getPaths(new File(folderCsvData), new ArrayList<File>());				
-				
-				String outputpathinContentFolder = getContentFolder();
+				ArrayList<File> files = utilities.ListsFiles.getPaths(new File(folderCsvData), new ArrayList<File>());
+
+				String outputpathinContentFolder = getContentFolder(); // gets
+																		// or
+																		// creates
+																		// the
+																		// contents-folder
 				System.out.println(outputpathinContentFolder);
 				PrintWriter outputCsv = new PrintWriter(new FileWriter(outputpathinContentFolder + "//" + "outputCsv.csv"));
 
-				// the first line is always known, Heading Line
+				// create the Heading Line first, which is always the same
 
 				String objectType = "Object Type";
 				String title = "Title";
@@ -57,54 +61,42 @@ public class CsvOutput {
 				outputCsv.println(objectType + SEPARATOR + title + SEPARATOR + alternativeTitle + SEPARATOR + preservationType + SEPARATOR + usageType + SEPARATOR + revisionNumber + SEPARATOR + fileMimeType + SEPARATOR + fileName + SEPARATOR + fileLabel);
 
 				for (int i = 0; i < files.size(); i++) {
-
-					// the outputfile should be omitted
-
-					// String extension =
-					// FilenameUtils.getExtension(files.get(i).toString()).toLowerCase();
-
-					if (!files.get(i).toString().contains("outputCsv")) {
-
-						objectType = "FILE"; // other possibilities: SIP, IE,
-												// REPRESENTATION
+					if (!files.get(i).toString().contains("outputCsv"))
+					/*
+					 * because the file "outputCsv.csv" should be omitted
+					 */{
+						objectType = "FILE"; /*
+											 * other possibilities: SIP, IE,
+											 * REPRESENTATION
+											 */
 						title = getTitle(files.get(i));
-						alternativeTitle = getalternativeTitle(files.get(i));
+						alternativeTitle = getalternativeTitle(files.get(i)); /*
+																			 * usually
+																			 * there
+																			 * is
+																			 * none
+																			 */
 						preservationType = "PRESERVATION MASTER";
 						usageType = "VIEW";
 						revisionNumber = "1";
 						fileMimeType = getMimeType(files.get(i));
 						fileName = getfileName(files.get(i));
 						fileLabel = getFileLabel(files.get(i));
-
 						outputCsv.println(objectType + SEPARATOR + title + SEPARATOR + alternativeTitle + SEPARATOR + preservationType + SEPARATOR + usageType + SEPARATOR + revisionNumber + SEPARATOR + fileMimeType + SEPARATOR + fileName + SEPARATOR + fileLabel);
 					}
 				}
 				outputCsv.close();
 				f.dispose();
 			}
-
 		} catch (Exception e) {
 		}
 	}
 
-	private static String getContentFolder() {		
-		
-/*		String[] temp = folderCsvData.split(Pattern.quote("\\"));
-		int len = temp.length;*/		
-/*		for (int i = 0; i< len; i++){
-			System.out.println (temp[i]);
-		}*/
-		
-/*		File folderFile = new File (folderCsvData);
-		String pathToContentFolder = folderFile.getParent().toString();
-		System.out.println (pathToContentFolder);
-
-		File directory = new File(pathToContentFolder + "//" + "contents");*/
+	private static String getContentFolder() {
 		File directory = new File(folderCsvData.toString() + "//" + "contents");
-		if (!directory.exists()){ //create folder if it not yet exist
-		directory.mkdirs();
+		if (!directory.exists()) { // create folder if it not yet exist
+			directory.mkdirs();
 		}
-		//folderCsvData + "//" + "outputCsv.csv"; /
 		return directory.toString();
 	}
 
@@ -134,9 +126,7 @@ public class CsvOutput {
 			String filemime = Files.probeContentType(file.toPath());
 
 			if (filemime == null) {
-				filemime = "mimetype/unknown"; // TODO: check which solution is
-												// in Rosetta Mets if Mimetype
-												// is not known.
+				return MISSING_VALUE; //in Rosetta Mets this section is empty if no mime type is known
 			}
 			return filemime;
 		} catch (Exception e) {
