@@ -36,9 +36,11 @@ public class CsvOutput {
 				f.pack();
 				f.setVisible(true);
 
-				ArrayList<File> files = utilities.ListsFiles.getPaths(new File(folderCsvData), new ArrayList<File>());
-				String outputpath = folderCsvData + "//" + "outputCsv.csv"; //should be the content folder, now it's just the same folder
-				PrintWriter outputCsv = new PrintWriter(new FileWriter(outputpath));
+				ArrayList<File> files = utilities.ListsFiles.getPaths(new File(folderCsvData), new ArrayList<File>());				
+				
+				String outputpathinContentFolder = getContentFolder();
+				System.out.println(outputpathinContentFolder);
+				PrintWriter outputCsv = new PrintWriter(new FileWriter(outputpathinContentFolder + "//" + "outputCsv.csv"));
 
 				// the first line is always known, Heading Line
 
@@ -55,26 +57,27 @@ public class CsvOutput {
 				outputCsv.println(objectType + SEPARATOR + title + SEPARATOR + alternativeTitle + SEPARATOR + preservationType + SEPARATOR + usageType + SEPARATOR + revisionNumber + SEPARATOR + fileMimeType + SEPARATOR + fileName + SEPARATOR + fileLabel);
 
 				for (int i = 0; i < files.size(); i++) {
-					
-					//the outputfile should be omitted
-					
-					// String extension = FilenameUtils.getExtension(files.get(i).toString()).toLowerCase();
-					
-					if (!files.get(i).toString().contains ("outputCsv")) {
 
-					objectType = "FILE"; // other possibilities: SIP, IE,
-											// REPRESENTATION
-					title = getTitle(files.get(i));
-					alternativeTitle = getalternativeTitle(files.get(i));
-					preservationType = "PRESERVATION MASTER";
-					usageType = "VIEW";
-					revisionNumber = "1";
-					fileMimeType = getMimeType(files.get(i));
-					fileName = getfileName(files.get(i));
-					fileLabel = getFileLabel(files.get(i));
+					// the outputfile should be omitted
 
-					outputCsv.println(objectType + SEPARATOR + title + SEPARATOR + alternativeTitle + SEPARATOR + preservationType + SEPARATOR + usageType + SEPARATOR + revisionNumber + SEPARATOR + fileMimeType + SEPARATOR + fileName + SEPARATOR + fileLabel);
-				}
+					// String extension =
+					// FilenameUtils.getExtension(files.get(i).toString()).toLowerCase();
+
+					if (!files.get(i).toString().contains("outputCsv")) {
+
+						objectType = "FILE"; // other possibilities: SIP, IE,
+												// REPRESENTATION
+						title = getTitle(files.get(i));
+						alternativeTitle = getalternativeTitle(files.get(i));
+						preservationType = "PRESERVATION MASTER";
+						usageType = "VIEW";
+						revisionNumber = "1";
+						fileMimeType = getMimeType(files.get(i));
+						fileName = getfileName(files.get(i));
+						fileLabel = getFileLabel(files.get(i));
+
+						outputCsv.println(objectType + SEPARATOR + title + SEPARATOR + alternativeTitle + SEPARATOR + preservationType + SEPARATOR + usageType + SEPARATOR + revisionNumber + SEPARATOR + fileMimeType + SEPARATOR + fileName + SEPARATOR + fileLabel);
+					}
 				}
 				outputCsv.close();
 				f.dispose();
@@ -82,6 +85,27 @@ public class CsvOutput {
 
 		} catch (Exception e) {
 		}
+	}
+
+	private static String getContentFolder() {		
+		
+/*		String[] temp = folderCsvData.split(Pattern.quote("\\"));
+		int len = temp.length;*/		
+/*		for (int i = 0; i< len; i++){
+			System.out.println (temp[i]);
+		}*/
+		
+/*		File folderFile = new File (folderCsvData);
+		String pathToContentFolder = folderFile.getParent().toString();
+		System.out.println (pathToContentFolder);
+
+		File directory = new File(pathToContentFolder + "//" + "contents");*/
+		File directory = new File(folderCsvData.toString() + "//" + "contents");
+		if (!directory.exists()){ //create folder if it not yet exist
+		directory.mkdirs();
+		}
+		//folderCsvData + "//" + "outputCsv.csv"; /
+		return directory.toString();
 	}
 
 	private static String getFileLabel(File file) {
@@ -95,7 +119,7 @@ public class CsvOutput {
 		return MISSING_VALUE;
 	}
 
-	private static String getfileName(File file) {		
+	private static String getfileName(File file) {
 		try {
 			String filename = file.getName();
 			return filename;
@@ -106,11 +130,13 @@ public class CsvOutput {
 	}
 
 	private static String getMimeType(File file) {
-			try {
+		try {
 			String filemime = Files.probeContentType(file.toPath());
-			
-			if (filemime == null){
-				filemime = "mimetype/unknown"; //TODO: check which solution is in Rosetta Mets if Mimetype is not known.
+
+			if (filemime == null) {
+				filemime = "mimetype/unknown"; // TODO: check which solution is
+												// in Rosetta Mets if Mimetype
+												// is not known.
 			}
 			return filemime;
 		} catch (Exception e) {
@@ -122,11 +148,11 @@ public class CsvOutput {
 	private static String getTitle(File file) {
 		// I am assuming that one folder is one IE and the name of the folder is
 		// the name of the IE
-		//TODO: but right now it chooses the name of the parent folder, it might have to be the highest-level-folder instead.
-		//this might not be the most clever way to solve this. 
+		// TODO: but right now it chooses the name of the parent folder, it
+		// might have to be the highest-level-folder instead.
+		// this might not be the most clever way to solve this.
 		try {
 			String titleofIE = file.getParent().toString();
-			System.out.println(titleofIE);
 			String[] temp = titleofIE.split(Pattern.quote("\\"));
 			int len = temp.length;
 			titleofIE = temp[len - 1];
