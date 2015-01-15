@@ -1,0 +1,139 @@
+package filetools.pdf;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.PdfReader;
+
+public class PdfInformationExtractionDSA {
+
+	public static String examinedFolder;
+	static PrintWriter informationExtraction;
+	static String SEPARATOR = ";";
+	static String MISSING_VALUE = "";
+
+	static PrintWriter outputCsv;
+
+	public static ArrayList<DsaCriterium> criteriaList = new ArrayList<DsaCriterium>();	
+
+	public static void main(String args[]) throws IOException {
+
+		try {
+			examinedFolder = utilities.BrowserDialogs.chooseFolder();
+			if (examinedFolder != null) {
+				
+				informationExtraction = new PrintWriter(new FileWriter(examinedFolder + "//" + "InformationExtract" + ".xml"));											
+			
+
+				String xmlVersion = "xml version='1.0'";
+				String xmlEncoding = "encoding='ISO-8859-1'";
+				String xsltStyleSheet = "<?xml-stylesheet type=\"text/xsl\" href=\"InformationExtractionXsl.xsl\"?>";
+				output.XslStyleSheets.InformationExtractionXsl();
+
+				informationExtraction.println("<?" + xmlVersion + " " + xmlEncoding + "?>");
+				informationExtraction.println(xsltStyleSheet);
+				informationExtraction.println("<Information>");
+
+				ArrayList<File> files = utilities.ListsFiles.getPaths(new File(examinedFolder), new ArrayList<File>());
+				if (files == null)
+					return;
+				String mimetype;
+				PdfReader reader;
+
+				for (int i = 0; i < files.size(); i++) {
+
+					mimetype = filetools.GenericFileAnalysis.getFileMimeType(files.get(i));
+					if (mimetype != null) {
+						if (mimetype.equals("application/pdf")) {
+							reader = new PdfReader(files.get(i).toString());
+							if (!reader.isEncrypted()) {
+								informationExtraction.println("<File>");
+
+								informationExtraction.println("<FileName>" + files.get(i).getName().toString() + "</FileName>");
+								int pages = reader.getNumberOfPages();
+								informationExtraction.println("<PdfPages>" + pages + "</PdfPages>");
+
+								createXml(files.get(i));
+
+								informationExtraction.println("</File>");
+							}
+						}
+					}
+				}
+				informationExtraction.println("</Information>");
+				informationExtraction.close();
+				
+				System.out.println (criteriaList.size());
+				
+				for (int i = 0; i < criteriaList.size(); i++) {
+					System.out.println (criteriaList.get(i).repositoryName);
+				}
+
+			}
+		} catch (Exception e) {
+
+		}
+	}
+
+	public static void createXml(File file) throws DocumentException, IOException {
+
+		Document document = new Document();
+		document.open();
+		String[] lines = PdfAnalysis.extractsPdfLines(file.toString());		
+	
+		// stringBuilder.append();
+		// stringBuilder.toString();
+		for (int i = 0; i < lines.length; i++) {
+			if (lines[i].contains("Repository:")) {
+				String[] parts = lines[i].split(":");		
+				informationExtraction.println("<Repository>" + parts[1] + "</Repository>");		
+			
+			//	
+			}
+			if (lines[i].contains("Seal Acquiry Date:")) {
+				String[] parts = lines[i].split(":");
+				informationExtraction.println("<SealAcquiryDate>" + parts[1] + "</SealAcquiryDate>");
+				return;
+			}
+			
+			//createTableforC1(lines, repository);
+			// System.out.println (lines[i]);			
+		}	
+	
+		
+		
+	}
+
+	private static void createTableforC1(String[] lines, String repository) throws IOException {
+
+	
+		outputCsv = new PrintWriter(new FileWriter(examinedFolder + "//" + "Criterium1.csv"));
+
+		StringBuilder stringBuilder = new StringBuilder();
+
+		String repositoryName = "Repository Name";
+		String implementation = "Implementation";
+		String criterium1 = "Criterium 1";
+
+
+		outputCsv.println (repositoryName + SEPARATOR + criterium1);
+
+		for (int i = 0; i < lines.length; i++) {
+			if (lines[i].contains("Applicant Entry")) { 
+				do {
+					i++;
+					stringBuilder.append(lines[i]);
+				} while (!lines[i].contains("Applicant Entry"));
+
+			}
+			
+			outputCsv.println (repository + SEPARATOR + stringBuilder.toString());
+			outputCsv.close();
+
+		}
+	}
+}

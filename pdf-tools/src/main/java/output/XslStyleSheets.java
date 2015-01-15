@@ -6,8 +6,55 @@ import java.io.PrintWriter;
 
 import externalToolAnalysis.JhoveValidator;
 import filetools.gif.GifChecker;
+import filetools.pdf.PdfInformationExtractionDSA;
 
 public class XslStyleSheets {
+
+	public static void InformationExtractionXsl() throws IOException {
+
+		PrintWriter xslStyle = new PrintWriter(new FileWriter(PdfInformationExtractionDSA.examinedFolder + "//" + "InformationExtractionXsl.xsl"));
+
+		xslStyle.println("<?xml version=\"1.0\"?>");
+		xslStyle.println("<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">");
+		xslStyle.println("<xsl:template match=\"/\">");
+		xslStyle.println("<html>");
+		xslStyle.println("<head>");
+		xslStyle.println("<style>");
+		xslStyle.println("tr.captiondred {background-color: #FF0000}");
+		xslStyle.println("tr.captionred {background-color: #CD5C5C}");
+		xslStyle.println("tr.captiongreen {background-color: #006400}");
+		xslStyle.println("tr.captiontan {background-color: #FFDEAD}");
+		xslStyle.println("</style>");
+		xslStyle.println("</head>");
+
+		xslStyle.println("<body>");
+		xslStyle.println("<h1>Data Seal of Approval Analyse</h1>");
+		xslStyle.println("<h2>Informationen aus Dateien</h2>");
+		xslStyle.println("<table border =\"1\">");
+		xslStyle.println("<tr class=\"captiontan\">");
+		xslStyle.println("<th>Filename</th>");
+		xslStyle.println("<th>Number of Pages</th>");
+		xslStyle.println("<th>Repository</th>");
+		xslStyle.println("<th>Seal Acquiry Date</th>");		
+		xslStyle.println("</tr>");
+		xslStyle.println("<xsl:for-each select=\"Information/File\">");
+		xslStyle.println("<xsl:sort select=\"PdfPages\" />");
+
+		xslStyle.println("<tr class=\"captiontan\">");
+		xslStyle.println("<td><xsl:value-of select=\"FileName\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"PdfPages\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"Repository\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"SealAcquiryDate\"/></td>");		 
+		xslStyle.println("</tr>");
+		xslStyle.println("</xsl:for-each>");
+		xslStyle.println("</table>");
+		xslStyle.println("</body>");
+		xslStyle.println("</html>");
+		xslStyle.println("</xsl:template>");
+
+		xslStyle.println("</xsl:stylesheet>");
+		xslStyle.close();
+	}
 
 	public static void JhoveCustomizedXsl() throws IOException {
 
@@ -74,21 +121,21 @@ public class XslStyleSheets {
 		xslStyle.println("</xsl:if>	");
 		xslStyle.println("</xsl:for-each>");
 		xslStyle.println("</table>");
+
 		xslStyle.println("<table border=\"1\">");
 		xslStyle.println("<tr class=\"captiontan\">	");
 		xslStyle.println("<th>MessageText</th>");
 		xslStyle.println("<th>Occurance</th>");
 		xslStyle.println("</tr> ");
-
 		xslStyle.println("<xsl:for-each select=\"JhoveFindingsSummary/SampleSummary/JhoveMessage\">  ");
 		xslStyle.println("<tr class=\"captiontan\">	");
 		xslStyle.println("<xsl:value-of select=\"JhoveMessage\" />");
 		xslStyle.println("<td><xsl:value-of select=\"MessageText\" /></td>");
 		xslStyle.println("<td><xsl:value-of select=\"Occurance\" />	</td>");
-
 		xslStyle.println("</tr>");
 		xslStyle.println("</xsl:for-each>");
 		xslStyle.println("</table>");
+
 		xslStyle.println("</body>");
 		xslStyle.println("</html>");
 		xslStyle.println("</xsl:template>");
@@ -402,5 +449,4 @@ public class XslStyleSheets {
 		xslStyle.close();
 
 	}
-
 }
