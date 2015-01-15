@@ -10,108 +10,99 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.PdfReader;
 
 public class PdfInformationExtractionDSA {
-
 	public static String examinedFolder;
 	static PrintWriter informationExtraction;
 	static String SEPARATOR = ";";
 	static String MISSING_VALUE = "";
-
 	static PrintWriter outputCsv;
 
-	public static ArrayList<DsaCriterium> criteriaList = new ArrayList<DsaCriterium>();	
-
 	public static void main(String args[]) throws IOException {
-
 		try {
 			examinedFolder = utilities.BrowserDialogs.chooseFolder();
 			if (examinedFolder != null) {
-				
-				informationExtraction = new PrintWriter(new FileWriter(examinedFolder + "//" + "InformationExtract" + ".xml"));											
-			
-
+				informationExtraction = new PrintWriter(new FileWriter(examinedFolder + "//" + "InformationExtract" + ".xml"));
 				String xmlVersion = "xml version='1.0'";
 				String xmlEncoding = "encoding='ISO-8859-1'";
 				String xsltStyleSheet = "<?xml-stylesheet type=\"text/xsl\" href=\"InformationExtractionXsl.xsl\"?>";
 				output.XslStyleSheets.InformationExtractionXsl();
-
 				informationExtraction.println("<?" + xmlVersion + " " + xmlEncoding + "?>");
 				informationExtraction.println(xsltStyleSheet);
 				informationExtraction.println("<Information>");
-
 				ArrayList<File> files = utilities.ListsFiles.getPaths(new File(examinedFolder), new ArrayList<File>());
 				if (files == null)
 					return;
 				String mimetype;
 				PdfReader reader;
-
 				for (int i = 0; i < files.size(); i++) {
-
 					mimetype = filetools.GenericFileAnalysis.getFileMimeType(files.get(i));
 					if (mimetype != null) {
 						if (mimetype.equals("application/pdf")) {
 							reader = new PdfReader(files.get(i).toString());
 							if (!reader.isEncrypted()) {
 								informationExtraction.println("<File>");
-
 								informationExtraction.println("<FileName>" + files.get(i).getName().toString() + "</FileName>");
 								int pages = reader.getNumberOfPages();
 								informationExtraction.println("<PdfPages>" + pages + "</PdfPages>");
-
 								createXml(files.get(i));
-
-								informationExtraction.println("</File>");
+								informationExtraction.println("</File>");							
 							}
 						}
 					}
 				}
 				informationExtraction.println("</Information>");
 				informationExtraction.close();
-				
-				System.out.println (criteriaList.size());
-				
-				for (int i = 0; i < criteriaList.size(); i++) {
-					System.out.println (criteriaList.get(i).repositoryName);
+
+				for (int i = 0; i < files.size(); i++) {
+					mimetype = filetools.GenericFileAnalysis.getFileMimeType(files.get(i));
+					if (mimetype != null) {
+						if (mimetype.equals("application/pdf")) {
+							System.out.println (files.get(i).toString());
+							createTableforC1(files.get(i));
+						}
+					}
 				}
 
 			}
 		} catch (Exception e) {
-
 		}
 	}
 
 	public static void createXml(File file) throws DocumentException, IOException {
-
 		Document document = new Document();
 		document.open();
-		String[] lines = PdfAnalysis.extractsPdfLines(file.toString());		
-	
+		String[] lines = PdfAnalysis.extractsPdfLines(file.toString());
 		// stringBuilder.append();
 		// stringBuilder.toString();
 		for (int i = 0; i < lines.length; i++) {
 			if (lines[i].contains("Repository:")) {
-				String[] parts = lines[i].split(":");		
-				informationExtraction.println("<Repository>" + parts[1] + "</Repository>");		
-			
-			//	
+				String[] parts = lines[i].split(":");
+				informationExtraction.println("<Repository>" + parts[1] + "</Repository>");
+				//
 			}
 			if (lines[i].contains("Seal Acquiry Date:")) {
 				String[] parts = lines[i].split(":");
 				informationExtraction.println("<SealAcquiryDate>" + parts[1] + "</SealAcquiryDate>");
 				return;
 			}
-			
-			//createTableforC1(lines, repository);
-			// System.out.println (lines[i]);			
-		}	
-	
-		
-		
+			// createTableforC1(lines, repository);
+			// System.out.println (lines[i]);
+		}
 	}
 
-	private static void createTableforC1(String[] lines, String repository) throws IOException {
+	private static void createTableforC1(File file) throws IOException {
 
-	
-		outputCsv = new PrintWriter(new FileWriter(examinedFolder + "//" + "Criterium1.csv"));
+		String filename = file.getName().toString();
+		int len = (filename.length() - 4);
+		filename = filename.substring(0, len);
+		System.out.println(filename);
+
+		File directory = new File(examinedFolder + "//" + filename);
+		if (!directory.exists()) {
+			directory.mkdirs();
+		}
+
+		outputCsv = new PrintWriter(new FileWriter(directory.toString() + "//" + "Criterium1.csv"));
+		String[] lines = PdfAnalysis.extractsPdfLines(file.toString());
 
 		StringBuilder stringBuilder = new StringBuilder();
 
@@ -119,19 +110,19 @@ public class PdfInformationExtractionDSA {
 		String implementation = "Implementation";
 		String criterium1 = "Criterium 1";
 
-
-		outputCsv.println (repositoryName + SEPARATOR + criterium1);
+		outputCsv.println(repositoryName + SEPARATOR + criterium1);
 
 		for (int i = 0; i < lines.length; i++) {
-			if (lines[i].contains("Applicant Entry")) { 
+			if (lines[i].contains("Applicant Entry")) {
 				do {
 					i++;
 					stringBuilder.append(lines[i]);
 				} while (!lines[i].contains("Applicant Entry"));
 
 			}
-			
-			outputCsv.println (repository + SEPARATOR + stringBuilder.toString());
+
+			// outputCsv.println (repository + SEPARATOR +
+			// stringBuilder.toString());
 			outputCsv.close();
 
 		}
