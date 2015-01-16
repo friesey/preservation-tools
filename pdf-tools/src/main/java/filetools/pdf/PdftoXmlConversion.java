@@ -85,6 +85,36 @@ public class PdftoXmlConversion {
 		 * Collections.addAll(listlines, lines);
 		 */
 
+		// get rid of all the characters with meaning in xml and escape them
+		
+		String [] linesclone = lines.clone();
+		
+		for (int i = 0; i < linesclone.length; i++) {
+			
+			if (linesclone[i].contains("&")) {
+				linesclone[i] = linesclone[i].replace("&", "&amp;");
+			}
+			
+			if (linesclone[i].contains("'")) {
+				linesclone[i] = linesclone[i].replace("'", "&apos;");
+			}
+			
+			if (linesclone[i].contains("<")) {
+				linesclone[i] = linesclone[i].replace("<", "&lt;");
+			}
+			
+			if (linesclone[i].contains(">")) {
+				linesclone[i] = linesclone[i].replace(">", "&gt;");
+			}
+			
+			if (linesclone[i].contains("\"")) {
+				linesclone[i] = linesclone[i].replace("\"", "&quot;");
+			}
+			
+		}
+				
+		lines = linesclone;
+						
 		for (int i = 0; i < lines.length; i++) {
 
 			if (lines[i].contains("Repository:")) {
