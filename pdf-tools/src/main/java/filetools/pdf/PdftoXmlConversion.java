@@ -81,11 +81,12 @@ public class PdftoXmlConversion {
 
 		String [] lines = PdfAnalysis.extractsPdfLines(file.toString());
 		
-		List<String> listlines = new ArrayList<String>(lines.length);
-		Collections.addAll(listlines, lines);
+/*		List<String> listlines = new ArrayList<String>(lines.length);
+		Collections.addAll(listlines, lines);*/
 
-		for (int i = 0; i < lines.length; i++) {
+		for (int i = 0; i < lines.length; i++){
 
+			
 			if (lines[i].contains("Repository:")) {
 				String[] parts = lines[i].split(":");
 				pdftoXmlWriter.println("<Repository>" + parts[1] + "</Repository>");
@@ -98,9 +99,8 @@ public class PdftoXmlConversion {
 			}
 
 			if (lines[i].equals("Assessment")) {
-				begin = i;
-			}
-			
+				begin = i;				
+			}			
 			
 			if (lines[i].contains("0. Repository Context")) {
 				crit0begin = i;
@@ -114,10 +114,12 @@ public class PdftoXmlConversion {
 		pdftoXmlWriter.println("<Criterium0>");		
 		int i = crit0begin;
 		while (i < crit1begin) {
-			if ((!lines[i].equals(" ")) && (!lines[i].contains("info@datasealofapproval"))) {
+		//	if ((!lines[i].equals(" ")) && (!lines[i].contains("info@datasealofapproval"))) {
+				
 			pdftoXmlWriter.println(lines[i]);
+			System.out.println(lines[i]);
 			i++;
-			}
+		//	}
 		}		
 		pdftoXmlWriter.println("</Criterium0>");
 		
