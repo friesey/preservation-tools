@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -237,7 +238,10 @@ public class PdfAnalysis {
 		} catch (Exception e) {
 			return null;
 		}
-	}
+	}	
+
+
+
 
 	/**
 	 * Checks the size of the Pdf-file, because some big Pdf Files might cause

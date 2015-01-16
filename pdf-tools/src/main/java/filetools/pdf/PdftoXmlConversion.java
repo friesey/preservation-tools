@@ -5,6 +5,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import com.itextpdf.text.pdf.PdfReader;
 
@@ -13,6 +15,24 @@ public class PdftoXmlConversion {
 	public static String examinedFolder;
 	static String xsltStyleSheet = "<?xml-stylesheet type=\"text/xsl\" href=\"PdfToXmlConversionStyleSheet.xsl\"?>";
 	static int begin;
+
+	static int crit0begin;
+	static int crit1begin;
+	static int crit2begin;
+	static int crit3begin;
+	static int crit4begin;
+	static int crit5begin;
+	static int crit6begin;
+	static int crit7begin;
+	static int crit8begin;
+	static int crit9begin;
+	static int crit10begin;
+	static int crit11begin;
+	static int crit12begin;
+	static int crit13begin;
+	static int crit14begin;
+	static int crit15begin;
+	static int crit16begin;
 
 	public static void main(String args[]) throws IOException {
 		try {
@@ -59,7 +79,10 @@ public class PdftoXmlConversion {
 
 		// PdfReader reader = new PdfReader(file.toString());
 
-		String[] lines = PdfAnalysis.extractsPdfLines(file.toString());
+		String [] lines = PdfAnalysis.extractsPdfLines(file.toString());
+		
+		List<String> listlines = new ArrayList<String>(lines.length);
+		Collections.addAll(listlines, lines);
 
 		for (int i = 0; i < lines.length; i++) {
 
@@ -77,27 +100,47 @@ public class PdftoXmlConversion {
 			if (lines[i].equals("Assessment")) {
 				begin = i;
 			}
+			
+			
+			if (lines[i].contains("0. Repository Context")) {
+				crit0begin = i;
+			}
+			
+			if (lines[i].contains("1. The data producer deposits")) {
+				crit1begin = i;
+			}
+		}	
+		
+		pdftoXmlWriter.println("<Criterium0>");		
+		int i = crit0begin;
+		while (i < crit1begin) {
+			if ((!lines[i].equals(" ")) && (!lines[i].contains("info@datasealofapproval"))) {
+			pdftoXmlWriter.println(lines[i]);
+			i++;
+			}
+		}		
+		pdftoXmlWriter.println("</Criterium0>");
+		
 
-			if ((i > begin) && (!lines[i].equals(" ")) && (!lines[i].contains("info@datasealofapproval"))) {
+/*			if ((i > begin) && (!lines[i].equals(" ")) && (!lines[i].contains("info@datasealofapproval"))) {
 
 				// do not copy empty lines,
 				// do not copy lines in the head or food and
 				// TODO do not copy page numbers
 				// do not copy the stuff before the chapter 0
 
+				if (i == crit0begin){
+					pdftoXmlWriter.println("<Criterium0>");
+				}
+				
+				if (i == crit1begin-1){
+					pdftoXmlWriter.println("</Criterium0>");
+				}
+				
 				pdftoXmlWriter.println(lines[i]);
 			}
-
-		}
-
-		for (int i = 0; ((i > begin) && (i < lines.length)); i++) {
-			if ((!lines[i].equals(" ")) && (!lines[i].contains("info@datasealofapproval"))) {
-
-				System.out.println(file.getName() + begin);
-				pdftoXmlWriter.println(lines[i]);
-
-			}
-		}
+*/
+	
 
 		pdftoXmlWriter.println("</DataSeal>");
 		pdftoXmlWriter.close();
