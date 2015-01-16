@@ -29,7 +29,22 @@ public class XslStyleSheets {
 		xslStyle.println("</head>");
 		
 		xslStyle.println("<body>");
-		
+		xslStyle.println("<h1>Data Seal of Approval Analyse</h1>");
+		xslStyle.println("<h2>All Criteria Answers</h2>");
+		xslStyle.println("<table border =\"1\">");
+		xslStyle.println("<tr class=\"captiontan\">");	
+
+		xslStyle.println("<th>Criterium</th>");
+	//	xslStyle.println("<th>Criterium</th>");
+		xslStyle.println("</tr>");
+		xslStyle.println("<xsl:for-each select=\"DataSeal/Criteria\">");
+
+		xslStyle.println("<tr class=\"captiontan\">");
+		xslStyle.println("<td><xsl:value-of select=\"Criterium\"/></td>");
+	//	xslStyle.println("<td><xsl:value-of select=\"Criterium\"/></td>");
+		xslStyle.println("</tr>");
+		xslStyle.println("</xsl:for-each>");
+		xslStyle.println("</table>");
 		
 		
 		xslStyle.println("</body>");
@@ -75,7 +90,6 @@ public class XslStyleSheets {
 		xslStyle.println("<td><xsl:value-of select=\"Repository\"/></td>");
 		xslStyle.println("<td><xsl:value-of select=\"PdfPages\"/></td>");
 		xslStyle.println("<td><xsl:value-of select=\"NumberOfLinks\"/></td>");
-
 		xslStyle.println("<td><xsl:value-of select=\"SealAcquiryDate\"/></td>");
 		xslStyle.println("</tr>");
 		xslStyle.println("</xsl:for-each>");
