@@ -50,15 +50,17 @@ public class XmlToCsv {
 					}
 
 					for (int j = 0; j < lineslist.size(); j++) {
-
+						String temp;
 						if (lineslist.get(j).contains("<Repository>")) {
-							String temp;
+							
 							temp = lineslist.get(j).replace("<Repository>", "");
 							temp = temp.replace("</Repository>", "");
 							repository = temp;
 						}
 
-						if (lineslist.get(j).contains("<Criterium Number=\"1\">")) {
+						// if (lineslist.get(j).contains("<Criterium Number=\"1\">")) {
+							
+							if (lineslist.get(j).contains("Applicant Entry")) {
 						
 							StringBuffer buffer1 = new StringBuffer();
 							while (!lineslist.get(j).equals("</Criterium>")) {
@@ -69,9 +71,9 @@ public class XmlToCsv {
 						}
 
 					}
-
+						outputCsv.println(repository + SEPARATOR + criterium + SEPARATOR + answer + SEPARATOR + links);
 				}
-				outputCsv.println(repository + SEPARATOR + criterium + SEPARATOR + answer + SEPARATOR + links);
+				
 			}
 
 			outputCsv.close();
