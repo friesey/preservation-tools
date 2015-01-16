@@ -91,7 +91,6 @@ public class PdfInformationExtractionDSA {
 			if (lines[i].contains("Seal Acquiry Date:")) {
 				String[] parts = lines[i].split(":");
 				informationExtraction.println("<SealAcquiryDate>" + parts[1] + "</SealAcquiryDate>");
-
 			}
 
 			if (lines[i].contains("http:")) {
