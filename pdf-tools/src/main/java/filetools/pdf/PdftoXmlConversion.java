@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import com.itextpdf.text.pdf.PdfReader;
+
 public class PdftoXmlConversion {
 
 	public static String examinedFolder;
@@ -21,8 +23,7 @@ public class PdftoXmlConversion {
 				ArrayList<File> files = utilities.ListsFiles.getPaths(new File(examinedFolder), new ArrayList<File>());
 				for (int i = 0; i < files.size(); i++) {
 					String mimetype = filetools.GenericFileAnalysis.getFileMimeType(files.get(i));
-					if (mimetype.equals("application/pdf")) {
-						System.out.println(files.get(i).toString());
+					if (mimetype.equals("application/pdf")) {					
 						extractPdfContenttoXmlFile(files.get(i));
 					}
 				}
@@ -36,7 +37,7 @@ public class PdftoXmlConversion {
 		// TODO Auto-generated method stub				
 		
 		String filename = file.getName().replace(".pdf", "");		
-		System.out.println (filename);
+	
 		PrintWriter pdftoXmlWriter = new PrintWriter(new FileWriter(examinedFolder + "//" + filename + ".xml"));
 		String xmlVersion = "xml version='1.0'";
 		String xmlEncoding = "encoding='ISO-8859-1'";	
@@ -44,6 +45,14 @@ public class PdftoXmlConversion {
 		pdftoXmlWriter.println(xsltStyleSheet);
 		
 		pdftoXmlWriter.println("<DataSeal>");
+		
+		
+		// PdfReader reader = new PdfReader(file.toString());
+		
+		String[] lines = PdfAnalysis.extractsPdfLines(file.toString());
+		for (int i = 0; i < lines.length; i++) {
+			pdftoXmlWriter.println (lines[i]); 			
+		}
 		
 		pdftoXmlWriter.println("</DataSeal>");
 		pdftoXmlWriter.close();
