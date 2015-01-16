@@ -7,8 +7,37 @@ import java.io.PrintWriter;
 import externalToolAnalysis.JhoveValidator;
 import filetools.gif.GifChecker;
 import filetools.pdf.PdfInformationExtractionDSA;
+import filetools.pdf.PdftoXmlConversion;
 
 public class XslStyleSheets {
+	
+	public static void PdfToXmlConversionStyleSheet() throws IOException {
+		
+		PrintWriter xslStyle = new PrintWriter(new FileWriter(PdftoXmlConversion.examinedFolder + "//" + "PdfToXmlConversionStyleSheet.xsl"));
+		
+		xslStyle.println("<?xml version=\"1.0\"?>");
+		xslStyle.println("<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">");
+		xslStyle.println("<xsl:template match=\"/\">");
+		xslStyle.println("<html>");
+		xslStyle.println("<head>");
+		xslStyle.println("<style>");
+		xslStyle.println("tr.captiondred {background-color: #FF0000}");
+		xslStyle.println("tr.captionred {background-color: #CD5C5C}");
+		xslStyle.println("tr.captiongreen {background-color: #006400}");
+		xslStyle.println("tr.captiontan {background-color: #FFDEAD}");
+		xslStyle.println("</style>");
+		xslStyle.println("</head>");
+		
+		xslStyle.println("<body>");
+		
+		
+		
+		xslStyle.println("</body>");
+		xslStyle.println("</html>");
+		xslStyle.println("</xsl:template>");
+		xslStyle.println("</xsl:stylesheet>");
+		xslStyle.close();
+	}
 
 	public static void InformationExtractionXsl() throws IOException {
 
