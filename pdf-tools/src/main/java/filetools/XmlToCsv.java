@@ -21,7 +21,7 @@ public class XmlToCsv {
 
 		examinedFolder = utilities.BrowserDialogs.chooseFolder();
 		if (examinedFolder != null) {
-			
+
 			BufferedReader xmlreader;
 
 			PrintWriter outputCsv = new PrintWriter(new FileWriter(examinedFolder + "//" + "outputCsv.csv"));
@@ -34,7 +34,7 @@ public class XmlToCsv {
 			String links = "Links & References";
 
 			outputCsv.println(repository + SEPARATOR + criterium + SEPARATOR + answer + SEPARATOR + links);
-			
+
 			for (int i = 0; i < files.size(); i++) {
 				String extension = FilenameUtils.getExtension(files.get(i).getCanonicalPath()).toLowerCase();
 				if (extension.equals("xml")) {
@@ -44,37 +44,37 @@ public class XmlToCsv {
 					String line;
 					ArrayList<String> lineslist = new ArrayList<String>();
 					criterium = "1";
-					
+
 					while (null != (line = xmlreader.readLine())) {
 						lineslist.add(line);
 					}
-					
-					for (int j = 0; j < lineslist.size();j++){
-											
-						if (lineslist.get(j).contains("<Repository>")){
+
+					for (int j = 0; j < lineslist.size(); j++) {
+
+						if (lineslist.get(j).contains("<Repository>")) {
 							String temp;
 							temp = lineslist.get(j).replace("<Repository>", "");
 							temp = temp.replace("</Repository>", "");
-								repository = temp;							
-					}
-						
-/*					if (line.contains("<Criterium Number=\"1\">")){
-						StringBuffer buffer1 = new StringBuffer();
-						while (!line.equals("</Criterium>")) {
-							System.out.println(line);
-							buffer1.append(line);
+							repository = temp;
 						}
+
+						if (lineslist.get(j).contains("<Criterium Number=\"1\">")) {
 						
-						answer = buffer1.toString();*/
+							StringBuffer buffer1 = new StringBuffer();
+							while (!lineslist.get(j).equals("</Criterium>")) {
+								++j;								
+								buffer1.append(lineslist.get(j));
+							}
+							answer = buffer1.toString();
+						}
+
 					}
-							
+
 				}
 				outputCsv.println(repository + SEPARATOR + criterium + SEPARATOR + answer + SEPARATOR + links);
 			}
-				
-	
-			
+
 			outputCsv.close();
-	}
+		}
 	}
 }
