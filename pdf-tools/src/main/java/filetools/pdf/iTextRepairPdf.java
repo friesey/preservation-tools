@@ -41,6 +41,7 @@ public class iTextRepairPdf {
 								System.out.println(files.get(i));
 								try {
 									reader = new PdfReader(files.get(i).toString());
+									//TODO: crashes if encrypted PDF
 									if (!reader.isEncrypted()) {
 										repairWithItext(reader, files.get(i).getName());
 									}
