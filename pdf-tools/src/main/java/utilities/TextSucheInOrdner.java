@@ -37,7 +37,7 @@ public class TextSucheInOrdner {
 		try {
 			fileorfolder = utilities.BrowserDialogs.chooseFileOrFolder();
 			if (fileorfolder != null) {
-				searchedString = JOptionPane.showInputDialog(null, "Bitte geben Sie den gesuchten Text ein. Groﬂ- und Kleinschreibung wird nicht beachtet", "Eingabemaske", JOptionPane.PLAIN_MESSAGE);
+				searchedString = JOptionPane.showInputDialog(null, "Bitte geben Sie den gesuchten Text ein. Gross- und Kleinschreibung wird nicht beachtet", "Eingabemaske", JOptionPane.PLAIN_MESSAGE);
 				if ((searchedString == null) || (searchedString.length() == 0)) {
 					JOptionPane.showMessageDialog(null, "You have not typed in any text", "Misbehaviour. Program stopped.", JOptionPane.PLAIN_MESSAGE);
 				} else {
