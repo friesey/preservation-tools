@@ -39,8 +39,10 @@ public class JhoveStatistics {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
 		String name = FilenameUtils.getFullPathNoEndSeparator(jhoveFindings);
+		System.out.println(name);
 	
-		PrintWriter output = new PrintWriter(new FileWriter(name + "Statistics.txt"));
+		PrintWriter output = new PrintWriter(new FileWriter(name + "//" + "Statistics.txt"));
+		
 
 		String line = null;
 
