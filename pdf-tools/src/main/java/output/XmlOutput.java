@@ -11,7 +11,6 @@ public class XmlOutput {
 	public static void createsXMLHeader() throws IOException {
 
 		// TODO: Add Folder Browser Dialog
-
 		
 		xmlSimpleWriter = new PrintWriter(new FileWriter("C:\\Users\\Friese Yvonne\\Desktop\\ZBW LZA\\Computer Science\\XML und Style\\xmltest.xml"));
 
@@ -23,8 +22,6 @@ public class XmlOutput {
 		xmlSimpleWriter.println("<=?" + xmlVersion + " " + xmlEncoding + "?>");
 		xmlSimpleWriter.println("<?xml-stylesheet type=\"test/xsl\" href =\"" + xmlStylesheet + "\"?>");
 
-	}
-
-	
+	}	
 
 }
