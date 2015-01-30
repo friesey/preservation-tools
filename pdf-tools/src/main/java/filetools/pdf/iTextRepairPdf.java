@@ -1,13 +1,10 @@
 package filetools.pdf;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
-
-import javax.swing.JOptionPane;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
