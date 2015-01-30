@@ -10,21 +10,19 @@ public class EbubChecker {
 
 	public static void main(String args[]) throws IOException {
 
-		String examinedFolder = utilities.BrowserDialogs
-				.chooseFolder();
+		String examinedFolder = utilities.BrowserDialogs.chooseFolder();
 		String extension;
 
 		if (examinedFolder != null) {
 
-			ArrayList<File> files = utilities.ListsFiles
-					.getPaths(new File(examinedFolder), new ArrayList<File>());
+			ArrayList<File> files = utilities.ListsFiles.getPaths(new File(examinedFolder), new ArrayList<File>());
 
 			try {
 				for (int i = 0; i < files.size(); i++) {
-					
+
 					System.out.println(files.get(i).getCanonicalPath());
-					
-					extension =  filetools.GenericFileAnalysis.getFileMimeType(files.get(i));	
+
+					extension = filetools.GenericFileAnalysis.getFileMimeType(files.get(i));
 
 					if (extension.equals("application/epub")) {
 
