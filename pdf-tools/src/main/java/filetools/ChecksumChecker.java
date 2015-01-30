@@ -14,6 +14,9 @@ import org.apache.commons.codec.digest.DigestUtils;
 import filetools.executables.CdRom_IsoImageChecker;
 
 public class ChecksumChecker {
+	
+	
+	//needed for CD ROM Workflow, filetools.executables.CdRom_IsoImageChecker
 
 	/**
 	 * @throws IOException
@@ -30,9 +33,11 @@ public class ChecksumChecker {
 
 	public static boolean testIfChecksumisPdfReaderSoftware(File file) throws NoSuchAlgorithmException, IOException {
 		ArrayList<String> checksumlist = new ArrayList<String>();
+		
+		//this list should be added by all the MD5 checksums of the Adobe Software on our CD ROMs, but I doubt it will ever be really big
 		checksumlist.add("bb7c1d820e2a2db263655a799590caab");
 
-		// TODO: create MD5 checksum
+		// creates MD5 checksum
 		String checksum = null;
 		try {
 			checksum = DigestUtils.md5Hex(new FileInputStream(file));

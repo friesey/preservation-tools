@@ -101,5 +101,4 @@ public class GifReparator {
 		String xmp = Sanselan.getXmpXml(gif); System.out.println(xmp);
 		return xmp;
 	}
-
 }

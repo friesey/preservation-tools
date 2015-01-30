@@ -11,8 +11,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import org.apache.commons.io.FilenameUtils;
-
 public class CdRom_IsoImageChecker {
 
 	public static PrintWriter filesExecutable;
@@ -81,7 +79,8 @@ public class CdRom_IsoImageChecker {
 			filescount = files.size();
 
 			for (int i = 0; i < files.size(); i++) {
-				extension = FilenameUtils.getExtension(files.get(i).toString()).toLowerCase();
+				extension = utilities.fileStringUtilities.getExtension(files.get(i).toString());
+				extension = extension.toLowerCase();
 				if (extension != null) {
 					if (extension.equals("cda")) {
 						// TODO: Could be tested earlier to save time
