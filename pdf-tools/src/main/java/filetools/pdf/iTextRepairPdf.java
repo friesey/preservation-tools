@@ -19,45 +19,40 @@ public class iTextRepairPdf {
 
 	static String examinedFolder;
 
-	public static void main(String args[]) throws IOException {
+	public static void main(String args[]) throws IOException, DocumentException {
 
-		try {
-			examinedFolder = utilities.BrowserDialogs.chooseFolder();
+		examinedFolder = utilities.BrowserDialogs.chooseFolder();
 
-			if (examinedFolder != null) {
+		if (examinedFolder != null) {
 
-				try {
-					ArrayList<File> files = utilities.ListsFiles.getPaths(new File(examinedFolder), new ArrayList<File>());
-					if (files == null)
-						return;
-					String mimetype;
-					PdfReader reader;
+			ArrayList<File> files = utilities.ListsFiles.getPaths(new File(examinedFolder), new ArrayList<File>());
+			if (files == null)
+				return;
+			String mimetype;
+			PdfReader reader;
 
-					for (int i = 0; i < files.size(); i++) {
-						System.out.println(files.get(i).getCanonicalPath());
-						mimetype = filetools.GenericFileAnalysis.getFileMimeType(files.get(i));
-						if (mimetype != null) {
-							if (mimetype.equals("application/pdf")) {
-								System.out.println(files.get(i));
-								try {
-									reader = new PdfReader(files.get(i).toString());
-									//TODO: crashes if encrypted PDF
-									if (!reader.isEncrypted()) {
-										repairWithItext(reader, files.get(i).getName());
-									}
-								} catch (Exception e) {
-									System.out.println(e);
-								}
+			for (int i = 0; i < files.size(); i++) {
+				mimetype = filetools.GenericFileAnalysis.getFileMimeType(files.get(i));
+				if (mimetype != null) {
+					if (mimetype.equals("application/pdf")) {
+						try {
+							reader = new PdfReader(files.get(i).toString());
+							if (!reader.isEncrypted()) { // TODO: crashes if
+															// encrypted PDF
+								repairWithItext(reader, files.get(i));
 							}
+						} catch (Exception e) {
+							System.out.println(files.get(i).toString() + e);
 						}
 					}
-				} catch (IOException e) {
-					e.printStackTrace();
 				}
 			}
-		} catch (FileNotFoundException e) {
-			JOptionPane.showMessageDialog(null, e, "error message", JOptionPane.ERROR_MESSAGE);		
 		}
+		/*
+		 * } catch (FileNotFoundException e) {
+		 * JOptionPane.showMessageDialog(null, e, "error message",
+		 * JOptionPane.ERROR_MESSAGE); }
+		 */
 
 	}
 
@@ -72,16 +67,43 @@ public class iTextRepairPdf {
 	 */
 
 	@SuppressWarnings("rawtypes")
-	static void repairWithItext(PdfReader reader, String filename) throws DocumentException, IOException {
+	static void repairWithItext(PdfReader reader, File filename) throws DocumentException, IOException {
 
-		Map info = reader.getInfo();
+		Map<String, String> info = reader.getInfo();
 		Document document = new Document();
 
-		PdfCopy copy = new PdfCopy(document, new FileOutputStream(examinedFolder + "//" + "Mig_iText" + filename));
+		String filenameStr = filename.getName();
 
-		// copy.setPDFXConformance(PdfWriter.PDF_VERSION_1_5);
-		copy.setPdfVersion(PdfWriter.PDF_VERSION_1_5);
-		document.addTitle((String) info.get("Title"));
+		PdfCopy copy = new PdfCopy(document, new FileOutputStream(examinedFolder + "//" + "Mig_iText" + filenameStr));
+
+		int pdfVersion = filetools.pdf.PdfAnalysis.getPdfVersion(filename.toString());
+
+		//TODO: But all the output PDF is PDF 1.4
+		switch (pdfVersion) {
+		case 2:
+			copy.setPdfVersion(PdfWriter.PDF_VERSION_1_2);
+			break;
+		case 3:
+			copy.setPdfVersion(PdfWriter.PDF_VERSION_1_3);
+			break;
+		case 4:
+			copy.setPdfVersion(PdfWriter.PDF_VERSION_1_4);
+			break;
+		case 5:
+			copy.setPdfVersion(PdfWriter.PDF_VERSION_1_5);
+			break;
+		case 6:
+			copy.setPdfVersion(PdfWriter.PDF_VERSION_1_6);
+			break;
+		case 7:
+			copy.setPdfVersion(PdfWriter.PDF_VERSION_1_7);
+			break;
+		}
+
+		// TODO: there is a way to get all the metadata as described in one of
+		// Bruno's books
+		if (info.get("Title") != null)
+			document.addTitle((String) info.get("Title"));
 		if (info.get("Author") != null)
 			document.addAuthor((String) info.get("Author"));
 		if (info.get("Keywords") != null)

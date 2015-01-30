@@ -4,6 +4,7 @@ package filetools.pdf;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -234,6 +235,34 @@ public class PdfAnalysis {
 			return LinesArray;
 		} catch (Exception e) {
 			return null;
+		}
+	}
+
+	public static int getPdfVersion(String pdffile) throws IOException {				
+		BufferedReader fileReader = new BufferedReader(new FileReader(pdffile));
+		String fileHeader = fileReader.readLine();
+		fileReader.close();
+		
+		if (fileHeader.contains("%PDF-1.2")){
+			return 2;
+		}		
+		else if (fileHeader.contains("%PDF-1.3")) {
+			return 3;
+		}
+		else if (fileHeader.contains("%PDF-1.4")) {
+			return 4;
+		}
+		else if (fileHeader.contains("%PDF-1.5")) {
+			return 5;
+		}
+		else if (fileHeader.contains("%PDF-1.6")) {
+			return 6;
+		}
+		else if (fileHeader.contains("%PDF-1.7")) {
+			return 7;
+		}
+		else {
+		return 7;
 		}
 	}	
 
