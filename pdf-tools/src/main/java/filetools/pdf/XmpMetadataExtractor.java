@@ -21,11 +21,14 @@ public class XmpMetadataExtractor {
 		
 		String xmlVersion = "xml version='1.0'";
 		String xmlEncoding = "encoding='ISO-8859-1'";
-		// String xmlxslStyleSheet =
-		// "<?xml-stylesheet type=\"text/xsl\" href=\"PdfMetadata.xsl\"?>";
+		String xmlxslStyleSheet = "<?xml-stylesheet type=\"text/xsl\" href=\"PdfMetadataStyle.xsl\"?>";
+		
+		String xsltLocation = (pdfFolder + "//" + "PdfMetadataStyle.xsl"); 
+		
+		output.XslStyleSheets.PdfMetadataCustomizedXsl(xsltLocation);	
 
 		outputfile.println("<?" + xmlVersion + " " + xmlEncoding + "?>");
-		// outputfile.println(xmlxslStyleSheet);
+		outputfile.println(xmlxslStyleSheet);
 		outputfile.println("<PdfMetadata>");
 
 		ArrayList<File> files = utilities.ListsFiles.getPaths(new File(pdfFolder), new ArrayList<File>());
@@ -36,8 +39,11 @@ public class XmpMetadataExtractor {
 			extension = extension.toLowerCase();
 			if (extension.equals("pdf")) {
 				outputfile.println("<File>");
+				
+				
+				String name = utilities.fileStringUtilities.getFileName(files.get(i));
 
-				outputfile.println("<FilePath>" + files.get(i) + "</FilePath>");
+				outputfile.println("<FileName>" + name + "</FileName>");
 
 				boolean pdfok = filetools.pdf.PdfAnalysis.testPdfOk(files.get(i));
 
@@ -60,14 +66,16 @@ public class XmpMetadataExtractor {
 							values[j] = values[j].replace("<", "&lt;");
 							values[j] = values[j].replace(">", "&gt;");
 							values[j] = values[j].replace("&", " &amp;");
+							
+							//TODO: transform Umlaute "ue" usw. sonst hat Travis wieder Probs
 
-							outputfile.println("<Value " + "=\"" + keys[j] + "\">" + values[j] + "</Value>");
+							outputfile.println("<Entry name=\"" +  keys[j] + "\">" + values[j] + "</Entry>");
 						}
 
 					}
 				} else {
 
-					outputfile.println("<PdfAnalysis>" + "PDF was not analyzed due to Encryption or other problems" + "</PdfAnalysis>");
+					outputfile.println("<PdfAnalysis>" + "false" + "</PdfAnalysis>");
 				}
 				outputfile.println("</File>");
 			}

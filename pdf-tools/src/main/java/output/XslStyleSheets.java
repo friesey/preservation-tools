@@ -260,4 +260,48 @@ public class XslStyleSheets {
 		xslStyle.close();
 
 	}
+
+	public static void PdfMetadataCustomizedXsl(String xsltLocation) throws IOException {
+
+		PrintWriter xslStyle = new PrintWriter(new FileWriter(xsltLocation));
+
+		xslStyle.println("<?xml version=\"1.0\"?>");
+		xslStyle.println("<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">");
+		xslStyle.println("<xsl:template match=\"/\">");
+		xslStyle.println("<html>");
+		xslStyle.println("<head>");
+		xslStyle.println("<style>");
+		xslStyle.println("tr.captiondred {background-color: #FF0000}");
+		xslStyle.println("tr.captionred {background-color: #CD5C5C}");
+		xslStyle.println("tr.captiongreen {background-color: #006400}");
+		xslStyle.println("tr.captiontan {background-color: #FFDEAD}");
+		xslStyle.println("tr.captionkhaki {background-color: #BDB76B}");
+		xslStyle.println("tr.captionolive {background-color: #808000}");
+		xslStyle.println("tr.captionwheat {background-color: #F5DEB3}");
+		xslStyle.println("</style>");
+		xslStyle.println("</head>");
+		xslStyle.println("<body>");
+
+		xslStyle.println("<h2>Pdf Metadata Extraction</h2>");
+		xslStyle.println("<table border =\"1\">");
+		xslStyle.println("<tr class=\"captiontan\">");
+		xslStyle.println("<th>File Name</th> ");
+		xslStyle.println("<th>No. of Metadata Entries</th> ");
+		xslStyle.println("</tr>");
+		xslStyle.println("<xsl:for-each select=\"PdfMetadata/File\">");
+		xslStyle.println("<tr class=\"captiontan\">");
+		xslStyle.println("<td><xsl:value-of select=\"FileName\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"MetadataEntries\"/></td>");
+		xslStyle.println("</tr>");
+		xslStyle.println("</xsl:for-each>");
+		xslStyle.println("</table>");
+
+		xslStyle.println("</body>");
+		xslStyle.println("</html>");
+		xslStyle.println("</xsl:template>");
+		xslStyle.println("</xsl:stylesheet>");
+
+		xslStyle.close();
+
+	}
 }
