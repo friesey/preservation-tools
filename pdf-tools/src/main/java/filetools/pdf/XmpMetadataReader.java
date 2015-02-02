@@ -63,6 +63,7 @@ public class XmpMetadataReader {
 									if (xmpMetadataArr.get(j).contains("CreatorTool")) {
 										System.out.println(xmpMetadataArr.get(j));
 										outputfile.println(xmpMetadataArr.get(j));
+										//TODO: this does not work in the xml sheet yet
 									}
 								}
 							
