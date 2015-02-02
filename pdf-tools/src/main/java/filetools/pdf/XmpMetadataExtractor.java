@@ -12,76 +12,94 @@ import com.itextpdf.text.pdf.PdfReader;
 public class XmpMetadataExtractor {
 
 	public static void main(String args[]) throws IOException {
+		try {
 
-		String pdfFolder = utilities.BrowserDialogs.chooseFolder();
+			String pdfFolder = utilities.BrowserDialogs.chooseFolder();
 
-		PdfReader reader;
+			PdfReader reader;
 
-		PrintWriter outputfile = new PrintWriter(new FileWriter(pdfFolder + "//" + "PdfMetadata.xml"));
-		
-		String xmlVersion = "xml version='1.0'";
-		String xmlEncoding = "encoding='ISO-8859-1'";
-		String xmlxslStyleSheet = "<?xml-stylesheet type=\"text/xsl\" href=\"PdfMetadataStyle.xsl\"?>";
-		
-		String xsltLocation = (pdfFolder + "//" + "PdfMetadataStyle.xsl"); 
-		
-		output.XslStyleSheets.PdfMetadataCustomizedXsl(xsltLocation);	
+			PrintWriter outputfile = new PrintWriter(new FileWriter(pdfFolder + "//" + "PdfMetadata.xml"));
 
-		outputfile.println("<?" + xmlVersion + " " + xmlEncoding + "?>");
-		outputfile.println(xmlxslStyleSheet);
-		outputfile.println("<PdfMetadata>");
+			String xmlVersion = "xml version='1.0'";
+			String xmlEncoding = "encoding='ISO-8859-1'";
+			String xmlxslStyleSheet = "<?xml-stylesheet type=\"text/xsl\" href=\"PdfMetadataStyle.xsl\"?>";
 
-		ArrayList<File> files = utilities.ListsFiles.getPaths(new File(pdfFolder), new ArrayList<File>());
+			String xsltLocation = (pdfFolder + "//" + "PdfMetadataStyle.xsl");
 
-		for (int i = 0; i < files.size(); i++) {
+			output.XslStyleSheets.PdfMetadataCustomizedXsl(xsltLocation);
 
-			String extension = utilities.fileStringUtilities.getExtension(files.get(i).toString());
-			extension = extension.toLowerCase();
-			if (extension.equals("pdf")) {
-				outputfile.println("<File>");
-				
-				
-				String name = utilities.fileStringUtilities.getFileName(files.get(i));
+			outputfile.println("<?" + xmlVersion + " " + xmlEncoding + "?>");
+			outputfile.println(xmlxslStyleSheet);
+			outputfile.println("<PdfMetadata>");
 
-				outputfile.println("<FileName>" + name + "</FileName>");
+			ArrayList<File> files = utilities.ListsFiles.getPaths(new File(pdfFolder), new ArrayList<File>());
 
-				boolean pdfok = filetools.pdf.PdfAnalysis.testPdfOk(files.get(i));
+			for (int i = 0; i < files.size(); i++) {
 
-				if (pdfok == true) {
+				String extension = utilities.fileStringUtilities.getExtension(files.get(i).toString());
+				extension = extension.toLowerCase();
+				if (extension.equals("pdf")) {
+					outputfile.println("<File>");
 
-					reader = new PdfReader(files.get(i).toString());
+					String name = utilities.fileStringUtilities.getFileName(files.get(i));
 
-					if (reader != null) {
-						Map<String, String> metadata = reader.getInfo();
-						int metaSize = metadata.size();
-						outputfile.println("<MetadataEntries>" + metaSize + "</MetadataEntries>");
+					name = name.replace("\"", "&quot;");
+					name = name.replace("\'", "&apos;");
+					name = name.replace("<", "&lt;");
+					name = name.replace(">", "&gt;");
+					name = name.replace("&", " &amp;");
 
-						String[] keys = (String[]) metadata.keySet().toArray(new String[metaSize]);
-						String[] values = (String[]) metadata.values().toArray(new String[metaSize]);
+					outputfile.println("<FileName>" + name + "</FileName>");
 
-						for (int j = 0; j < metaSize; j++) {
+					boolean pdfok = filetools.pdf.PdfAnalysis.testPdfOk(files.get(i));
 
-							values[j] = values[j].replace("\"", "&quot;");
-							values[j] = values[j].replace("\'", "&apos;");
-							values[j] = values[j].replace("<", "&lt;");
-							values[j] = values[j].replace(">", "&gt;");
-							values[j] = values[j].replace("&", " &amp;");
-							
-							//TODO: transform Umlaute "ue" usw. sonst hat Travis wieder Probs
+					if (pdfok == true) {
 
-							outputfile.println("<Entry name=\"" +  keys[j] + "\">" + values[j] + "</Entry>");
+						reader = new PdfReader(files.get(i).toString());
+
+						if (reader != null) {
+							Map<String, String> metadata = reader.getInfo();
+							int metaSize = metadata.size();
+							outputfile.println("<MetadataEntries>" + metaSize + "</MetadataEntries>");
+
+							String[] keys = (String[]) metadata.keySet().toArray(new String[metaSize]);
+							String[] values = (String[]) metadata.values().toArray(new String[metaSize]);
+
+							for (int j = 0; j < metaSize; j++) {
+
+								values[j] = values[j].replace("\"", "&quot;");
+								values[j] = values[j].replace("\'", "&apos;");
+								values[j] = values[j].replace("<", "&lt;");
+								values[j] = values[j].replace(">", "&gt;");
+								values[j] = values[j].replace("&", " &amp;");
+
+								// TODO: transform Umlaute "ue" usw. sonst hat
+								// Travis wieder Probs
+
+								outputfile.println("<InfoEntry name=\"" + keys[j] + "\">" + values[j] + "</InfoEntry>");
+
+							}
+							/*
+							 * String xmpMeta = new
+							 * String(reader.getMetadata()); // rdf, // dc //
+							 * and // xmp // data outputfile.println("<XmpData>"
+							 * + "<![CDATA[" + xmpMeta + "]]>" + "</XmpData>");
+							 */
 						}
+					} else {
 
+						outputfile.println("<PdfAnalysis>" + "false" + "</PdfAnalysis>");
 					}
-				} else {
-
-					outputfile.println("<PdfAnalysis>" + "false" + "</PdfAnalysis>");
+					outputfile.println("</File>");
 				}
-				outputfile.println("</File>");
-			}
 
+			}
+			outputfile.println("</PdfMetadata>");
+			outputfile.close();
 		}
-		outputfile.println("</PdfMetadata>");
-		outputfile.close();
+
+		catch (Exception e) {
+			System.out.println(e);
+		}
 	}
 }

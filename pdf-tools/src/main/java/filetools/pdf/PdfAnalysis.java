@@ -101,6 +101,7 @@ public class PdfAnalysis {
 	 */
 
 	public static boolean testPdfOk(File file) throws IOException {
+		try {
 
 		if (filetools.GenericFileAnalysis.testFileHeaderPdf(file) == true) {
 			/*
@@ -125,6 +126,11 @@ public class PdfAnalysis {
 		 */else {
 			System.out.println("No PDF Header");
 			return false;
+		}	
+		}
+		catch (Exception e){
+			System.out.println("Test if PDF ok Error: " + e);
+			return (Boolean) null;
 		}
 	}
 
