@@ -286,20 +286,27 @@ public class XslStyleSheets {
 		xslStyle.println("<table border =\"1\">");
 		xslStyle.println("<tr class=\"captiontan\">");
 		xslStyle.println("<th>File Name</th> ");
-		xslStyle.println("<th>No. of Metadata Entries</th> ");
-		xslStyle.println("<th>Creation Date</th> ");
-		xslStyle.println("<th>Modification Date</th> ");
-		xslStyle.println("<th>Title</th> ");
-		xslStyle.println("<th>Author</th> ");
+/*		xslStyle.println("<th>No. of Metadata Entries</th> ");*/
+		xslStyle.println("<th>Year of Creation</th> ");
+		xslStyle.println("<th>Pdf Version</th> ");
+/*		xslStyle.println("<th>Creation Date</th> ");
+		xslStyle.println("<th>Modification Date</th> ");*/
+/*		xslStyle.println("<th>Title</th> ");
+		xslStyle.println("<th>Author</th> ");*/
+		xslStyle.println("<th>Software</th> ");
 		xslStyle.println("</tr>");
 		xslStyle.println("<xsl:for-each select=\"PdfMetadata/File\">");
+		xslStyle.println("<xsl:sort select=\"CreationYear\" />");
 		xslStyle.println("<tr class=\"captiontan\">");
 		xslStyle.println("<td><xsl:value-of select=\"FileName\"/></td>");
-		xslStyle.println("<td><xsl:value-of select=\"MetadataEntries\"/></td>");
-		xslStyle.println("<td><xsl:value-of select=\"CreationDate\"/></td>");
-		xslStyle.println("<td><xsl:value-of select=\"ModificationDate\"/></td>");
-		xslStyle.println("<td><xsl:value-of select=\"Title\"/></td>");
-		xslStyle.println("<td><xsl:value-of select=\"Author\"/></td>");
+/*		xslStyle.println("<td><xsl:value-of select=\"MetadataEntries\"/></td>");*/
+		xslStyle.println("<td><xsl:value-of select=\"CreationYear\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"PdfVersion\"/></td>");
+/*		xslStyle.println("<td><xsl:value-of select=\"CreationDate\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"ModificationDate\"/></td>");*/
+/*		xslStyle.println("<td><xsl:value-of select=\"Title\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"Author\"/></td>");*/
+		xslStyle.println("<td><xsl:value-of select=\"Producer\"/></td>");
 		xslStyle.println("</tr>");
 		xslStyle.println("</xsl:for-each>");
 		xslStyle.println("</table>");
