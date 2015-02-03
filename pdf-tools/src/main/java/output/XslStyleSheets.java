@@ -5,6 +5,145 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class XslStyleSheets {
+	
+	public static void PdfBoxSummaryCustomizedXsl(String xsltLocation) throws IOException {
+		
+		PrintWriter xslStyle = new PrintWriter(new FileWriter(xsltLocation));
+		
+		xslStyle.println("<?xml version=\"1.0\"?>");
+		xslStyle.println("<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">");
+		xslStyle.println("<xsl:template match=\"/\">");
+		xslStyle.println("<html>");
+		xslStyle.println("<head>");
+		xslStyle.println("<style>");
+		xslStyle.println("tr.captiondred {background-color: #FF0000}");
+		xslStyle.println("tr.captionred {background-color: #CD5C5C}");
+		xslStyle.println("tr.captiongreen {background-color: #006400}");
+		xslStyle.println("tr.captiontan {background-color: #FFDEAD}");
+		xslStyle.println("tr.captionkhaki {background-color: #BDB76B}");
+		xslStyle.println("tr.captionolive {background-color: #808000}");
+		xslStyle.println("tr.captionwheat {background-color: #F5DEB3}");
+		xslStyle.println("</style>");
+		xslStyle.println("</head>");
+		xslStyle.println("<body>");
+		
+		xslStyle.println("<h2>PDF/A Validation with PDFBox Short Summary</h2>");
+		xslStyle.println("<table border =\"1\">");		
+		xslStyle.println("<tr class=\"captiontan\">");
+		xslStyle.println("<th>FileName</th>");
+
+		xslStyle.println("<th>Status</th>");
+		xslStyle.println("<th>ErrorsCount</th>");
+		xslStyle.println("</tr>");
+		xslStyle.println("<xsl:for-each select=\"PdfBoxValidationSummary/PdfAFile\">");
+		xslStyle.println("<xsl:sort select=\"Status\" />");
+		xslStyle.println("<xsl:if test=\"Status[contains(text(),'Valid')]\">");
+		xslStyle.println("<tr class=\"captiongreen\">");
+		xslStyle.println("<td><i><xsl:value-of select=\"FileName\"/></i></td>");
+
+		xslStyle.println("<td><xsl:value-of select=\"Status\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"ErrorsCount\"/></td>");
+		xslStyle.println("</tr>");
+		xslStyle.println("</xsl:if>	");
+		xslStyle.println("<xsl:if test=\"Status[contains(text(),'Invalid')]\">");
+		xslStyle.println("<tr class=\"captionred\">");
+		xslStyle.println("<td><i><xsl:value-of select=\"FileName\"/></i></td>");
+
+		xslStyle.println("<td><xsl:value-of select=\"Status\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"ErrorsCount\"/></td>");
+		xslStyle.println("</tr>");
+		xslStyle.println("</xsl:if>		");		
+		xslStyle.println("</xsl:for-each>");
+		xslStyle.println("</table>");	
+		
+		
+		xslStyle.println("<h2>Examined PDF/A Files</h2>");
+		xslStyle.println("<table border =\"1\">");
+		xslStyle.println("<tr class=\"captiontan\">");
+		xslStyle.println("<th>Examined PDF/A</th>");
+		xslStyle.println("<th>Valid</th>");
+		xslStyle.println("<th>Invalid</th>");
+		xslStyle.println("</tr>");
+		xslStyle.println("<xsl:for-each select=\"PdfBoxValidationSummary/Summary\">");
+
+		xslStyle.println("<tr class=\"captiontan\">");
+		xslStyle.println("<td><xsl:value-of select=\"ExaminedPdfAFiles\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"ValidPdfAFiles\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"InvalidPdfAFiles\"/></td>");
+		xslStyle.println("</tr>");
+		xslStyle.println("</xsl:for-each>");
+		xslStyle.println("</table>");
+				
+		xslStyle.println("</body>");
+		xslStyle.println("</html>");
+		xslStyle.println("</xsl:template>");
+		xslStyle.println("</xsl:stylesheet>");
+
+		xslStyle.close();
+		
+	}
+	
+	public static void PdfBoxCustomizedXsl(String xsltLocation) throws IOException {
+		
+		PrintWriter xslStyle = new PrintWriter(new FileWriter(xsltLocation));
+		
+		xslStyle.println("<?xml version=\"1.0\"?>");
+		xslStyle.println("<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">");
+		xslStyle.println("<xsl:template match=\"/\">");
+		xslStyle.println("<html>");
+		xslStyle.println("<head>");
+		xslStyle.println("<style>");
+		xslStyle.println("tr.captiondred {background-color: #FF0000}");
+		xslStyle.println("tr.captionred {background-color: #CD5C5C}");
+		xslStyle.println("tr.captiongreen {background-color: #006400}");
+		xslStyle.println("tr.captiontan {background-color: #FFDEAD}");
+		xslStyle.println("tr.captionkhaki {background-color: #BDB76B}");
+		xslStyle.println("tr.captionolive {background-color: #808000}");
+		xslStyle.println("tr.captionwheat {background-color: #F5DEB3}");
+		xslStyle.println("</style>");
+		xslStyle.println("</head>");
+		xslStyle.println("<body>");
+		
+		
+		xslStyle.println("<h2>PDF/A Validation with PDFBox Full Overview</h2>");
+		xslStyle.println("<table border =\"1\">");		
+		xslStyle.println("<tr class=\"captiontan\">");
+		xslStyle.println("<th>FileName</th>");
+
+		xslStyle.println("<th>Status</th>");
+		xslStyle.println("<th>ErrorsCount</th>");
+		xslStyle.println("</tr>");
+		xslStyle.println("<xsl:for-each select=\"PdfBoxValidation/PdfAFile\">");
+		xslStyle.println("<xsl:sort select=\"Status\" />");
+		xslStyle.println("<xsl:if test=\"Status[contains(text(),'Valid')]\">");
+		xslStyle.println("<tr class=\"captiongreen\">");
+		xslStyle.println("<td><i><xsl:value-of select=\"FileName\"/></i></td>");
+
+		xslStyle.println("<td><xsl:value-of select=\"Status\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"ErrorsCount\"/></td>");
+		xslStyle.println("</tr>");
+		xslStyle.println("</xsl:if>	");
+		xslStyle.println("<xsl:if test=\"Status[contains(text(),'Invalid')]\">");
+		xslStyle.println("<tr class=\"captionred\">");
+		xslStyle.println("<td><i><xsl:value-of select=\"FileName\"/></i></td>");
+
+		xslStyle.println("<td><xsl:value-of select=\"Status\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"ErrorsCount\"/></td>");
+		xslStyle.println("</tr>");
+		xslStyle.println("</xsl:if>		");		
+		xslStyle.println("</xsl:for-each>");
+		xslStyle.println("</table>");	
+		
+		
+		xslStyle.println("</body>");
+		xslStyle.println("</html>");
+		xslStyle.println("</xsl:template>");
+		xslStyle.println("</xsl:stylesheet>");
+
+		xslStyle.close();
+		
+	}
+	
 
 	public static void TextSucheCustomizedXsl(String xsltLocation) throws IOException {
 

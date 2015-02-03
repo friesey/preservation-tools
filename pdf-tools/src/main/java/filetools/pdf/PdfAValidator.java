@@ -43,33 +43,42 @@ public class PdfAValidator {
 			JOptionPane.showMessageDialog(null, "Please choose the folder with PDF/A files to validate.", "PDFBox Validation", JOptionPane.QUESTION_MESSAGE, icon);
 			examinedFolder = utilities.BrowserDialogs.chooseFolder();
 
-
 			outputfile = new PrintWriter(new FileWriter(examinedFolder + "//" + "PdfAValidation.xml"));
 			shortSummary = new PrintWriter(new FileWriter(examinedFolder + "//" + "PdfAValidationShortSummary.xml"));
 
 			String xmlVersion = "xml version='1.0'";
 			String xmlEncoding = "encoding='ISO-8859-1'";
-			// String xsltStyleSheet =
-			// "<?xml-stylesheet type=\"text/xsl\" href=\"PdfBoxValidationStyle.xsl\"?>";
-			// String xsltStyleSheetSummary =
-			// "<?xml-stylesheet type=\"text/xsl\" href=\"PdfBoxSummaryStyle.xsl\"?>";
+			String xsltStyleSheet = "<?xml-stylesheet type=\"text/xsl\" href=\"PdfBoxValidationStyle.xsl\"?>";
+			String xsltStyleSheetSummary = "<?xml-stylesheet type=\"text/xsl\" href=\"PdfBoxSummaryStyle.xsl\"?>";
+
+			String xsltLocation = examinedFolder + "//" + "PdfBoxValidationStyle.xsl";
+			String xsltLocationSum = examinedFolder + "//" + "PdfBoxSummaryStyle.xsl";
+
+			output.XslStyleSheets.PdfBoxCustomizedXsl(xsltLocation);
+
+			output.XslStyleSheets.PdfBoxSummaryCustomizedXsl(xsltLocationSum);
 
 			outputfile.println("<?" + xmlVersion + " " + xmlEncoding + "?>");
-			// outputfile.println(xsltStyleSheet);
+			outputfile.println(xsltStyleSheet);
 			outputfile.println("<PdfBoxValidation>");
 
 			shortSummary.println("<?" + xmlVersion + " " + xmlEncoding + "?>");
-			// shortSummary.println(xsltStyleSheetSummary);
+			shortSummary.println(xsltStyleSheetSummary);
 			shortSummary.println("<PdfBoxValidationSummary>");
+			
+			int examinedPdfa = 0;
+			int validPdfa= 0;
+			int invalidPdfa= 0;
 
 			if (examinedFolder != null) {
 
 				ArrayList<File> files = utilities.ListsFiles.getPaths(new File(examinedFolder), new ArrayList<File>());
 
-				for (int i = 0; i < files.size(); i++) {
-					if (files.get(i) != null) {					
 
-						try {	
+				for (int i = 0; i < files.size(); i++) {
+					if (files.get(i) != null) {
+
+						try {
 
 							if (PdfAnalysis.testPdfOk(files.get(i)))
 							/*
@@ -79,16 +88,17 @@ public class PdfAValidator {
 							{
 								String PdfType = PdfAnalysis.checkIfPdfA(files.get(i));
 								if (PdfType.contains("PDF/A")) {
-									
+
 									outputfile.println("<PdfAFile>");
 									shortSummary.println("<PdfAFile>");
 									
-									outputfile.println("<FileName>" + utilities.fileStringUtilities.getFileName(files.get(i)) + "</FileName>" );
-									shortSummary.println("<FileName>" + utilities.fileStringUtilities.getFileName(files.get(i)) + "</FileName>" );
+									examinedPdfa++;
+
+									outputfile.println("<FileName>" + utilities.fileStringUtilities.getFileName(files.get(i)) + "</FileName>");
+									shortSummary.println("<FileName>" + utilities.fileStringUtilities.getFileName(files.get(i)) + "</FileName>");
 									
-									outputfile.println("<Number>" + i + 1 + "</Number>");
-									shortSummary.println("<Number>" + i + 1 + "</Number>");
-									
+							
+
 									/*
 									 * the actual PdfAValidation starts here
 									 */
@@ -124,36 +134,59 @@ public class PdfAValidator {
 									}
 									if (result != null) {
 										if (result.isValid()) {
-											outputfile.println("<Status>" + "valid" + "</Status>");
-											shortSummary.println("<Status>" + "valid" + "</Status>");
+											outputfile.println("<Status>" + "Valid" + "</Status>");
+											shortSummary.println("<Status>" + "Valid" + "</Status>");
+											validPdfa++;
 										} else {
-											
-											outputfile.println("<Status>" + "invalid" + "</Status>");
-											shortSummary.println("<Status>" + "invalid" + "</Status>");
+											int errorslen = 0;
+											outputfile.println("<Status>" + "Invalid" + "</Status>");
+											shortSummary.println("<Status>" + "Invalid" + "</Status>");
+											invalidPdfa++;
 											outputfile.println("<Errors>");
-											for (ValidationError error : result.getErrorsList()) {												
+											for (ValidationError error : result.getErrorsList()) {
+												
+												
+												
 												outputfile.println("<Code>" + error.getErrorCode() + "</Code>");
-												outputfile.println("<Details>" + error.getDetails() + "</Details>");								
+												outputfile.println("<Details>" + error.getDetails() + "</Details>");
+												
+												
+												
+												
+												
+												
+												
+												
+												
+												errorslen++;
 											}
+
+											shortSummary.println("<ErrorsCount>" + errorslen + "</ErrorsCount>");
 											outputfile.println("</Errors>");
 										}
 									}
-									
+
 									outputfile.println("</PdfAFile>");
 									shortSummary.println("</PdfAFile>");
-								} 
+								}
 							}
 						} catch (IOException e) {
-							outputfile.println("<Error>" + e + "</Error>");				
+							outputfile.println("<Error>" + e + "</Error>");
 							JOptionPane.showMessageDialog(null, e, "error message", JOptionPane.ERROR_MESSAGE);
 						}
 					}
-					
 
 				}
 			}
+			
+			shortSummary.println("<Summary>");
+			shortSummary.println ("<ExaminedPdfAFiles>" + examinedPdfa + "</ExaminedPdfAFiles>");
+			shortSummary.println ("<ValidPdfAFiles>" + validPdfa + "</ValidPdfAFiles>");
+			shortSummary.println ("<InvalidPdfAFiles>" + invalidPdfa + "</InvalidPdfAFiles>");
+			shortSummary.println("</Summary>");
+			
 			outputfile.println("</PdfBoxValidation>");
-			shortSummary.println("</PdfBoxValidationSummary>");			
+			shortSummary.println("</PdfBoxValidationSummary>");
 			shortSummary.close();
 			outputfile.close();
 		} catch (FileNotFoundException e) {
