@@ -33,4 +33,13 @@ public class fileStringUtilities {
 		filename = segs[segs.length - 2];						
 		return filename;
 	}
+	
+	public static String reduceXmlEscapors(String string) {
+		string = string.replace("\"", "&quot;");
+		string = string.replace("\'", "&apos;");
+		string = string.replace("<", "&lt;");
+		string = string.replace(">", "&gt;");
+		string = string.replace("&", " &amp;");
+		return string;
+	}
 }

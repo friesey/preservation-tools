@@ -11,12 +11,16 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.activation.FileDataSource;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 import org.apache.pdfbox.preflight.PreflightDocument;
 import org.apache.pdfbox.preflight.ValidationResult;
 import org.apache.pdfbox.preflight.ValidationResult.ValidationError;
@@ -65,15 +69,15 @@ public class PdfAValidator {
 			shortSummary.println("<?" + xmlVersion + " " + xmlEncoding + "?>");
 			shortSummary.println(xsltStyleSheetSummary);
 			shortSummary.println("<PdfBoxValidationSummary>");
-			
+
 			int examinedPdfa = 0;
-			int validPdfa= 0;
-			int invalidPdfa= 0;
+			int validPdfa = 0;
+			int invalidPdfa = 0;
+
 
 			if (examinedFolder != null) {
 
 				ArrayList<File> files = utilities.ListsFiles.getPaths(new File(examinedFolder), new ArrayList<File>());
-
 
 				for (int i = 0; i < files.size(); i++) {
 					if (files.get(i) != null) {
@@ -92,12 +96,25 @@ public class PdfAValidator {
 									outputfile.println("<PdfAFile>");
 									shortSummary.println("<PdfAFile>");
 									
+									int syntaxError = 0;
+									int graphicError = 0;
+									int fontError = 0;
+									int transparencyError = 0;
+									int annotationError = 0;
+									int actionError = 0;
+									int metadataError = 0;
+
 									examinedPdfa++;
 
 									outputfile.println("<FileName>" + utilities.fileStringUtilities.getFileName(files.get(i)) + "</FileName>");
 									shortSummary.println("<FileName>" + utilities.fileStringUtilities.getFileName(files.get(i)) + "</FileName>");
-									
-							
+
+									PDDocument pd = new PDDocument();
+									pd = PDDocument.load(files.get(i));
+
+									PDDocumentInformation info = pd.getDocumentInformation();
+									getsomeMetadata(info);
+									pd.close();
 
 									/*
 									 * the actual PdfAValidation starts here
@@ -142,27 +159,59 @@ public class PdfAValidator {
 											outputfile.println("<Status>" + "Invalid" + "</Status>");
 											shortSummary.println("<Status>" + "Invalid" + "</Status>");
 											invalidPdfa++;
-											outputfile.println("<Errors>");
+										
 											for (ValidationError error : result.getErrorsList()) {
-												
-												
-												
-												outputfile.println("<Code>" + error.getErrorCode() + "</Code>");
-												outputfile.println("<Details>" + error.getDetails() + "</Details>");
-												
-												
-												
-												
-												
-												
-												
-												
-												
 												errorslen++;
-											}
 
+												String errorCode = error.getErrorCode().toString();
+												outputfile.println("<Code>" + error.getErrorCode() + "</Code>");
+												String errorDetails = utilities.fileStringUtilities.reduceXmlEscapors(error.getDetails());
+
+												if (errorCode.startsWith("1")) {
+													outputfile.println("<Details Category=\"SyntaxError\">" + errorDetails + "</Details>");
+													syntaxError++;
+												}
+
+												if (errorCode.startsWith("2")) {
+													outputfile.println("<Details Category=\"GraphicError\">" + errorDetails + "</Details>");
+													graphicError++;
+												}
+
+												if (errorCode.startsWith("3")) {
+													outputfile.println("<Details Category=\"FontError\">" + errorDetails + "</Details>");
+													fontError++;
+												}
+
+												if (errorCode.startsWith("4")) {
+													outputfile.println("<Details Category=\"TransparencyError\">" + errorDetails + "</Details>");
+													transparencyError++;
+												}
+												if (errorCode.startsWith("5")) {
+													outputfile.println("<Details Category=\"AnnotationError\">" + errorDetails + "</Details>");
+													annotationError++;
+												}
+
+												if (errorCode.startsWith("6")) {
+													outputfile.println("<Details Category=\"ActionError\">" + errorDetails + "</Details>");
+													actionError++;
+												}
+
+												if (errorCode.startsWith("7")) {
+													outputfile.println("<Details Category=\"MetadataError\">" + errorDetails + "</Details>");
+													metadataError++;
+												}
+
+											}
+											outputfile.println("<SyntaxErrors>" + syntaxError + "</SyntaxErrors>");
+											outputfile.println("<GraphicErrors>" + graphicError + "</GraphicErrors>");
+											outputfile.println("<FontErrors>" + fontError + "</FontErrors>");
+											outputfile.println("<TransparencyErrors>" + transparencyError + "</TransparencyErrors>");
+											outputfile.println("<AnnotationErrors>" + annotationError + "</AnnotationErrors>");
+											outputfile.println("<ActionErrors>" + actionError + "</ActionErrors>");
+											outputfile.println("<MetadataErrors>" + metadataError + "</MetadataErrors>");
+											
 											shortSummary.println("<ErrorsCount>" + errorslen + "</ErrorsCount>");
-											outputfile.println("</Errors>");
+										
 										}
 									}
 
@@ -178,13 +227,13 @@ public class PdfAValidator {
 
 				}
 			}
-			
+
 			shortSummary.println("<Summary>");
-			shortSummary.println ("<ExaminedPdfAFiles>" + examinedPdfa + "</ExaminedPdfAFiles>");
-			shortSummary.println ("<ValidPdfAFiles>" + validPdfa + "</ValidPdfAFiles>");
-			shortSummary.println ("<InvalidPdfAFiles>" + invalidPdfa + "</InvalidPdfAFiles>");
+			shortSummary.println("<ExaminedPdfAFiles>" + examinedPdfa + "</ExaminedPdfAFiles>");
+			shortSummary.println("<ValidPdfAFiles>" + validPdfa + "</ValidPdfAFiles>");
+			shortSummary.println("<InvalidPdfAFiles>" + invalidPdfa + "</InvalidPdfAFiles>");
 			shortSummary.println("</Summary>");
-			
+
 			outputfile.println("</PdfBoxValidation>");
 			shortSummary.println("</PdfBoxValidationSummary>");
 			shortSummary.close();
@@ -193,6 +242,31 @@ public class PdfAValidator {
 			logger.error("Error analyzing " + e);
 			JOptionPane.showMessageDialog(null, e, "error message", JOptionPane.ERROR_MESSAGE);
 		}
+	}
+
+	private static void getsomeMetadata(PDDocumentInformation info) throws IOException {
+		try {
+			Calendar creationYear = info.getCreationDate();
+
+			Date creationYearDate = creationYear.getTime();
+
+			int len = creationYearDate.toString().length();
+
+			String year = creationYearDate.toString().substring(len - 4, len);
+			String creationSoftware = utilities.fileStringUtilities.reduceXmlEscapors(info.getProducer());
+
+			shortSummary.println("<CreationYear>" + year + "</CreationYear>");
+			shortSummary.println("<CreationSoftware>" + creationSoftware + "</CreationSoftware>");
+			outputfile.println("<CreationYear>" + year + "</CreationYear>");
+
+			outputfile.println("<CreationSoftware>" + creationSoftware + "</CreationSoftware>");
+		} catch (Exception e) {
+			shortSummary.println("<CreationYear>" + "</CreationYear>");
+			shortSummary.println("<CreationSoftware>" + "</CreationSoftware>");
+			outputfile.println("<CreationYear>" + "</CreationYear>");
+			outputfile.println("<CreationSoftware>" + "</CreationSoftware>");
+		}
+
 	}
 
 	private static void changecolor() {

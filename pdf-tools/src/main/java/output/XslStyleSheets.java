@@ -5,11 +5,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class XslStyleSheets {
-	
+
 	public static void PdfBoxSummaryCustomizedXsl(String xsltLocation) throws IOException {
-		
+
 		PrintWriter xslStyle = new PrintWriter(new FileWriter(xsltLocation));
-		
+
 		xslStyle.println("<?xml version=\"1.0\"?>");
 		xslStyle.println("<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">");
 		xslStyle.println("<xsl:template match=\"/\">");
@@ -26,12 +26,13 @@ public class XslStyleSheets {
 		xslStyle.println("</style>");
 		xslStyle.println("</head>");
 		xslStyle.println("<body>");
-		
+
 		xslStyle.println("<h2>PDF/A Validation with PDFBox Short Summary</h2>");
-		xslStyle.println("<table border =\"1\">");		
+		xslStyle.println("<table border =\"1\">");
 		xslStyle.println("<tr class=\"captiontan\">");
 		xslStyle.println("<th>FileName</th>");
-
+		xslStyle.println("<th>Creation Year</th>");
+		xslStyle.println("<th>Creation Software</th>");
 		xslStyle.println("<th>Status</th>");
 		xslStyle.println("<th>ErrorsCount</th>");
 		xslStyle.println("</tr>");
@@ -40,7 +41,8 @@ public class XslStyleSheets {
 		xslStyle.println("<xsl:if test=\"Status[contains(text(),'Valid')]\">");
 		xslStyle.println("<tr class=\"captiongreen\">");
 		xslStyle.println("<td><i><xsl:value-of select=\"FileName\"/></i></td>");
-
+		xslStyle.println("<td><xsl:value-of select=\"CreationYear\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"CreationSoftware\"/></td>");
 		xslStyle.println("<td><xsl:value-of select=\"Status\"/></td>");
 		xslStyle.println("<td><xsl:value-of select=\"ErrorsCount\"/></td>");
 		xslStyle.println("</tr>");
@@ -48,15 +50,15 @@ public class XslStyleSheets {
 		xslStyle.println("<xsl:if test=\"Status[contains(text(),'Invalid')]\">");
 		xslStyle.println("<tr class=\"captionred\">");
 		xslStyle.println("<td><i><xsl:value-of select=\"FileName\"/></i></td>");
-
+		xslStyle.println("<td><xsl:value-of select=\"CreationYear\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"CreationSoftware\"/></td>");
 		xslStyle.println("<td><xsl:value-of select=\"Status\"/></td>");
 		xslStyle.println("<td><xsl:value-of select=\"ErrorsCount\"/></td>");
 		xslStyle.println("</tr>");
-		xslStyle.println("</xsl:if>		");		
+		xslStyle.println("</xsl:if>		");
 		xslStyle.println("</xsl:for-each>");
-		xslStyle.println("</table>");	
-		
-		
+		xslStyle.println("</table>");
+
 		xslStyle.println("<h2>Examined PDF/A Files</h2>");
 		xslStyle.println("<table border =\"1\">");
 		xslStyle.println("<tr class=\"captiontan\">");
@@ -73,20 +75,20 @@ public class XslStyleSheets {
 		xslStyle.println("</tr>");
 		xslStyle.println("</xsl:for-each>");
 		xslStyle.println("</table>");
-				
+
 		xslStyle.println("</body>");
 		xslStyle.println("</html>");
 		xslStyle.println("</xsl:template>");
 		xslStyle.println("</xsl:stylesheet>");
 
 		xslStyle.close();
-		
+
 	}
-	
+
 	public static void PdfBoxCustomizedXsl(String xsltLocation) throws IOException {
-		
+
 		PrintWriter xslStyle = new PrintWriter(new FileWriter(xsltLocation));
-		
+
 		xslStyle.println("<?xml version=\"1.0\"?>");
 		xslStyle.println("<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">");
 		xslStyle.println("<xsl:template match=\"/\">");
@@ -103,47 +105,46 @@ public class XslStyleSheets {
 		xslStyle.println("</style>");
 		xslStyle.println("</head>");
 		xslStyle.println("<body>");
-		
-		
-		xslStyle.println("<h2>PDF/A Validation with PDFBox Full Overview</h2>");
-		xslStyle.println("<table border =\"1\">");		
+
+		xslStyle.println("<h2>Overview on invalid PDF/A Files</h2>");
+		xslStyle.println("<table border =\"1\">");
 		xslStyle.println("<tr class=\"captiontan\">");
 		xslStyle.println("<th>FileName</th>");
+		xslStyle.println("<th>Creation Year</th>");
+		xslStyle.println("<th>Creation Software</th>");
+		xslStyle.println("<th>Syntax Errors</th>");
+		xslStyle.println("<th>Graphic Errors</th>");
+		xslStyle.println("<th>Font Errors</th>");
+		xslStyle.println("<th>Transparency Errors</th>");
+		xslStyle.println("<th>Annotation Errors</th>");
+		xslStyle.println("<th>Action Errors</th>");
+		xslStyle.println("<th>Metadata Errors</th>");
 
-		xslStyle.println("<th>Status</th>");
-		xslStyle.println("<th>ErrorsCount</th>");
 		xslStyle.println("</tr>");
-		xslStyle.println("<xsl:for-each select=\"PdfBoxValidation/PdfAFile\">");
-		xslStyle.println("<xsl:sort select=\"Status\" />");
-		xslStyle.println("<xsl:if test=\"Status[contains(text(),'Valid')]\">");
-		xslStyle.println("<tr class=\"captiongreen\">");
-		xslStyle.println("<td><i><xsl:value-of select=\"FileName\"/></i></td>");
-
-		xslStyle.println("<td><xsl:value-of select=\"Status\"/></td>");
-		xslStyle.println("<td><xsl:value-of select=\"ErrorsCount\"/></td>");
-		xslStyle.println("</tr>");
-		xslStyle.println("</xsl:if>	");
-		xslStyle.println("<xsl:if test=\"Status[contains(text(),'Invalid')]\">");
+		xslStyle.println("<xsl:for-each select=\"PdfBoxValidation/PdfAFile\">");	
 		xslStyle.println("<tr class=\"captionred\">");
 		xslStyle.println("<td><i><xsl:value-of select=\"FileName\"/></i></td>");
-
-		xslStyle.println("<td><xsl:value-of select=\"Status\"/></td>");
-		xslStyle.println("<td><xsl:value-of select=\"ErrorsCount\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"CreationYear\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"CreationSoftware\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"SyntaxErrors\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"GraphicErrors\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"FontErrors\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"TransparencyErrors\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"AnnotationErrors\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"ActionErrors\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"MetadataErrors\"/></td>");
 		xslStyle.println("</tr>");
-		xslStyle.println("</xsl:if>		");		
 		xslStyle.println("</xsl:for-each>");
-		xslStyle.println("</table>");	
-		
-		
+		xslStyle.println("</table>");
+
 		xslStyle.println("</body>");
 		xslStyle.println("</html>");
 		xslStyle.println("</xsl:template>");
 		xslStyle.println("</xsl:stylesheet>");
 
 		xslStyle.close();
-		
+
 	}
-	
 
 	public static void TextSucheCustomizedXsl(String xsltLocation) throws IOException {
 
@@ -425,26 +426,38 @@ public class XslStyleSheets {
 		xslStyle.println("<table border =\"1\">");
 		xslStyle.println("<tr class=\"captiontan\">");
 		xslStyle.println("<th>File Name</th> ");
-/*		xslStyle.println("<th>No. of Metadata Entries</th> ");*/
+		/* xslStyle.println("<th>No. of Metadata Entries</th> "); */
 		xslStyle.println("<th>Year of Creation</th> ");
 		xslStyle.println("<th>Pdf Version</th> ");
-/*		xslStyle.println("<th>Creation Date</th> ");
-		xslStyle.println("<th>Modification Date</th> ");*/
-/*		xslStyle.println("<th>Title</th> ");
-		xslStyle.println("<th>Author</th> ");*/
+		/*
+		 * xslStyle.println("<th>Creation Date</th> ");
+		 * xslStyle.println("<th>Modification Date</th> ");
+		 */
+		/*
+		 * xslStyle.println("<th>Title</th> ");
+		 * xslStyle.println("<th>Author</th> ");
+		 */
 		xslStyle.println("<th>Software</th> ");
 		xslStyle.println("</tr>");
 		xslStyle.println("<xsl:for-each select=\"PdfMetadata/File\">");
 		xslStyle.println("<xsl:sort select=\"CreationYear\" />");
 		xslStyle.println("<tr class=\"captiontan\">");
 		xslStyle.println("<td><xsl:value-of select=\"FileName\"/></td>");
-/*		xslStyle.println("<td><xsl:value-of select=\"MetadataEntries\"/></td>");*/
+		/*
+		 * xslStyle.println("<td><xsl:value-of select=\"MetadataEntries\"/></td>"
+		 * );
+		 */
 		xslStyle.println("<td><xsl:value-of select=\"CreationYear\"/></td>");
 		xslStyle.println("<td><xsl:value-of select=\"PdfVersion\"/></td>");
-/*		xslStyle.println("<td><xsl:value-of select=\"CreationDate\"/></td>");
-		xslStyle.println("<td><xsl:value-of select=\"ModificationDate\"/></td>");*/
-/*		xslStyle.println("<td><xsl:value-of select=\"Title\"/></td>");
-		xslStyle.println("<td><xsl:value-of select=\"Author\"/></td>");*/
+		/*
+		 * xslStyle.println("<td><xsl:value-of select=\"CreationDate\"/></td>");
+		 * xslStyle
+		 * .println("<td><xsl:value-of select=\"ModificationDate\"/></td>");
+		 */
+		/*
+		 * xslStyle.println("<td><xsl:value-of select=\"Title\"/></td>");
+		 * xslStyle.println("<td><xsl:value-of select=\"Author\"/></td>");
+		 */
 		xslStyle.println("<td><xsl:value-of select=\"Producer\"/></td>");
 		xslStyle.println("</tr>");
 		xslStyle.println("</xsl:for-each>");
