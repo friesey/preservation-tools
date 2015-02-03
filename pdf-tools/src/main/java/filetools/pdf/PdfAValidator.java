@@ -1,5 +1,6 @@
 package filetools.pdf;
 
+import java.awt.Color;
 import java.io.File;
 
 import org.slf4j.Logger;
@@ -12,7 +13,9 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.activation.FileDataSource;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 import org.apache.pdfbox.preflight.PreflightDocument;
 import org.apache.pdfbox.preflight.ValidationResult;
@@ -24,41 +27,49 @@ public class PdfAValidator {
 
 	static String examinedFolder;
 	static PrintWriter outputfile;
-	static PrintWriter ShortSummary;
+	static PrintWriter shortSummary;
 
 	static Logger logger = LoggerFactory.getLogger(PdfAValidator.class);
-	
+
 	public static void main(String args[]) throws IOException {
 
 		try {
 
+			changecolor();
+			String path = "D://Eclipse New//PDFBoxLogo.gif";
+			String description = "PDFBox Logo";
+			ImageIcon icon = new ImageIcon(path, description);
+
+			JOptionPane.showMessageDialog(null, "Please choose the folder with PDF/A files to validate.", "PDFBox Validation", JOptionPane.QUESTION_MESSAGE, icon);
 			examinedFolder = utilities.BrowserDialogs.chooseFolder();
 
-			// Generating two Outputfiles in the folder that is examined
 
-			outputfile = new PrintWriter(new FileWriter(examinedFolder + "//"
-					+ "PdfAValidation.txt"));
+			outputfile = new PrintWriter(new FileWriter(examinedFolder + "//" + "PdfAValidation.xml"));
+			shortSummary = new PrintWriter(new FileWriter(examinedFolder + "//" + "PdfAValidationShortSummary.xml"));
 
-			ShortSummary = new PrintWriter(new FileWriter(examinedFolder + "//"
-					+ "PdfAValidationShortSummary.txt"));
+			String xmlVersion = "xml version='1.0'";
+			String xmlEncoding = "encoding='ISO-8859-1'";
+			// String xsltStyleSheet =
+			// "<?xml-stylesheet type=\"text/xsl\" href=\"PdfBoxValidationStyle.xsl\"?>";
+			// String xsltStyleSheetSummary =
+			// "<?xml-stylesheet type=\"text/xsl\" href=\"PdfBoxSummaryStyle.xsl\"?>";
+
+			outputfile.println("<?" + xmlVersion + " " + xmlEncoding + "?>");
+			// outputfile.println(xsltStyleSheet);
+			outputfile.println("<PdfBoxValidation>");
+
+			shortSummary.println("<?" + xmlVersion + " " + xmlEncoding + "?>");
+			// shortSummary.println(xsltStyleSheetSummary);
+			shortSummary.println("<PdfBoxValidationSummary>");
 
 			if (examinedFolder != null) {
 
-				ArrayList<File> files = utilities.ListsFiles.getPaths(new File(examinedFolder),
-						new ArrayList<File>());
+				ArrayList<File> files = utilities.ListsFiles.getPaths(new File(examinedFolder), new ArrayList<File>());
 
 				for (int i = 0; i < files.size(); i++) {
-					if (files.get(i) != null) {
+					if (files.get(i) != null) {					
 
-						System.out.println(i + 1);
-						outputfile.println(i + 1);
-						ShortSummary.println(i + 1);
-
-						try {
-							System.out.println(files.get(i).getCanonicalPath());
-							outputfile.println(files.get(i).getCanonicalPath());
-							ShortSummary.println(files.get(i)
-									.getCanonicalPath());
+						try {	
 
 							if (PdfAnalysis.testPdfOk(files.get(i)))
 							/*
@@ -66,21 +77,27 @@ public class PdfAValidator {
 							 * Otherwise gives error in Console
 							 */
 							{
-								String PdfType = PdfAnalysis.checkIfPdfA(files
-										.get(i));
+								String PdfType = PdfAnalysis.checkIfPdfA(files.get(i));
 								if (PdfType.contains("PDF/A")) {
+									
+									outputfile.println("<PdfAFile>");
+									shortSummary.println("<PdfAFile>");
+									
+									outputfile.println("<FileName>" + utilities.fileStringUtilities.getFileName(files.get(i)) + "</FileName>" );
+									shortSummary.println("<FileName>" + utilities.fileStringUtilities.getFileName(files.get(i)) + "</FileName>" );
+									
+									outputfile.println("<Number>" + i + 1 + "</Number>");
+									shortSummary.println("<Number>" + i + 1 + "</Number>");
+									
 									/*
 									 * the actual PdfAValidation starts here
 									 */
 									ValidationResult result = null;
-									FileDataSource fd = new FileDataSource(
-											files.get(i).toString());
-									PreflightParser parser = new PreflightParser(
-											fd);
+									FileDataSource fd = new FileDataSource(files.get(i).toString());
+									PreflightParser parser = new PreflightParser(fd);
 									try {
 										parser.parse();
-										PreflightDocument document = parser
-												.getPreflightDocument();
+										PreflightDocument document = parser.getPreflightDocument();
 										try {
 											document.validate();
 
@@ -92,10 +109,9 @@ public class PdfAValidator {
 											 * TODO: Why can this generate a
 											 * NullPointerException ?
 											 */
-											outputfile.println(e);
-											ShortSummary.println(e);
-											 logger.error("Error analyzing " + files
-														.get(i).getAbsolutePath(), e);
+											outputfile.println("<Error>" + e + "</Error>");
+											shortSummary.println("<Error>" + e + "</Error>");
+											logger.error("Error analyzing " + files.get(i).getAbsolutePath(), e);
 										}
 									} catch (SyntaxValidationException e) {
 										/*
@@ -104,58 +120,50 @@ public class PdfAValidator {
 										 * file can't be parsed.
 										 */
 										result = e.getResult();
-										logger.error("Error analyzing " + files
-												.get(i).getAbsolutePath(), e);
+										logger.error("Error analyzing " + files.get(i).getAbsolutePath(), e);
 									}
 									if (result != null) {
 										if (result.isValid()) {
-											outputfile
-													.println("The file "
-															+ files.get(i)
-															+ " is a valid PDF/A-1b file");
-
-											ShortSummary
-													.println("The file "
-															+ files.get(i)
-															+ " is a valid PDF/A-1b file");
+											outputfile.println("<Status>" + "valid" + "</Status>");
+											shortSummary.println("<Status>" + "valid" + "</Status>");
 										} else {
-											outputfile
-													.println("The file "
-															+ files.get(i)
-															+ " is not valid, error(s) :");
-
-											ShortSummary
-													.println("The file "
-															+ files.get(i)
-															+ " is not valid, error(s) :");
-											for (ValidationError error : result
-													.getErrorsList()) {
-												outputfile.println(error
-														.getErrorCode()
-														+ " : "
-														+ error.getDetails());
+											
+											outputfile.println("<Status>" + "invalid" + "</Status>");
+											shortSummary.println("<Status>" + "invalid" + "</Status>");
+											outputfile.println("<Errors>");
+											for (ValidationError error : result.getErrorsList()) {												
+												outputfile.println("<Code>" + error.getErrorCode() + "</Code>");
+												outputfile.println("<Details>" + error.getDetails() + "</Details>");								
 											}
+											outputfile.println("</Errors>");
 										}
 									}
-								} else {
-									ShortSummary.println("No PDF/A file");
-									outputfile.println("No PDF/A file");
-								}
+									
+									outputfile.println("</PdfAFile>");
+									shortSummary.println("</PdfAFile>");
+								} 
 							}
 						} catch (IOException e) {
-							outputfile.print(e);
-							 logger.error("Error analyzing " + files
-										.get(i).getAbsolutePath(), e);
-							 JOptionPane.showMessageDialog(null, e, "error message", JOptionPane.ERROR_MESSAGE);		
+							outputfile.println("<Error>" + e + "</Error>");				
+							JOptionPane.showMessageDialog(null, e, "error message", JOptionPane.ERROR_MESSAGE);
 						}
 					}
+					
+
 				}
 			}
-			ShortSummary.close();
+			outputfile.println("</PdfBoxValidation>");
+			shortSummary.println("</PdfBoxValidationSummary>");			
+			shortSummary.close();
 			outputfile.close();
 		} catch (FileNotFoundException e) {
-			 logger.error("Error analyzing " + e);
-			 JOptionPane.showMessageDialog(null, e, "error message", JOptionPane.ERROR_MESSAGE);		
+			logger.error("Error analyzing " + e);
+			JOptionPane.showMessageDialog(null, e, "error message", JOptionPane.ERROR_MESSAGE);
 		}
+	}
+
+	private static void changecolor() {
+		UIManager.put("OptionPane.background", Color.white);
+		UIManager.put("Panel.background", Color.white);
 	}
 }

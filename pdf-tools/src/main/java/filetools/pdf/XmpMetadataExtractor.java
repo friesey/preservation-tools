@@ -26,17 +26,20 @@ public class XmpMetadataExtractor {
 			outputfile.println(xmlxslStyleSheet);
 			outputfile.println("<PdfMetadata>");
 			ArrayList<File> files = utilities.ListsFiles.getPaths(new File(pdfFolder), new ArrayList<File>());
+			
 			for (int i = 0; i < files.size(); i++) {
 				String extension = utilities.fileStringUtilities.getExtension(files.get(i).toString());
 				extension = extension.toLowerCase();
 				if (extension.equals("pdf")) {
 					outputfile.println("<File>");
+					
 					String name = utilities.fileStringUtilities.getFileName(files.get(i));
 					name = reduceXmlEscapors(name);
 					outputfile.println("<FileName>" + name + "</FileName>");
 					boolean pdfok = filetools.pdf.PdfAnalysis.testPdfOk(files.get(i));
 					if (pdfok == true) {
 						reader = new PdfReader(files.get(i).toString());
+					
 						if (reader != null) {
 							Map<String, String> metadata = reader.getInfo();
 							int metaSize = metadata.size();
