@@ -8,7 +8,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
-import org.apache.commons.io.FilenameUtils;
+// import org.apache.commons.io.FilenameUtils;
 
 public class GenericFileAnalysis {
 
@@ -147,6 +147,9 @@ public class GenericFileAnalysis {
 	 */
 
 	public static boolean testIfExtensionCanbeExecutable(String extension) {
+		
+		//needed for CD ROM Workflow, filetools.executables.CdRom_IsoImageChecker
+		
 		ArrayList<String> extensionlist = new ArrayList<String>();
 		extensionlist.add("pdf");
 		extensionlist.add("doc");
@@ -214,23 +217,8 @@ public class GenericFileAnalysis {
 	}
 
 	public static String getCdRomFolderName(String examinedCdRom) {
-
 		String[] segs = examinedCdRom.split(Pattern.quote("\\"));
-
 		return segs[segs.length - 1];
-
-	}
-
-	public static String getFileExtension(File file) {
-
-		String[] segs = file.toString().split(Pattern.quote("."));
-
-		return segs[segs.length - 1];
-	}
-
-	public static String getFileName(File file) {
-		String filename = FilenameUtils.getBaseName(file.toString());
-		return filename;
 	}
 
 	public static boolean testFileHeaderGif(File file) throws IOException {
@@ -249,7 +237,6 @@ public class GenericFileAnalysis {
 		System.out.println(sb.toString());*/
 
 		String FileHeader = fileReader.readLine();
-
 		if (FileHeader != null) {
 			if (FileHeader.contains(magicNumberGif87)) {
 				return true;

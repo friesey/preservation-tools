@@ -94,9 +94,5 @@ public class MetadataExtraction {
 		for (String name : metadataNames) {
 			metadataOutput.println(name + ": " + metadata.get(name));
 		}
-
 	}
-
-
-
 }

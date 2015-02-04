@@ -4,14 +4,13 @@ package filetools.pdf;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.apache.pdfbox.cos.COSArray;
 import org.apache.pdfbox.cos.COSBase;
 import org.apache.pdfbox.cos.COSDictionary;
@@ -33,7 +32,7 @@ public class PdfAnalysis {
 	 ********************************************************/
 	public static BufferedReader PdfHeaderTest;
 
-	static Logger logger = LoggerFactory.getLogger(PdfAnalysis.class);
+	// static Logger logger = LoggerFactory.getLogger(PdfAnalysis.class);
 
 	/*********************************************************
 	 * Methods used within the whole package
@@ -63,7 +62,7 @@ public class PdfAnalysis {
 		COSDictionary trailer = pdf.getDocument().getTrailer();
 		System.out.println("Trailer:" + trailer);
 
-		if (pdf.isEncrypted()) { //this actually works easily
+		if (pdf.isEncrypted()) { // this actually works easily
 			System.out.println("Encrypted");
 		}
 
@@ -102,31 +101,26 @@ public class PdfAnalysis {
 	 */
 
 	public static boolean testPdfOk(File file) throws IOException {
-
-		if (filetools.GenericFileAnalysis.testFileHeaderPdf(file) == true) {
-			/*
-			 * if (preservetools.files.GenericFileAnalysis.checkFileSize(file))
-			 * {
-			 */
-			PDDocument testfile = PDDocument.load(file);
-			if (!testfile.isEncrypted()) {
-				if (!checkBrokenPdf(file.toString())) {
-					return true;
-				} else {
-					System.out.println("Broken Pdf");
-					return false;
-				}
-			} else {
-				System.out.println("Is encrypted");
-				return false;
-			}
-		} /*
-		 * else { System.out.println("Pdf too big to be examined"); return
-		 * false; } }
-		 */else {
+		if (filetools.GenericFileAnalysis.testFileHeaderPdf(file) == true) {		
+			
+					PDDocument testfile = PDDocument.load(file);
+					if (!testfile.isEncrypted()) {
+						if (!checkBrokenPdf(file.toString())) {
+							return true;
+						} else {
+							System.out.println("Broken Pdf");
+							return false;
+						}
+					} else {
+						System.out.println("Is encrypted");
+						return false;
+					}			
+		
+		} else {
 			System.out.println("No PDF Header");
 			return false;
 		}
+
 	}
 
 	/**
@@ -162,7 +156,7 @@ public class PdfAnalysis {
 		} catch (java.lang.NullPointerException e) {
 			System.out.println(e);
 			pdfType = "PDF cannot be read by PdfReader";
-			logger.error("Error analyzing " + e);
+			// logger.error("Error analyzing " + e);
 			return pdfType;
 		}
 	}
@@ -190,7 +184,7 @@ public class PdfAnalysis {
 		} catch (Exception e) {
 			System.out.println("Broken: " + file);
 			brokenPdf = true;
-			logger.error("Error analyzing " + e);
+			// logger.error("Error analyzing " + e);
 			return brokenPdf;
 		}
 	}
@@ -236,6 +230,28 @@ public class PdfAnalysis {
 			return LinesArray;
 		} catch (Exception e) {
 			return null;
+		}
+	}
+
+	public static int getPdfVersion(String pdffile) throws IOException {
+		BufferedReader fileReader = new BufferedReader(new FileReader(pdffile));
+		String fileHeader = fileReader.readLine();
+		fileReader.close();
+
+		if (fileHeader.contains("%PDF-1.2")) {
+			return 2;
+		} else if (fileHeader.contains("%PDF-1.3")) {
+			return 3;
+		} else if (fileHeader.contains("%PDF-1.4")) {
+			return 4;
+		} else if (fileHeader.contains("%PDF-1.5")) {
+			return 5;
+		} else if (fileHeader.contains("%PDF-1.6")) {
+			return 6;
+		} else if (fileHeader.contains("%PDF-1.7")) {
+			return 7;
+		} else {
+			return 7;
 		}
 	}
 

@@ -28,7 +28,6 @@ public class TiffFileAnalysis {
 	static PrintWriter xmlsummary;
 	static int problematicTiffs;
 
-	// mandatory in baseline tiff
 	public static ArrayList<TiffTagZbw> listTiffTags = new ArrayList<TiffTagZbw>();
 
 	public static void main(String args[]) throws IOException, ImageReadException {
@@ -510,7 +509,21 @@ public class TiffFileAnalysis {
 					break;
 
 				default:
-					xmlsummary.println("<UnknownTiffTag>" + temp.tiffTagName + "</UnknownTiffTag>");
+					// xmlsummary.println("<UnknownTiffTag>" + temp.tiffTagName
+					// + "</UnknownTiffTag>");
+					String unknownTiffTag = temp.tiffTagName;
+					unknownTiffTag = unknownTiffTag.replace(" ", ""); // get rid
+																		// of
+																		// spaces
+																		// because
+																		// XML
+																		// cannot
+																		// deal
+																		// with
+																		// them
+
+					xmlsummary.println("<" + unknownTiffTag + ">" + temp.tiffTagContent + "</" + unknownTiffTag + ">");
+
 				}
 
 				listTiffTags.add(temp); // used to be placed before all the
