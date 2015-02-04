@@ -196,7 +196,8 @@ public class XslStyleSheets {
 		xslStyle.println("</tr>");
 		xslStyle.println("<xsl:for-each select=\"Textsuche/Datei\">");
 
-		xslStyle.println("<tr class=\"captiontan\">");
+		xslStyle.println("<xsl:sort select=\"Suchergebnis\" />");
+		xslStyle.println("<tr class=\"captiontan\">");	
 		xslStyle.println("<td><xsl:value-of select=\"Dateiname\"/></td>");
 		xslStyle.println("<td><xsl:value-of select=\"Suchergebnis\"/></td>");
 		xslStyle.println("</tr>");
