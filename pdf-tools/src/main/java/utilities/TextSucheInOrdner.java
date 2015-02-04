@@ -36,6 +36,7 @@ public class TextSucheInOrdner {
 		
 		
 		stringfound = 0;
+		
 		try {
 			fileorfolder = utilities.BrowserDialogs.chooseFileOrFolder();
 			if (fileorfolder != null) {
