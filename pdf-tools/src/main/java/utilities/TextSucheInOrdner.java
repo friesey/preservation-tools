@@ -33,6 +33,8 @@ public class TextSucheInOrdner {
 	// searchforStringinSimpleFiles and searchforStringinPdfFiles
 
 	public static void main(String args[]) throws IOException {
+		
+		
 		stringfound = 0;
 		try {
 			fileorfolder = utilities.BrowserDialogs.chooseFileOrFolder();
