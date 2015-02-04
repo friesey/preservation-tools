@@ -32,11 +32,8 @@ public class TextSucheInOrdner {
 	// implemented non-context-sensitive for methods
 	// searchforStringinSimpleFiles and searchforStringinPdfFiles
 
-	public static void main(String args[]) throws IOException {
-		
-		
-		stringfound = 0;
-		
+	public static void main(String args[]) throws IOException {				
+		stringfound = 0;		
 		try {
 			fileorfolder = utilities.BrowserDialogs.chooseFileOrFolder();
 			if (fileorfolder != null) {
