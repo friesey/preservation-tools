@@ -84,14 +84,23 @@ public class PdfTwinTest {
 
 									for (int j = 0; j < lenMig; j++) {
 
-										if (!(linesOrg[j]).equals(linesMig[j])) {								
+										if (!(linesOrg[j]).equals(linesMig[j])) {
 											outputfile.println("<DifferentLineNumber>" + (j + 1) + "</DifferentLineNumber>");
-											outputfile.println("<OriginalLine>" + linesOrg[j] + "</OriginalLine>"); //TODO: cannot display cyrillic stuff
+											outputfile.println("<OriginalLine>" + linesOrg[j] + "</OriginalLine>"); // TODO:
+																													// cannot
+																													// display
+																													// cyrillic
+																													// stuff
 											outputfile.println("<MigrationLine>" + linesMig[j] + "</MigrationLine>");
-											
-											//TODO: maybe document kind of difference, a space too much, a character false or line completely different
-											
-											differences++;										
+											differences++;
+											// TODO: maybe document kind of
+											// difference, a space too much, a
+											// character false or line
+											// completely different
+
+											checkifSpaces(linesOrg[j], linesMig[j]);
+											calcLevenshtein(linesOrg[j], linesMig[j]);
+
 										}
 									}
 									if (differences == 0) {
@@ -152,5 +161,55 @@ public class PdfTwinTest {
 			outputfile.println("</PdfTwinTest>");
 			outputfile.close();
 		}
+	}
+
+	private static void calcLevenshtein(String orgline, String migline) {
+		orgline.toLowerCase();
+		migline.toLowerCase();
+
+		int[] costs = new int[migline.length() + 1];
+
+		for (int j = 0; j < costs.length; j++)
+			costs[j] = j;
+		for (int i = 1; i <= orgline.length(); i++) {
+			costs[0] = i;
+			int nw = i - 1;
+			for (int j = 1; j <= migline.length(); j++) {
+				int cj = Math.min(1 + Math.min(costs[j], costs[j - 1]), orgline.charAt(i - 1) == migline.charAt(j - 1) ? nw : nw + 1);
+				nw = costs[j];
+				costs[j] = cj;
+			}
+		}
+		outputfile.println("<LevenshteinDistance>" + costs[migline.length()] + "</LevenshteinDistance>");
+	}
+
+	private static void checkifSpaces(String orgline, String migline) {
+
+		int lenorg = orgline.length();
+		int lenmig = migline.length();
+
+		if (lenorg != lenmig) {
+			outputfile.println("<EqualSizeLine>" + false + "</EqualSizeLine>");
+		} else {
+			outputfile.println("<EqualSizeLine>" + true + "</EqualSizeLine>");
+		}
+		
+		String [] orgArr = orgline.split(" ");
+		String [] migArr = migline.split(" ");
+		
+		if (orgArr.length != migArr.length) {
+			outputfile.println("<EqualWordNumberInLine>" + false + "</EqualWordNumberInLine>");
+		}		
+		
+		else {
+			for (int n = 0; n< orgArr.length; n++){
+				if (!(orgArr[n]).equals(migArr[n])) {
+					outputfile.println("<DifferentWordOrg>" + orgArr[n] + "<DifferentWordOrg>");
+					outputfile.println("<DifferentWordMig>" + migArr[n] + "<DifferentWordMig>");
+				}
+				
+			}
+		}
+
 	}
 }
