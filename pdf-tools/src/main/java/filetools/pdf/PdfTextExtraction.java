@@ -7,7 +7,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import org.apache.commons.io.FilenameUtils;
-import org.apache.pdfbox.pdmodel.PDDocument;
 
 public class PdfTextExtraction {
 
@@ -31,8 +30,6 @@ public class PdfTextExtraction {
 
 						outputXml.println(files.get(i).toString());
 
-						long filesizePdf = files.get(i).length();
-
 						// PDDocument testfileOrg = PDDocument.load(OrgPdf);
 
 						String[] linesPdf = PdfAnalysis.extractsPdfLines(files.get(i).toString());
@@ -43,14 +40,10 @@ public class PdfTextExtraction {
 
 							outputXml.println(linesPdf[j]);
 						}
-
 					}
 				}
 			}
-
-		}
-		
+		}		
 		outputXml.close();
 	}
-
 }
