@@ -472,4 +472,73 @@ public class XslStyleSheets {
 		xslStyle.close();
 
 	}
+
+	public static void PdfTwinTestXsl(String xsltLocation) throws IOException {
+		
+		PrintWriter xslStyle = new PrintWriter(new FileWriter(xsltLocation));
+		
+		xslStyle.println("<?xml version=\"1.0\"?>");
+		xslStyle.println("<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">");
+		xslStyle.println("<xsl:template match=\"/\">");
+		xslStyle.println("<html>");
+		xslStyle.println("<head>");
+		xslStyle.println("<style>");
+		xslStyle.println("tr.captiondred {background-color: #FF0000}");
+		xslStyle.println("tr.captionred {background-color: #CD5C5C}");
+		xslStyle.println("tr.captiongreen {background-color: #006400}");
+		xslStyle.println("tr.captiontan {background-color: #FFDEAD}");
+		xslStyle.println("tr.captionkhaki {background-color: #BDB76B}");
+		xslStyle.println("tr.captionolive {background-color: #808000}");
+		xslStyle.println("tr.captionwheat {background-color: #F5DEB3}");
+		xslStyle.println("</style>");
+		xslStyle.println("</head>");
+		xslStyle.println("<body>");
+		
+		xslStyle.println("<h2>Compared PDF Files</h2>");
+		xslStyle.println("<table border =\"1\">");
+		xslStyle.println("<tr class=\"captiontan\">");
+		xslStyle.println("<th>Compared Files</th>");
+		xslStyle.println("<th>Number of Lines</th>");
+		xslStyle.println("</tr>");
+		xslStyle.println("<xsl:for-each select=\"PdfTwinTest/ComparedItem\">");
+		xslStyle.println("<tr class=\"captiontan\">");
+		xslStyle.println("<td><xsl:value-of select=\"File\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"LinesLength\"/></td>");	
+		xslStyle.println("</tr>");
+		xslStyle.println("</xsl:for-each>");
+		xslStyle.println("</table>");
+		
+		xslStyle.println("<h2>Found differences in PDF Files</h2>");
+		xslStyle.println("<table border =\"1\">");
+		xslStyle.println("<tr class=\"captiontan\">");
+		xslStyle.println("<th>Difference in Line Number</th>");
+		xslStyle.println("<th>Original Line</th>");
+		xslStyle.println("<th>Migrated Line</th>");
+		xslStyle.println("<th>Different Word (Original)</th>"); //TODO: could be more than one
+		xslStyle.println("<th>Different Word (Migration)</th>");
+		xslStyle.println("<th>Levenshtein Distance</th>");
+		xslStyle.println("</tr>");
+		xslStyle.println("<xsl:for-each select=\"PdfTwinTest/Differences/Details\">");
+		xslStyle.println("<tr class=\"captiontan\">");
+		xslStyle.println("<td><xsl:value-of select=\"DifferentLineNumber\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"OriginalLine\"/></td>");	
+		xslStyle.println("<td><xsl:value-of select=\"MigrationLine\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"DifferentWordOrg\"/></td>");	
+		xslStyle.println("<td><xsl:value-of select=\"DifferentWordMig\"/></td>");	
+		xslStyle.println("<td><xsl:value-of select=\"LevenshteinDistance\"/></td>");	
+		xslStyle.println("</tr>");
+		xslStyle.println("</xsl:for-each>");
+		xslStyle.println("</table>");
+		
+		
+		
+		
+		xslStyle.println("</body>");
+		xslStyle.println("</html>");
+		xslStyle.println("</xsl:template>");
+		xslStyle.println("</xsl:stylesheet>");
+
+		xslStyle.close();
+		
+	}
 }

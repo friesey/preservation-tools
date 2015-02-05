@@ -30,14 +30,14 @@ public class PdfTwinTest {
 
 			String xmlVersion = "xml version='1.0'";
 			String xmlEncoding = "encoding='ISO-8859-1'";
-			// String xsltStyleSheet =
-			// "<?xml-stylesheet type=\"text/xsl\" href=\"PdfTwinTestStyle.xsl\"?>";
-			// String xsltLocation = (folder + "//" + "PdfTwinTestStyle.xsl");
+			String xsltStyleSheet = "<?xml-stylesheet type=\"text/xsl\" href=\"PdfTwinTestStyle.xsl\"?>";
 
-			// output.XslStyleSheets.PdfTwinTestXsl();
+			String xsltLocation = (folder + "//" + "PdfTwinTestStyle.xsl");
+
+			output.XslStyleSheets.PdfTwinTestXsl(xsltLocation);
 
 			outputfile.println("<?" + xmlVersion + " " + xmlEncoding + "?>");
-			// outputfile.println(xsltStyleSheet);
+			 outputfile.println(xsltStyleSheet);
 			outputfile.println("<PdfTwinTest>");
 
 			OrgPdf = utilities.BrowserDialogs.chooseFile();
@@ -45,9 +45,6 @@ public class PdfTwinTest {
 
 			MigPdf = utilities.BrowserDialogs.chooseFile();
 			System.out.println(MigPdf);
-
-			outputfile.println("<OriginalFile>" + utilities.fileStringUtilities.getFileName(OrgPdf) + "</OriginalFile>");
-			outputfile.println("<MigratedFile>" + utilities.fileStringUtilities.getFileName(MigPdf) + "</MigratedFile>");
 
 			if (OrgPdf != null && MigPdf != null) {
 
@@ -77,14 +74,24 @@ public class PdfTwinTest {
 								int lenOrg = linesOrg.length;
 								int lenMig = linesMig.length;
 
-								outputfile.println("<OrgPDFLinesLength>" + lenOrg + "</OrgPDFLinesLength>");
-								outputfile.println("<MigPDFLinesLength>" + lenMig + "</MigPDFLinesLength>");
+								outputfile.println("<ComparedItem>");
+								outputfile.println("<File>" + utilities.fileStringUtilities.getFileName(OrgPdf) + "</File>");
+								outputfile.println("<LinesLength>" + lenOrg + "</LinesLength>");
+								outputfile.println("</ComparedItem>");
 
+								outputfile.println("<ComparedItem>");
+								outputfile.println("<File>" + utilities.fileStringUtilities.getFileName(MigPdf) + "</File>");
+								outputfile.println("<LinesLength>" + lenMig + "</LinesLength>");
+								outputfile.println("</ComparedItem>");
+
+								outputfile.println("<Differences>");
 								if ((lenOrg > lenMig || lenOrg == lenMig)) {
 
 									for (int j = 0; j < lenMig; j++) {
 
 										if (!(linesOrg[j]).equals(linesMig[j])) {
+											outputfile.println("<Details>");
+
 											outputfile.println("<DifferentLineNumber>" + (j + 1) + "</DifferentLineNumber>");
 											outputfile.println("<OriginalLine>" + linesOrg[j] + "</OriginalLine>"); // TODO:
 																													// cannot
@@ -100,6 +107,7 @@ public class PdfTwinTest {
 
 											checkifSpaces(linesOrg[j], linesMig[j]);
 											calcLevenshtein(linesOrg[j], linesMig[j]);
+											outputfile.println("</Details>");
 
 										}
 									}
@@ -119,12 +127,14 @@ public class PdfTwinTest {
 										// happens twice, maybe create a method?
 
 										if (!(linesOrg[j]).equals(linesMig[j])) {
-											outputfile.println("<DifferentLine>");
+											outputfile.println("<Details>");
 											outputfile.println("<LineNumber>" + (j + 1) + "</LineNumber>");
 											outputfile.println("<OriginalLine>" + linesOrg[j] + "</OriginalLine>");
 											outputfile.println("<MigrationLine>" + linesMig[j] + "</MigrationLine>");
 											differences++;
-											outputfile.println("<(DifferentLine>");
+											checkifSpaces(linesOrg[j], linesMig[j]);
+											calcLevenshtein(linesOrg[j], linesMig[j]);
+											outputfile.println("</Details>");
 										}
 									}
 									if (differences == 0) {
@@ -157,7 +167,7 @@ public class PdfTwinTest {
 			else {
 				System.out.println("Please choose two files.");
 			}
-
+			outputfile.println("</Differences>");
 			outputfile.println("</PdfTwinTest>");
 			outputfile.close();
 		}
@@ -193,21 +203,21 @@ public class PdfTwinTest {
 		} else {
 			outputfile.println("<EqualSizeLine>" + true + "</EqualSizeLine>");
 		}
-		
-		String [] orgArr = orgline.split(" ");
-		String [] migArr = migline.split(" ");
-		
+
+		String[] orgArr = orgline.split(" ");
+		String[] migArr = migline.split(" ");
+
 		if (orgArr.length != migArr.length) {
 			outputfile.println("<EqualWordNumberInLine>" + false + "</EqualWordNumberInLine>");
-		}		
-		
+		}
+
 		else {
-			for (int n = 0; n< orgArr.length; n++){
+			for (int n = 0; n < orgArr.length; n++) {
 				if (!(orgArr[n]).equals(migArr[n])) {
-					outputfile.println("<DifferentWordOrg>" + orgArr[n] + "<DifferentWordOrg>");
-					outputfile.println("<DifferentWordMig>" + migArr[n] + "<DifferentWordMig>");
+					outputfile.println("<DifferentWordOrg>" + orgArr[n] + "</DifferentWordOrg>");
+					outputfile.println("<DifferentWordMig>" + migArr[n] + "</DifferentWordMig>");
 				}
-				
+
 			}
 		}
 
