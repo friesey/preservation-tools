@@ -66,6 +66,9 @@ public class PdfTwinTest {
 						differences++;
 						checkifSpaces(linesOrg[j], linesMig[j]);
 						int levenshtein = calcLevenshtein(linesOrg[j], linesMig[j]);
+						if (levenshtein == 1) {
+							findSpaceinLine(linesOrg[j], linesMig[j]);
+						}
 						sumlevenstheinlines = sumlevenstheinlines + levenshtein;
 						outputfile.println("<LevenshteinDistance>" + levenshtein + "</LevenshteinDistance>");
 						outputfile.println("</Details>");
@@ -108,6 +111,23 @@ public class PdfTwinTest {
 		}
 		outputfile.println("</PdfTwinTest>");
 		outputfile.close();
+	}
+
+	private static void findSpaceinLine(String orgline, String migline) {
+		// TODO Auto-generated method stub
+		String[] orgArr = orgline.split(" ");
+		String[] migArr = migline.split(" ");
+
+		//if (orgArr.length == migArr.length + 1) {
+
+			for (int n = 0; n < orgArr.length; n++) {
+				if (!orgArr[n].equals(migArr[n])){
+				outputfile.println("<DifferentWordOrg><![CDATA[" + utilities.fileStringUtilities.reduceNULvalues(orgArr[n]) + "]]></DifferentWordOrg>");
+				outputfile.println("<DifferentWordMig><![CDATA[" + utilities.fileStringUtilities.reduceNULvalues(migArr[n]) + " " + utilities.fileStringUtilities.reduceNULvalues(migArr[n+1]) + "]]></DifferentWordMig>");
+				break;
+			}
+	//		}
+		}
 	}
 
 	private static boolean analysePdfok(String pdf) throws IOException {
@@ -160,7 +180,6 @@ public class PdfTwinTest {
 	}
 
 	private static void checkifSpaces(String orgline, String migline) {
-
 		int lenorg = orgline.length();
 		int lenmig = migline.length();
 
@@ -183,9 +202,7 @@ public class PdfTwinTest {
 					outputfile.println("<DifferentWordOrg><![CDATA[" + utilities.fileStringUtilities.reduceNULvalues(orgArr[n]) + "]]></DifferentWordOrg>");
 					outputfile.println("<DifferentWordMig><![CDATA[" + utilities.fileStringUtilities.reduceNULvalues(migArr[n]) + "]]></DifferentWordMig>");
 				}
-
 			}
 		}
-
 	}
 }
