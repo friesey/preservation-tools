@@ -64,7 +64,7 @@ public class PdfTwinTest {
 						// stuff
 						outputfile.println("<MigrationLine><![CDATA[" + utilities.fileStringUtilities.reduceNULvalues(linesMig[j]) + "]]></MigrationLine>");
 						differences++;
-						checkifSpaces(linesOrg[j], linesMig[j]);
+
 						int levenshtein = calcLevenshtein(linesOrg[j], linesMig[j]);
 						if (levenshtein == 1) {
 							findSpaceinLine(linesOrg[j], linesMig[j]);
@@ -118,26 +118,27 @@ public class PdfTwinTest {
 		String[] orgArr = orgline.split(" ");
 		String[] migArr = migline.split(" ");
 
-		//if (orgArr.length == migArr.length + 1) {
-
-			for (int n = 0; n < orgArr.length; n++) {
-				if (!orgArr[n].equals(migArr[n])){
+		for (int n = 0; n < orgArr.length; n++) {
+			if (!orgArr[n].equals(migArr[n])) {
 				outputfile.println("<DifferentWordOrg><![CDATA[" + utilities.fileStringUtilities.reduceNULvalues(orgArr[n]) + "]]></DifferentWordOrg>");
-				outputfile.println("<DifferentWordMig><![CDATA[" + utilities.fileStringUtilities.reduceNULvalues(migArr[n]) + " " + utilities.fileStringUtilities.reduceNULvalues(migArr[n+1]) + "]]></DifferentWordMig>");
+				if (orgArr.length < migArr.length) {
+					outputfile.println("<DifferentWordMig><![CDATA[" + utilities.fileStringUtilities.reduceNULvalues(migArr[n]) + " " + utilities.fileStringUtilities.reduceNULvalues(migArr[n + 1]) + "]]></DifferentWordMig>");
+				} else {
+					outputfile.println("<DifferentWordMig><![CDATA[" + utilities.fileStringUtilities.reduceNULvalues(migArr[n]) + "]]></DifferentWordMig>");
+				}
 				break;
 			}
-	//		}
 		}
 	}
 
-	private static boolean analysePdfok(String pdf) throws IOException {
+	public static boolean analysePdfok(String pdf) throws IOException {
 		if (pdf != null) {
 			filesizeOrg = pdf.length();
 			if (filesizeOrg < 16000000) {
 				if (filetools.GenericFileAnalysis.testFileHeaderPdf(pdf) == true) {
 					PDDocument testfile = PDDocument.load(pdf);
 					if (!testfile.isEncrypted()) {
-						if (PdfAnalysis.checkBrokenPdf(OrgPdf) == false && PdfAnalysis.checkBrokenPdf(MigPdf) == false) {
+						if (!PdfAnalysis.checkBrokenPdf(pdf)) {
 							return true;
 						}
 					}
@@ -177,32 +178,5 @@ public class PdfTwinTest {
 			}
 		}
 		return costs[migline.length()];
-	}
-
-	private static void checkifSpaces(String orgline, String migline) {
-		int lenorg = orgline.length();
-		int lenmig = migline.length();
-
-		if (lenorg != lenmig) {
-			outputfile.println("<EqualSizeLine>" + false + "</EqualSizeLine>");
-		} else {
-			outputfile.println("<EqualSizeLine>" + true + "</EqualSizeLine>");
-		}
-
-		String[] orgArr = orgline.split(" ");
-		String[] migArr = migline.split(" ");
-
-		if (orgArr.length != migArr.length) {
-			outputfile.println("<EqualWordNumberInLine>" + false + "</EqualWordNumberInLine>");
-		}
-
-		else {
-			for (int n = 0; n < orgArr.length; n++) {
-				if (!(orgArr[n]).equals(migArr[n])) {
-					outputfile.println("<DifferentWordOrg><![CDATA[" + utilities.fileStringUtilities.reduceNULvalues(orgArr[n]) + "]]></DifferentWordOrg>");
-					outputfile.println("<DifferentWordMig><![CDATA[" + utilities.fileStringUtilities.reduceNULvalues(migArr[n]) + "]]></DifferentWordMig>");
-				}
-			}
-		}
 	}
 }

@@ -19,7 +19,7 @@ public class PdfCreationSoftwareDetective {
 	@SuppressWarnings("rawtypes")
 	public static void main(String args[]) throws IOException {
 
-		String ExaminedFolder;
+		String examinedFolder;
 		String extension;
 
 		ArrayList<String> ProducerType;
@@ -28,14 +28,14 @@ public class PdfCreationSoftwareDetective {
 		PrintWriter outputfile;
 
 		try {
-			ExaminedFolder = utilities.BrowserDialogs.chooseFolder();
+			examinedFolder = utilities.BrowserDialogs.chooseFolder();
 
-			if (ExaminedFolder != null) {
+			if (examinedFolder != null) {
 				ProducerType = new ArrayList<String>();
-				ArrayList<File> files = utilities.ListsFiles.getPaths(new File(ExaminedFolder),
+				ArrayList<File> files = utilities.ListsFiles.getPaths(new File(examinedFolder),
 						new ArrayList<File>());
 
-				outputfile = new PrintWriter(new FileWriter(ExaminedFolder + "//" + "CreationSoftwareDetective.txt"));
+				outputfile = new PrintWriter(new FileWriter(examinedFolder + "//" + "CreationSoftwareDetective.txt"));
 				for (int i = 0; i < files.size(); i++) {
 					if (files.get(i) != null) /* is this necessary? */{
 						try {
