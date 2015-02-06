@@ -92,13 +92,13 @@ public class PdfTwinTest {
 										if (!(linesOrg[j]).equals(linesMig[j])) {
 											outputfile.println("<Details>");
 
-											outputfile.println("<DifferentLineNumber>" + (j + 1) + "</DifferentLineNumber>");
+											outputfile.println("<DifferentLineNumber><![CDATA[" + (j + 1) + "]]></DifferentLineNumber>");
 											outputfile.println("<OriginalLine>" + linesOrg[j] + "</OriginalLine>"); // TODO:
 																													// cannot
 																													// display
 																													// cyrillic
 																													// stuff
-											outputfile.println("<MigrationLine>" + linesMig[j] + "</MigrationLine>");
+											outputfile.println("<MigrationLine><![CDATA[" + linesMig[j] + "]]></MigrationLine>");
 											differences++;
 											// TODO: maybe document kind of
 											// difference, a space too much, a
@@ -129,8 +129,8 @@ public class PdfTwinTest {
 										if (!(linesOrg[j]).equals(linesMig[j])) {
 											outputfile.println("<Details>");
 											outputfile.println("<LineNumber>" + (j + 1) + "</LineNumber>");
-											outputfile.println("<OriginalLine>" + linesOrg[j] + "</OriginalLine>");
-											outputfile.println("<MigrationLine>" + linesMig[j] + "</MigrationLine>");
+											outputfile.println("<OriginalLine><![CDATA[" + linesOrg[j] + "]]></OriginalLine>");
+											outputfile.println("<MigrationLine><![CDATA[" + linesMig[j] + "]]></MigrationLine>");
 											differences++;
 											checkifSpaces(linesOrg[j], linesMig[j]);
 											calcLevenshtein(linesOrg[j], linesMig[j]);
@@ -214,8 +214,8 @@ public class PdfTwinTest {
 		else {
 			for (int n = 0; n < orgArr.length; n++) {
 				if (!(orgArr[n]).equals(migArr[n])) {
-					outputfile.println("<DifferentWordOrg>" + orgArr[n] + "</DifferentWordOrg>");
-					outputfile.println("<DifferentWordMig>" + migArr[n] + "</DifferentWordMig>");
+					outputfile.println("<DifferentWordOrg><![CDATA[" + orgArr[n] + "]]></DifferentWordOrg>");
+					outputfile.println("<DifferentWordMig><![CDATA[" + migArr[n] + "]]></DifferentWordMig>");
 				}
 
 			}
