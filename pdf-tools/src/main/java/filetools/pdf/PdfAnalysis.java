@@ -232,6 +232,25 @@ public class PdfAnalysis {
 			return null;
 		}
 	}
+	
+	public static String extractsPdfLinestoString (String PdfFile) throws IOException {
+		try {
+			StringBuffer buff = new StringBuffer();
+			String ExtractedText = null;
+			PdfReader reader = new PdfReader(PdfFile);
+			PdfReaderContentParser parser = new PdfReaderContentParser(reader);
+			TextExtractionStrategy strategy;
+
+			for (int i = 1; i <= reader.getNumberOfPages(); i++) {
+				strategy = parser.processContent(i, new SimpleTextExtractionStrategy());
+				ExtractedText = strategy.getResultantText().toString();
+				buff.append(ExtractedText + "\n");
+			}	
+			return buff.toString();
+		} catch (Exception e) {
+			return null;
+		}
+	}
 
 	public static int getPdfVersion(String pdffile) throws IOException {
 		BufferedReader fileReader = new BufferedReader(new FileReader(pdffile));

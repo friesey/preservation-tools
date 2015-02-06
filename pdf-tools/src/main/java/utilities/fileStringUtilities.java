@@ -42,4 +42,9 @@ public class fileStringUtilities {
 		string = string.replace("&", " &amp;");
 		return string;
 	}
+	
+	public static String reduceNULvalues (String string){
+		string = string.replace("\0", "");
+		return string;		
+	}
 }

@@ -15,6 +15,9 @@ public class PdfTwinTest {
 	static long filesizeOrg;
 	static long filesizeMig;
 
+	static int levenstheinfullPdf;
+	static int sumlevenstheinlines;
+
 	static String folder;
 
 	static PrintWriter outputfile;
@@ -25,155 +28,118 @@ public class PdfTwinTest {
 		folder = utilities.BrowserDialogs.chooseFolder();
 
 		if (folder != null) {
+			sumlevenstheinlines = 0;
+			createXMLandXSLT(); // this creates the XML output and the XSLT
+								// Stylesheet in the chosen folder
 
-			outputfile = new PrintWriter(new FileWriter(folder + "\\PdfTwinTester.xml"));
-
-			String xmlVersion = "xml version='1.0'";
-			String xmlEncoding = "encoding='ISO-8859-1'";
-			String xsltStyleSheet = "<?xml-stylesheet type=\"text/xsl\" href=\"PdfTwinTestStyle.xsl\"?>";
-
-			String xsltLocation = (folder + "//" + "PdfTwinTestStyle.xsl");
-
-			output.XslStyleSheets.PdfTwinTestXsl(xsltLocation);
-
-			outputfile.println("<?" + xmlVersion + " " + xmlEncoding + "?>");
-			 outputfile.println(xsltStyleSheet);
 			outputfile.println("<PdfTwinTest>");
 
 			OrgPdf = utilities.BrowserDialogs.chooseFile();
-			System.out.println(OrgPdf);
-
 			MigPdf = utilities.BrowserDialogs.chooseFile();
-			System.out.println(MigPdf);
 
-			if (OrgPdf != null && MigPdf != null) {
+			boolean orgok = analysePdfok(OrgPdf);
+			boolean migok = analysePdfok(MigPdf);
 
-				// the real program starts here, everything else are just
-				// prerequisites
-
-				filesizeOrg = OrgPdf.length();
-				filesizeMig = MigPdf.length();
-
-				if (filesizeOrg < 16000000 && filesizeMig < 16000000) {
-
-					if (filetools.GenericFileAnalysis.testFileHeaderPdf(OrgPdf) == true && filetools.GenericFileAnalysis.testFileHeaderPdf(MigPdf) == true) {
-
-						PDDocument testfileOrg = PDDocument.load(OrgPdf);
-						PDDocument testfileMig = PDDocument.load(MigPdf);
-
-						if (testfileOrg.isEncrypted() || testfileMig.isEncrypted()) {
-							JOptionPane.showMessageDialog(null, "One or both of the Pdf-files are encrypted", "Information", JOptionPane.INFORMATION_MESSAGE);
-						} else {
-
-							if (PdfAnalysis.checkBrokenPdf(OrgPdf) == false && PdfAnalysis.checkBrokenPdf(MigPdf) == false) {
-								String[] linesOrg = PdfAnalysis.extractsPdfLines(OrgPdf);
-								String[] linesMig = PdfAnalysis.extractsPdfLines(MigPdf);
-
-								int differences = 0;
-
-								int lenOrg = linesOrg.length;
-								int lenMig = linesMig.length;
-
-								outputfile.println("<ComparedItem>");
-								outputfile.println("<File>" + utilities.fileStringUtilities.getFileName(OrgPdf) + "</File>");
-								outputfile.println("<LinesLength>" + lenOrg + "</LinesLength>");
-								outputfile.println("</ComparedItem>");
-
-								outputfile.println("<ComparedItem>");
-								outputfile.println("<File>" + utilities.fileStringUtilities.getFileName(MigPdf) + "</File>");
-								outputfile.println("<LinesLength>" + lenMig + "</LinesLength>");
-								outputfile.println("</ComparedItem>");
-
-								outputfile.println("<Differences>");
-								if ((lenOrg > lenMig || lenOrg == lenMig)) {
-
-									for (int j = 0; j < lenMig; j++) {
-
-										if (!(linesOrg[j]).equals(linesMig[j])) {
-											outputfile.println("<Details>");
-
-											outputfile.println("<DifferentLineNumber><![CDATA[" + (j + 1) + "]]></DifferentLineNumber>");
-											outputfile.println("<OriginalLine>" + linesOrg[j] + "</OriginalLine>"); // TODO:
-																													// cannot
-																													// display
-																													// cyrillic
-																													// stuff
-											outputfile.println("<MigrationLine><![CDATA[" + linesMig[j] + "]]></MigrationLine>");
-											differences++;
-											// TODO: maybe document kind of
-											// difference, a space too much, a
-											// character false or line
-											// completely different
-
-											checkifSpaces(linesOrg[j], linesMig[j]);
-											calcLevenshtein(linesOrg[j], linesMig[j]);
-											outputfile.println("</Details>");
-
-										}
-									}
-									if (differences == 0) {
-										outputfile.println("<PdfTwins>" + "true" + "</PdfTwins>");
-									}
-
-									else {
-										outputfile.println("<PdfTwins>" + "false" + "</PdfTwins>");
-										outputfile.println("<DifferentLines>" + differences + "</DifferentLines>");
-									}
-								}
-
-								else /* (lenMig > lenOrg) */{
-									for (int j = 0; j < lenOrg; j++) {
-
-										// happens twice, maybe create a method?
-
-										if (!(linesOrg[j]).equals(linesMig[j])) {
-											outputfile.println("<Details>");
-											outputfile.println("<LineNumber>" + (j + 1) + "</LineNumber>");
-											outputfile.println("<OriginalLine><![CDATA[" + linesOrg[j] + "]]></OriginalLine>");
-											outputfile.println("<MigrationLine><![CDATA[" + linesMig[j] + "]]></MigrationLine>");
-											differences++;
-											checkifSpaces(linesOrg[j], linesMig[j]);
-											calcLevenshtein(linesOrg[j], linesMig[j]);
-											outputfile.println("</Details>");
-										}
-									}
-									if (differences == 0) {
-										outputfile.println("<PdfTwins>" + "true" + "</PdfTwins>");
-									}
-
-									else {
-										outputfile.println("<PdfTwins>" + "false" + "</PdfTwins>");
-										outputfile.println("<DifferentLines>" + differences + "</DifferentLines>");
-									}
-								}
-							} else {
-								System.out.println("Program closed.");
-							}
-						}
-					}
-
-					else {
-						System.out.println("One of the files is lacking a PdfHeader.");
-						System.out.println("Please choose two proper Pdf-files");
-					}
-
+			if (orgok == true && migok == true) {
+				String[] linesOrg = PdfAnalysis.extractsPdfLines(OrgPdf);
+				String[] linesMig = PdfAnalysis.extractsPdfLines(MigPdf);
+				int differences = 0;
+				int lenOrg = linesOrg.length;
+				int lenMig = linesMig.length;
+				int arraysize; // to avoid out of array bound if one Pdf has
+								// more lines than the other
+				if ((lenOrg > lenMig || lenOrg == lenMig)) {
+					arraysize = lenMig;
 				} else {
-					System.out.println("One of the Files or both are too big to be examined:");
-					System.out.println(OrgPdf + " Filesize: " + filesizeOrg);
-					System.out.println(MigPdf + " Filesize: " + filesizeMig);
+					arraysize = lenOrg;
+				}
+				for (int j = 0; j < arraysize; j++) {
+					if (!(linesOrg[j]).equals(linesMig[j])) {
+						outputfile.println("<Details>");
+						outputfile.println("<DifferentLineNumber>" + (j + 1) + "</DifferentLineNumber>");
+						outputfile.println("<OriginalLine><![CDATA[" + utilities.fileStringUtilities.reduceNULvalues(linesOrg[j]) + "]]></OriginalLine>"); // TODO:
+						// cannot
+						// display
+						// cyrillic
+						// stuff
+						outputfile.println("<MigrationLine><![CDATA[" + utilities.fileStringUtilities.reduceNULvalues(linesMig[j]) + "]]></MigrationLine>");
+						differences++;
+						checkifSpaces(linesOrg[j], linesMig[j]);
+						int levenshtein = calcLevenshtein(linesOrg[j], linesMig[j]);
+						sumlevenstheinlines = sumlevenstheinlines + levenshtein;
+						outputfile.println("<LevenshteinDistance>" + levenshtein + "</LevenshteinDistance>");
+						outputfile.println("</Details>");
+					}
+				}
+				if (differences == 0) {
+					outputfile.println("<ComparedItem>");
+					outputfile.println("<FileOrg>" + utilities.fileStringUtilities.getFileName(OrgPdf) + "</FileOrg>");
+					outputfile.println("<LinesLengthOrg>" + lenOrg + "</LinesLengthOrg>");
+					outputfile.println("<FileMig>" + utilities.fileStringUtilities.getFileName(MigPdf) + "</FileMig>");
+					outputfile.println("<LinesLengthMig>" + lenMig + "</LinesLengthMig>");
+					outputfile.println("<PdfTwins>" + "true" + "</PdfTwins>");
+					outputfile.println("</ComparedItem>");
+				}
+
+				else {
+					outputfile.println("<ComparedItem>");
+					outputfile.println("<FileOrg>" + utilities.fileStringUtilities.getFileName(OrgPdf) + "</FileOrg>");
+					outputfile.println("<LinesLengthOrg>" + lenOrg + "</LinesLengthOrg>");
+					outputfile.println("<FileMig>" + utilities.fileStringUtilities.getFileName(MigPdf) + "</FileMig>");
+					outputfile.println("<LinesLengthMig>" + lenMig + "</LinesLengthMig>");
+					outputfile.println("<PdfTwins>" + "false" + "</PdfTwins>");
+					outputfile.println("<DifferentLines>" + differences + "</DifferentLines>");
+
+					String wholeStringPdfOrg = PdfAnalysis.extractsPdfLinestoString(OrgPdf);
+					String wholeStringPdfMig = PdfAnalysis.extractsPdfLinestoString(MigPdf);
+
+					int levenshteinlines = calcLevenshtein(wholeStringPdfOrg, wholeStringPdfMig);
+					outputfile.println("<LevenshteinPdf>" + levenshteinlines + "</LevenshteinPdf>");
+					levenstheinfullPdf = levenshteinlines;
+
+					if (levenstheinfullPdf != sumlevenstheinlines) {
+						outputfile.println("<LineIrregularities>" + "very likely" + "</LineIrregularities>");
+					} else {
+						outputfile.println("<LineIrregularities>" + "not likely" + "</LineIrregularities>");
+					}
+					outputfile.println("</ComparedItem>");
 				}
 			}
-
-			else {
-				System.out.println("Please choose two files.");
-			}
-			outputfile.println("</Differences>");
-			outputfile.println("</PdfTwinTest>");
-			outputfile.close();
 		}
+		outputfile.println("</PdfTwinTest>");
+		outputfile.close();
 	}
 
-	private static void calcLevenshtein(String orgline, String migline) {
+	private static boolean analysePdfok(String pdf) throws IOException {
+		if (pdf != null) {
+			filesizeOrg = pdf.length();
+			if (filesizeOrg < 16000000) {
+				if (filetools.GenericFileAnalysis.testFileHeaderPdf(pdf) == true) {
+					PDDocument testfile = PDDocument.load(pdf);
+					if (!testfile.isEncrypted()) {
+						if (PdfAnalysis.checkBrokenPdf(OrgPdf) == false && PdfAnalysis.checkBrokenPdf(MigPdf) == false) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+		JOptionPane.showMessageDialog(null, "PDF will not be examined due to invalidity, encryption or file size", pdf, JOptionPane.INFORMATION_MESSAGE);
+		return false;
+	}
+
+	private static void createXMLandXSLT() throws IOException {
+		outputfile = new PrintWriter(new FileWriter(folder + "\\PdfTwinTester.xml"));
+		String xmlVersion = "xml version='1.0'";
+		String xmlEncoding = "encoding='ISO-8859-1'";
+		String xsltStyleSheet = "<?xml-stylesheet type=\"text/xsl\" href=\"PdfTwinTestStyle.xsl\"?>";
+		String xsltLocation = (folder + "//" + "PdfTwinTestStyle.xsl");
+		output.XslStyleSheets.PdfTwinTestXsl(xsltLocation);
+		outputfile.println("<?" + xmlVersion + " " + xmlEncoding + "?>");
+		outputfile.println(xsltStyleSheet);
+	}
+
+	private static int calcLevenshtein(String orgline, String migline) {
 		orgline.toLowerCase();
 		migline.toLowerCase();
 
@@ -190,7 +156,7 @@ public class PdfTwinTest {
 				costs[j] = cj;
 			}
 		}
-		outputfile.println("<LevenshteinDistance>" + costs[migline.length()] + "</LevenshteinDistance>");
+		return costs[migline.length()];
 	}
 
 	private static void checkifSpaces(String orgline, String migline) {
@@ -214,8 +180,8 @@ public class PdfTwinTest {
 		else {
 			for (int n = 0; n < orgArr.length; n++) {
 				if (!(orgArr[n]).equals(migArr[n])) {
-					outputfile.println("<DifferentWordOrg><![CDATA[" + orgArr[n] + "]]></DifferentWordOrg>");
-					outputfile.println("<DifferentWordMig><![CDATA[" + migArr[n] + "]]></DifferentWordMig>");
+					outputfile.println("<DifferentWordOrg><![CDATA[" + utilities.fileStringUtilities.reduceNULvalues(orgArr[n]) + "]]></DifferentWordOrg>");
+					outputfile.println("<DifferentWordMig><![CDATA[" + utilities.fileStringUtilities.reduceNULvalues(migArr[n]) + "]]></DifferentWordMig>");
 				}
 
 			}
