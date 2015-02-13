@@ -77,11 +77,12 @@ public class PdfTwinTesterBulkLight {
 
 			for (int i = 0; i < pdfObjectList.size(); i++) {
 				for (int j = 0; j < copy.size(); j++) {
-
-					if (pdfObjectList.get(i).title.equals(copy.get(j).title)) {
-						// PDF Dateien vergleichen
-						if (!pdfObjectList.get(i).filename.equals(copy.get(j).filename)) {
-							comparetwoPdfFiles(pdfObjectList.get(i).file, copy.get(j).file);
+					if ((pdfObjectList.get(i).title != null) && ((copy.get(j).title) != null)) {
+						if (pdfObjectList.get(i).title.equals(copy.get(j).title)) {
+							// PDF Dateien vergleichen
+							if (!pdfObjectList.get(i).filename.equals(copy.get(j).filename)) {
+								comparetwoPdfFiles(pdfObjectList.get(i).file, copy.get(j).file);
+							}
 						}
 					}
 				}
@@ -135,26 +136,27 @@ public class PdfTwinTesterBulkLight {
 				if (!(linesOrg[j]).equals(linesMig[j])) {
 					outputfile.println("<Details>");
 					outputfile.println("<DifferentLineNumber>" + (j + 1) + "</DifferentLineNumber>");
-					outputfile.println("<OriginalLine><![CDATA[" + utilities.fileStringUtilities.reduceNULvalues(linesOrg[j]) + "]]></OriginalLine>"); // TODO:
+				//	outputfile.println("<OriginalLine><![CDATA[" + utilities.fileStringUtilities.reduceNULvalues(linesOrg[j]) + "]]></OriginalLine>"); // TODO:
 					/*
 					 * cannot display cyrillic stuff
 					 */
-					outputfile.println("<MigrationLine><![CDATA[" + utilities.fileStringUtilities.reduceNULvalues(linesMig[j]) + "]]></MigrationLine>");
+			//		outputfile.println("<MigrationLine><![CDATA[" + utilities.fileStringUtilities.reduceNULvalues(linesMig[j]) + "]]></MigrationLine>");
 					differences++;
 
-					int levenshtein = calcLevenshtein(linesOrg[j], linesMig[j]);
-					if (levenshtein == 1) {
-						findSpaceinLine(linesOrg[j], linesMig[j]);
-					}
-					outputfile.println("<LevenshteinDistance>" + levenshtein + "</LevenshteinDistance>");
+					/*
+					 * int levenshtein = calcLevenshtein(linesOrg[j],
+					 * linesMig[j]); if (levenshtein == 1) {
+					 * findSpaceinLine(linesOrg[j], linesMig[j]); }
+					 */
+					outputfile.println("<LevenshteinDistance>" + "not calculated" + "</LevenshteinDistance>");
 					outputfile.println("</Details>");
 				}
 			}
 			if (differences == 0) {
 				outputfile.println("<ComparedItem>");
-				outputfile.println("<FileOrg>" + utilities.fileStringUtilities.getFileName(orgPdf) + "</FileOrg>");
+				outputfile.println("<FileOrg><![CDATA[" + utilities.fileStringUtilities.getFileName(orgPdf) + "]]></FileOrg>");
 				outputfile.println("<LinesLengthOrg>" + lenOrg + "</LinesLengthOrg>");
-				outputfile.println("<FileMig>" + utilities.fileStringUtilities.getFileName(migPdf) + "</FileMig>");
+				outputfile.println("<FileMig><![CDATA[" + utilities.fileStringUtilities.getFileName(migPdf) + "]]></FileMig>");
 				outputfile.println("<LinesLengthMig>" + lenMig + "</LinesLengthMig>");
 				outputfile.println("<PdfTwins>" + "true" + "</PdfTwins>");
 				outputfile.println("</ComparedItem>");
@@ -162,9 +164,9 @@ public class PdfTwinTesterBulkLight {
 
 			else {
 				outputfile.println("<ComparedItem>");
-				outputfile.println("<FileOrg>" + utilities.fileStringUtilities.getFileName(orgPdf) + "</FileOrg>");
+				outputfile.println("<FileOrg><![CDATA[" + utilities.fileStringUtilities.getFileName(orgPdf) + "]]></FileOrg>");
 				outputfile.println("<LinesLengthOrg>" + lenOrg + "</LinesLengthOrg>");
-				outputfile.println("<FileMig>" + utilities.fileStringUtilities.getFileName(migPdf) + "</FileMig>");
+				outputfile.println("<FileMig><![CDATA[" + utilities.fileStringUtilities.getFileName(migPdf) + "]]></FileMig>");
 				outputfile.println("<LinesLengthMig>" + lenMig + "</LinesLengthMig>");
 				outputfile.println("<PdfTwins>" + "false" + "</PdfTwins>");
 				outputfile.println("<DifferentLines>" + differences + "</DifferentLines>");
@@ -172,8 +174,9 @@ public class PdfTwinTesterBulkLight {
 				String wholeStringPdfOrg = PdfAnalysis.extractsPdfLinestoString(orgPdf.toString());
 				String wholeStringPdfMig = PdfAnalysis.extractsPdfLinestoString(migPdf.toString());
 
-				int levenshteinlines = calcLevenshtein(wholeStringPdfOrg, wholeStringPdfMig);
-				outputfile.println("<LevenshteinPdf>" + levenshteinlines + "</LevenshteinPdf>");
+				// int levenshteinlines = calcLevenshtein(wholeStringPdfOrg,
+				// wholeStringPdfMig);
+				outputfile.println("<LevenshteinPdf>" + "not calculated" + "</LevenshteinPdf>");
 
 				outputfile.println("<LineIrregularities>" + "not calculated" + "</LineIrregularities>");
 
@@ -206,7 +209,10 @@ public class PdfTwinTesterBulkLight {
 				}
 			}
 		}
-		JOptionPane.showMessageDialog(null, "PDF will not be examined due to invalidity, encryption or file size", pdf, JOptionPane.INFORMATION_MESSAGE);
+		// JOptionPane.showMessageDialog(null,
+		// "PDF will not be examined due to invalidity, encryption or file size",
+		// pdf, JOptionPane.INFORMATION_MESSAGE);
+		System.out.println("PDF will not be examined due to invalidity, encryption or file size");
 		return false;
 	}
 
@@ -217,12 +223,12 @@ public class PdfTwinTesterBulkLight {
 
 		for (int n = 0; n < orgArr.length; n++) {
 			if (!orgArr[n].equals(migArr[n])) {
-				outputfile.println("<DifferentWordOrg><![CDATA[" + utilities.fileStringUtilities.reduceNULvalues(orgArr[n]) + "]]></DifferentWordOrg>");
+			/*	outputfile.println("<DifferentWordOrg><![CDATA[" + utilities.fileStringUtilities.reduceNULvalues(orgArr[n]) + "]]></DifferentWordOrg>");
 				if (orgArr.length < migArr.length) {
 					outputfile.println("<DifferentWordMig><![CDATA[" + utilities.fileStringUtilities.reduceNULvalues(migArr[n]) + " " + utilities.fileStringUtilities.reduceNULvalues(migArr[n + 1]) + "]]></DifferentWordMig>");
 				} else {
 					outputfile.println("<DifferentWordMig><![CDATA[" + utilities.fileStringUtilities.reduceNULvalues(migArr[n]) + "]]></DifferentWordMig>");
-				}
+				}*/
 				break;
 			}
 		}

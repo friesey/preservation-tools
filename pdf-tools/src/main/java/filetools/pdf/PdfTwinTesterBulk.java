@@ -80,12 +80,13 @@ public class PdfTwinTesterBulk {
 
 			for (int i = 0; i < pdfObjectList.size(); i++) {
 				for (int j = 0; j < copy.size(); j++) {
-
+					if ((pdfObjectList.get(i).title != null) && ((copy.get(j).title) != null)) {
 					if (pdfObjectList.get(i).title.equals(copy.get(j).title)) {
 						// PDF Dateien vergleichen
 						if (!pdfObjectList.get(i).filename.equals(copy.get(j).filename)) {
 							comparetwoPdfFiles(pdfObjectList.get(i).file, copy.get(j).file);
 						}
+					}
 					}
 				}
 				copy.remove(pdfObjectList.get(i));
@@ -188,6 +189,8 @@ public class PdfTwinTesterBulk {
 				}
 				outputfile.println("</ComparedItem>");			
 			}
+			
+			System.out.println("Used Memory: " +  (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()));
 		}
 	}
 
@@ -224,7 +227,7 @@ public class PdfTwinTesterBulk {
 		String[] orgArr = orgline.split(" ");
 		String[] migArr = migline.split(" ");
 
-		for (int n = 0; n < orgArr.length; n++) {
+		for (int n = 0; n < orgArr.length && n < migArr.length; n++) {
 			if (!orgArr[n].equals(migArr[n])) {
 				outputfile.println("<DifferentWordOrg><![CDATA[" + utilities.fileStringUtilities.reduceNULvalues(orgArr[n]) + "]]></DifferentWordOrg>");
 				if (orgArr.length < migArr.length) {

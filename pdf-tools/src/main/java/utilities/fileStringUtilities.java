@@ -47,4 +47,9 @@ public class fileStringUtilities {
 		string = string.replace("\0", "");
 		return string;		
 	}
+	
+	public static String reduceUnitSeparator (String string){
+		string = string.replace("^_", ""); //there might be more: Wikipedia, C0 and C1 control codes
+		return string;		
+	}
 }
