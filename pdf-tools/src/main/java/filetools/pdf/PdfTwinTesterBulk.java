@@ -81,12 +81,12 @@ public class PdfTwinTesterBulk {
 			for (int i = 0; i < pdfObjectList.size(); i++) {
 				for (int j = 0; j < copy.size(); j++) {
 					if ((pdfObjectList.get(i).title != null) && ((copy.get(j).title) != null)) {
-					if (pdfObjectList.get(i).title.equals(copy.get(j).title)) {
-						// PDF Dateien vergleichen
-						if (!pdfObjectList.get(i).filename.equals(copy.get(j).filename)) {
-							comparetwoPdfFiles(pdfObjectList.get(i).file, copy.get(j).file);
+						if (pdfObjectList.get(i).title.equals(copy.get(j).title)) {
+							// PDF Dateien vergleichen
+							if (!pdfObjectList.get(i).filename.equals(copy.get(j).filename)) {
+								comparetwoPdfFiles(pdfObjectList.get(i).file, copy.get(j).file);
+							}
 						}
-					}
 					}
 				}
 				copy.remove(pdfObjectList.get(i));
@@ -119,14 +119,13 @@ public class PdfTwinTesterBulk {
 		if (orgok == true && migok == true) {
 			String[] linesOrg = PdfAnalysis.extractsPdfLines(orgPdf.toString());
 			String[] linesMig = PdfAnalysis.extractsPdfLines(migPdf.toString());
-			
+
 			System.out.println("Original: " + orgPdf.toString());
-			
+
 			System.out.println("Migrated: " + migPdf.toString());
-			
-			
+
 			int differences = 0;
-		
+
 			int lenOrg = linesOrg.length;
 			int lenMig = linesMig.length;
 			int arraysize; // to avoid out of array bound if one Pdf has
@@ -140,11 +139,15 @@ public class PdfTwinTesterBulk {
 				if (!(linesOrg[j]).equals(linesMig[j])) {
 					outputfile.println("<Details>");
 					outputfile.println("<DifferentLineNumber>" + (j + 1) + "</DifferentLineNumber>");
-					outputfile.println("<OriginalLine><![CDATA[" + utilities.fileStringUtilities.reduceNULvalues(linesOrg[j]) + "]]></OriginalLine>"); // TODO:
+					String xmlSuitableString = utilities.fileStringUtilities.reduceNULvalues(linesOrg[j]);
+					xmlSuitableString = utilities.fileStringUtilities.reduceUnitSeparator(linesOrg[j]);
+					outputfile.println("<OriginalLine><![CDATA[" + xmlSuitableString + "]]></OriginalLine>"); // TODO:
 					/*
 					 * cannot display cyrillic stuff
 					 */
-					outputfile.println("<MigrationLine><![CDATA[" + utilities.fileStringUtilities.reduceNULvalues(linesMig[j]) + "]]></MigrationLine>");
+					xmlSuitableString = utilities.fileStringUtilities.reduceNULvalues(linesMig[j]);
+					xmlSuitableString = utilities.fileStringUtilities.reduceUnitSeparator(linesMig[j]);				
+					outputfile.println("<MigrationLine><![CDATA[" + xmlSuitableString + "]]></MigrationLine>");
 					differences++;
 
 					int levenshtein = calcLevenshtein(linesOrg[j], linesMig[j]);
@@ -158,9 +161,13 @@ public class PdfTwinTesterBulk {
 			}
 			if (differences == 0) {
 				outputfile.println("<ComparedItem>");
-				outputfile.println("<FileOrg>" + utilities.fileStringUtilities.getFileName(orgPdf) + "</FileOrg>");
+				String xmlSuitableName =  utilities.fileStringUtilities.getFileName(orgPdf);
+				xmlSuitableName = utilities.fileStringUtilities.reduceXmlEscapors(xmlSuitableName);
+				outputfile.println("<FileOrg>" +xmlSuitableName + "</FileOrg>");
 				outputfile.println("<LinesLengthOrg>" + lenOrg + "</LinesLengthOrg>");
-				outputfile.println("<FileMig>" + utilities.fileStringUtilities.getFileName(migPdf) + "</FileMig>");
+				xmlSuitableName =  utilities.fileStringUtilities.getFileName(migPdf);
+				xmlSuitableName = utilities.fileStringUtilities.reduceXmlEscapors(xmlSuitableName);				
+				outputfile.println("<FileMig>" + xmlSuitableName + "</FileMig>");
 				outputfile.println("<LinesLengthMig>" + lenMig + "</LinesLengthMig>");
 				outputfile.println("<PdfTwins>" + "true" + "</PdfTwins>");
 				outputfile.println("</ComparedItem>");
@@ -187,10 +194,10 @@ public class PdfTwinTesterBulk {
 				} else {
 					outputfile.println("<LineIrregularities>" + "not likely" + "</LineIrregularities>");
 				}
-				outputfile.println("</ComparedItem>");			
+				outputfile.println("</ComparedItem>");
 			}
-			
-			System.out.println("Used Memory: " +  (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()));
+
+			System.out.println("Used Memory: " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()));
 		}
 	}
 
