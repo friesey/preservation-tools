@@ -30,6 +30,13 @@ public class PdfTwinTesterBulk {
 
 	static PrintWriter outputfile;
 
+	/*
+	 * Should add a row with the xmp-title, as the program compares too many not
+	 * very "equal" PDF files, maybe if the title is empty or is just "title".
+	 * Furthermore, some text is extracted as
+	 * "	???null 20null ??????????null ???????? ,null ????????????null ???????null ???????,null ????????????null ?????? null"
+	 */
+
 	public static void main(String args[]) throws IOException {
 
 		JOptionPane.showMessageDialog(null, "Please choose the folder with PDF Files to compare.", "Enter String Mask", JOptionPane.QUESTION_MESSAGE);
@@ -146,7 +153,7 @@ public class PdfTwinTesterBulk {
 					 * cannot display cyrillic stuff
 					 */
 					xmlSuitableString = utilities.fileStringUtilities.reduceNULvalues(linesMig[j]);
-					xmlSuitableString = utilities.fileStringUtilities.reduceUnitSeparator(linesMig[j]);				
+					xmlSuitableString = utilities.fileStringUtilities.reduceUnitSeparator(linesMig[j]);
 					outputfile.println("<MigrationLine><![CDATA[" + xmlSuitableString + "]]></MigrationLine>");
 					differences++;
 
@@ -161,12 +168,12 @@ public class PdfTwinTesterBulk {
 			}
 			if (differences == 0) {
 				outputfile.println("<ComparedItem>");
-				String xmlSuitableName =  utilities.fileStringUtilities.getFileName(orgPdf);
+				String xmlSuitableName = utilities.fileStringUtilities.getFileName(orgPdf);
 				xmlSuitableName = utilities.fileStringUtilities.reduceXmlEscapors(xmlSuitableName);
-				outputfile.println("<FileOrg>" +xmlSuitableName + "</FileOrg>");
+				outputfile.println("<FileOrg>" + xmlSuitableName + "</FileOrg>");
 				outputfile.println("<LinesLengthOrg>" + lenOrg + "</LinesLengthOrg>");
-				xmlSuitableName =  utilities.fileStringUtilities.getFileName(migPdf);
-				xmlSuitableName = utilities.fileStringUtilities.reduceXmlEscapors(xmlSuitableName);				
+				xmlSuitableName = utilities.fileStringUtilities.getFileName(migPdf);
+				xmlSuitableName = utilities.fileStringUtilities.reduceXmlEscapors(xmlSuitableName);
 				outputfile.println("<FileMig>" + xmlSuitableName + "</FileMig>");
 				outputfile.println("<LinesLengthMig>" + lenMig + "</LinesLengthMig>");
 				outputfile.println("<PdfTwins>" + "true" + "</PdfTwins>");

@@ -50,6 +50,7 @@ public class fileStringUtilities {
 	
 	public static String reduceUnitSeparator (String string){
 		string = string.replace("^_", ""); //there might be more: Wikipedia, C0 and C1 control codes
+		//this has yet to be tested
 		return string;		
 	}
 }
