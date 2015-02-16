@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
+
 import com.itextpdf.text.pdf.PdfReader;
 
 public class PdfObject {
@@ -19,6 +20,16 @@ public class PdfObject {
 	boolean isPdfA;
 	String xmpMetadata;
 	PdfReader reader;
+	
+	//constructor for the PdfObject
+	public int id;		
+	public static int count = 0;
+	
+	public PdfObject (String path){
+		id = count;
+		count++; 
+	}
+	
 
 	public void setPath(String newPath) {
 		path = newPath;
@@ -34,6 +45,10 @@ public class PdfObject {
 		String[] segs = name.split(Pattern.quote("."));
 		name = segs[segs.length - 2];
 		return name;
+	}
+	
+	public void showNameXml (String name){
+		System.out.println("<FileName>" + name+ "</FileName>");
 	}
 
 	public File toFile(String newPath) {

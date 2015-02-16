@@ -1,43 +1,65 @@
 package filetools.pdf;
 
+import java.io.File;
+import java.util.ArrayList;
+
 public class PdfTestClass {
 
 	public static void main(String args[]) throws Exception {
 
-		PdfObject testPdf = new PdfObject();
-		String newPath = utilities.BrowserDialogs.chooseFile();
-		testPdf.setPath(newPath);
-		testPdf.pdfFile = testPdf.toFile(newPath);
+		String folder = utilities.BrowserDialogs.chooseFolder();
 
-		System.out.println("<PdfAnalysis>");
-		try {
-			System.out.println("<FilePath>" + testPdf.getPath() + "</FilePath>");
-			System.out.println("<FileName>" + testPdf.getName(testPdf.path) + "</FileName>");
-			System.out.println("<MD5Checksum>" + testPdf.getMD5Checksum(testPdf.pdfFile) + "</MD5Checksum>");
-			// System.out.println(testPdf.isEncrypted(testPdf.pdfFile)); //TODO:
-			// get rid of all the log4j Logging in the Console
-			testPdf.isPdfA = testPdf.isPdfA(testPdf.path);
-			System.out.println("<PdfA>" + testPdf.isPdfA + "</PdfA>");
-		}
+		if (folder != null) {
 
-		catch (Exception e) {
+			output.XmlWriter outputXml = new output.XmlWriter(folder, "PdfAnalysis.xml");
+			outputXml.printXml("<?xml-stylesheet type=\"text/xsl\" href=\"PdfAnalysis.xsl\"?>");
 
-			String parts[] = e.toString().split(":");
+			output.XslStyleSheets.pdfAnalysis(folder + "//" + "PdfAnalysis.xsl");
 
-			System.out.println("<Exception>" + parts[0] + "</Exception>");
-			String text;
-			StringBuilder build = new StringBuilder();
+			outputXml.printXml("<PdfAnalysis>");
+			ArrayList<File> files = utilities.ListsFiles.getPaths(new File(folder), new ArrayList<File>());
+			for (int i = 0; i < files.size(); i++) {
 
-			for (int i = 1; i < parts.length; i++) {
-				build.append(parts[i]);
+				String extension = utilities.fileStringUtilities.getExtension(files.get(i).toString()).toLowerCase();
+
+				if (extension.equals("pdf")) {
+					outputXml.printXml("<Pdf>");
+					String newPath = files.get(i).toString();
+					PdfObject testPdf = new PdfObject(newPath);
+					testPdf.setPath(newPath);
+					// testPdf.pdfFile = testPdf.toFile(newPath);
+					testPdf.pdfFile = files.get(i);
+
+					try {
+						outputXml.printXml("<ObjectId>" + testPdf.id + "</ObjectId>");
+						outputXml.printXml("<FilePath><![CDATA[" + testPdf.getPath() + "]]></FilePath>");
+						outputXml.printXml("<FileName><![CDATA[" + testPdf.getName(testPdf.path) + "]]></FileName>");
+						outputXml.printXml("<MD5Checksum>" + testPdf.getMD5Checksum(testPdf.pdfFile) + "</MD5Checksum>");
+						outputXml.printXml("<PdfEncrypted>" + testPdf.isEncrypted(testPdf.pdfFile) + "</PdfEncrypted>");
+						// //TODO: get rid of all the log4j Logging in the
+						// Console
+						outputXml.printXml("<PdfA>" + testPdf.isPdfA(testPdf.path) + "</PdfA>");
+					}
+
+					catch (Exception e) {
+						//These information do not show up in xslt-version yet
+						String parts[] = e.toString().split(":");
+						outputXml.printXml("<Exception>" + parts[0] + "</Exception>");
+						String text;
+						StringBuilder build = new StringBuilder();
+						for (int j = 1; j < parts.length; j++) {
+							build.append(parts[j]);
+						}
+						text = build.toString();
+						outputXml.printXml("<ExceptionText>" + text + "</ExceptionText>");
+					}
+					outputXml.printXml("</Pdf>");
+				}
 			}
-
-			text = build.toString();
-
-			System.out.println("<ExceptionText>" + text + "</ExceptionText>");
+			outputXml.printXml("<PdfAnalysed>" + PdfObject.count + "</PdfAnalysed>");
+			outputXml.printXml("</PdfAnalysis>");
+			outputXml.closeXmlWriter();
 		}
-
-		System.out.println("</PdfAnalysis>");
 
 	}
 
