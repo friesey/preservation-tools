@@ -65,6 +65,7 @@ public class PdfObject {
 	}
 
 	public boolean isPdfA(String path) throws IOException {
+		try {
 		reader = new PdfReader(path);
 		if (reader.getMetadata() != null) {
 			xmpMetadata = new String(reader.getMetadata());
@@ -76,8 +77,12 @@ public class PdfObject {
 		} else {
 			isPdfA = false;
 		}
-
 		return isPdfA;
+		}
+		catch (Exception e){
+			isPdfA = false;
+			return isPdfA;
+		}
 	}
 
 	// encryption
