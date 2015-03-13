@@ -131,7 +131,7 @@ public class PdfAValidator {
 											result = document.getResult();
 											document.close();
 
-										} catch (NullPointerException e) {
+										} catch (Exception e) {
 											/*
 											 * TODO: Why can this generate a
 											 * NullPointerException ?

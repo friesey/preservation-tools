@@ -1,28 +1,23 @@
-package filetools;
+package preservingfiles;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.regex.Pattern;
-
 import org.apache.commons.codec.digest.DigestUtils;
 
-public class FileObject {
-	
+public class ZbwFile {
 	String path;
 	String name;
 	String checksumMD5;
-	
-	
+
 	// size
-	
-	public FileObject() {
-		
-	}	
+	public ZbwFile() {
+	}
 
 	public String getPath() {
 		return path;
-	}	
-	
+	}
+
 	public String getMD5Checksum(File file) {
 		try {
 			checksumMD5 = DigestUtils.md5Hex(new FileInputStream(file));
@@ -31,7 +26,7 @@ public class FileObject {
 			return null;
 		}
 	}
-	
+
 	public void setPath(String newPath) {
 		path = newPath;
 	}
@@ -44,11 +39,17 @@ public class FileObject {
 		return name;
 	}
 
-	public File toFile(String newPath) {
+	public File toFile(String newPath) { // get a file Object from String path
 		File file = new File(newPath);
 		return file;
 	}
 
+	public long getSizeinKB(File file) {
+		long size = file.length();
 
+		size = size / 1024;
+
+		return size;
+	}
 
 }
