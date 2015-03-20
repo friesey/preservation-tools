@@ -169,6 +169,7 @@ public class XslStyleSheets {
 		xslStyle.println("<th>Examined PDF/A</th>");
 		xslStyle.println("<th>Valid</th>");
 		xslStyle.println("<th>Invalid</th>");
+		xslStyle.println("<th>Broken</th>");
 		xslStyle.println("</tr>");
 		xslStyle.println("<xsl:for-each select=\"PdfBoxValidationSummary/Summary\">");
 
@@ -176,6 +177,7 @@ public class XslStyleSheets {
 		xslStyle.println("<td><xsl:value-of select=\"ExaminedPdfAFiles\"/></td>");
 		xslStyle.println("<td><xsl:value-of select=\"ValidPdfAFiles\"/></td>");
 		xslStyle.println("<td><xsl:value-of select=\"InvalidPdfAFiles\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"CausedErrorPdfAFiles\"/></td>");
 		xslStyle.println("</tr>");
 		xslStyle.println("</xsl:for-each>");
 		xslStyle.println("</table>");

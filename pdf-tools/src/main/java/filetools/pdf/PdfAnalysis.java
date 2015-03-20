@@ -135,15 +135,15 @@ public class PdfAnalysis {
 
 	public static String checkIfPdfA(File file) throws IOException {
 		String pdfType = "No XMP Metadata";
-		String XmpMetadata;
+		String xmpMetadata;
 		PdfReader reader;
 		try {
 			reader = new PdfReader(file.toString());
-			if (reader.getPdfVersion() > 3) {
+			if (reader.getPdfVersion() > 3) { //unsure if it gives only values higher than 50
 				if (reader.getMetadata() != null) {
-					XmpMetadata = new String(reader.getMetadata()); // nullpointerException
+					xmpMetadata = new String(reader.getMetadata()); // nullpointerException
 					reader.close();
-					if (XmpMetadata.contains("pdfaid:conformance")) {
+					if (xmpMetadata.contains("pdfaid:conformance")) {
 						pdfType = "PDF/A";
 					} else {
 						pdfType = "PDF 1.4 or higher";

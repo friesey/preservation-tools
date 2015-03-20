@@ -12,6 +12,8 @@ import javax.swing.UIManager;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 
+import com.itextpdf.text.pdf.PdfReader;
+
 public class Test {
 
 	static String examinedFolder;
@@ -54,8 +56,6 @@ public class Test {
 				testfile.mimetype = testfile.getFileMimeType(testfile.toFile(testfile.path));
 				testfile.fileExtension = testfile.getFileExtension(testfile.path);
 
-
-
 				findings.add(testfile);
 			}
 
@@ -67,23 +67,19 @@ public class Test {
 				xmlSimpleWriter.println("<FileSizeKB>" + findings.get(i).size + "</FileSizeKB>");
 				xmlSimpleWriter.println("<Mimetype>" + findings.get(i).mimetype + "</Mimetype>");
 				xmlSimpleWriter.println("<FileExtension>" + findings.get(i).fileExtension + "</FileExtension>");
-				
+
 				if (findings.get(i).mimetype.equals("application/pdf")) {
-					ZbwFilePdf testfilePdf = new ZbwFilePdf();				
+					ZbwFilePdf testfilePdf = new ZbwFilePdf();
 					testfilePdf.pdfFile = ZbwFilePdf.toPDDocument(findings.get(i).zbwFile);
-					testfilePdf.isEncrypted = ZbwFilePdf.isEncrypted (testfilePdf.pdfFile);
-				//	testfilePdf.isPdfA = ZbwFilePdf.isPdfA (findings.get(i).zbwFile);
+					testfilePdf.isEncrypted = ZbwFilePdf.isEncrypted(testfilePdf.pdfFile);
+					testfilePdf.isPdfA = ZbwFilePdf.isPdfA(findings.get(i).zbwFile.toString());
 					xmlSimpleWriter.println("<PdfEncryption>" + testfilePdf.isEncrypted + "</PdfEncryption>");
-				//	xmlSimpleWriter.println("<PdfA>" + testfilePdf.isPdfA + "</PdfA>");
-					xmlSimpleWriter.println("<PdfA>" + "not yet tested" + "</PdfA>");
-				}
-				else {
+					xmlSimpleWriter.println("<PdfA>" + testfilePdf.isPdfA + "</PdfA>");
+				} else {
 					xmlSimpleWriter.println("<PdfEncryption>" + "No Pdf File" + "</PdfEncryption>");
 					xmlSimpleWriter.println("<PdfA>" + "No Pdf File" + "</PdfA>");
+
 				}
-				
-				
-				
 
 				xmlSimpleWriter.println("</File>");
 			}

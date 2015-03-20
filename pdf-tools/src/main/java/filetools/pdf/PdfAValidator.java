@@ -73,7 +73,7 @@ public class PdfAValidator {
 			int examinedPdfa = 0;
 			int validPdfa = 0;
 			int invalidPdfa = 0;
-
+			int causedErrorPdfa = 0;
 
 			if (examinedFolder != null) {
 
@@ -95,7 +95,7 @@ public class PdfAValidator {
 
 									outputfile.println("<PdfAFile>");
 									shortSummary.println("<PdfAFile>");
-									
+
 									int syntaxError = 0;
 									int graphicError = 0;
 									int fontError = 0;
@@ -131,14 +131,47 @@ public class PdfAValidator {
 											result = document.getResult();
 											document.close();
 
-										} catch (Exception e) {
+										}
+
+										catch (ArrayIndexOutOfBoundsException out) {
+											System.out.println("An Exception occured: " + out);
+											System.out.println(files.get(i).toString());
+											
+											outputfile.println("<Status>" + "Broken" + "</Status>");
+											shortSummary.println("<Status>" + "Broken" + "</Status>");
+											
+											outputfile.println("<Error>" + out + "</Error>");
+											shortSummary.println("<Error>" + out + "</Error>");
+											
+											causedErrorPdfa++;
+										}
+										
+										catch (NullPointerException nullex) {
+											System.out.println("An Exception occured: " + nullex);
+											System.out.println(files.get(i).toString());
+											
+											outputfile.println("<Status>" + "Broken" + "</Status>");
+											shortSummary.println("<Status>" + "Broken" + "</Status>");
+											
+											outputfile.println("<Error>" + nullex + "</Error>");
+											shortSummary.println("<Error>" + nullex + "</Error>");
+											causedErrorPdfa++;
+										}
+
+										catch (Exception e) {
 											/*
 											 * TODO: Why can this generate a
 											 * NullPointerException ?
 											 */
 											outputfile.println("<Error>" + e + "</Error>");
 											shortSummary.println("<Error>" + e + "</Error>");
-											logger.error("Error analyzing " + files.get(i).getAbsolutePath(), e);
+											
+											outputfile.println("<Status>" + "Broken" + "</Status>");
+											shortSummary.println("<Status>" + "Broken" + "</Status>");
+											
+											causedErrorPdfa++;											
+											
+										//	logger.error("Error analyzing " + files.get(i).getAbsolutePath(), e);
 										}
 									} catch (SyntaxValidationException e) {
 										/*
@@ -159,7 +192,7 @@ public class PdfAValidator {
 											outputfile.println("<Status>" + "Invalid" + "</Status>");
 											shortSummary.println("<Status>" + "Invalid" + "</Status>");
 											invalidPdfa++;
-										
+
 											for (ValidationError error : result.getErrorsList()) {
 												errorslen++;
 
@@ -209,9 +242,9 @@ public class PdfAValidator {
 											outputfile.println("<AnnotationErrors>" + annotationError + "</AnnotationErrors>");
 											outputfile.println("<ActionErrors>" + actionError + "</ActionErrors>");
 											outputfile.println("<MetadataErrors>" + metadataError + "</MetadataErrors>");
-											
+
 											shortSummary.println("<ErrorsCount>" + errorslen + "</ErrorsCount>");
-										
+
 										}
 									}
 
@@ -232,6 +265,7 @@ public class PdfAValidator {
 			shortSummary.println("<ExaminedPdfAFiles>" + examinedPdfa + "</ExaminedPdfAFiles>");
 			shortSummary.println("<ValidPdfAFiles>" + validPdfa + "</ValidPdfAFiles>");
 			shortSummary.println("<InvalidPdfAFiles>" + invalidPdfa + "</InvalidPdfAFiles>");
+			shortSummary.println("<CausedErrorPdfAFiles>" + causedErrorPdfa + "</CausedErrorPdfAFiles>");
 			shortSummary.println("</Summary>");
 
 			outputfile.println("</PdfBoxValidation>");
@@ -258,7 +292,6 @@ public class PdfAValidator {
 			shortSummary.println("<CreationYear>" + year + "</CreationYear>");
 			shortSummary.println("<CreationSoftware>" + creationSoftware + "</CreationSoftware>");
 			outputfile.println("<CreationYear>" + year + "</CreationYear>");
-
 			outputfile.println("<CreationSoftware>" + creationSoftware + "</CreationSoftware>");
 		} catch (Exception e) {
 			shortSummary.println("<CreationYear>" + "</CreationYear>");

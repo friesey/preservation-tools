@@ -30,10 +30,12 @@ public class ZbwFilePdf extends ZbwFile{
 	
 	//TODO: int getPdfVersion
 	
-	public static boolean isPdfA (File file) {
-		System.out.println(file.toString());
+	
+	
+	public static boolean isPdfA (String pdfString) {
+	
 		try {
-			PdfReader reader = new PdfReader (file.toString()); //TODO: this does not work
+			PdfReader reader = new PdfReader (pdfString); 
 			if (reader.getMetadata() != null) {
 				String xmpMetadata = new String(reader.getMetadata()); // nullpointerException
 				reader.close();
