@@ -14,6 +14,7 @@ public class ZbwFile {
 	String checksumMD5;
 	String mimetype;
 	String fileExtension;
+	File zbwFile;
 	long size;
 
 	// size
@@ -41,7 +42,12 @@ public class ZbwFile {
 		String[] parts = path.toString().split(Pattern.quote("\\"));
 		fileName = parts[parts.length - 1]; // filename including extension
 		String[] segs = fileName.split(Pattern.quote("."));
+		if (segs.length > 1){
 		fileName = segs[segs.length - 2];
+		}
+		else {
+			fileName = segs[segs.length - 1]; // some file names do not have an extension
+		}
 		return fileName;
 	}
 
@@ -67,10 +73,18 @@ public class ZbwFile {
 
 		String[] segs = path.split(Pattern.quote("\\"));		
 		segs = segs[segs.length - 1].split(Pattern.quote("."));
-		return segs[segs.length-1];
+		if (segs.length > 1){
+			return segs[segs.length-1];
+			}
+			else {
+				return fileExtension = "none"; // some file names do not have an extension
+			}
+		
+		
+		
 		
 	}
 
-	// TODO: Formaterkennungstool einbinden
+	// TODO: Formaterkennungstool wie DROID einbinden
 
 }

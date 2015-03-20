@@ -5,9 +5,63 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class XslStyleSheets {
-	
+
+	public static void fileAnalysis(String xsltLocation) throws IOException {
+
+		PrintWriter xslStyle = new PrintWriter(new FileWriter(xsltLocation));
+
+		xslStyle.println("<?xml version=\"1.0\"?>");
+		xslStyle.println("<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">");
+		xslStyle.println("<xsl:template match=\"/\">");
+		xslStyle.println("<html>");
+		xslStyle.println("<head>");
+		xslStyle.println("<style>");
+		xslStyle.println("tr.captiondred {background-color: #FF0000}");
+		xslStyle.println("tr.captionred {background-color: #CD5C5C}");
+		xslStyle.println("tr.captiongreen {background-color: #006400}");
+		xslStyle.println("tr.captiontan {background-color: #FFDEAD}");
+		xslStyle.println("tr.captionkhaki {background-color: #BDB76B}");
+		xslStyle.println("tr.captionolive {background-color: #808000}");
+		xslStyle.println("tr.captionwheat {background-color: #F5DEB3}");
+		xslStyle.println("</style>");
+		xslStyle.println("</head>");
+		xslStyle.println("<body>");
+
+		xslStyle.println("<h2>Overview Analyzed Files</h2>");
+
+		xslStyle.println("<table border =\"1\">");
+		xslStyle.println("<tr class=\"captionolive\">");
+		xslStyle.println("<th> FileName</th> ");
+	//	xslStyle.println("<th> MD5Checksum</th>");
+		xslStyle.println("<th> FileSizeKB</th>");
+		xslStyle.println("<th> Mimetype</th>");
+		xslStyle.println("<th> FileExtension</th>");
+		xslStyle.println("<th> PdfEncryption</th>");
+		xslStyle.println("<th> PdfA</th>");
+		xslStyle.println("</tr>");
+		xslStyle.println("<xsl:for-each select=\"FileAnalysisSummary/File\">");
+		xslStyle.println("<tr class=\"captionolive\">");
+		xslStyle.println("<td><xsl:value-of select=\"FileName\"/></td>");
+		// xslStyle.println("<td><xsl:value-of select=\"MD5Checksum\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"FileSizeKB\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"Mimetype\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"FileExtension\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"PdfEncryption\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"PdfA\"/></td>");
+		xslStyle.println("</tr>");
+		xslStyle.println("</xsl:for-each>");
+		xslStyle.println("</table>");
+		xslStyle.println("</body>");
+		xslStyle.println("</html>");
+		xslStyle.println("</xsl:template>");
+		xslStyle.println("</xsl:stylesheet>");
+
+		xslStyle.close();
+
+	}
+
 	public static void pdfAnalysis(String xsltLocation) throws IOException {
-		
+
 		PrintWriter xslStyle = new PrintWriter(new FileWriter(xsltLocation));
 		xslStyle.println("<?xml version=\"1.0\"?>");
 		xslStyle.println("<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">");
@@ -25,7 +79,7 @@ public class XslStyleSheets {
 		xslStyle.println("</style>");
 		xslStyle.println("</head>");
 		xslStyle.println("<body>");
-		
+
 		xslStyle.println("<h2>Pdf Analysis</h2>");
 		xslStyle.println("<table border =\"1\">");
 		xslStyle.println("<tr class=\"captiontan\">");
@@ -51,9 +105,9 @@ public class XslStyleSheets {
 		xslStyle.println("</html>");
 		xslStyle.println("</xsl:template>");
 		xslStyle.println("</xsl:stylesheet>");
-		
+
 		xslStyle.close();
-		
+
 	}
 
 	public static void PdfBoxSummaryCustomizedXsl(String xsltLocation) throws IOException {
@@ -565,7 +619,7 @@ public class XslStyleSheets {
 		xslStyle.println("<td><xsl:value-of select=\"PdfTwins\"/></td>");
 		xslStyle.println("<td><xsl:value-of select=\"DifferentLines\"/></td>");
 		xslStyle.println("<td><xsl:value-of select=\"LevenshteinPdf\"/></td>");
-		xslStyle.println("<td><xsl:value-of select=\"LineIrregularities\"/></td>");	
+		xslStyle.println("<td><xsl:value-of select=\"LineIrregularities\"/></td>");
 		xslStyle.println("</tr>");
 		xslStyle.println("</xsl:for-each>");
 		xslStyle.println("</table>");
