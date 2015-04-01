@@ -17,6 +17,11 @@ public class Test {
 	static String examinedFolder;
 	String pathwriter;
 	static PrintWriter xmlSimpleWriter;
+	
+	static int MAXIMUM_SIZE_PDF = 90000;  //95424 is too big. I do not know which size still is manageable.
+
+	
+	//TODO: If a PDF is bigger than a certain size, do not do certain tests, that will fail the Heap Space
 
 	public static void main(String args[]) throws IOException {
 
@@ -69,6 +74,7 @@ public class Test {
 				xmlSimpleWriter.println("<FileName><![CDATA[" + findings.get(i).fileName + "]]></FileName>");
 				xmlSimpleWriter.println("<MD5Checksum>" + findings.get(i).checksumMD5 + "</MD5Checksum>");
 				xmlSimpleWriter.println("<FileSizeKB>" + findings.get(i).size + "</FileSizeKB>");
+			
 				xmlSimpleWriter.println("<Mimetype>" + findings.get(i).mimetype + "</Mimetype>");
 				xmlSimpleWriter.println("<FileExtension>" + findings.get(i).fileExtension + "</FileExtension>");				
 								
@@ -76,6 +82,8 @@ public class Test {
 				if (findings.get(i).mimetype != null) {
 					if (findings.get(i).mimetype.equals("application/pdf")) {
 						ZbwFilePdf testfilePdf = new ZbwFilePdf();
+						System.out.println(findings.get(i).fileName);
+						System.out.println(findings.get(i).size);
 						testfilePdf.pdfFile = ZbwFilePdf.toPDDocument(findings.get(i).zbwFile);
 						if (testfilePdf.pdfFile != null) {
 						testfilePdf.isEncrypted = ZbwFilePdf.isEncrypted(testfilePdf.pdfFile);
