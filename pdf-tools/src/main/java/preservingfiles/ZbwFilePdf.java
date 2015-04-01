@@ -39,7 +39,7 @@ public class ZbwFilePdf extends ZbwFile{
 	
 	
 	public static boolean isPdfA (String pdfString) {
-	
+	System.out.println(pdfString);
 		try {
 			PdfReader reader = new PdfReader (pdfString); 
 			if (reader.getMetadata() != null) {

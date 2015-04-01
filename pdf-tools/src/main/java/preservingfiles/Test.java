@@ -80,13 +80,19 @@ public class Test {
 						if (testfilePdf.pdfFile != null) {
 						testfilePdf.isEncrypted = ZbwFilePdf.isEncrypted(testfilePdf.pdfFile);
 						xmlSimpleWriter.println("<PdfEncryption>" + testfilePdf.isEncrypted + "</PdfEncryption>");
+						if (!testfilePdf.isEncrypted) {
+							testfilePdf.isPdfA = ZbwFilePdf.isPdfA(findings.get(i).zbwFile.toString());					
+							xmlSimpleWriter.println("<PdfA>" + testfilePdf.isPdfA + "</PdfA>");
+							}
+							else{
+								xmlSimpleWriter.println("<PdfA>" + "false" + "</PdfA>");
+							}
 						}
 						else  {
 							xmlSimpleWriter.println("<PdfEncryption>" + "Encryption could not be checked" + "</PdfEncryption>");
+							xmlSimpleWriter.println("<PdfA>" + "PDF/A could not be checked" + "</PdfA>");
 						}
-						testfilePdf.isPdfA = ZbwFilePdf.isPdfA(findings.get(i).zbwFile.toString());
-					
-						xmlSimpleWriter.println("<PdfA>" + testfilePdf.isPdfA + "</PdfA>");
+						
 					}
 				} else {
 					xmlSimpleWriter.println("<PdfEncryption>" + "No Pdf File" + "</PdfEncryption>");
