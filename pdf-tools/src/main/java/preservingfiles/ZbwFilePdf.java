@@ -15,8 +15,14 @@ public class ZbwFilePdf extends ZbwFile{
 	
 	
 	public static PDDocument toPDDocument (File file) throws IOException {		
+		try {
 		PDDocument pdfFile = PDDocument.load(file);		
 		return pdfFile;
+		}
+		catch (Exception e) {
+			Test.xmlSimpleWriter.println("<PDDocument>" + file.toString()+ "cannot be converted in a PDDocument" + "</PDDocument>");
+			return null;
+		}
 	}
 	
 	public static boolean isEncrypted (PDDocument pdfFile) {

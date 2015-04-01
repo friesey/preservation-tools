@@ -2,17 +2,15 @@ package preservingfiles;
 
 import java.awt.Color;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
-
-import org.apache.pdfbox.pdmodel.PDDocument;
-
-import com.itextpdf.text.pdf.PdfReader;
 
 public class Test {
 
@@ -60,28 +58,44 @@ public class Test {
 			}
 
 			for (int i = 0; i < findings.size(); i++) {
+
+				FileOutputStream fs = new FileOutputStream("D://people.bin");
+				ObjectOutputStream os = new ObjectOutputStream(fs);
+
+				os.writeObject(findings.get(i)); // writes unelegantly in file
+
 				xmlSimpleWriter.println("<File>");
 
 				xmlSimpleWriter.println("<FileName><![CDATA[" + findings.get(i).fileName + "]]></FileName>");
 				xmlSimpleWriter.println("<MD5Checksum>" + findings.get(i).checksumMD5 + "</MD5Checksum>");
 				xmlSimpleWriter.println("<FileSizeKB>" + findings.get(i).size + "</FileSizeKB>");
 				xmlSimpleWriter.println("<Mimetype>" + findings.get(i).mimetype + "</Mimetype>");
-				xmlSimpleWriter.println("<FileExtension>" + findings.get(i).fileExtension + "</FileExtension>");
+				xmlSimpleWriter.println("<FileExtension>" + findings.get(i).fileExtension + "</FileExtension>");				
+								
 
-				if (findings.get(i).mimetype.equals("application/pdf")) {
-					ZbwFilePdf testfilePdf = new ZbwFilePdf();
-					testfilePdf.pdfFile = ZbwFilePdf.toPDDocument(findings.get(i).zbwFile);
-					testfilePdf.isEncrypted = ZbwFilePdf.isEncrypted(testfilePdf.pdfFile);
-					testfilePdf.isPdfA = ZbwFilePdf.isPdfA(findings.get(i).zbwFile.toString());
-					xmlSimpleWriter.println("<PdfEncryption>" + testfilePdf.isEncrypted + "</PdfEncryption>");
-					xmlSimpleWriter.println("<PdfA>" + testfilePdf.isPdfA + "</PdfA>");
+				if (findings.get(i).mimetype != null) {
+					if (findings.get(i).mimetype.equals("application/pdf")) {
+						ZbwFilePdf testfilePdf = new ZbwFilePdf();
+						testfilePdf.pdfFile = ZbwFilePdf.toPDDocument(findings.get(i).zbwFile);
+						if (testfilePdf.pdfFile != null) {
+						testfilePdf.isEncrypted = ZbwFilePdf.isEncrypted(testfilePdf.pdfFile);
+						xmlSimpleWriter.println("<PdfEncryption>" + testfilePdf.isEncrypted + "</PdfEncryption>");
+						}
+						else  {
+							xmlSimpleWriter.println("<PdfEncryption>" + "Encryption could not be checked" + "</PdfEncryption>");
+						}
+						testfilePdf.isPdfA = ZbwFilePdf.isPdfA(findings.get(i).zbwFile.toString());
+					
+						xmlSimpleWriter.println("<PdfA>" + testfilePdf.isPdfA + "</PdfA>");
+					}
 				} else {
 					xmlSimpleWriter.println("<PdfEncryption>" + "No Pdf File" + "</PdfEncryption>");
 					xmlSimpleWriter.println("<PdfA>" + "No Pdf File" + "</PdfA>");
 
 				}
-
 				xmlSimpleWriter.println("</File>");
+				os.close();
+				fs.close();
 			}
 
 			xmlSimpleWriter.println("</FileAnalysisSummary>");

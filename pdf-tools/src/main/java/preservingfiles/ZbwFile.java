@@ -3,12 +3,17 @@ package preservingfiles;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.util.regex.Pattern;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
-public class ZbwFile {
+public class ZbwFile implements Serializable{ //TODO: does not go quite smoothly. An ID seems to be missing. 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4089068952340983707L;
 	String path;
 	String fileName;
 	String checksumMD5;
@@ -16,6 +21,8 @@ public class ZbwFile {
 	String fileExtension;
 	File zbwFile;
 	long size;
+	
+
 
 	// size
 	public ZbwFile() {
