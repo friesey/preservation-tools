@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
+import filetools.pdf.PdfAnalysis;
+
 public class Test {
 
 	static String examinedFolder;
@@ -53,7 +55,7 @@ public class Test {
 
 				ZbwFile testfile = new ZbwFile();
 				testfile.fileName = testfile.getName(files.get(i).toString());
-
+				
 				testfile.path = files.get(i).toString();
 				testfile.zbwFile = testfile.toFile(testfile.path);
 				testfile.mimetype = testfile.getFileMimeType(testfile.zbwFile);
@@ -66,18 +68,10 @@ public class Test {
 			}
 
 			for (int i = 0; i < findings.size(); i++) {
-
-				FileOutputStream fs = new FileOutputStream("D://people.bin");
-				ObjectOutputStream os = new ObjectOutputStream(fs);
-
-				os.writeObject(findings.get(i)); // writes unelegantly in file
-
 				xmlSimpleWriter.println("<File>");
-
 				xmlSimpleWriter.println("<FileName><![CDATA[" + findings.get(i).fileName + "]]></FileName>");
 				xmlSimpleWriter.println("<MD5Checksum>" + findings.get(i).checksumMD5 + "</MD5Checksum>");
 				xmlSimpleWriter.println("<FileSizeKB>" + findings.get(i).size + "</FileSizeKB>");
-
 				xmlSimpleWriter.println("<Mimetype>" + findings.get(i).mimetype + "</Mimetype>");
 				xmlSimpleWriter.println("<FileExtension>" + findings.get(i).fileExtension + "</FileExtension>");
 
@@ -113,8 +107,6 @@ public class Test {
 
 				}
 				xmlSimpleWriter.println("</File>");
-				os.close();
-				fs.close();
 			}
 
 			xmlSimpleWriter.println("</FileAnalysisSummary>");

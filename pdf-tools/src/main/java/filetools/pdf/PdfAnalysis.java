@@ -5,21 +5,8 @@ package filetools.pdf;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Collection;
-import java.util.List;
-
-import org.apache.pdfbox.cos.COSArray;
-import org.apache.pdfbox.cos.COSBase;
-import org.apache.pdfbox.cos.COSDictionary;
 import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDDocumentCatalog;
-import org.apache.pdfbox.pdmodel.PDDocumentInformation;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.interactive.annotation.PDAnnotation;
-
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.parser.PdfReaderContentParser;
 import com.itextpdf.text.pdf.parser.SimpleTextExtractionStrategy;
@@ -40,57 +27,6 @@ public class PdfAnalysis {
 	 ********************************************************/
 
 	/****************************************************************************
-	 * Analysis PDF-Objects
-	 * 
-	 * @param file
-	 * @return: nothings, puts out the information in a file
-	 * @throws IOException
-	 */
-	public static void analysePdfObjects(File file) throws IOException {
-
-		PrintWriter pdfboxanalysis = new PrintWriter(new FileWriter("D://pdfboxanalysis.txt"));
-		pdfboxanalysis.println(file.toString());
-
-		PDDocument pdf = PDDocument.load(file);
-		PDDocumentInformation info = pdf.getDocumentInformation();
-		COSDictionary dict = info.getDictionary();
-		Collection<COSBase> l = dict.getValues();
-
-		COSArray mediaBox = (COSArray) dict.getDictionaryObject("MediaBox");
-		System.out.println("MediaBox: " + mediaBox);
-
-		COSDictionary trailer = pdf.getDocument().getTrailer();
-		System.out.println("Trailer:" + trailer);
-
-		if (pdf.isEncrypted()) { // this actually works easily
-			System.out.println("Encrypted");
-		}
-
-		for (Object o : l) {
-			// System.out.println(o.toString());
-			pdfboxanalysis.println(o.toString());
-		}
-
-		PDDocumentCatalog cat = pdf.getDocumentCatalog();
-
-		@SuppressWarnings("unchecked")
-		List<PDPage> lp = cat.getAllPages();
-		pdfboxanalysis.println("# Pages: " + lp.size());
-		PDPage page = lp.get(4);
-		pdfboxanalysis.println("Page: " + page);
-		pdfboxanalysis.println("\tCropBox: " + page.getCropBox());
-		pdfboxanalysis.println("\tMediaBox: " + page.getMediaBox());
-		pdfboxanalysis.println("\tResources: " + page.getResources());
-		pdfboxanalysis.println("\tRotation: " + page.getRotation());
-		pdfboxanalysis.println("\tArtBox: " + page.getArtBox());
-		pdfboxanalysis.println("\tBleedBox: " + page.getBleedBox());
-		pdfboxanalysis.println("\tContents: " + page.getContents());
-		pdfboxanalysis.println("\tTrimBox: " + page.getTrimBox());
-		List<PDAnnotation> la = page.getAnnotations();
-		pdfboxanalysis.println("\t# Annotations: " + la.size());
-
-		pdfboxanalysis.close();
-	}
 
 	/*********************************************************
 	 * Checks if a PDF is ok to work with %PDF Header, Broken PDF & Encryption
