@@ -17,11 +17,14 @@ public class Test {
 	static String examinedFolder;
 	String pathwriter;
 	static PrintWriter xmlSimpleWriter;
-	
-	static int MAXIMUM_SIZE_PDF = 90000;  //95424 is too big. I do not know which size still is manageable.
 
-	
-	//TODO: If a PDF is bigger than a certain size, do not do certain tests, that will fail the Heap Space
+	static int MAXIMUM_SIZE_PDF = 15500;
+
+	// TODO: If a PDF is bigger than a certain size, do not do certain tests,
+	// that will fail the Heap Space. The same is true for the number of pages.
+	// It is too difficult to determine exactly where the borders are, that is
+	// why I have chosen something arbitrary which puts the program on the save
+	// side.
 
 	public static void main(String args[]) throws IOException {
 
@@ -74,33 +77,35 @@ public class Test {
 				xmlSimpleWriter.println("<FileName><![CDATA[" + findings.get(i).fileName + "]]></FileName>");
 				xmlSimpleWriter.println("<MD5Checksum>" + findings.get(i).checksumMD5 + "</MD5Checksum>");
 				xmlSimpleWriter.println("<FileSizeKB>" + findings.get(i).size + "</FileSizeKB>");
-			
+
 				xmlSimpleWriter.println("<Mimetype>" + findings.get(i).mimetype + "</Mimetype>");
-				xmlSimpleWriter.println("<FileExtension>" + findings.get(i).fileExtension + "</FileExtension>");				
-								
+				xmlSimpleWriter.println("<FileExtension>" + findings.get(i).fileExtension + "</FileExtension>");
 
 				if (findings.get(i).mimetype != null) {
 					if (findings.get(i).mimetype.equals("application/pdf")) {
 						ZbwFilePdf testfilePdf = new ZbwFilePdf();
 						System.out.println(findings.get(i).fileName);
 						System.out.println(findings.get(i).size);
-						testfilePdf.pdfFile = ZbwFilePdf.toPDDocument(findings.get(i).zbwFile);
-						if (testfilePdf.pdfFile != null) {
-						testfilePdf.isEncrypted = ZbwFilePdf.isEncrypted(testfilePdf.pdfFile);
-						xmlSimpleWriter.println("<PdfEncryption>" + testfilePdf.isEncrypted + "</PdfEncryption>");
-						if (!testfilePdf.isEncrypted) {
-							testfilePdf.isPdfA = ZbwFilePdf.isPdfA(findings.get(i).zbwFile.toString());					
-							xmlSimpleWriter.println("<PdfA>" + testfilePdf.isPdfA + "</PdfA>");
+						if (findings.get(i).size < MAXIMUM_SIZE_PDF) {
+							testfilePdf.pdfFile = ZbwFilePdf.toPDDocument(findings.get(i).zbwFile);
+							if (testfilePdf.pdfFile != null) {
+								testfilePdf.isEncrypted = ZbwFilePdf.isEncrypted(testfilePdf.pdfFile);
+								xmlSimpleWriter.println("<PdfEncryption>" + testfilePdf.isEncrypted + "</PdfEncryption>");
+								// ZbwFilePdfEncryption.testPermissions
+								// (findings.get(i).getPath());
+								if (!testfilePdf.isEncrypted) {
+
+									testfilePdf.isPdfA = ZbwFilePdf.isPdfA(findings.get(i).zbwFile.toString());
+									xmlSimpleWriter.println("<PdfA>" + testfilePdf.isPdfA + "</PdfA>");
+								} else {
+									xmlSimpleWriter.println("<PdfA>" + "false" + "</PdfA>");
+								}
 							}
-							else{
-								xmlSimpleWriter.println("<PdfA>" + "false" + "</PdfA>");
-							}
-						}
-						else  {
+						} else {
 							xmlSimpleWriter.println("<PdfEncryption>" + "Encryption could not be checked" + "</PdfEncryption>");
 							xmlSimpleWriter.println("<PdfA>" + "PDF/A could not be checked" + "</PdfA>");
 						}
-						
+
 					}
 				} else {
 					xmlSimpleWriter.println("<PdfEncryption>" + "No Pdf File" + "</PdfEncryption>");
