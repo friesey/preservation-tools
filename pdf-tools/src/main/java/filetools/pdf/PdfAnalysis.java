@@ -27,9 +27,8 @@ public class PdfAnalysis {
 	 ********************************************************/
 
 	/****************************************************************************
-
-	/*********************************************************
-	 * Checks if a PDF is ok to work with %PDF Header, Broken PDF & Encryption
+	 * /********************************************************* Checks if a
+	 * PDF is ok to work with %PDF Header, Broken PDF & Encryption
 	 * 
 	 * @param file
 	 * @return: boolean true or false
@@ -37,21 +36,21 @@ public class PdfAnalysis {
 	 */
 
 	public static boolean testPdfOk(File file) throws IOException {
-		if (filetools.GenericFileAnalysis.testFileHeaderPdf(file) == true) {		
-			
-					PDDocument testfile = PDDocument.load(file);
-					if (!testfile.isEncrypted()) {
-						if (!checkBrokenPdf(file.toString())) {
-							return true;
-						} else {
-							System.out.println("Broken Pdf");
-							return false;
-						}
-					} else {
-						System.out.println("Is encrypted");
-						return false;
-					}			
-		
+		if (filetools.GenericFileAnalysis.testFileHeaderPdf(file) == true) {
+
+			PDDocument testfile = PDDocument.load(file);
+			if (!testfile.isEncrypted()) {
+				if (!checkBrokenPdf(file.toString())) {
+					return true;
+				} else {
+					System.out.println("Broken Pdf");
+					return false;
+				}
+			} else {
+				System.out.println("Is encrypted");
+				return false;
+			}
+
 		} else {
 			System.out.println("No PDF Header");
 			return false;
@@ -75,7 +74,8 @@ public class PdfAnalysis {
 		PdfReader reader;
 		try {
 			reader = new PdfReader(file.toString());
-			if (reader.getPdfVersion() > 3) { //unsure if it gives only values higher than 50
+			if (reader.getPdfVersion() > 3) { // unsure if it gives only values
+												// higher than 50
 				if (reader.getMetadata() != null) {
 					xmpMetadata = new String(reader.getMetadata()); // nullpointerException
 					reader.close();
@@ -168,8 +168,8 @@ public class PdfAnalysis {
 			return null;
 		}
 	}
-	
-	public static String extractsPdfLinestoString (String PdfFile) throws IOException {
+
+	public static String extractsPdfLinestoString(String PdfFile) throws IOException {
 		try {
 			StringBuffer buff = new StringBuffer();
 			String ExtractedText = null;
@@ -181,7 +181,7 @@ public class PdfAnalysis {
 				strategy = parser.processContent(i, new SimpleTextExtractionStrategy());
 				ExtractedText = strategy.getResultantText().toString();
 				buff.append(ExtractedText + "\n");
-			}	
+			}
 			return buff.toString();
 		} catch (Exception e) {
 			return null;

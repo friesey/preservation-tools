@@ -30,6 +30,21 @@ public class ChecksumChecker {
 	 * @return: boolean
 	 * @throws
 	 */
+	
+	public static void main(String args[]) throws Exception {
+		
+				
+		String examinedFolder = utilities.BrowserDialogs.chooseFolder();		 
+		ArrayList<File> files = utilities.ListsFiles.getPaths(new File(examinedFolder), new ArrayList<File>());
+		
+		for (int i = 0; i < files.size(); i++) {
+			String checksum = DigestUtils.md5Hex(new FileInputStream(files.get(i)));
+			System.out.println(files.get(i).toString() + " : " +  checksum);
+			
+		}
+
+	
+	}
 
 	public static boolean testIfChecksumisPdfReaderSoftware(File file) throws NoSuchAlgorithmException, IOException {
 		ArrayList<String> checksumlist = new ArrayList<String>();

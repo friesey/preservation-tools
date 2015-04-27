@@ -105,8 +105,7 @@ public class TextSucheInOrdner {
 			if ((extension.equals("txt")) || (extension.equals("java")) || (extension.equals("yml"))) {
 				if (fileorfolder.length() != 0)
 				/**
-				 * important because otherwise not yet closed outpufile causes
-				 * neverending story
+			 * neverending story
 				 */
 				{
 					// TODO: There is a big performance
@@ -171,7 +170,7 @@ public class TextSucheInOrdner {
 						searchforStringinPdfFiles(files.get(i));
 					} else {
 						outputfile.println("<FileExtension>" + extension + "</FileExtension>");
-						outputfile.println("<Dateiname>" + files.get(i).getName() + "</Dateiname>");
+						outputfile.println("<Dateiname><![CDATA[" + files.get(i).getName() + "]]></Dateiname>");
 						outputfile.println("<Suchergebnis>" + "nicht durchsucht" + "</Suchergebnis>");
 					}
 
@@ -200,7 +199,7 @@ public class TextSucheInOrdner {
 
 	public static void searchforStringinPdfFiles(File file) throws IOException {
 
-		outputfile.println("<Dateiname>" + (file.getName()) + "</Dateiname>");
+		outputfile.println("<Dateiname><![CDATA[" + (file.getName()) + "]]></Dateiname>");
 
 		int trefferinDatei;
 
