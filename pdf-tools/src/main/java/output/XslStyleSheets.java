@@ -225,6 +225,7 @@ public class XslStyleSheets {
 		xslStyle.println("<th>Annotation Errors</th>");
 		xslStyle.println("<th>Action Errors</th>");
 		xslStyle.println("<th>Metadata Errors</th>");
+		xslStyle.println("<th>Runtime Errors</th>");
 
 		xslStyle.println("</tr>");
 		xslStyle.println("<xsl:for-each select=\"PdfBoxValidation/PdfAFile\">");
@@ -239,6 +240,7 @@ public class XslStyleSheets {
 		xslStyle.println("<td><xsl:value-of select=\"AnnotationErrors\"/></td>");
 		xslStyle.println("<td><xsl:value-of select=\"ActionErrors\"/></td>");
 		xslStyle.println("<td><xsl:value-of select=\"MetadataErrors\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"RuntimeErrors\"/></td>");
 		xslStyle.println("</tr>");
 		xslStyle.println("</xsl:for-each>");
 		xslStyle.println("</table>");

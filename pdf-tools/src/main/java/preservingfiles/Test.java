@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 import filetools.pdf.PdfAnalysis;
+import filetools.tiff.TiffTagZbw;
 
 public class Test {
 
@@ -32,7 +33,7 @@ public class Test {
 
 		changecolor();
 
-		JOptionPane.showMessageDialog(null, "Please choose the folder with files to analyse.", "File Analysation", JOptionPane.QUESTION_MESSAGE);
+		JOptionPane.showMessageDialog(null, "Please choose the folder with files to analyse.", "File Analysis", JOptionPane.QUESTION_MESSAGE);
 		examinedFolder = utilities.BrowserDialogs.chooseFolder();
 
 		if (examinedFolder != null) {
@@ -55,10 +56,11 @@ public class Test {
 
 				ZbwFile testfile = new ZbwFile();
 				testfile.fileName = testfile.getName(files.get(i).toString());
-				
+
 				testfile.path = files.get(i).toString();
 				testfile.zbwFile = testfile.toFile(testfile.path);
 				testfile.mimetype = testfile.getFileMimeType(testfile.zbwFile);
+
 				testfile.checksumMD5 = testfile.getMD5Checksum(testfile.zbwFile);
 				testfile.size = testfile.getSizeinKB(testfile.toFile(testfile.path));
 				testfile.mimetype = testfile.getFileMimeType(testfile.toFile(testfile.path));
@@ -101,9 +103,24 @@ public class Test {
 						}
 
 					}
-				} else {
-					xmlSimpleWriter.println("<PdfEncryption>" + "No Pdf File" + "</PdfEncryption>");
-					xmlSimpleWriter.println("<PdfA>" + "No Pdf File" + "</PdfA>");
+
+				}
+				if (findings.get(i).mimetype.equals("image/tiff")) {
+
+					ZbwFileTiff tiff = new ZbwFileTiff();
+					ArrayList<ZbwTiffTag> listTiffTags = new ArrayList<ZbwTiffTag>();
+					listTiffTags = tiff.alltifftags;
+					xmlSimpleWriter.println("<TiffTags>");
+					
+					
+					
+					xmlSimpleWriter.println("</TiffTags>");
+
+				}
+
+				else {
+					xmlSimpleWriter.println("<PdfEncryption>" + "" + "</PdfEncryption>");
+					xmlSimpleWriter.println("<PdfA>" + "" + "</PdfA>");
 
 				}
 				xmlSimpleWriter.println("</File>");

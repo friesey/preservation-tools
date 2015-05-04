@@ -103,7 +103,7 @@ public class PdfAValidator {
 									int annotationError = 0;
 									int actionError = 0;
 									int metadataError = 0;
-
+						
 									examinedPdfa++;
 
 									outputfile.println("<FileName>" + utilities.fileStringUtilities.getFileName(files.get(i)) + "</FileName>");
@@ -136,23 +136,22 @@ public class PdfAValidator {
 										catch (ArrayIndexOutOfBoundsException out) {
 											System.out.println("An Exception occured: " + out);
 											System.out.println(files.get(i).toString());
-											
+
 											outputfile.println("<Status>" + "Broken" + "</Status>");
 											shortSummary.println("<Status>" + "Broken" + "</Status>");
-											
+
 											outputfile.println("<Error>" + out + "</Error>");
 											shortSummary.println("<Error>" + out + "</Error>");
-											
 											causedErrorPdfa++;
 										}
-										
+
 										catch (NullPointerException nullex) {
 											System.out.println("An Exception occured: " + nullex);
 											System.out.println(files.get(i).toString());
-											
+
 											outputfile.println("<Status>" + "Broken" + "</Status>");
 											shortSummary.println("<Status>" + "Broken" + "</Status>");
-											
+
 											outputfile.println("<Error>" + nullex + "</Error>");
 											shortSummary.println("<Error>" + nullex + "</Error>");
 											causedErrorPdfa++;
@@ -165,13 +164,15 @@ public class PdfAValidator {
 											 */
 											outputfile.println("<Error>" + e + "</Error>");
 											shortSummary.println("<Error>" + e + "</Error>");
-											
+
 											outputfile.println("<Status>" + "Broken" + "</Status>");
 											shortSummary.println("<Status>" + "Broken" + "</Status>");
-											
-											causedErrorPdfa++;											
-											
-										//	logger.error("Error analyzing " + files.get(i).getAbsolutePath(), e);
+
+											causedErrorPdfa++;
+
+											// logger.error("Error analyzing " +
+											// files.get(i).getAbsolutePath(),
+											// e);
 										}
 									} catch (SyntaxValidationException e) {
 										/*
@@ -199,7 +200,7 @@ public class PdfAValidator {
 												String errorCode = error.getErrorCode().toString();
 												outputfile.println("<Code>" + error.getErrorCode() + "</Code>");
 												String errorDetails = utilities.fileStringUtilities.reduceXmlEscapors(error.getDetails());
-
+																							
 												if (errorCode.startsWith("1")) {
 													outputfile.println("<Details Category=\"SyntaxError\">" + errorDetails + "</Details>");
 													syntaxError++;
@@ -232,7 +233,7 @@ public class PdfAValidator {
 												if (errorCode.startsWith("7")) {
 													outputfile.println("<Details Category=\"MetadataError\">" + errorDetails + "</Details>");
 													metadataError++;
-												}
+												}							
 
 											}
 											outputfile.println("<SyntaxErrors>" + syntaxError + "</SyntaxErrors>");
@@ -242,9 +243,7 @@ public class PdfAValidator {
 											outputfile.println("<AnnotationErrors>" + annotationError + "</AnnotationErrors>");
 											outputfile.println("<ActionErrors>" + actionError + "</ActionErrors>");
 											outputfile.println("<MetadataErrors>" + metadataError + "</MetadataErrors>");
-
-											shortSummary.println("<ErrorsCount>" + errorslen + "</ErrorsCount>");
-
+																	
 										}
 									}
 
@@ -253,8 +252,7 @@ public class PdfAValidator {
 								}
 							}
 						} catch (IOException e) {
-							outputfile.println("<Error>" + e + "</Error>");
-							JOptionPane.showMessageDialog(null, e, "error message", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, e, "error message", JOptionPane.ERROR_MESSAGE);
 						}
 					}
 
