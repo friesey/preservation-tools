@@ -213,6 +213,9 @@ public class TiffFileAnalysis {
 				temp.tiffTagContent = (parts[3] + parts[4]);
 				
 				csvsummary.println (temp.tiffTagName + SEPARATOR + temp.tiffTagContent);
+				
+				temp.tiffTagContent = utilities.fileStringUtilities.reduceNULvalues(temp.tiffTagContent);
+				temp.tiffTagContent = utilities.fileStringUtilities.reduceUnitSeparator(temp.tiffTagContent);
 
 				/*
 				 * xmlsummary.println("<decValue>" + temp.decTiffTag +
@@ -342,7 +345,7 @@ public class TiffFileAnalysis {
 				// TODO: reusable range <65000 & < 65535
 				
 				
-				//TODO: temp.tiffTagContent must be reduced by all the non-displayable stuff like "NUL"
+		
 
 				switch (temp.decTiffTag) {
 
