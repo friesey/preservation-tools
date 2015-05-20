@@ -353,6 +353,7 @@ public class XslStyleSheets {
 		xslStyle.println("<th> Hex</th>");
 		xslStyle.println("</tr>");
 		xslStyle.println("<xsl:for-each select=\"TiffTagAnalysis/TiffFile/TiffTags/NewTag\">");
+		xslStyle.println("<xsl:sort select=\"Dec\" />");
 		xslStyle.println("<tr class=\"captiontan\">");
 		xslStyle.println("<td><xsl:value-of select=\"Tag\"/></td>");
 		xslStyle.println("<td><xsl:value-of select=\"Content\"/></td>");

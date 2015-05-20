@@ -670,8 +670,27 @@ public class TiffFileAnalysis {
 
 				case 263:
 					xmlsummary.println("<Threshholding>" + temp.tiffTagContent + "</Threshholding>");
+					temp.tiffTagDescription = "NO DESCRIPTION YET.";
 					temp.tiffTagKind = "Baseline";
 					break;
+					
+				case 330:
+					xmlsummary.println("<SubIFD>" + temp.tiffTagContent + "</SubIFD>");
+					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagKind = "Extended";
+					break;
+										
+				case 333:
+					xmlsummary.println("<InkNames>" + temp.tiffTagContent + "</InkNames>");
+					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagKind = "Extended";
+					break;
+					
+				case 336:
+					xmlsummary.println("<DotRange>" + temp.tiffTagContent + "</DotRange>");
+					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagKind = "Extended";
+					break;	
 
 				case 339:
 					xmlsummary.println("<SampleFormat>" + temp.tiffTagContent + "</SampleFormat>");
@@ -702,6 +721,14 @@ public class TiffFileAnalysis {
 					temp.tiffTagDescription = "Old-style JPEG compression field. TechNote2 invalidates this part of the specification.";
 					temp.tiffTagKind = "Extended";
 					break;
+					
+				case 700:
+					xmlsummary.println("<ApplicationNotes>" + temp.tiffTagContent + "</ApplicationNotes>");
+					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagKind = "Extended";
+					break;
+					
+					
 
 				// known private tags
 
