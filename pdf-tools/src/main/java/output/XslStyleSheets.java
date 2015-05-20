@@ -342,6 +342,25 @@ public class XslStyleSheets {
 		xslStyle.println("</head>");
 		xslStyle.println("<body>");
 
+		xslStyle.println("<h4>Newfound Tiff Tags</h4>");
+		xslStyle.println("<xsl:value-of select=\"DifferentTiffTagsInSample\"/>");
+		xslStyle.println("<table border =\"1\">");
+		xslStyle.println("<tr class=\"captiontan\">");
+		xslStyle.println("<th> TiffTag</th>");
+		xslStyle.println("<th> Content</th>");
+		xslStyle.println("<th> Dec</th>");
+		xslStyle.println("<th> Hex</th>");
+		xslStyle.println("</tr>");
+		xslStyle.println("<xsl:for-each select=\"TiffTagAnalysis/TiffFile/TiffTags/NewTag\">");
+		xslStyle.println("<tr class=\"captiontan\">");
+		xslStyle.println("<td><xsl:value-of select=\"Tag\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"Content\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"Dec\"/></td>");
+		xslStyle.println("<td><xsl:value-of select=\"Hex\"/></td>");
+		xslStyle.println("</tr>");
+		xslStyle.println("</xsl:for-each>");
+		xslStyle.println("</table>");
+		
 		xslStyle.println("<h2>Examination of Tiff Tags</h2>");
 		xslStyle.println("<h3>Summary of Tiff Tags</h3>");
 		xslStyle.println("<xsl:value-of select=\"DifferentTiffTagsInSample\"/>");

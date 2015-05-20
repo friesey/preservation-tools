@@ -146,7 +146,7 @@ public class TiffFileAnalysis {
 								xmlsummary.println("<SourceOfTag>" + listTiffTags.get(i).tiffTagKind + "</SourceOfTag>");
 								xmlsummary.println("<Description>" + listTiffTags.get(i).tiffTagDescription + "</Description>");
 								break; // very important, otherwise the
-										// description would be put ot as often
+										// description would be put out as often
 										// as each tiff tag occurs in sample
 							}
 						}
@@ -243,6 +243,7 @@ public class TiffFileAnalysis {
 					else {
 						xmlsummary.println("<UnknownTiffTag>" + temp.tiffTagName + "</UnknownTiffTag>");
 						temp.tiffTagKind = "Private";
+
 					}
 				}
 
@@ -258,6 +259,12 @@ public class TiffFileAnalysis {
 				// TODO: reusable range <65000 & < 65535
 
 				switch (temp.decTiffTag) {
+				
+				case 254:					
+					xmlsummary.println("<NewSubFileType>" + temp.tiffTagContent + "</NewSubFileType>");
+					temp.tiffTagDescription = "Similar to SubFileType, but NewSubFileType.";
+					temp.tiffTagKind = "Baseline";
+					break;
 
 				case 255:
 					xmlsummary.println("<SubFileType>" + temp.tiffTagContent + "</SubFileType>");
@@ -521,9 +528,13 @@ public class TiffFileAnalysis {
 																		// deal
 																		// with
 																		// them
-
-					xmlsummary.println("<" + unknownTiffTag + ">" + temp.tiffTagContent + "</" + unknownTiffTag + ">");
-
+					xmlsummary.println("<NewTag>");
+				//	xmlsummary.println("<" + unknownTiffTag + ">" + temp.tiffTagContent + "</" + unknownTiffTag + ">");		
+					xmlsummary.println("<Tag>" + unknownTiffTag + "</Tag>");
+					xmlsummary.println("<Content>" + temp.tiffTagContent+ "</Content>");
+					xmlsummary.println("<Dec>" + temp.decTiffTag + "</Dec>");
+					xmlsummary.println("<Hex>" + temp.hexValue + "</Hex>");
+					xmlsummary.println("</NewTag>");
 				}
 
 				listTiffTags.add(temp); // used to be placed before all the
