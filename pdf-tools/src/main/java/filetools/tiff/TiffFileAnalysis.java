@@ -294,7 +294,7 @@ public class TiffFileAnalysis {
 						temp.tiffTagDescription = "IPTC-NAA (International Press Telecommunications Council-Newspaper Association of America) metadata.";
 						temp.tiffTagKind = "TIFF/EP spec, p. 33";
 					}
-					
+
 					else if (temp.decTiffTag == 33723) {
 						xmlsummary.println("<IPTC_NAA>" + temp.tiffTagContent + "</IPTC_NAA>");
 						temp.tiffTagDescription = "IPTC-NAA (International Press Telecommunications Council-Newspaper Association of America) metadata.";
@@ -307,10 +307,13 @@ public class TiffFileAnalysis {
 						temp.tiffTagKind = "private";
 					}
 
-					else {
+					else if (temp.decTiffTag == 37439) {
+						xmlsummary.println("<StoNits>" + temp.tiffTagContent + "</StoNits>");
+						temp.tiffTagDescription = "NO DESCRIPTION YET.";
+						temp.tiffTagKind = "private";
+					} else {
 						xmlsummary.println("<UnknownTiffTag>" + temp.tiffTagName + "</UnknownTiffTag>");
 						temp.tiffTagKind = "Private";
-
 					}
 				}
 
@@ -324,6 +327,9 @@ public class TiffFileAnalysis {
 
 				// TODO: if dec value > 32768, it is a private tag
 				// TODO: reusable range <65000 & < 65535
+				
+				
+				//TODO: temp.tiffTagContent must be reduced by all the non-displayable stuff like "NUL"
 
 				switch (temp.decTiffTag) {
 
@@ -426,6 +432,7 @@ public class TiffFileAnalysis {
 				case 281:
 					xmlsummary.println("<MaxSampleValue>" + temp.tiffTagContent + "</MaxSampleValue>");
 					temp.tiffTagDescription = "The maximum component value used.";
+					temp.tiffTagKind = "Extended";
 					break;
 
 				case 290:
@@ -441,13 +448,13 @@ public class TiffFileAnalysis {
 					break;
 
 				case 305:
-					xmlsummary.println("<Software>" + temp.tiffTagContent + "</Software>");
+					xmlsummary.println("<Software><![CDATA[" + temp.tiffTagContent + "]]></Software>");
 					temp.tiffTagDescription = "Name and version number of the software package(s) used to create the image.";
 					temp.tiffTagKind = "Baseline";
 					break;
 
 				case 306:
-					xmlsummary.println("<DateTime>" + temp.tiffTagContent + "</DateTime>");
+					xmlsummary.println("<DateTime><![CDATA[" + temp.tiffTagContent + "]]></DateTime>");
 					temp.tiffTagDescription = "Date ad time of image creation.";
 					temp.tiffTagKind = "Baseline";
 
@@ -498,9 +505,27 @@ public class TiffFileAnalysis {
 					temp.tiffTagDescription = "The logical order of bits within a byte.";
 					temp.tiffTagKind = "Baseline";
 					break;
-					
+
 				case 269:
 					xmlsummary.println("<DocumentName>" + temp.tiffTagContent + "</DocumentName>");
+					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagKind = "Baseline";
+					break;
+
+				case 270:
+					xmlsummary.println("<ImageDescription>" + temp.tiffTagContent + "</ImageDescription>");
+					temp.tiffTagDescription = "A string that describes the subject of the image.";
+					temp.tiffTagKind = "Baseline";
+					break;
+
+				case 271:
+					xmlsummary.println("<Make>" + temp.tiffTagContent + "</Make>");
+					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagKind = "Baseline";
+					break;
+
+				case 272:
+					xmlsummary.println("<Model><![CDATA[" + temp.tiffTagContent + "]]></Model>");
 					temp.tiffTagDescription = "NO DESCRIPTION YET.";
 					temp.tiffTagKind = "Baseline";
 					break;
@@ -514,6 +539,18 @@ public class TiffFileAnalysis {
 				case 284:
 					xmlsummary.println("<PlanarConfiguration>" + temp.tiffTagContent + "</PlanarConfiguration>");
 					temp.tiffTagDescription = "How the components of each pixel are stored.";
+					temp.tiffTagKind = "Baseline";
+					break;
+
+				case 286:
+					xmlsummary.println("<XPosition>" + temp.tiffTagContent + "</XPosition>");
+					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagKind = "Baseline";
+					break;
+
+				case 287:
+					xmlsummary.println("<YPosition>" + temp.tiffTagContent + "</YPosition>");
+					temp.tiffTagDescription = "NO DESCRIPTION YET.";
 					temp.tiffTagKind = "Baseline";
 					break;
 
@@ -534,7 +571,7 @@ public class TiffFileAnalysis {
 					temp.tiffTagDescription = "The chromaticities of the primaries of the image.";
 					temp.tiffTagKind = "Extended";
 					break;
-					
+
 				case 321:
 					xmlsummary.println("<HalftoneHints>" + temp.tiffTagContent + "</HalftoneHints>");
 					temp.tiffTagDescription = "NO DESCRIPTION YET.";
@@ -552,13 +589,24 @@ public class TiffFileAnalysis {
 					temp.tiffTagDescription = "NO DESCRIPTION YET.";
 					temp.tiffTagKind = "Extended";
 					break;
-					
+
+				case 324:
+					xmlsummary.println("<TileOffsets>" + temp.tiffTagContent + "</TileOffsets>");
+					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagKind = "Extended";
+					break;
+
+				case 325:
+					xmlsummary.println("<TileByteCounts>" + temp.tiffTagContent + "</TileByteCounts>");
+					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagKind = "Extended";
+					break;
+
 				case 326:
 					xmlsummary.println("<BadFaxLines>" + temp.tiffTagContent + "</BadFaxLines>");
 					temp.tiffTagDescription = "NO DESCRIPTION YET.";
 					temp.tiffTagKind = "Extended";
 					break;
-
 
 				case 327:
 					xmlsummary.println("<CleanFaxData>" + temp.tiffTagContent + "</CleanFaxData>");
@@ -571,36 +619,46 @@ public class TiffFileAnalysis {
 					temp.tiffTagDescription = "NO DESCRIPTION YET.";
 					temp.tiffTagKind = "Extended";
 					break;
-					
+
 				case 347:
 					xmlsummary.println("<JPEGTables>" + temp.tiffTagContent + "</JPEGTables>");
 					temp.tiffTagDescription = "NO DESCRIPTION YET.";
 					temp.tiffTagKind = "Extended";
 					break;
-					
+
 				case 513:
 					xmlsummary.println("<JpgFromRawStart>" + temp.tiffTagContent + "</JpgFromRawStart>");
 					temp.tiffTagDescription = "NO DESCRIPTION YET.";
 					temp.tiffTagKind = "Extended";
 					break;
-					
-					
+
 				case 514:
 					xmlsummary.println("<JpgFromRawLength>" + temp.tiffTagContent + "</JpgFromRawLength>");
 					temp.tiffTagDescription = "NO DESCRIPTION YET.";
 					temp.tiffTagKind = "Extended";
 					break;
-					
-					
+
 				case 515:
 					xmlsummary.println("<JPEGRestartInterval>" + temp.tiffTagContent + "</JPEGRestartInterval>");
 					temp.tiffTagDescription = "NO DESCRIPTION YET.";
 					temp.tiffTagKind = "Extended";
 					break;
-					
+
 				case 529:
 					xmlsummary.println("<YCbCrCoefficients>" + temp.tiffTagContent + "</YCbCrCoefficients>");
 					temp.tiffTagDescription = "The transformation from RGB to YCbCr image data.";
+					temp.tiffTagKind = "Extended";
+					break;
+
+				case 530:
+					xmlsummary.println("<YCbCrSubSampling>" + temp.tiffTagContent + "</YCbCrSubSampling>");
+					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagKind = "Extended";
+					break;
+
+				case 531:
+					xmlsummary.println("<YCbCrPositioning>" + temp.tiffTagContent + "</YCbCrPositioning>");
+					temp.tiffTagDescription = "NO DESCRIPTION YET.";
 					temp.tiffTagKind = "Extended";
 					break;
 
@@ -645,10 +703,89 @@ public class TiffFileAnalysis {
 					temp.tiffTagKind = "Extended";
 					break;
 
-				case 270:
-					xmlsummary.println("<ImageDescription>" + temp.tiffTagContent + "</ImageDescription>");
-					temp.tiffTagDescription = "A string that describes the subject of the image.";
+				// known private tags
+
+				case 34665:
+					xmlsummary.println("<ExifIfd>" + temp.tiffTagContent + "</ExifIfd>");
+					temp.tiffTagDescription = "A pointer to the Exif IFD. Private";
+					temp.tiffTagKind = "Private";
+					break;
+
+				case 32995:
+					xmlsummary.println("<Matteing>" + temp.tiffTagContent + "</Matteing>");
+					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagKind = "Private";
+					break;
+
+				case 32996:
+					xmlsummary.println("<DataType>" + temp.tiffTagContent + "</DataType>");
+					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagKind = "Private";
+
+				case 32997:
+					xmlsummary.println("<ImageDepth>" + temp.tiffTagContent + "</ImageDepth>");
+					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagKind = "Private";
+					break;
+
+				case 32998:
+					xmlsummary.println("<TileDepth>" + temp.tiffTagContent + "</TileDepth>");
+					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagKind = "Private";
+					break;
+
+				case 33432:
+					xmlsummary.println("<Copyright>" + temp.tiffTagContent + "</Copyright>");
+					temp.tiffTagDescription = "Copyright notice.";
 					temp.tiffTagKind = "Baseline";
+					break;
+
+				case 34264:
+					xmlsummary.println("<ModelTransform>" + temp.tiffTagContent + "</ModelTransform>");
+					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagKind = "Private";
+					break;
+
+				case 34735:
+					xmlsummary.println("<GeoTiffDirectory>" + temp.tiffTagContent + "</GeoTiffDirectory>");
+					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagKind = "Private";
+					break;
+
+				case 34736:
+					xmlsummary.println("<GeoTiffDoubleParams>" + temp.tiffTagContent + "</GeoTiffDoubleParams>");
+					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagKind = "Private";
+					break;
+
+				case 34737:
+					xmlsummary.println("<GeoTiffAsciiParams>" + temp.tiffTagContent + "</GeoTiffAsciiParams>");
+					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagKind = "Private";
+					break;
+
+				case 34675:
+					xmlsummary.println("<InterColorProfile>" + temp.tiffTagContent + "</InterColorProfile>");
+					temp.tiffTagDescription = "ICC profile data.";
+					temp.tiffTagKind = "TIFF/EP spec, p. 47 Exif private IFD";
+					break;
+
+				case 33723:
+					xmlsummary.println("<IPTC_NAA>" + temp.tiffTagContent + "</IPTC_NAA>");
+					temp.tiffTagDescription = "IPTC-NAA (International Press Telecommunications Council-Newspaper Association of America) metadata.";
+					temp.tiffTagKind = "TIFF/EP spec, p. 33";
+					break;
+
+				case 34377:
+					xmlsummary.println("<PhotoshopSettings>" + temp.tiffTagContent + "</PhotoshopSettings>");
+					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagKind = "private";
+					break;
+
+				case 37439:
+					xmlsummary.println("<StoNits>" + temp.tiffTagContent + "</StoNits>");
+					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagKind = "private";
 					break;
 
 				default:
@@ -694,5 +831,4 @@ public class TiffFileAnalysis {
 		// tiffDirectory.findField(TiffTagConstants.TIFF_TAG_BITS_PER_SAMPLE);
 
 	}
-
 }

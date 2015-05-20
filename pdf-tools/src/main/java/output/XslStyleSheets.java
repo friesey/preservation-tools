@@ -343,6 +343,7 @@ public class XslStyleSheets {
 		xslStyle.println("<body>");
 
 		xslStyle.println("<h4>Newfound Tiff Tags</h4>");
+		xslStyle.println("<h5>Description: Tags that the tool does not know yet.</h5>");
 		xslStyle.println("<xsl:value-of select=\"DifferentTiffTagsInSample\"/>");
 		xslStyle.println("<table border =\"1\">");
 		xslStyle.println("<tr class=\"captiontan\">");
