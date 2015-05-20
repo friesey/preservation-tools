@@ -365,6 +365,7 @@ public class XslStyleSheets {
 		
 		xslStyle.println("<h2>Examination of Tiff Tags</h2>");
 		xslStyle.println("<h3>Summary of Tiff Tags</h3>");
+		xslStyle.println("<h5>Description: All Tiff Tags found in the samle incl. description (if known) and number of occurance.</h5>");
 		xslStyle.println("<xsl:value-of select=\"DifferentTiffTagsInSample\"/>");
 		xslStyle.println("<table border =\"1\">");
 		xslStyle.println("<tr class=\"captiontan\">");
