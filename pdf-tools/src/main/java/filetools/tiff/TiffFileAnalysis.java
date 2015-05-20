@@ -26,7 +26,9 @@ public class TiffFileAnalysis {
 
 	public static String examinedFolder;
 	static PrintWriter xmlsummary;
+	static PrintWriter csvsummary;
 	static int problematicTiffs;
+	static String SEPARATOR = ";";
 
 	public static ArrayList<TiffTagZbw> listTiffTags = new ArrayList<TiffTagZbw>();
 
@@ -49,7 +51,9 @@ public class TiffFileAnalysis {
 				String name = JOptionPane.showInputDialog(null, "Please choose a name for the XML Outputfile.", "Enter String Mask", JOptionPane.PLAIN_MESSAGE);
 				;
 				String outputfile = examinedFolder + "//" + name + ".xml";
+				String outputCsv =  examinedFolder + "//" + name + ".csv";
 				File outputfileFile = new File(outputfile);
+				
 				int eingabe;
 
 				if (outputfileFile.exists()) {
@@ -63,6 +67,7 @@ public class TiffFileAnalysis {
 				if (eingabe == 1) {
 
 					PrintWriter xmlsummary = new PrintWriter(new FileWriter(outputfile));
+					csvsummary = new PrintWriter(new FileWriter(outputCsv));
 
 					ArrayList<File> files = utilities.ListsFiles.getPaths(new File(examinedFolder), new ArrayList<File>());
 
@@ -159,6 +164,7 @@ public class TiffFileAnalysis {
 					xmlsummary.println("</TiffTagAnalysis>");
 
 					xmlsummary.close();
+					csvsummary.close();
 					f.dispose();
 				}
 
@@ -185,6 +191,11 @@ public class TiffFileAnalysis {
 			xmlsummary.println("<TiffTagsCount>" + allEntries.size() + "</TiffTagsCount>");
 			xmlsummary.println("<TiffTags>");
 			xmlsummary.println("<FileName>" + file.getName() + "</FileName>");
+			
+			csvsummary.println ("File" + SEPARATOR + file.getName());
+			csvsummary.println ("" + SEPARATOR + "");
+			
+			csvsummary.println ("Tiff Tag Name" + SEPARATOR + "Value");
 
 			for (int i = 0; i < allEntries.size(); i++) {
 				// replace all the different separators with ','
@@ -200,6 +211,8 @@ public class TiffFileAnalysis {
 				temp.hexValue = parts[1];
 				temp.tiffTagName = parts[2];
 				temp.tiffTagContent = (parts[3] + parts[4]);
+				
+				csvsummary.println (temp.tiffTagName + SEPARATOR + temp.tiffTagContent);
 
 				/*
 				 * xmlsummary.println("<decValue>" + temp.decTiffTag +
@@ -843,6 +856,9 @@ public class TiffFileAnalysis {
 										// but the description should be
 										// included
 			}
+			
+			csvsummary.println ("" + SEPARATOR + ""); //to have a new line between each File
+			
 			xmlsummary.println("</TiffTags>");
 
 		}
