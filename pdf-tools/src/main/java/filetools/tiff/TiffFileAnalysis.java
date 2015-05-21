@@ -212,6 +212,7 @@ public class TiffFileAnalysis {
 				temp.hexValue = parts[1];
 				temp.tiffTagName = parts[2];
 				temp.tiffTagContent = (parts[3] + parts[4]);
+				temp.tiffTagDescription = getContent(temp.decTiffTag);
 				
 				csvsummary.println(temp.tiffTagName + SEPARATOR + temp.tiffTagContent + SEPARATOR + temp.tiffTagDescription);
 
@@ -1018,4 +1019,629 @@ public class TiffFileAnalysis {
 		// tiffDirectory.findField(TiffTagConstants.TIFF_TAG_BITS_PER_SAMPLE);
 
 	}
+
+	private static String getContent(int decTiffTag) {
+		//this is very redundant stuff and should be enhanced
+		String description;
+
+		switch (decTiffTag) {
+
+		case 254:
+
+			description = "Similar to SubFileType, but NewSubFileType.";
+	
+			break;
+
+		case 255:
+	
+			description = "A general indication of the kind of data contained in this subfile.";
+		
+			break;
+
+		case 256:
+		
+			description = "The number of columns in the image, i.e., the number of pixels per row.";
+	
+			break;
+
+		case 257:
+		
+			description = "The number of rows of pixels in the image.";
+
+			break;
+
+		case 259:
+
+			description = "Compression scheme used on the image data.";
+
+			break;
+
+		case 262:
+	
+			description = "The color space of the image data.";
+	
+			break;
+
+		case 273:
+	
+			description = "For each strip, the byte offset of that strip.";
+		
+			break;
+
+		case 277:
+	
+			description = "The number of components per pixel.";
+
+			break;
+
+		case 278:
+	
+			description = "The number of rows per strip.";
+	
+			break;
+
+		case 279:
+	
+			description = "For each strip, the number of bytes in the strip after compression.";
+
+			break;
+
+		case 282:
+	
+			description = "The number of pixels per ResolutionUnit in the ImageWidth direction.";
+
+			break;
+
+		case 283:
+
+			description = "The number of pixels per ResolutionUnit in the ImageLength direction.";
+
+			break;
+
+		case 296:
+
+			description = "The unit of measurement for XResolution and YResolution.";
+
+			break;
+
+		case 258:
+			
+			description = "Number of bits per component.";
+		
+			break;
+
+
+
+		case 280:
+		
+			description = "The minimum component value used.";
+			
+			break;
+
+		case 281:
+		
+			description = "The maximum component value used.";
+			
+			break;
+
+		case 290:
+		
+			description = "The precision of the information contained in the GrayResponseCurve.";
+		
+			break;
+
+		case 291:
+		
+			description = "For grayscale data, the optical density of each possible pixel value.";
+		
+			break;
+
+		case 305:
+		
+			description = "Name and version number of the software package(s) used to create the image.";
+		
+			break;
+
+		case 306:
+		
+			description = "Date ad time of image creation.";
+		
+
+			break;
+
+		case 315:
+		
+			description = "Person who created the image.";
+		
+			break;
+
+		case 320:
+		
+			description = "A color map for palette color images.";
+		
+			break;
+
+	
+
+		case 338:
+		
+			description = "Description of extra components.";
+		
+			break;
+
+
+
+		case 292:
+
+			description = "Options for Group 3 Fax compression. Extended";
+			
+			break;
+
+		case 293:
+			
+			description = "Options for Group 4 Fax compression. Extended";
+			
+			break;
+
+		case 297:
+		
+			description = "The page number of the page from which this image was scanned. Extended";
+			
+			break;
+
+		case 266:
+	
+			description = "The logical order of bits within a byte.";
+		
+			break;
+
+		case 269:
+			
+			description = "Name of document which holds for image.";
+		
+			break;
+
+		case 270:
+		
+			description = "A string that describes the subject of the image.";
+		
+			break;
+
+		case 271:
+		
+			description = "Scanner manufacturer name.";
+		
+			break;
+
+		case 272:
+		
+			description = "Scanner model name/number.";
+		
+			break;
+
+		case 274:
+			
+			description = "The orientation of the image with respect to the rows and columns.";
+		
+			break;
+
+		case 284:
+		
+			description = "How the components of each pixel are stored.";
+		
+			break;
+
+		case 286:
+			
+			description = "X page offset of image lhs.";
+		
+			break;
+
+		case 287:
+		
+			description = "Y page offset of image lhs.";
+		
+			break;
+
+		case 317:
+		
+			description = "A mathematical operator that is applied to the image data before an encoding scheme is applied.";
+			
+			break;
+
+		case 318:
+			
+			description = "The chromaticity of the white point of the image.";
+			
+			break;
+
+		case 319:
+		
+			description = "The chromaticities of the primaries of the image.";
+			
+			break;
+
+		case 321:
+			
+			description = "Highlight + shadow info.";
+			
+			break;
+
+		case 322:
+		
+			description = "Tile width in pixels.";
+			
+			break;
+
+		case 323:
+	
+			description = "Tile height in pixels.";
+			
+			break;
+
+		case 324:
+		
+			description = "	Offsets to data tiles.";
+			
+			break;
+
+		case 325:
+			
+			description = "Byte counts for tiles.";
+			
+			break;
+
+		case 326:
+		
+			description = "Lines with wrong pixel count.";
+			
+			break;
+
+		case 327:
+		
+			description = "Regenerated line info.";
+			
+			break;
+
+		case 328:
+			description = "Max consecutive bad lines.";
+			
+			break;
+
+		case 347:
+	
+			description = "JPEG table stream.";
+			
+			break;
+
+		case 513:
+		
+			description = "Obsoleted. Pointer to SOI marker. Also known as JPEGIFOFFSET";
+			
+			break;
+
+		case 514:
+		
+			description = "Obsoleted: JFIF stream length. Also known as JPEGIFBYTECOUNT";
+			
+			break;
+
+		case 515:
+		
+			description = "Obsoleted: Lossless proc predictor.";
+			
+			break;
+
+		case 529:
+	
+			description = "The transformation from RGB to YCbCr image data.";
+			
+			break;
+
+		case 530:
+			description = "YCbCr subsampling factors.";
+			
+			break;
+
+		case 531:
+			
+			description = "Subsample positioning.";
+			
+			break;
+
+		case 532:
+		
+			description = "Specifies a pair of headroom and footroom image data values (codes) for each pixel component.";
+			
+			break;
+
+		case 263:
+		
+			description = "Obsoleted: Thresholding used on data.";
+		
+			break;
+
+		case 330:
+	
+			description = "Subimage descriptors.";
+			
+			break;
+
+		case 333:
+	
+			description = "ASCII names of inks.";
+			
+			break;
+
+		case 336:
+		
+			description = "0% and 100% dot codes.";
+			
+			break;
+
+		case 339:
+		
+			description = "Specifies how to interpret each data sample in a pixel.";
+			
+			break;
+
+		case 512:
+		
+			description = "Old-style JPEG compression field. TechNote2 invalidates this part of the specification.";
+		
+			break;
+
+		case 519:
+		
+			description = "Old-style JPEG compression field. TechNote2 invalidates this part of the specification.";
+		
+			break;
+
+		case 520:
+		
+			description = "Old-style JPEG compression field. TechNote2 invalidates this part of the specification.";
+
+			break;
+
+		case 521:
+		
+			description = "Old-style JPEG compression field. TechNote2 invalidates this part of the specification.";
+		
+			break;
+
+		case 700:
+		
+			description = "Also known as XML packet.";
+
+			break;
+
+
+
+		case 34665:
+		
+			description = "A pointer to the Exif IFD. Private";
+			
+			break;
+
+		case 32995:
+	
+			description = "Obsoleted by ExtraSamples tag.";
+			
+			break;
+
+		case 32996:
+
+			description = "Obsoleted by SampleFormat tag.";
+			
+
+		case 32997:
+		
+			description = "tile/strip calculations.";
+			
+			break;
+
+		case 32998:
+		
+			description = "tile/strip calculations.";
+			
+			break;
+
+		case 33432:
+		
+			description = "Copyright notice.";
+		
+			break;
+
+		case 33550:
+	
+			description = "Used in interchangeable GeoTIFF_1_0 files.";
+			
+			break;
+
+		case 33922:
+		
+			description = "Originally part of Intergraph's GeoTIFF tags, but now used in interchangeable GeoTIFF_1_0 files.";
+			
+			break;
+
+		case 34016:
+	
+			description = "Site where image created.";
+			
+			break;
+
+		case 34017:
+	
+			description = "Sequence of colors if other than CMYK.";
+			
+			break;
+
+		case 34018:
+
+			description = "Certain inherited headers.";
+			
+			break;
+
+		case 34019:
+
+			description = "Type of raster padding used, if any.";
+			
+			break;
+
+		case 34020:
+
+			description = "Number of bits for short run length encoding.";
+			
+			break;
+
+		case 34021:
+	
+			description = "Number of bits for long run length encoding.";
+			
+			break;
+
+		case 34022:
+	
+			description = "Color value in a color pallette.";
+			
+			break;
+
+		case 34023:
+	
+			description = "Indicates if image (foreground) color or transparency is specified.";
+			
+			break;
+
+		case 34024:
+		
+			description = "Background color specification.";
+			
+			break;
+
+		case 34025:
+	
+			description = "Specifies image (foreground) color.";
+			
+			break;
+
+		case 34026:
+
+			description = "Specifies background color.";
+			
+			break;
+
+		case 34027:
+
+			description = "Specifies data values for 0 % and 100 % pixel intensity.";
+			
+			break;
+
+		case 34028:
+		description = "NO DESCRIPTION YET.";
+			
+			break;
+
+		case 34029:
+
+			description = "Specifies if transparency is used in HC file.";
+			
+			break;
+
+		case 34030:
+		
+			description = "Indicates the type of information in an HC file.";
+			
+			break;
+
+		case 34152:
+	
+			description = "Unknown.";
+			
+			break;
+
+		case 34264:
+	
+			description = "GeoTiff: Specifies transformation matrix between raster space (and its dependent pixel-value space) and the (possibly 3D) model space.";
+			
+			break;
+
+		case 34735:
+
+			description = "	Stores GeoKey Directory, which defines and references the \"GeoKeys\".";
+			
+			break;
+
+		case 34736:
+		
+			description = "Stores all DOUBLE value GeoKeys, references by the GeoKeyDirectoryTag.";
+			
+			break;
+
+		case 34737:
+
+			description = "Stores all ASCII value GeoKeys, references by the GeoKeyDirectoryTag.";
+	
+			break;
+
+		case 34675:
+		
+			description = "ICC profile data.";
+	
+			break;
+
+		case 33723:
+		
+			description = "IPTC-NAA (International Press Telecommunications Council-Newspaper Association of America) metadata.";	
+			break;
+
+		case 34377:
+		
+			description = "Collection of Photoshop 'Image Resource Blocks'.";		
+			break;
+
+		case 37439:
+	
+			description = "Sample value to Nits. Private tag registered to SGI.";	
+			break;
+
+		case 37724:
+			description = "Used by Adobe Photoshop.";				
+			break;
+
+		case 40091:				
+			description = "Title tag used by Windows, encoded in UCS2.";		
+			break;
+
+		case 40092:			
+			description = "Comment tag used by Windows, encoded in UCS2.";		
+			break;
+
+		case 40093:
+			
+			description = "Author tag used by Windows, encoded in UCS2.";
+			break;
+
+		case 40094:
+
+			description = "Keywords tag used by Windows, encoded in UCS2.";	
+			break;
+
+		case 40095:
+
+			description = "Subject tag used by Windows, encoded in UCS2.";
+			break;
+
+		case 50341:
+	
+			description = "PrintImageMatching.";
+			break;
+			
+			default:
+			description = null;
+		
+		
+	
+	}
+		return description;
+}
 }
