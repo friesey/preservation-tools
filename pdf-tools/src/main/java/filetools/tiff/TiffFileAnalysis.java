@@ -195,7 +195,7 @@ public class TiffFileAnalysis {
 			csvsummary.println("File" + SEPARATOR + file.getName());
 			csvsummary.println("" + SEPARATOR + "");
 
-			csvsummary.println("Tiff Tag Name" + SEPARATOR + "Value" + SEPARATOR + "Description of Tag");
+			csvsummary.println("Tiff Tag Name" + SEPARATOR + "Value" + SEPARATOR + "Description of Tag" + SEPARATOR + "Tiff Tag Kind");
 
 			for (int i = 0; i < allEntries.size(); i++) {
 				// replace all the different separators with ','
@@ -213,10 +213,7 @@ public class TiffFileAnalysis {
 				temp.tiffTagContent = (parts[3] + parts[4]);
 				temp.tiffTagDescription = getContent(temp.decTiffTag);
 
-				csvsummary.println(temp.tiffTagName + SEPARATOR + temp.tiffTagContent + SEPARATOR + temp.tiffTagDescription);
 
-				temp.tiffTagContent = utilities.fileStringUtilities.reduceNULvalues(temp.tiffTagContent);
-				temp.tiffTagContent = utilities.fileStringUtilities.reduceUnitSeparator(temp.tiffTagContent);
 
 				int privateTag = 32768;
 				int reusabletagbegin = 65000;
@@ -237,6 +234,11 @@ public class TiffFileAnalysis {
 					temp.tiffTagKind = getTiffTagKind(temp.decTiffTag);
 				}
 
+				csvsummary.println(temp.tiffTagName + SEPARATOR + temp.tiffTagContent + SEPARATOR + temp.tiffTagDescription+ SEPARATOR + temp.tiffTagKind);
+
+				temp.tiffTagContent = utilities.fileStringUtilities.reduceNULvalues(temp.tiffTagContent);
+				temp.tiffTagContent = utilities.fileStringUtilities.reduceUnitSeparator(temp.tiffTagContent);
+				
 				listTiffTags.add(temp);
 
 				temp.tiffTagName = temp.tiffTagName.replace(" ", ""); // get rid
