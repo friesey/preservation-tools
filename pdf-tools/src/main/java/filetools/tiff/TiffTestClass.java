@@ -1,11 +1,9 @@
 package filetools.tiff;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
@@ -17,16 +15,10 @@ import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.stream.ImageInputStream;
 
 import org.apache.commons.io.FilenameUtils;
-import org.apache.sanselan.common.IImageMetadata;
-import org.apache.tika.metadata.Metadata;
-
 import com.drew.imaging.ImageMetadataReader;
 import com.drew.imaging.ImageProcessingException;
-import com.drew.lang.BufferReader;
-import com.drew.lang.RandomAccessFileReader;
 import com.drew.metadata.Directory;
 import com.drew.metadata.Tag;
-import com.drew.metadata.exif.ExifReader;
 import com.sun.media.jai.codec.FileCacheSeekableStream;
 import com.sun.media.jai.codec.SeekableStream;
 import com.sun.media.jai.codec.TIFFDirectory;
@@ -87,8 +79,6 @@ public class TiffTestClass {
 
 		IIOImage image = null;
 
-		System.out.println("Test");
-
 		reader.setInput(iis, true);
 		image = reader.readAll(0, null);
 
@@ -99,9 +89,6 @@ public class TiffTestClass {
 			System.out.println(("Format name: " + names[i]));
 			System.out.println(i);
 			System.out.println(metadata.getAsTree(names[i]));
-
 		}
-
 	}
-
 }

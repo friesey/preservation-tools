@@ -39,6 +39,7 @@ public class TiffFileAnalysis {
 			if (examinedFolder != null) {
 
 				int examinedTiffs = 0;
+				problematicTiffs = 0;
 
 				JFrame f = new JFrame();
 				JButton but = new JButton("... Program is running ... ");
@@ -46,21 +47,14 @@ public class TiffFileAnalysis {
 				f.pack();
 				f.setVisible(true);
 
-				problematicTiffs = 0;
-
 				String name = JOptionPane.showInputDialog(null, "Please choose a name for the XML Outputfile.", "Enter String Mask", JOptionPane.PLAIN_MESSAGE);
-				;
 				String outputfile = examinedFolder + "//" + name + ".xml";
 				String outputCsv = examinedFolder + "//" + name + ".csv";
 				File outputfileFile = new File(outputfile);
-
 				int eingabe;
-
 				if (outputfileFile.exists()) {
 					eingabe = JOptionPane.showConfirmDialog(null, name + ".xml already exists in folder. Choosing \"Ja\" closes program. Choosing \"Nein\" overwrites existing File and start analysis.", "Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
-				}
-
-				else {
+				} else {
 					eingabe = 1;
 				}
 
@@ -76,41 +70,31 @@ public class TiffFileAnalysis {
 					String xsltStyleSheet = "<?xml-stylesheet type=\"text/xsl\" href=\"TiffTagStyle.xsl\"?>";
 
 					// TODO: create Stylesheet in the same folder
-
 					output.XslStyleSheets.TiffTagAnalysisCustomizedXsl();
-
 					xmlsummary.println("<?" + xmlVersion + " " + xmlEncoding + "?>");
 					xmlsummary.println(xsltStyleSheet);
 					xmlsummary.println("<TiffTagAnalysis>");
 
 					for (int i = 0; i < files.size(); i++) {
-
 						String tiffExtension = "tif";
-
 						String extension = FilenameUtils.getExtension(files.get(i).getCanonicalPath()).toLowerCase();
 						if (extension.equals(tiffExtension)) {
 
 							if (filetools.GenericFileAnalysis.testFileHeaderTiff(files.get(i))) {
 								xmlsummary.println("<TiffFile>");
 								xmlsummary.println("<FilePath>" + files.get(i).toString() + "</FilePath>");
-
 								analyseTiffTags(files.get(i), xmlsummary);
 								examinedTiffs++;
 								xmlsummary.println("</TiffFile>");
+							} else {
+								JOptionPane.showMessageDialog(null, "This file purports to be a tiff-file. It has a .TIF-extension, but lacks the magic number.", "Information", JOptionPane.INFORMATION_MESSAGE);
 							}
-
-							else {
-								System.out.println("This file purports to be a tiff-file. It has a .TIF-extension, but no lacks the magic number.");
-							}
-
 							// how to get a certain tiff tag:
 							// TiffField tileWidthField =
 							// tiffDirectory.findField(TiffTagConstants.TIFF_TAG_BITS_PER_SAMPLE);
-
 						}
 					}
 
-					// How often does each TiffTag occur?
 					int tifftagscount = listTiffTags.size();
 					// save all tifftags in ArrayList<String>
 					ArrayList<String> alltifftags = new ArrayList<String>();
@@ -166,12 +150,9 @@ public class TiffFileAnalysis {
 					xmlsummary.close();
 					csvsummary.close();
 					f.dispose();
-				}
-
-				else {
+				} else {
 					JOptionPane.showMessageDialog(null, "You have closed the program. No analysis was done.", "Information", JOptionPane.INFORMATION_MESSAGE);
 					f.dispose();
-
 				}
 			}
 		} catch (FileNotFoundException e) {
@@ -179,9 +160,7 @@ public class TiffFileAnalysis {
 	}
 
 	public static void analyseTiffTags(File file, PrintWriter xmlsummary) throws IOException, ImageReadException {
-
 		try {
-
 			IImageMetadata metadata = Sanselan.getMetadata(file);
 			TiffDirectory tiffDirectory = ((TiffImageMetadata) metadata).findDirectory(TiffDirectoryConstants.DIRECTORY_TYPE_ROOT);
 
@@ -194,7 +173,6 @@ public class TiffFileAnalysis {
 
 			csvsummary.println("File" + SEPARATOR + file.getName());
 			csvsummary.println("" + SEPARATOR + "");
-
 			csvsummary.println("Tiff Tag Name" + SEPARATOR + "Value" + SEPARATOR + "Description of Tag" + SEPARATOR + "Tiff Tag Kind");
 
 			for (int i = 0; i < allEntries.size(); i++) {
@@ -210,66 +188,45 @@ public class TiffFileAnalysis {
 				temp.decTiffTag = Integer.parseInt(parts[0]);
 				temp.hexValue = parts[1];
 				temp.tiffTagName = parts[2];
-				// temp.tiffTagContent = (parts[3] + parts[4]);
 
-				int len = allEntries.get(i).toString().length();
-
-				parts = allEntries.get(i).toString().split(":");			
-				temp.tiffTagContent = parts[2];				
-				System.out.println(parts[2]);
-
+				parts = allEntries.get(i).toString().split(":");
+				temp.tiffTagContent = parts[2];
+			
 				temp.tiffTagDescription = getContent(temp.decTiffTag);
 
 				int privateTag = 32768;
 				int reusabletagbegin = 65000;
 				int reusabletagend = 65535;
 
-				// TODO: Baseline and Extended is not as easy to determine by
-				// the dec Value
-
 				if ((temp.decTiffTag > reusabletagbegin) && (temp.decTiffTag < reusabletagend)) {
 					temp.tiffTagKind = "reusable";
-				}
-
-				else if ((temp.decTiffTag > privateTag) && (temp.decTiffTag < reusabletagbegin)) {
+				} else if ((temp.decTiffTag > privateTag) && (temp.decTiffTag < reusabletagbegin)) {
 					temp.tiffTagKind = "private";
-				}
-
-				else {
-					temp.tiffTagKind = getTiffTagKind(temp.decTiffTag);
+				} else {
+					temp.tiffTagKind = getTiffTagKind(temp.decTiffTag); // method
+																		// checks
+																		// if
+																		// it's
+																		// baseline
+																		// or
+																		// extended.
+																		// could
+																		// be
+																		// developed
+																		// further.
 				}
 
 				csvsummary.println(temp.tiffTagName + SEPARATOR + temp.tiffTagContent + SEPARATOR + temp.tiffTagDescription + SEPARATOR + temp.tiffTagKind);
-
+				// reduce some forbidden characters and spaces in xml:
 				temp.tiffTagContent = utilities.fileStringUtilities.reduceNULvalues(temp.tiffTagContent);
 				temp.tiffTagContent = utilities.fileStringUtilities.reduceUnitSeparator(temp.tiffTagContent);
-
+				temp.tiffTagName = temp.tiffTagName.replace(" ", "");
 				listTiffTags.add(temp);
-
-				temp.tiffTagName = temp.tiffTagName.replace(" ", ""); // get rid
-				// of
-				// spaces
-				// because
-				// XML
-				// cannot
-				// deal
-				// with
-				// them
 
 				xmlsummary.println("<" + temp.tiffTagName + ">" + temp.tiffTagContent + "</" + temp.tiffTagName + ">");
 
-				// xmlsummary.println("<UnknownTiffTag>" + temp.tiffTagName
-				// + "</UnknownTiffTag>");
 				String unknownTiffTag = temp.tiffTagName;
-				unknownTiffTag = unknownTiffTag.replace(" ", ""); // get rid
-																	// of
-																	// spaces
-																	// because
-																	// XML
-																	// cannot
-																	// deal
-																	// with
-																	// them
+				unknownTiffTag = unknownTiffTag.replace(" ", "");
 
 				if (temp.tiffTagDescription == null) {
 					xmlsummary.println("<NewTag>");
@@ -280,17 +237,11 @@ public class TiffFileAnalysis {
 					xmlsummary.println("</NewTag>");
 				}
 			}
-
-			csvsummary.println("" + SEPARATOR + ""); // to have a new line
-														// between each File			
-		}
-
-		catch (Exception e) {
+			csvsummary.println("" + SEPARATOR + "");
+		} catch (Exception e) {
 			xmlsummary.println("<ErrorMessage>" + e + "</ErrorMessage>");
-
 			problematicTiffs++;
 		}
-		
 		xmlsummary.println("</TiffTags>");
 
 		// how to get a certain tiff tag:
@@ -721,7 +672,6 @@ public class TiffFileAnalysis {
 
 		case 40094:
 			description = "Keywords tag used by Windows, encoded in UCS2.";
-			break;
 
 		case 40095:
 			description = "Subject tag used by Windows, encoded in UCS2.";
