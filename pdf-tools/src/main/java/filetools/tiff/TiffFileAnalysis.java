@@ -210,10 +210,15 @@ public class TiffFileAnalysis {
 				temp.decTiffTag = Integer.parseInt(parts[0]);
 				temp.hexValue = parts[1];
 				temp.tiffTagName = parts[2];
-				temp.tiffTagContent = (parts[3] + parts[4]);
+				// temp.tiffTagContent = (parts[3] + parts[4]);
+
+				int len = allEntries.get(i).toString().length();
+
+				parts = allEntries.get(i).toString().split(":");			
+				temp.tiffTagContent = parts[2];				
+				System.out.println(parts[2]);
+
 				temp.tiffTagDescription = getContent(temp.decTiffTag);
-
-
 
 				int privateTag = 32768;
 				int reusabletagbegin = 65000;
@@ -234,11 +239,11 @@ public class TiffFileAnalysis {
 					temp.tiffTagKind = getTiffTagKind(temp.decTiffTag);
 				}
 
-				csvsummary.println(temp.tiffTagName + SEPARATOR + temp.tiffTagContent + SEPARATOR + temp.tiffTagDescription+ SEPARATOR + temp.tiffTagKind);
+				csvsummary.println(temp.tiffTagName + SEPARATOR + temp.tiffTagContent + SEPARATOR + temp.tiffTagDescription + SEPARATOR + temp.tiffTagKind);
 
 				temp.tiffTagContent = utilities.fileStringUtilities.reduceNULvalues(temp.tiffTagContent);
 				temp.tiffTagContent = utilities.fileStringUtilities.reduceUnitSeparator(temp.tiffTagContent);
-				
+
 				listTiffTags.add(temp);
 
 				temp.tiffTagName = temp.tiffTagName.replace(" ", ""); // get rid
@@ -274,13 +279,10 @@ public class TiffFileAnalysis {
 					xmlsummary.println("<Hex>" + temp.hexValue + "</Hex>");
 					xmlsummary.println("</NewTag>");
 				}
-
 			}
 
 			csvsummary.println("" + SEPARATOR + ""); // to have a new line
-														// between each File
-			xmlsummary.println("</TiffTags>");
-
+														// between each File			
 		}
 
 		catch (Exception e) {
@@ -288,6 +290,8 @@ public class TiffFileAnalysis {
 
 			problematicTiffs++;
 		}
+		
+		xmlsummary.println("</TiffTags>");
 
 		// how to get a certain tiff tag:
 		// TiffField tileWidthField =
@@ -582,7 +586,7 @@ public class TiffFileAnalysis {
 		case 32996:
 			description = "Obsoleted by SampleFormat tag.";
 			break;
-			
+
 		case 32997:
 			description = "tile/strip calculations.";
 			break;
