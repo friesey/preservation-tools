@@ -234,25 +234,25 @@ public class TiffFileAnalysis {
 
 					if (temp.decTiffTag == 32995) {
 						xmlsummary.println("<Matteing>" + temp.tiffTagContent + "</Matteing>");
-						temp.tiffTagDescription = "NO DESCRIPTION YET.";
+						temp.tiffTagDescription = "Obsoleted by ExtraSamples tag.";
 						temp.tiffTagKind = "Private";
 					}
 
 					else if (temp.decTiffTag == 32996) {
 						xmlsummary.println("<DataType>" + temp.tiffTagContent + "</DataType>");
-						temp.tiffTagDescription = "NO DESCRIPTION YET.";
+						temp.tiffTagDescription = "obsoleted by SampleFormat tag.";
 						temp.tiffTagKind = "Private";
 					}
 
 					else if (temp.decTiffTag == 32997) {
 						xmlsummary.println("<ImageDepth>" + temp.tiffTagContent + "</ImageDepth>");
-						temp.tiffTagDescription = "NO DESCRIPTION YET.";
+						temp.tiffTagDescription = "tile/strip calculations.";
 						temp.tiffTagKind = "Private";
 					}
 
 					else if (temp.decTiffTag == 32998) {
 						xmlsummary.println("<TileDepth>" + temp.tiffTagContent + "</TileDepth>");
-						temp.tiffTagDescription = "NO DESCRIPTION YET.";
+						temp.tiffTagDescription = "tile/strip calculations.";
 						temp.tiffTagKind = "Private";
 					}
 
@@ -264,31 +264,25 @@ public class TiffFileAnalysis {
 
 					else if (temp.decTiffTag == 34264) {
 						xmlsummary.println("<ModelTransform>" + temp.tiffTagContent + "</ModelTransform>");
-						temp.tiffTagDescription = "NO DESCRIPTION YET.";
+						temp.tiffTagDescription = "GeoTiff: Specifies transformation matrix between raster space (and its dependent pixel-value space) and the (possibly 3D) model space..";
 						temp.tiffTagKind = "Private";
 					}
 
 					else if (temp.decTiffTag == 34735) {
 						xmlsummary.println("<GeoTiffDirectory>" + temp.tiffTagContent + "</GeoTiffDirectory>");
-						temp.tiffTagDescription = "NO DESCRIPTION YET.";
+						temp.tiffTagDescription = "Stores GeoKey Directory, which defines and references the \"GeoKeys\".";
 						temp.tiffTagKind = "Private";
 					}
 
 					else if (temp.decTiffTag == 34736) {
 						xmlsummary.println("<GeoTiffDoubleParams>" + temp.tiffTagContent + "</GeoTiffDoubleParams>");
-						temp.tiffTagDescription = "NO DESCRIPTION YET.";
-						temp.tiffTagKind = "Private";
-					}
-
-					else if (temp.decTiffTag == 34736) {
-						xmlsummary.println("<GeoTiffDoubleParams>" + temp.tiffTagContent + "</GeoTiffDoubleParams>");
-						temp.tiffTagDescription = "NO DESCRIPTION YET.";
+						temp.tiffTagDescription = "Stores all DOUBLE value GeoKeys, references by the GeoKeyDirectoryTag.";
 						temp.tiffTagKind = "Private";
 					}
 
 					else if (temp.decTiffTag == 34737) {
 						xmlsummary.println("<GeoTiffAsciiParams>" + temp.tiffTagContent + "</GeoTiffAsciiParams>");
-						temp.tiffTagDescription = "NO DESCRIPTION YET.";
+						temp.tiffTagDescription = "Stores all ASCII value GeoKeys, references by the GeoKeyDirectoryTag.";
 						temp.tiffTagKind = "Private";
 					}
 
@@ -319,15 +313,17 @@ public class TiffFileAnalysis {
 
 					else if (temp.decTiffTag == 34377) {
 						xmlsummary.println("<PhotoshopSettings>" + temp.tiffTagContent + "</PhotoshopSettings>");
-						temp.tiffTagDescription = "NO DESCRIPTION YET.";
+						temp.tiffTagDescription = "Collection of Photoshop 'Image Resource Blocks'.";
 						temp.tiffTagKind = "private";
 					}
 
 					else if (temp.decTiffTag == 37439) {
 						xmlsummary.println("<StoNits>" + temp.tiffTagContent + "</StoNits>");
-						temp.tiffTagDescription = "NO DESCRIPTION YET.";
+						temp.tiffTagDescription = "Sample value to Nits. Private tag registered to SGI. ";
 						temp.tiffTagKind = "private";
-					} else {
+					}
+
+					else {
 						xmlsummary.println("<UnknownTiffTag>" + temp.tiffTagName + "</UnknownTiffTag>");
 						temp.tiffTagKind = "Private";
 					}
@@ -386,28 +382,24 @@ public class TiffFileAnalysis {
 					xmlsummary.println("<StripOffSets>" + temp.tiffTagContent + "</StripOffSets>");
 					temp.tiffTagDescription = "For each strip, the byte offset of that strip.";
 					temp.tiffTagKind = "Baseline";
-
 					break;
 
 				case 277:
 					xmlsummary.println("<SamplesPerPixel>" + temp.tiffTagContent + "</SamplesPerPixel>");
 					temp.tiffTagDescription = "The number of components per pixel.";
 					temp.tiffTagKind = "Baseline";
-
 					break;
 
 				case 278:
 					xmlsummary.println("<RowsPerStrip>" + temp.tiffTagContent + "</RowsPerStrip>");
 					temp.tiffTagDescription = "The number of rows per strip.";
 					temp.tiffTagKind = "Baseline";
-
 					break;
 
 				case 279:
 					xmlsummary.println("<StripByteCounts>" + temp.tiffTagContent + "</StripByteCounts>");
 					temp.tiffTagDescription = "For each strip, the number of bytes in the strip after compression.";
 					temp.tiffTagKind = "Baseline";
-
 					break;
 
 				case 282:
@@ -521,7 +513,7 @@ public class TiffFileAnalysis {
 
 				case 269:
 					xmlsummary.println("<DocumentName>" + temp.tiffTagContent + "</DocumentName>");
-					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagDescription = "Name of document which holds for image.";
 					temp.tiffTagKind = "Baseline";
 					break;
 
@@ -533,13 +525,13 @@ public class TiffFileAnalysis {
 
 				case 271:
 					xmlsummary.println("<Make>" + temp.tiffTagContent + "</Make>");
-					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagDescription = "Scanner manufacturer name.";
 					temp.tiffTagKind = "Baseline";
 					break;
 
 				case 272:
 					xmlsummary.println("<Model><![CDATA[" + temp.tiffTagContent + "]]></Model>");
-					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagDescription = "Scanner model name/number.";
 					temp.tiffTagKind = "Baseline";
 					break;
 
@@ -557,13 +549,13 @@ public class TiffFileAnalysis {
 
 				case 286:
 					xmlsummary.println("<XPosition>" + temp.tiffTagContent + "</XPosition>");
-					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagDescription = "X page offset of image lhs.";
 					temp.tiffTagKind = "Baseline";
 					break;
 
 				case 287:
 					xmlsummary.println("<YPosition>" + temp.tiffTagContent + "</YPosition>");
-					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagDescription = "Y page offset of image lhs.";
 					temp.tiffTagKind = "Baseline";
 					break;
 
@@ -587,73 +579,73 @@ public class TiffFileAnalysis {
 
 				case 321:
 					xmlsummary.println("<HalftoneHints>" + temp.tiffTagContent + "</HalftoneHints>");
-					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagDescription = "Highlight + shadow info.";
 					temp.tiffTagKind = "Extended";
 					break;
 
 				case 322:
 					xmlsummary.println("<TileWidth>" + temp.tiffTagContent + "</TileWidth>");
-					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagDescription = "Tile width in pixels.";
 					temp.tiffTagKind = "Extended";
 					break;
 
 				case 323:
 					xmlsummary.println("<TileLength>" + temp.tiffTagContent + "</TileLength>");
-					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagDescription = "Tile height in pixels.";
 					temp.tiffTagKind = "Extended";
 					break;
 
 				case 324:
 					xmlsummary.println("<TileOffsets>" + temp.tiffTagContent + "</TileOffsets>");
-					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagDescription = "	Offsets to data tiles.";
 					temp.tiffTagKind = "Extended";
 					break;
 
 				case 325:
 					xmlsummary.println("<TileByteCounts>" + temp.tiffTagContent + "</TileByteCounts>");
-					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagDescription = "Byte counts for tiles.";
 					temp.tiffTagKind = "Extended";
 					break;
 
 				case 326:
 					xmlsummary.println("<BadFaxLines>" + temp.tiffTagContent + "</BadFaxLines>");
-					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagDescription = "Lines with wrong pixel count.";
 					temp.tiffTagKind = "Extended";
 					break;
 
 				case 327:
 					xmlsummary.println("<CleanFaxData>" + temp.tiffTagContent + "</CleanFaxData>");
-					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagDescription = "Regenerated line info.";
 					temp.tiffTagKind = "Extended";
 					break;
 
 				case 328:
 					xmlsummary.println("<ConsecutiveBadFaxLines>" + temp.tiffTagContent + "</ConsecutiveBadFaxLines>");
-					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagDescription = "Max consecutive bad lines.";
 					temp.tiffTagKind = "Extended";
 					break;
 
 				case 347:
 					xmlsummary.println("<JPEGTables>" + temp.tiffTagContent + "</JPEGTables>");
-					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagDescription = "JPEG table stream.";
 					temp.tiffTagKind = "Extended";
 					break;
 
 				case 513:
 					xmlsummary.println("<JpgFromRawStart>" + temp.tiffTagContent + "</JpgFromRawStart>");
-					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagDescription = "Obsoleted. Pointer to SOI marker. Also known as JPEGIFOFFSET";
 					temp.tiffTagKind = "Extended";
 					break;
 
 				case 514:
 					xmlsummary.println("<JpgFromRawLength>" + temp.tiffTagContent + "</JpgFromRawLength>");
-					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagDescription = "Obsoleted: JFIF stream length. Also known as JPEGIFBYTECOUNT";
 					temp.tiffTagKind = "Extended";
 					break;
 
 				case 515:
 					xmlsummary.println("<JPEGRestartInterval>" + temp.tiffTagContent + "</JPEGRestartInterval>");
-					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagDescription = "Obsoleted: Lossless proc predictor.";
 					temp.tiffTagKind = "Extended";
 					break;
 
@@ -665,13 +657,13 @@ public class TiffFileAnalysis {
 
 				case 530:
 					xmlsummary.println("<YCbCrSubSampling>" + temp.tiffTagContent + "</YCbCrSubSampling>");
-					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagDescription = "YCbCr subsampling factors.";
 					temp.tiffTagKind = "Extended";
 					break;
 
 				case 531:
 					xmlsummary.println("<YCbCrPositioning>" + temp.tiffTagContent + "</YCbCrPositioning>");
-					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagDescription = "Subsample positioning.";
 					temp.tiffTagKind = "Extended";
 					break;
 
@@ -683,25 +675,25 @@ public class TiffFileAnalysis {
 
 				case 263:
 					xmlsummary.println("<Threshholding>" + temp.tiffTagContent + "</Threshholding>");
-					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagDescription = "Obsoleted: Thresholding used on data.";
 					temp.tiffTagKind = "Baseline";
 					break;
 
 				case 330:
 					xmlsummary.println("<SubIFD>" + temp.tiffTagContent + "</SubIFD>");
-					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagDescription = "Subimage descriptors.";
 					temp.tiffTagKind = "Extended";
 					break;
 
 				case 333:
 					xmlsummary.println("<InkNames>" + temp.tiffTagContent + "</InkNames>");
-					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagDescription = "ASCII names of inks.";
 					temp.tiffTagKind = "Extended";
 					break;
 
 				case 336:
 					xmlsummary.println("<DotRange>" + temp.tiffTagContent + "</DotRange>");
-					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagDescription = "0% and 100% dot codes.";
 					temp.tiffTagKind = "Extended";
 					break;
 
@@ -737,7 +729,7 @@ public class TiffFileAnalysis {
 
 				case 700:
 					xmlsummary.println("<ApplicationNotes>" + temp.tiffTagContent + "</ApplicationNotes>");
-					temp.tiffTagDescription = "NO DESCRIPTION YET.";
+					temp.tiffTagDescription = "Also known as XML packet.";
 					temp.tiffTagKind = "Extended";
 					break;
 
@@ -801,7 +793,7 @@ public class TiffFileAnalysis {
 					temp.tiffTagDescription = "NO DESCRIPTION YET.";
 					temp.tiffTagKind = "Private";
 					break;
-					
+
 				case 34018:
 					xmlsummary.println("<IT8Header>" + temp.tiffTagContent + "</IT8Header>");
 					temp.tiffTagDescription = "NO DESCRIPTION YET.";
