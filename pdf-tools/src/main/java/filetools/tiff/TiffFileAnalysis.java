@@ -195,7 +195,8 @@ public class TiffFileAnalysis {
 			csvsummary.println("File" + SEPARATOR + file.getName());
 			csvsummary.println("" + SEPARATOR + "");
 
-			csvsummary.println("Tiff Tag Name" + SEPARATOR + "Value");
+			csvsummary.println("Tiff Tag Name" + SEPARATOR + "Value" + SEPARATOR + "Description of Tag");
+		
 
 			for (int i = 0; i < allEntries.size(); i++) {
 				// replace all the different separators with ','
@@ -211,8 +212,8 @@ public class TiffFileAnalysis {
 				temp.hexValue = parts[1];
 				temp.tiffTagName = parts[2];
 				temp.tiffTagContent = (parts[3] + parts[4]);
-
-				csvsummary.println(temp.tiffTagName + SEPARATOR + temp.tiffTagContent);
+				
+				csvsummary.println(temp.tiffTagName + SEPARATOR + temp.tiffTagContent + SEPARATOR + temp.tiffTagDescription);
 
 				temp.tiffTagContent = utilities.fileStringUtilities.reduceNULvalues(temp.tiffTagContent);
 				temp.tiffTagContent = utilities.fileStringUtilities.reduceUnitSeparator(temp.tiffTagContent);
@@ -989,6 +990,8 @@ public class TiffFileAnalysis {
 					xmlsummary.println("<Dec>" + temp.decTiffTag + "</Dec>");
 					xmlsummary.println("<Hex>" + temp.hexValue + "</Hex>");
 					xmlsummary.println("</NewTag>");
+
+					
 				}
 
 				listTiffTags.add(temp); // used to be placed before all the
