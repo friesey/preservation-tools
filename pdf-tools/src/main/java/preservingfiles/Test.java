@@ -1,5 +1,6 @@
 package preservingfiles;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -9,8 +10,13 @@ import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+
+import com.itextpdf.text.pdf.PdfEncryptor;
+import com.itextpdf.text.pdf.PdfReader;
 
 import filetools.pdf.PdfAnalysis;
 import filetools.tiff.TiffTagZbw;
@@ -37,6 +43,12 @@ public class Test {
 		examinedFolder = utilities.BrowserDialogs.chooseFolder();
 
 		if (examinedFolder != null) {
+
+			JFrame f = new JFrame();
+			JButton but = new JButton("... Program is running ... ");
+			f.add(but, BorderLayout.PAGE_END);
+			f.pack();
+			f.setVisible(true);
 
 			xmlSimpleWriter = new PrintWriter(new FileWriter(examinedFolder + "\\FileAnalysis.xml"));
 
@@ -87,10 +99,92 @@ public class Test {
 							if (testfilePdf.pdfFile != null) {
 								testfilePdf.isEncrypted = ZbwFilePdf.isEncrypted(testfilePdf.pdfFile);
 								xmlSimpleWriter.println("<PdfEncryption>" + testfilePdf.isEncrypted + "</PdfEncryption>");
+
+								if (testfilePdf.isEncrypted == true) {
+								try {
+
+									PdfReader reader = new PdfReader(findings.get(i).path);
+
+									int permissions = reader.getPermissions();
+
+									// TODO
+									xmlSimpleWriter.println("<EncryptionDetails>");
+									
+									if (!PdfEncryptor.isAssemblyAllowed(permissions)) {
+										xmlSimpleWriter.println("<isAssemblyAllowed>" + false + "</isAssemblyAllowed>");
+									}
+									
+									else {
+										xmlSimpleWriter.println("<isAssemblyAllowed>" + true + "</isAssemblyAllowed>");
+									}
+
+									if (!PdfEncryptor.isCopyAllowed(permissions)) {
+										xmlSimpleWriter.println("<isCopyAllowed>" + false + "</isCopyAllowed>");
+									}
+
+									else {
+										xmlSimpleWriter.println("<isCopyAllowed>" + true + "</isCopyAllowed>");
+									}
+									if (!PdfEncryptor.isDegradedPrintingAllowed(permissions)) {
+										xmlSimpleWriter.println("<isDegradedPrintingAllowed>" + false + "</isDegradedPrintingAllowed>");
+									}
+									else {
+										xmlSimpleWriter.println("<isDegradedPrintingAllowed>" + true + "</isDegradedPrintingAllowed>");
+									}
+
+									if (!PdfEncryptor.isFillInAllowed(permissions)) {
+										xmlSimpleWriter.println("<isFillInAllowed>" + false + "</isFillInAllowed>");
+									}
+									
+									else {
+										xmlSimpleWriter.println("<isFillInAllowed>" + true + "</isFillInAllowed>");
+									}
+
+									if (!PdfEncryptor.isModifyAnnotationsAllowed(permissions)) {
+										xmlSimpleWriter.println("<isModifyAnnotationsAllowed>" + false + "</isModifyAnnotationsAllowed>");
+									}
+									else {
+										xmlSimpleWriter.println("<isModifyAnnotationsAllowed>" + true + "</isModifyAnnotationsAllowed>");
+									}
+
+									if (!PdfEncryptor.isModifyContentsAllowed(permissions)) {
+										xmlSimpleWriter.println("<isModifyContentsAllowed>" + false + "</isModifyContentsAllowed>");
+									}
+									else {
+										xmlSimpleWriter.println("<isModifyContentsAllowed>" + true + "</isModifyContentsAllowed>");
+									}
+															
+
+									if (!PdfEncryptor.isPrintingAllowed(permissions)) {
+										xmlSimpleWriter.println("<isPrintingAllowed>" + false + "</isPrintingAllowed>");
+									}
+									
+									else {
+										xmlSimpleWriter.println("<isPrintingAllowed>" + true + "</isPrintingAllowed>");
+									}
+
+									if (!PdfEncryptor.isScreenReadersAllowed(permissions)) {
+										xmlSimpleWriter.println("<isScreenReadersAllowed>" + false + "</isScreenReadersAllowed>");
+									}
+									
+									else {
+										xmlSimpleWriter.println("<isScreenReadersAllowed>" + true + "</isScreenReadersAllowed>");
+									}
+									
+									xmlSimpleWriter.println("</EncryptionDetails>");
+
+								}
+
+								catch (Exception e) {
+
+									JOptionPane.showMessageDialog(null, findings.get(i).path + " ist defekt", "Information", JOptionPane.INFORMATION_MESSAGE);
+
+								}
+								}
+
 								// ZbwFilePdfEncryption.testPermissions
 								// (findings.get(i).getPath());
 								if (!testfilePdf.isEncrypted) {
-
 									testfilePdf.isPdfA = ZbwFilePdf.isPdfA(findings.get(i).zbwFile.toString());
 									xmlSimpleWriter.println("<PdfA>" + testfilePdf.isPdfA + "</PdfA>");
 								} else {
@@ -111,23 +205,17 @@ public class Test {
 					ArrayList<ZbwTiffTag> listTiffTags = new ArrayList<ZbwTiffTag>();
 					listTiffTags = tiff.alltifftags;
 					xmlSimpleWriter.println("<TiffTags>");
-					
-					
-					
+
 					xmlSimpleWriter.println("</TiffTags>");
 
 				}
 
-				else {
-					xmlSimpleWriter.println("<PdfEncryption>" + "" + "</PdfEncryption>");
-					xmlSimpleWriter.println("<PdfA>" + "" + "</PdfA>");
-
-				}
 				xmlSimpleWriter.println("</File>");
 			}
 
 			xmlSimpleWriter.println("</FileAnalysisSummary>");
 			xmlSimpleWriter.close();
+			f.dispose();
 		}
 	}
 

@@ -1,4 +1,3 @@
-
 package filetools.pdf;
 
 import java.io.File;
@@ -9,6 +8,9 @@ import java.util.ArrayList;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
+
+import com.itextpdf.text.pdf.PdfEncryptor;
+import com.itextpdf.text.pdf.PdfReader;
 
 public class PdfChecker {
 
@@ -77,10 +79,53 @@ public class PdfChecker {
 											PdfEncrypted++;
 
 											// TODO: Add Encryption Checker
+											
+											try {
 
-											// if
-											// (!PdfEncryptor.isCopyAllowed(testfile.toString()))
+											PdfReader reader = new PdfReader(files.get(i).toString()); 
+											int permissions = reader.getPermissions();
+											
+											//TODO
 
+											if (!PdfEncryptor.isAssemblyAllowed(permissions)) {
+
+											}
+
+											if (!PdfEncryptor.isCopyAllowed(permissions)) {
+
+											}
+
+											if (!PdfEncryptor.isDegradedPrintingAllowed(permissions)) {
+
+											}
+											
+											if (!PdfEncryptor.isFillInAllowed(permissions)) {
+
+											}
+											
+											if (!PdfEncryptor.isModifyAnnotationsAllowed(permissions)) {
+
+											}
+											
+											if (!PdfEncryptor.isModifyContentsAllowed(permissions)) {
+
+											}
+											
+											
+											if (!PdfEncryptor.isPrintingAllowed(permissions)) {
+
+											}
+											
+											
+											if (!PdfEncryptor.isScreenReadersAllowed(permissions)) {
+
+											}
+										}
+											
+											catch (Exception e) {
+											System.out.println(files.get(i).toString() + " ist defekt");
+											}
+											
 										}
 
 										else {

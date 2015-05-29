@@ -16,6 +16,7 @@ public class ZbwFilePdf extends ZbwFile {
 	PDDocument pdfFile;
 	boolean isEncrypted;
 	boolean isPdfA;
+	String originalFile;
 
 	public static PDDocument toPDDocument(File file) throws IOException {
 		try {
