@@ -1,3 +1,4 @@
+
 package filetools.pdf;
 
 import java.io.File;
@@ -40,7 +41,7 @@ public class PdfEcnryptionDetailChecker {
 				outputfile.println("<File>");
 				outputfile.println("<FileName>" + files.get(i).toString() + "</FileName>");
 				
-		
+		//causes output problems
 			
 			
 			outputfile.println("</File>");

@@ -81,7 +81,7 @@ public class PdfChecker {
 											// TODO: Add Encryption Checker
 											
 											try {
-
+//does not work on encrypted PDF files
 											PdfReader reader = new PdfReader(files.get(i).toString()); 
 											int permissions = reader.getPermissions();
 											

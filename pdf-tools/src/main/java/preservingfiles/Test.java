@@ -3,10 +3,8 @@ package preservingfiles;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
@@ -15,11 +13,9 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
+import com.itextpdf.text.exceptions.BadPasswordException;
 import com.itextpdf.text.pdf.PdfEncryptor;
 import com.itextpdf.text.pdf.PdfReader;
-
-import filetools.pdf.PdfAnalysis;
-import filetools.tiff.TiffTagZbw;
 
 public class Test {
 
@@ -77,6 +73,7 @@ public class Test {
 				testfile.size = testfile.getSizeinKB(testfile.toFile(testfile.path));
 				testfile.mimetype = testfile.getFileMimeType(testfile.toFile(testfile.path));
 				testfile.fileExtension = testfile.getFileExtension(testfile.path);
+	
 
 				findings.add(testfile);
 			}
@@ -88,6 +85,11 @@ public class Test {
 				xmlSimpleWriter.println("<FileSizeKB>" + findings.get(i).size + "</FileSizeKB>");
 				xmlSimpleWriter.println("<Mimetype>" + findings.get(i).mimetype + "</Mimetype>");
 				xmlSimpleWriter.println("<FileExtension>" + findings.get(i).fileExtension + "</FileExtension>");
+				
+				
+				
+				
+			
 
 				if (findings.get(i).mimetype != null) {
 					if (findings.get(i).mimetype.equals("application/pdf")) {
@@ -95,124 +97,20 @@ public class Test {
 						System.out.println(findings.get(i).fileName);
 						System.out.println(findings.get(i).size);
 						if (findings.get(i).size < MAXIMUM_SIZE_PDF) {
-							testfilePdf.pdfFile = ZbwFilePdf.toPDDocument(findings.get(i).zbwFile);
-							if (testfilePdf.pdfFile != null) {
-								testfilePdf.isEncrypted = ZbwFilePdf.isEncrypted(testfilePdf.pdfFile);
-								xmlSimpleWriter.println("<PdfEncryption>" + testfilePdf.isEncrypted + "</PdfEncryption>");
+							
+						//	testfilePdf.pdfFile = toPDDocument(testfilePdf);
+							//hier PDDocument pruefen, ob es encrypted ist. Das sollte funktionieren.
 
-								if (testfilePdf.isEncrypted == true) {
-								try {
-
-									PdfReader reader = new PdfReader(findings.get(i).path);
-
-									int permissions = reader.getPermissions();
-
-									// TODO
-									xmlSimpleWriter.println("<EncryptionDetails>");
-									
-									if (!PdfEncryptor.isAssemblyAllowed(permissions)) {
-										xmlSimpleWriter.println("<isAssemblyAllowed>" + false + "</isAssemblyAllowed>");
-									}
-									
-									else {
-										xmlSimpleWriter.println("<isAssemblyAllowed>" + true + "</isAssemblyAllowed>");
-									}
-
-									if (!PdfEncryptor.isCopyAllowed(permissions)) {
-										xmlSimpleWriter.println("<isCopyAllowed>" + false + "</isCopyAllowed>");
-									}
-
-									else {
-										xmlSimpleWriter.println("<isCopyAllowed>" + true + "</isCopyAllowed>");
-									}
-									if (!PdfEncryptor.isDegradedPrintingAllowed(permissions)) {
-										xmlSimpleWriter.println("<isDegradedPrintingAllowed>" + false + "</isDegradedPrintingAllowed>");
-									}
-									else {
-										xmlSimpleWriter.println("<isDegradedPrintingAllowed>" + true + "</isDegradedPrintingAllowed>");
-									}
-
-									if (!PdfEncryptor.isFillInAllowed(permissions)) {
-										xmlSimpleWriter.println("<isFillInAllowed>" + false + "</isFillInAllowed>");
-									}
-									
-									else {
-										xmlSimpleWriter.println("<isFillInAllowed>" + true + "</isFillInAllowed>");
-									}
-
-									if (!PdfEncryptor.isModifyAnnotationsAllowed(permissions)) {
-										xmlSimpleWriter.println("<isModifyAnnotationsAllowed>" + false + "</isModifyAnnotationsAllowed>");
-									}
-									else {
-										xmlSimpleWriter.println("<isModifyAnnotationsAllowed>" + true + "</isModifyAnnotationsAllowed>");
-									}
-
-									if (!PdfEncryptor.isModifyContentsAllowed(permissions)) {
-										xmlSimpleWriter.println("<isModifyContentsAllowed>" + false + "</isModifyContentsAllowed>");
-									}
-									else {
-										xmlSimpleWriter.println("<isModifyContentsAllowed>" + true + "</isModifyContentsAllowed>");
-									}
-															
-
-									if (!PdfEncryptor.isPrintingAllowed(permissions)) {
-										xmlSimpleWriter.println("<isPrintingAllowed>" + false + "</isPrintingAllowed>");
-									}
-									
-									else {
-										xmlSimpleWriter.println("<isPrintingAllowed>" + true + "</isPrintingAllowed>");
-									}
-
-									if (!PdfEncryptor.isScreenReadersAllowed(permissions)) {
-										xmlSimpleWriter.println("<isScreenReadersAllowed>" + false + "</isScreenReadersAllowed>");
-									}
-									
-									else {
-										xmlSimpleWriter.println("<isScreenReadersAllowed>" + true + "</isScreenReadersAllowed>");
-									}
-									
-									xmlSimpleWriter.println("</EncryptionDetails>");
-
-								}
-
-								catch (Exception e) {
-
-									JOptionPane.showMessageDialog(null, findings.get(i).path + " ist defekt", "Information", JOptionPane.INFORMATION_MESSAGE);
-
-								}
-								}
-
-								// ZbwFilePdfEncryption.testPermissions
-								// (findings.get(i).getPath());
-								if (!testfilePdf.isEncrypted) {
-									testfilePdf.isPdfA = ZbwFilePdf.isPdfA(findings.get(i).zbwFile.toString());
-									xmlSimpleWriter.println("<PdfA>" + testfilePdf.isPdfA + "</PdfA>");
-								} else {
-									xmlSimpleWriter.println("<PdfA>" + "false" + "</PdfA>");
-								}
-							}
-						} else {
-							xmlSimpleWriter.println("<PdfEncryption>" + "Encryption could not be checked" + "</PdfEncryption>");
-							xmlSimpleWriter.println("<PdfA>" + "PDF/A could not be checked" + "</PdfA>");
+					
 						}
 
+						
 					}
-
 				}
-				if (findings.get(i).mimetype.equals("image/tiff")) {
-
-					ZbwFileTiff tiff = new ZbwFileTiff();
-					ArrayList<ZbwTiffTag> listTiffTags = new ArrayList<ZbwTiffTag>();
-					listTiffTags = tiff.alltifftags;
-					xmlSimpleWriter.println("<TiffTags>");
-
-					xmlSimpleWriter.println("</TiffTags>");
-
-				}
-
+				
 				xmlSimpleWriter.println("</File>");
+				
 			}
-
 			xmlSimpleWriter.println("</FileAnalysisSummary>");
 			xmlSimpleWriter.close();
 			f.dispose();
