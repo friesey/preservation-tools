@@ -29,8 +29,10 @@ public class PdfTwinTest {
 
 		if (folder != null) {
 			sumlevenstheinlines = 0;
-			createXMLandXSLT(); // this creates the XML output and the XSLT
-								// Stylesheet in the chosen folder
+			createXMLandXSLT(); /*
+								 * this creates the XML output and the XSLT
+								 * Stylesheet in the chosen folder
+								 */
 
 			outputfile.println("<PdfTwinTest>");
 
@@ -46,8 +48,10 @@ public class PdfTwinTest {
 				int differences = 0;
 				int lenOrg = linesOrg.length;
 				int lenMig = linesMig.length;
-				int arraysize; // to avoid out of array bound if one Pdf has
-								// more lines than the other
+				int arraysize; /*
+								 * to avoid out of array bound if one Pdf has
+								 * more lines than the other
+								 */
 				if ((lenOrg > lenMig || lenOrg == lenMig)) {
 					arraysize = lenMig;
 				} else {
@@ -57,11 +61,8 @@ public class PdfTwinTest {
 					if (!(linesOrg[j]).equals(linesMig[j])) {
 						outputfile.println("<Details>");
 						outputfile.println("<DifferentLineNumber>" + (j + 1) + "</DifferentLineNumber>");
-						outputfile.println("<OriginalLine><![CDATA[" + utilities.fileStringUtilities.reduceNULvalues(linesOrg[j]) + "]]></OriginalLine>"); // TODO:
-						// cannot
-						// display
-						// cyrillic
-						// stuff
+						outputfile.println("<OriginalLine><![CDATA[" + utilities.fileStringUtilities.reduceNULvalues(linesOrg[j]) + "]]></OriginalLine>");
+						/* TODO: cannot display cyrillic stuff */
 						outputfile.println("<MigrationLine><![CDATA[" + utilities.fileStringUtilities.reduceNULvalues(linesMig[j]) + "]]></MigrationLine>");
 						differences++;
 
@@ -114,7 +115,7 @@ public class PdfTwinTest {
 	}
 
 	private static void findSpaceinLine(String orgline, String migline) {
-		// TODO Auto-generated method stub
+		
 		String[] orgArr = orgline.split(" ");
 		String[] migArr = migline.split(" ");
 
@@ -145,6 +146,7 @@ public class PdfTwinTest {
 				}
 			}
 		}
+		
 		JOptionPane.showMessageDialog(null, "PDF will not be examined due to invalidity, encryption or file size", pdf, JOptionPane.INFORMATION_MESSAGE);
 		return false;
 	}
