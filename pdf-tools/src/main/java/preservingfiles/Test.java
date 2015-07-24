@@ -13,10 +13,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
-import com.itextpdf.text.exceptions.BadPasswordException;
-import com.itextpdf.text.pdf.PdfEncryptor;
-import com.itextpdf.text.pdf.PdfReader;
-
 public class Test {
 
 	static String examinedFolder;
