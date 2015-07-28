@@ -11,11 +11,19 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
+import java.util.List;
+
+import org.jdom.input.SAXBuilder;
+import org.jdom.output.XMLOutputter;
+import org.jdom.Document;
+import org.jdom.JDOMException;
+import org.jdom.Element;
+
 public class fitsFindings {
 
 	static String fitsFolder;
 
-	public static void main(String args[]) throws IOException {
+	public static void main(String args[]) throws IOException, JDOMException {
 
 		changecolor();
 
@@ -34,25 +42,42 @@ public class fitsFindings {
 
 			ArrayList<File> files = utilities.ListsFiles.getPaths(new File(fitsFolder), new ArrayList<File>());
 			ArrayList<File> fitsfindings = new ArrayList<File>();
-			
+
 			String temp;
 			int len;
 
 			for (int i = 0; i < files.size(); i++) {
 				len = files.get(i).toString().length();
-				temp = files.get(i).toString().substring(len-8, len);				
+				temp = files.get(i).toString().substring(len - 8, len);
 				if (temp.equals("fits.xml")) {
-					//System.out.println(files.get(i).toString());
+					// System.out.println(files.get(i).toString());
 					fitsfindings.add(files.get(i));
 				}
 			}
+
+			//http://javabeginners.de/XML/XML-Datei_lesen.php
 			
 			for (int i = 0; i < fitsfindings.size(); i++) {
 				System.out.println(fitsfindings.get(i).toString());
-			}
-			
 
+				SAXBuilder builder = new SAXBuilder();
+				Document doc = builder.build(fitsfindings.get(i));
+				XMLOutputter fmt = new XMLOutputter();
+
+				Element element = doc.getRootElement();
+				List allnods = (List) element.getChildren();
+				
+			//	System.out.println("Erstes Kindelement: " + ((Element) allnods.get(0)).getName());
+				
+				System.out.println(allnods.size());
+				
+				for (int j = 0; j < allnods.size(); j++){
+					System.out.println(((Element) allnods.get(j)).getName());
+					}
+				
+		
 			f.dispose();
+		}
 		}
 	}
 
