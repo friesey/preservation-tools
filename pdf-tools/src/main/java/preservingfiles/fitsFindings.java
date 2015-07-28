@@ -50,35 +50,45 @@ public class fitsFindings {
 				len = files.get(i).toString().length();
 				temp = files.get(i).toString().substring(len - 8, len);
 				if (temp.equals("fits.xml")) {
-					// System.out.println(files.get(i).toString());
 					fitsfindings.add(files.get(i));
 				}
 			}
 
-			//http://javabeginners.de/XML/XML-Datei_lesen.php
-			
 			for (int i = 0; i < fitsfindings.size(); i++) {
-				System.out.println(fitsfindings.get(i).toString());
+			//	System.out.println(fitsfindings.get(i).toString());
 
 				SAXBuilder builder = new SAXBuilder();
 				Document doc = builder.build(fitsfindings.get(i));
 				XMLOutputter fmt = new XMLOutputter();
 
-				Element element = doc.getRootElement();
-				List allnods = (List) element.getChildren();
+				Element rootElement = doc.getRootElement();
+				@SuppressWarnings("unchecked")
+				List<Element> allnods = (List<Element>) rootElement.getChildren();
+
 				
-			//	System.out.println("Erstes Kindelement: " + ((Element) allnods.get(0)).getName());
+				ZbwFile testfile = new ZbwFile();
+				FitsObject fitsObject = new FitsObject();
 				
-				System.out.println(allnods.size());
-				
-				for (int j = 0; j < allnods.size(); j++){
-					System.out.println(((Element) allnods.get(j)).getName());
+				fitsObject.lengNods = allnods.size();
+
+				// prints out first child element after root element
+				for (int j = 0; j < allnods.size(); j++) {					
+							//	System.out.println(((Element) allnods.get(j)).getName());					
+							
 					}
+				Element fileinfoElement = rootElement.getChild( "filename" );
+				String fileinfoText = rootElement.getChildText( "filename" );
 				
+				System.out.println(fileinfoElement);
+			
+				
+				System.out.println(fileinfoText);
+				 
+				 
+				f.dispose();
+			}
+		}
 		
-			f.dispose();
-		}
-		}
 	}
 
 	private static void changecolor() {
