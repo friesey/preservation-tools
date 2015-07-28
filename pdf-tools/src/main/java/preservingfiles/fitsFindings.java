@@ -3,6 +3,7 @@ package preservingfiles;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.awt.BorderLayout;
 import java.awt.Color;
 
@@ -55,7 +56,7 @@ public class fitsFindings {
 			}
 
 			for (int i = 0; i < fitsfindings.size(); i++) {
-			//	System.out.println(fitsfindings.get(i).toString());
+				System.out.println(fitsfindings.get(i).toString());
 
 				SAXBuilder builder = new SAXBuilder();
 				Document doc = builder.build(fitsfindings.get(i));
@@ -65,30 +66,26 @@ public class fitsFindings {
 				@SuppressWarnings("unchecked")
 				List<Element> allnods = (List<Element>) rootElement.getChildren();
 
-				
 				ZbwFile testfile = new ZbwFile();
 				FitsObject fitsObject = new FitsObject();
-				
+
 				fitsObject.lengNods = allnods.size();
 
 				// prints out first child element after root element
-				for (int j = 0; j < allnods.size(); j++) {					
-							//	System.out.println(((Element) allnods.get(j)).getName());					
-							
-					}
-				Element fileinfoElement = rootElement.getChild( "filename" );
-				String fileinfoText = rootElement.getChildText( "filename" );
+				for (int j = 0; j < allnods.size(); j++) {
+					// System.out.println(((Element) allnods.get(j)).getName());
+				}
 				
-				System.out.println(fileinfoElement);
-			
-				
-				System.out.println(fileinfoText);
-				 
-				 
+				List <?> allinformation = rootElement.getContent();
+				Iterator<?> informationIterator = allinformation.iterator();
+
+				while (informationIterator.hasNext() )
+					  System.out.println(informationIterator.next() );
+
 				f.dispose();
 			}
 		}
-		
+
 	}
 
 	private static void changecolor() {
